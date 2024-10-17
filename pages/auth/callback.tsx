@@ -1,34 +1,29 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { supabase } from '../../lib/database';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 const AuthCallback = () => {
     const router = useRouter();
+    const supabase = useSupabaseClient();
 
     useEffect(() => {
         const handleAuthCallback = async () => {
-            const url = new URL(window.location.href);
-            const access_token = url.searchParams.get('access_token');
-            const refresh_token = url.searchParams.get('refresh_token');
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin,
+                },
+            });
 
-            if (access_token && refresh_token) {
-                const { error } = await supabase.auth.setSession({
-                    access_token,
-                    refresh_token,
-                });
-
-                if (error) {
-                    console.error('Error setting session:', error);
-                } else {
-                    router.push('/');
-                }
+            if (error) {
+                console.error('Error handling auth callback:', error);
             } else {
-                console.error('Missing tokens in URL');
+                router.push('/');
             }
         };
 
         handleAuthCallback();
-    }, [router]);
+    }, [router, supabase]);
 
     return <div>Loading...</div>;
 };

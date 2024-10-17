@@ -6,7 +6,7 @@ interface QuoteRequestProps {
     session: Session | null;
 }
 
-type ShippingQuote = Database['public']['Tables']['shippingQuotes']['Row'];
+type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
 
 const QuoteRequest = ({ session }: QuoteRequestProps) => {
     const supabase = useSupabaseClient<Database>();
@@ -36,7 +36,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
         if (!session?.user?.id) return;
 
         const { data, error } = await supabase
-            .from('shippingQuotes')
+            .from('shippingquotes')
             .select('*')
             .eq('user_id', session.user.id);
 
@@ -52,7 +52,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
         if (!session?.user?.id) return;
 
         const { data, error } = await supabase
-            .from('shippingQuotes')
+            .from('shippingquotes')
             .insert([{
                 user_id: session.user.id,
                 due_date: dueDate,
@@ -95,7 +95,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
         if (!session?.user?.id) return;
 
         const { error } = await supabase
-            .from('shippingQuotes')
+            .from('shippingquotes')
             .delete()
             .eq('id', id);
 

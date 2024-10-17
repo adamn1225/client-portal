@@ -1,3 +1,4 @@
+// lib/schema.ts
 export type Json =
   | string
   | number
@@ -28,6 +29,13 @@ export interface Database {
           due_date: string | null
           in_progress: boolean | null
           reminder_time: string | null
+          year_amount: string | null
+          pallet_count: string | null
+          commodity: string | null
+          length: string | null
+          width: string | null
+          height: string | null
+          weight: string | null
         }
         Insert: {
           id?: number
@@ -38,6 +46,13 @@ export interface Database {
           due_date?: string | null
           in_progress?: boolean | null
           reminder_time?: string | null
+          year_amount?: string | null
+          pallet_count?: string | null
+          commodity?: string | null
+          length?: string | null
+          width?: string | null
+          height?: string | null
+          weight?: string | null
         }
         Update: {
           id?: number
@@ -48,9 +63,16 @@ export interface Database {
           due_date?: string | null
           in_progress?: boolean | null
           reminder_time?: string | null
+          year_amount?: string | null
+          pallet_count?: string | null
+          commodity?: string | null
+          length?: string | null
+          width?: string | null
+          height?: string | null
+          weight?: string | null
         }
       },
-      shippingQuotes: {
+      shippingquotes: {
         Row: {
           id: number
           inserted_at: string
@@ -63,6 +85,11 @@ export interface Database {
           destination_zip: string | null
           user_id: string
           due_date: string | null
+          year_amount: string | null
+          make: string | null
+          model: string | null
+          pallet_count: string | null
+          commodity: string | null
         }
         Insert: {
           id?: number
@@ -76,6 +103,11 @@ export interface Database {
           destination_zip?: string | null
           user_id: string
           due_date?: string | null
+          year_amount?: string | null
+          make?: string | null
+          model?: string | null
+          pallet_count?: string | null
+          commodity?: string | null
         }
         Update: {
           id?: number
@@ -89,6 +121,31 @@ export interface Database {
           destination_zip?: string | null
           user_id?: string
           due_date?: string | null
+          year_amount?: string | null
+          make?: string | null
+          model?: string | null
+          pallet_count?: string | null
+          commodity?: string | null
+        }
+      },
+      profiles: {
+        Row: {
+          id: string
+          first_name: string | null
+          last_name: string | null
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          first_name?: string | null
+          last_name?: string | null
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          first_name?: string | null
+          last_name?: string | null
+          updated_at?: string
         }
       }
     }

@@ -1,11 +1,5 @@
 // lib/database.ts
-import { createClient } from '@supabase/supabase-js';
-import { Database } from './schema';
-
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-export const supabase = createClient<Database>(supabaseUrl, supabaseKey);
+import { supabase } from './initSupabase';
 
 export async function getTasksDueNow() {
     const now = new Date();
@@ -30,7 +24,7 @@ export async function getTasksDueNow() {
 // Function to get all shipping quotes for a user
 export async function getShippingQuotes(userId: string) {
     const { data, error } = await supabase
-        .from('shippingQuotes')
+        .from('shippingquotes') // Ensure the table name matches
         .select('*')
         .eq('user_id', userId);
 
@@ -54,7 +48,7 @@ export async function addShippingQuote(quote: {
     destination_zip: string;
 }) {
     const { data, error } = await supabase
-        .from('shippingQuotes')
+        .from('shippingquotes') // Ensure the table name matches
         .insert([quote])
         .select();
 
@@ -69,7 +63,7 @@ export async function addShippingQuote(quote: {
 // Function to delete a shipping quote
 export async function deleteShippingQuote(id: number) {
     const { error } = await supabase
-        .from('shippingQuotes')
+        .from('shippingquotes') // Ensure the table name matches
         .delete()
         .eq('id', id);
 

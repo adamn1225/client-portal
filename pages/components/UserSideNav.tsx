@@ -1,13 +1,37 @@
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import Image from 'next/image';
+import { Database } from '@/lib/schema';
+import Link from 'next/link';
 
-interface SideNavbarProps {
-    className?: string;
+interface UserSideNavProps {
+    session: Session;
+    className?: string; // Define className prop
 }
 
-const UserSideNav: React.FC<SideNavbarProps> = ({ className }) => {
-    const supabase = useSupabaseClient();
+const UserSideNav = ({ session, className = '' }: UserSideNavProps) => {
+    const supabase = useSupabaseClient<Database>();
+    const [firstName, setFirstName] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('first_name')
+                .eq('id', session.user.id)
+                .single();
+
+            if (error) {
+                console.error('Error fetching profile:', error.message);
+            } else {
+                setFirstName(data.first_name);
+            }
+        };
+
+        if (session) {
+            fetchProfile();
+        }
+    }, [session, supabase]);
 
     const handleLogout = async () => {
         try {
@@ -38,22 +62,22 @@ const UserSideNav: React.FC<SideNavbarProps> = ({ className }) => {
                         width={100}
                         height={100}
                     />
-                    <h3>welcome User</h3>
+                    <h3>Welcome {firstName || 'User'}</h3>
                 </li>
                 <li className="w-full text-center flex justify-center m-0">
-                    <Link href="/goals" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
-                        Goals
+                    <Link href="/freight-inventory" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
+                        Freight Inventory
                     </Link>
                 </li>
-                <li className="w-full flex justify-center m-0">
-                    <button className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
-                        Calendar
-                    </button>
+                <li className="w-full text-center flex justify-center m-0">
+                    <Link href="/freight-transport" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
+                        Freight Transport
+                    </Link>
                 </li>
-                <li className="w-full flex justify-center m-0">
-                    <button className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
+                <li className="w-full text-center flex justify-center m-0">
+                    <Link href="/settings" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
                         Settings
-                    </button>
+                    </Link>
                 </li>
                 <li className="w-full flex justify-center m-0">
                     <button className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
