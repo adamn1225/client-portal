@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSession } from '@supabase/auth-helpers-react';
 import UserLayout from '../components/UserLayout';
+import { UserProvider } from '@/context/UserContext';
 import UserProfileForm from '@/components/UserProfileForm';
 
 const UserProfilePage: React.FC = () => {
@@ -11,9 +12,11 @@ const UserProfilePage: React.FC = () => {
     }
 
     return (
-        <UserLayout>
-            <UserProfileForm session={session} />
-        </UserLayout>
+            
+        <UserProvider session={session}>
+                <UserProfileForm session={session} />
+        </UserProvider>
+        
     );
 };
 

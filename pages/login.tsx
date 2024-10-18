@@ -4,6 +4,7 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import TodoList from '@/components/FreightInventory';
 import GoalSetting from '@/components/QuoteRequest';
+import { UserProvider } from '@/context/UserContext';
 import Layout from './components/Layout'; // Import the original Layout component
 import UserLayout from './components/UserLayout'; // Import the UserLayout component
 import UserProfileForm from '@/components/UserProfileForm'; // Import the UserProfileForm component
@@ -78,13 +79,15 @@ export default function LoginPage() {
                             </div>
                         </UserLayout>
                     ) : (
-                        <UserLayout>
-                            <div className="w-full flex justify-center items-center p-4">
-                                <div className="w-full sm:w-2/3 lg:w-3/4">
-                                    <UserProfileForm session={session} />
-                                </div>
-                            </div>
-                        </UserLayout>
+                            <UserProvider session={session}>
+                                <UserLayout>
+                                    <div className="w-full flex justify-center items-center p-4">
+                                        <div className="w-full sm:w-2/3 lg:w-3/4">
+                                            <UserProfileForm session={session} />
+                                        </div>
+                                    </div>
+                                </UserLayout>
+                            </UserProvider>
                     )
                 ) : (
                     <Layout>

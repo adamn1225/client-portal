@@ -1,37 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
-import Image from 'next/image';
+// components/UserSideNav.tsx
+import React from 'react';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
+import { useUser } from '@/context/UserContext';
+import Image from 'next/image';
 import Link from 'next/link';
 
-interface UserSideNavProps {
-    session: Session;
-    className?: string; // Define className prop
-}
-
-const UserSideNav = ({ session, className = '' }: UserSideNavProps) => {
+const UserSideNav = ({ className = '' }) => {
     const supabase = useSupabaseClient<Database>();
-    const [firstName, setFirstName] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchProfile = async () => {
-            const { data, error } = await supabase
-                .from('profiles')
-                .select('first_name')
-                .eq('id', session.user.id)
-                .single();
-
-            if (error) {
-                console.error('Error fetching profile:', error.message);
-            } else {
-                setFirstName(data.first_name);
-            }
-        };
-
-        if (session) {
-            fetchProfile();
-        }
-    }, [session, supabase]);
+    const { userProfile } = useUser();
 
     const handleLogout = async () => {
         try {
@@ -62,7 +39,7 @@ const UserSideNav = ({ session, className = '' }: UserSideNavProps) => {
                         width={100}
                         height={100}
                     />
-                    <h3>Welcome {firstName || 'User'}</h3>
+                    <h3>Welcome {userProfile?.first_name || 'User'}</h3>
                 </li>
                 <li className="w-full text-center flex justify-center m-0">
                     <Link href="/freight-inventory" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">

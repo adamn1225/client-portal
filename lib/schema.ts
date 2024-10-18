@@ -128,24 +128,27 @@ export interface Database {
           commodity?: string | null
         }
       },
-      profiles: {
+      users: {
         Row: {
-          id: string
+          id: string // Ensure this is a UUID
+          email: string // Add email field
           first_name: string | null
           last_name: string | null
-          updated_at: string
+          inserted_at: string // Ensure this is consistent with other tables
         }
         Insert: {
-          id: string
+          id: string // Ensure this is a UUID
+          email: string // Add email field
           first_name?: string | null
           last_name?: string | null
-          updated_at?: string
+          inserted_at?: string
         }
         Update: {
-          id?: string
+          id?: string // Ensure this is a UUID
+          email?: string // Add email field
           first_name?: string | null
           last_name?: string | null
-          updated_at?: string
+          inserted_at?: string
         }
       }
     }

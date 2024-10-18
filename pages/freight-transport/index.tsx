@@ -1,19 +1,24 @@
-// pages/index.tsx
-import React, { useEffect } from 'react';
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
+// pages/settings/index.tsx
+import React from 'react';
+import { useSession } from '@supabase/auth-helpers-react';
 import UserLayout from '../components/UserLayout';
-import QuoteRequest from '@/components/QuoteRequest';
+import { UserProvider } from '@/context/UserContext';
+import UserProfileForm from '@/components/UserProfileForm';
 
-
-
-const IndexPage = () => {
+const UserProfilePage: React.FC = () => {
     const session = useSession();
 
+    if (!session) {
+        return <p>Loading...</p>;
+    }
+
     return (
-        <UserLayout>
-            <QuoteRequest session={session} />
-        </UserLayout>
+        <UserProvider session={session}>
+            <UserLayout>
+                <UserProfileForm session={session} />
+            </UserLayout>
+        </UserProvider>
     );
 };
 
-export default IndexPage;
+export default UserProfilePage;

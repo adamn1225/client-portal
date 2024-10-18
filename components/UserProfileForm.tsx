@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
+import { useUser } from '@/context/UserContext';
 
 interface UserProfileFormProps {
     session: Session;
@@ -8,17 +9,26 @@ interface UserProfileFormProps {
 
 const UserProfileForm = ({ session }: UserProfileFormProps) => {
     const supabase = useSupabaseClient<Database>();
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
+    const { userProfile, setUserProfile } = useUser();
+    const [firstName, setFirstName] = useState<string>(userProfile?.first_name || '');
+    const [lastName, setLastName] = useState<string>(userProfile?.last_name || '');
     const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (userProfile) {
+            setFirstName(userProfile.first_name || '');
+            setLastName(userProfile.last_name || '');
+        }
+    }, [userProfile]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const { error } = await supabase
-            .from('profiles')
+            .from('users')
             .upsert({
                 id: session.user.id,
+                email: userProfile?.email || '', // Include email in the upsert operation
                 first_name: firstName,
                 last_name: lastName,
             });
@@ -27,6 +37,14 @@ const UserProfileForm = ({ session }: UserProfileFormProps) => {
             setError(error.message);
         } else {
             setError(null);
+            setUserProfile((prev) => {
+                if (!prev) return null;
+                return {
+                    ...prev,
+                    first_name: firstName,
+                    last_name: lastName,
+                };
+            });
         }
     };
 
