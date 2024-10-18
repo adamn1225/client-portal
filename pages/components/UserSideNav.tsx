@@ -1,4 +1,3 @@
-// components/UserSideNav.tsx
 import React from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
@@ -27,13 +26,17 @@ const UserSideNav = ({ className = '' }) => {
         }
     };
 
+    const profilePictureUrl = userProfile?.profile_picture
+        ? supabase.storage.from('profile-pictures').getPublicUrl(userProfile.profile_picture).data.publicUrl
+        : 'https://www.gravatar.com/avatar?d=mp&s=100';
+
     return (
         <nav className={`side-navbar bg-slate-700 flex flex-col h-screen z-50 py-6 drop-shadow absolute top-0 left-0 ${className}`}>
             <h1 className='text-xl mb-4 self-center'>NTS Client Portal</h1>
             <ul className='flex gap-3 flex-col justify-start items-center flex-grow space-y-1 overflow-y-auto'>
                 <li className="w-full flex flex-col items-center gap-1 justify-center m-0">
                     <Image
-                        src='https://www.gravatar.com/avatar?d=mp&s=100'
+                        src={profilePictureUrl}
                         alt='profile-img'
                         className='rounded-full w-16 h-16'
                         width={100}

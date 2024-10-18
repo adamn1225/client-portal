@@ -1,4 +1,3 @@
-// lib/schema.ts
 export type Json =
   | string
   | number
@@ -33,9 +32,14 @@ export interface Database {
           pallet_count: string | null
           commodity: string | null
           length: string | null
+          length_unit: string | null
           width: string | null
+          width_unit?: string | null
           height: string | null
+          height_unit?: string | null
           weight: string | null
+          weight_unit: string | null
+          inventory_number: string | null
         }
         Insert: {
           id?: number
@@ -50,9 +54,15 @@ export interface Database {
           pallet_count?: string | null
           commodity?: string | null
           length?: string | null
+          length_unit?: string | null
           width?: string | null
+          width_unit?: string | null
           height?: string | null
+          height_unit?: string | null
           weight?: string | null
+          weight_unit?: string | null
+          serial_number?: string | null
+          inventory_number?: string | null
         }
         Update: {
           id?: number
@@ -67,9 +77,15 @@ export interface Database {
           pallet_count?: string | null
           commodity?: string | null
           length?: string | null
+          length_unit?: string | null
           width?: string | null
+          width_unit?: string | null
           height?: string | null
+          height_unit?: string | null
           weight?: string | null
+          weight_unit?: string | null
+          serial_number?: string | null
+          inventory_number?: string | null
         }
       },
       shippingquotes: {
@@ -134,6 +150,10 @@ export interface Database {
           email: string // Add email field
           first_name: string | null
           last_name: string | null
+          company_name: string | null // Add this line
+          address: string | null // Add this line
+          phone_number: string | null // Add this line
+          profile_picture: string | null // Add this line
           inserted_at: string // Ensure this is consistent with other tables
         }
         Insert: {
@@ -141,6 +161,10 @@ export interface Database {
           email: string // Add email field
           first_name?: string | null
           last_name?: string | null
+          company_name?: string | null // Add this line
+          address?: string | null // Add this line
+          phone_number?: string | null // Add this line
+          profile_picture?: string | null // Add this line
           inserted_at?: string
         }
         Update: {
@@ -148,6 +172,10 @@ export interface Database {
           email?: string // Add email field
           first_name?: string | null
           last_name?: string | null
+          company_name?: string | null // Add this line
+          address?: string | null // Add this line
+          phone_number?: string | null // Add this line
+          profile_picture?: string | null // Add this line
           inserted_at?: string
         }
       }

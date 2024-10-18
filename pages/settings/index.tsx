@@ -12,11 +12,11 @@ const UserProfilePage: React.FC = () => {
     }
 
     return (
-            
-        <UserProvider session={session}>
-                <UserProfileForm session={session} />
+        <UserProvider>
+            <UserLayout>
+                <UserProfileForm />
+            </UserLayout>
         </UserProvider>
-        
     );
 };
 

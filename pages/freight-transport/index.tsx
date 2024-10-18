@@ -3,7 +3,7 @@ import React from 'react';
 import { useSession } from '@supabase/auth-helpers-react';
 import UserLayout from '../components/UserLayout';
 import { UserProvider } from '@/context/UserContext';
-import UserProfileForm from '@/components/UserProfileForm';
+import QuoteRequest from '@/components/QuoteRequest';
 
 const UserProfilePage: React.FC = () => {
     const session = useSession();
@@ -13,9 +13,9 @@ const UserProfilePage: React.FC = () => {
     }
 
     return (
-        <UserProvider session={session}>
+        <UserProvider>
             <UserLayout>
-                <UserProfileForm session={session} />
+                <QuoteRequest session={session} />
             </UserLayout>
         </UserProvider>
     );

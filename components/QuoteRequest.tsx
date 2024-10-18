@@ -7,16 +7,23 @@ interface QuoteRequestProps {
 }
 
 type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
+type Freight = Database['public']['Tables']['freight']['Row'];
 
 const QuoteRequest = ({ session }: QuoteRequestProps) => {
     const supabase = useSupabaseClient<Database>();
     const [quotes, setQuotes] = useState<ShippingQuote[]>([]);
+    const [freightList, setFreightList] = useState<Freight[]>([]);
+    const [selectedFreight, setSelectedFreight] = useState<string>('');
     const [selectedOption, setSelectedOption] = useState<string>('');
     const [yearAmount, setYearAmount] = useState<string>('');
     const [make, setMake] = useState<string>('');
     const [model, setModel] = useState<string>('');
     const [palletCount, setPalletCount] = useState<string>('');
     const [commodity, setCommodity] = useState<string>('');
+    const [length, setLength] = useState<string>('');
+    const [width, setWidth] = useState<string>('');
+    const [height, setHeight] = useState<string>('');
+    const [weight, setWeight] = useState<string>('');
     const [originCity, setOriginCity] = useState<string>('');
     const [originState, setOriginState] = useState<string>('');
     const [originZip, setOriginZip] = useState<string>('');
@@ -29,6 +36,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
     useEffect(() => {
         if (session?.user?.id) {
             fetchQuotes();
+            fetchFreight();
         }
     }, [session]);
 
@@ -44,6 +52,49 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
             setErrorText(error.message);
         } else {
             setQuotes(data);
+        }
+    };
+
+    const fetchFreight = async () => {
+        if (!session?.user?.id) return;
+
+        const { data, error } = await supabase
+            .from('freight')
+            .select('*')
+            .eq('user_id', session.user.id);
+
+        if (error) {
+            setErrorText(error.message);
+        } else {
+            setFreightList(data);
+        }
+    };
+
+    const handleFreightChange = (freightId: string) => {
+        setSelectedFreight(freightId);
+        const selected = freightList.find(freight => freight.id === parseInt(freightId));
+        if (selected) {
+            setYearAmount(selected.year_amount || '');
+            setMake(selected.make || '');
+            setModel(selected.model || '');
+            setPalletCount(selected.pallet_count || '');
+            setCommodity(selected.commodity || '');
+            setLength(selected.length || '');
+            setWidth(selected.width || '');
+            setHeight(selected.height || '');
+            setWeight(selected.weight || '');
+            setSelectedOption(selected.freight_type || '');
+        } else {
+            setYearAmount('');
+            setMake('');
+            setModel('');
+            setPalletCount('');
+            setCommodity('');
+            setLength('');
+            setWidth('');
+            setHeight('');
+            setWeight('');
+            setSelectedOption('');
         }
     };
 
@@ -65,8 +116,12 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                 year_amount: yearAmount,
                 make: make,
                 model: model,
-                pallet_count: palletCount,
-                commodity: commodity
+                pallet_count: selectedOption === 'equipment' ? '' : palletCount,
+                commodity: selectedOption === 'equipment' ? '' : commodity,
+                length: length,
+                width: width,
+                height: height,
+                weight: weight
             }])
             .select();
 
@@ -75,11 +130,16 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
             setErrorText('Error adding quote');
         } else {
             setQuotes([...quotes, ...(data || [])]);
+            setSelectedFreight('');
             setYearAmount('');
             setMake('');
             setModel('');
             setPalletCount('');
             setCommodity('');
+            setLength('');
+            setWidth('');
+            setHeight('');
+            setWeight('');
             setOriginCity('');
             setOriginState('');
             setOriginZip('');
@@ -88,6 +148,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
             setDestinationZip('');
             setDueDate('');
             setErrorText('');
+            setSelectedOption('');
         }
     };
 
@@ -113,84 +174,221 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                 <h3>Provide details about your freight and request a quote.</h3>
                 <form onSubmit={addQuote} className="flex flex-col w-full gap-2 my-2">
                     <div className='flex flex-col gap-4 w-full'>
-                        <label className='text-slate-900 font-medium'>Select Option
+                        <label className='text-slate-900 font-medium'>Select Freight (Optional)
                             <select
                                 className="rounded w-full p-2 border border-slate-900"
-                                value={selectedOption}
-                                onChange={(e) => {
-                                    setErrorText('');
-                                    setSelectedOption(e.target.value);
-                                }}
+                                value={selectedFreight}
+                                onChange={(e) => handleFreightChange(e.target.value)}
                             >
                                 <option value="">Select...</option>
-                                <option value="equipment">Equipment/Machinery</option>
-                                <option value="ltl_ftl">LTL/FTL</option>
+                                {freightList.map((freight) => (
+                                    <option key={freight.id} value={freight.id.toString()}>
+                                        {freight.freight_type === 'ltl_ftl' ? freight.commodity : `${freight.make} ${freight.model} (${freight.year_amount})`}
+                                    </option>
+                                ))}
                             </select>
                         </label>
 
-                        {selectedOption === 'equipment' && (
-                            <div className='flex gap-2 w-full'>
-                                <label className='text-slate-900 font-medium'>Year/Amount
-                                    <input
+                        {!selectedFreight && (
+                            <>
+                                <label className='text-slate-900 font-medium'>Select Option
+                                    <select
                                         className="rounded w-full p-2 border border-slate-900"
-                                        type="text"
-                                        value={yearAmount}
+                                        value={selectedOption}
                                         onChange={(e) => {
                                             setErrorText('');
-                                            setYearAmount(e.target.value);
+                                            setSelectedOption(e.target.value);
                                         }}
-                                    />
+                                    >
+                                        <option value="">Select...</option>
+                                        <option value="equipment">Equipment/Machinery</option>
+                                        <option value="ltl_ftl">LTL/FTL</option>
+                                    </select>
                                 </label>
-                                <label className='text-slate-900 font-medium'>Make
-                                    <input
-                                        className="rounded w-full p-2 border border-slate-900"
-                                        type="text"
-                                        value={make}
-                                        onChange={(e) => {
-                                            setErrorText('');
-                                            setMake(e.target.value);
-                                        }}
-                                    />
-                                </label>
-                                <label className='text-slate-900 font-medium'>Model
-                                    <input
-                                        className="rounded w-full p-2 border border-slate-900"
-                                        type="text"
-                                        value={model}
-                                        onChange={(e) => {
-                                            setErrorText('');
-                                            setModel(e.target.value);
-                                        }}
-                                    />
-                                </label>
-                            </div>
+
+                                {selectedOption === 'equipment' && (
+                                    <div className='flex gap-2 w-full'>
+                                        <label className='text-slate-900 font-medium'>Year/Amount
+                                            <input
+                                                className="rounded w-full p-2 border border-slate-900"
+                                                type="text"
+                                                value={yearAmount}
+                                                onChange={(e) => {
+                                                    setErrorText('');
+                                                    setYearAmount(e.target.value);
+                                                }}
+                                            />
+                                        </label>
+                                        <label className='text-slate-900 font-medium'>Make
+                                            <input
+                                                className="rounded w-full p-2 border border-slate-900"
+                                                type="text"
+                                                value={make}
+                                                onChange={(e) => {
+                                                    setErrorText('');
+                                                    setMake(e.target.value);
+                                                }}
+                                            />
+                                        </label>
+                                        <label className='text-slate-900 font-medium'>Model
+                                            <input
+                                                className="rounded w-full p-2 border border-slate-900"
+                                                type="text"
+                                                value={model}
+                                                onChange={(e) => {
+                                                    setErrorText('');
+                                                    setModel(e.target.value);
+                                                }}
+                                            />
+                                        </label>
+                                    </div>
+                                )}
+
+                                {selectedOption === 'ltl_ftl' && (
+                                    <div className='flex gap-2 w-full'>
+                                        <label className='text-slate-900 font-medium'>Pallet/Crate Count
+                                            <input
+                                                className="rounded w-full p-2 border border-slate-900"
+                                                type="text"
+                                                value={palletCount}
+                                                onChange={(e) => {
+                                                    setErrorText('');
+                                                    setPalletCount(e.target.value);
+                                                }}
+                                            />
+                                        </label>
+                                        <label className='text-slate-900 font-medium'>Commodity
+                                            <input
+                                                className="rounded w-full p-2 border border-slate-900"
+                                                type="text"
+                                                value={commodity}
+                                                onChange={(e) => {
+                                                    setErrorText('');
+                                                    setCommodity(e.target.value);
+                                                }}
+                                            />
+                                        </label>
+                                    </div>
+                                )}
+                            </>
                         )}
 
-                        {selectedOption === 'ltl_ftl' && (
-                            <div className='flex gap-2 w-full'>
-                                <label className='text-slate-900 font-medium'>Pallet/Crate Count
-                                    <input
-                                        className="rounded w-full p-2 border border-slate-900"
-                                        type="text"
-                                        value={palletCount}
-                                        onChange={(e) => {
-                                            setErrorText('');
-                                            setPalletCount(e.target.value);
-                                        }}
-                                    />
-                                </label>
-                                <label className='text-slate-900 font-medium'>Commodity
-                                    <input
-                                        className="rounded w-full p-2 border border-slate-900"
-                                        type="text"
-                                        value={commodity}
-                                        onChange={(e) => {
-                                            setErrorText('');
-                                            setCommodity(e.target.value);
-                                        }}
-                                    />
-                                </label>
-                            </div>
+                        {yearAmount && (
+                            <label className='text-slate-900 font-medium'>Year/Amount
+                                <input
+                                    className="rounded w-full p-2 border border-slate-900"
+                                    type="text"
+                                    value={yearAmount}
+                                    onChange={(e) => {
+                                        setErrorText('');
+                                        setYearAmount(e.target.value);
+                                    }}
+                                />
+                            </label>
+                        )}
+                        {make && (
+                            <label className='text-slate-900 font-medium'>Make
+                                <input
+                                    className="rounded w-full p-2 border border-slate-900"
+                                    type="text"
+                                    value={make}
+                                    onChange={(e) => {
+                                        setErrorText('');
+                                        setMake(e.target.value);
+                                    }}
+                                />
+                            </label>
+                        )}
+                        {model && (
+                            <label className='text-slate-900 font-medium'>Model
+                                <input
+                                    className="rounded w-full p-2 border border-slate-900"
+                                    type="text"
+                                    value={model}
+                                    onChange={(e) => {
+                                        setErrorText('');
+                                        setModel(e.target.value);
+                                    }}
+                                />
+                            </label>
+                        )}
+                        {palletCount && (
+                            <label className='text-slate-900 font-medium'>Pallet/Crate Count
+                                <input
+                                    className="rounded w-full p-2 border border-slate-900"
+                                    type="text"
+                                    value={palletCount}
+                                    onChange={(e) => {
+                                        setErrorText('');
+                                        setPalletCount(e.target.value);
+                                    }}
+                                />
+                            </label>
+                        )}
+                        {commodity && (
+                            <label className='text-slate-900 font-medium'>Commodity
+                                <input
+                                    className="rounded w-full p-2 border border-slate-900"
+                                    type="text"
+                                    value={commodity}
+                                    onChange={(e) => {
+                                        setErrorText('');
+                                        setCommodity(e.target.value);
+                                    }}
+                                />
+                            </label>
+                        )}
+                        {length && (
+                            <label className='text-slate-900 font-medium'>Length
+                                <input
+                                    className="rounded w-full p-2 border border-slate-900"
+                                    type="text"
+                                    value={length}
+                                    onChange={(e) => {
+                                        setErrorText('');
+                                        setLength(e.target.value);
+                                    }}
+                                />
+                            </label>
+                        )}
+                        {width && (
+                            <label className='text-slate-900 font-medium'>Width
+                                <input
+                                    className="rounded w-full p-2 border border-slate-900"
+                                    type="text"
+                                    value={width}
+                                    onChange={(e) => {
+                                        setErrorText('');
+                                        setWidth(e.target.value);
+                                    }}
+                                />
+                            </label>
+                        )}
+                        {height && (
+                            <label className='text-slate-900 font-medium'>Height
+                                <input
+                                    className="rounded w-full p-2 border border-slate-900"
+                                    type="text"
+                                    value={height}
+                                    onChange={(e) => {
+                                        setErrorText('');
+                                        setHeight(e.target.value);
+                                    }}
+                                />
+                            </label>
+                        )}
+                        {weight && (
+                            <label className='text-slate-900 font-medium'>Weight
+                                <input
+                                    className="rounded w-full p-2 border border-slate-900"
+                                    type="text"
+                                    value={weight}
+                                    onChange={(e) => {
+                                        setErrorText('');
+                                        setWeight(e.target.value);
+                                    }}
+                                />
+                            </label>
                         )}
 
                         <div className='flex gap-2'>

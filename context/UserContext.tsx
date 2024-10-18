@@ -1,6 +1,5 @@
-// context/UserContext.tsx
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
+import { useSupabaseClient, useUser as useSupabaseUser } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 
 interface UserProfile {
@@ -8,41 +7,47 @@ interface UserProfile {
     email: string;
     first_name: string | null;
     last_name: string | null;
+    company_name: string | null;
+    address: string | null;
+    phone_number: string | null;
+    profile_picture: string | null;
 }
 
-interface UserContextProps {
+interface UserContextType {
     userProfile: UserProfile | null;
     setUserProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>;
 }
 
-const UserContext = createContext<UserContextProps | undefined>(undefined);
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
 interface UserProviderProps {
-    session: Session;
     children: ReactNode;
 }
 
-export const UserProvider: React.FC<UserProviderProps> = ({ session, children }) => {
+export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const supabase = useSupabaseClient<Database>();
+    const supabaseUser = useSupabaseUser();
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
     useEffect(() => {
-        const fetchProfile = async () => {
-            const { data, error } = await supabase
-                .from('users')
-                .select('id, email, first_name, last_name')
-                .eq('id', session.user.id)
-                .single();
+        const fetchUserProfile = async () => {
+            if (supabaseUser) {
+                const { data, error } = await supabase
+                    .from('users') // Ensure the table name is correct
+                    .select('id, email, first_name, last_name, company_name, address, phone_number, profile_picture')
+                    .eq('id', supabaseUser.id)
+                    .single();
 
-            if (error) {
-                console.error('Error fetching profile:', error.message);
-            } else {
-                setUserProfile(data);
+                if (error) {
+                    console.error('Error fetching user profile:', error.message);
+                } else {
+                    setUserProfile(data);
+                }
             }
         };
 
-        fetchProfile();
-    }, [session, supabase]);
+        fetchUserProfile();
+    }, [supabaseUser, supabase]);
 
     return (
         <UserContext.Provider value={{ userProfile, setUserProfile }}>

@@ -27,6 +27,10 @@ const migrateExistingUsers = async () => {
                 email: email ?? '',
                 first_name: null, // Set default values for first_name and last_name
                 last_name: null,
+                company_name: null, // Ensure all new fields are included
+                address: null,
+                phone_number: null,
+                profile_picture: null,
                 inserted_at: new Date().toISOString(),
             });
 
