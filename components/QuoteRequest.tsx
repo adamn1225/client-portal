@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 
@@ -33,14 +33,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
     const [dueDate, setDueDate] = useState<string>('');
     const [errorText, setErrorText] = useState<string>('');
 
-    useEffect(() => {
-        if (session?.user?.id) {
-            fetchQuotes();
-            fetchFreight();
-        }
-    }, [session]);
-
-    const fetchQuotes = async () => {
+    const fetchQuotes = useCallback(async () => {
         if (!session?.user?.id) return;
 
         const { data, error } = await supabase
@@ -53,9 +46,9 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
         } else {
             setQuotes(data);
         }
-    };
+    }, [session, supabase]);
 
-    const fetchFreight = async () => {
+    const fetchFreight = useCallback(async () => {
         if (!session?.user?.id) return;
 
         const { data, error } = await supabase
@@ -68,7 +61,14 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
         } else {
             setFreightList(data);
         }
-    };
+    }, [session, supabase]);
+
+    useEffect(() => {
+        if (session?.user?.id) {
+            fetchQuotes();
+            fetchFreight();
+        }
+    }, [session, fetchQuotes, fetchFreight]);
 
     const handleFreightChange = (freightId: string) => {
         setSelectedFreight(freightId);

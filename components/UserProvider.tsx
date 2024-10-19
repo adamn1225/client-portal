@@ -1,3 +1,4 @@
+// UserProvider.tsx
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
@@ -7,6 +8,11 @@ interface UserProfile {
     email: string;
     first_name: string | null;
     last_name: string | null;
+    company_name: string | null;
+    address: string | null;
+    phone_number: string | null;
+    profile_picture: string | null;
+    role: string;
 }
 
 interface UserContextProps {
@@ -28,8 +34,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ session, children })
     useEffect(() => {
         const fetchProfile = async () => {
             const { data, error } = await supabase
-                .from('users')
-                .select('id, email, first_name, last_name')
+                .from('profiles') // Ensure the table name is correct
+                .select('id, email, first_name, last_name, company_name, address, phone_number, profile_picture, role')
                 .eq('id', session.user.id)
                 .single();
 

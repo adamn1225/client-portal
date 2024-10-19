@@ -5,7 +5,7 @@ export default function CustomSignInForm() {
     const supabase = useSupabaseClient();
 
     const handleSignInWithGoogle = async () => {
-        const { error } = await supabase.auth.signInWithOAuth({
+        const { data, error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
                 redirectTo: process.env.NODE_ENV === 'development'
@@ -13,15 +13,65 @@ export default function CustomSignInForm() {
                     : 'https://your-production-url.com/auth/callback',
             },
         });
-        if (error) console.log('Error signing in with Google:', error.message);
+        if (error) {
+            console.log('Error signing in with Google:', error.message);
+        } else {
+            const user = data.user;
+            if (user) {
+                await createOrUpdateUserProfile(user);
+            }
+        }
     };
 
     const handleSignInWithEmail = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const email = (event.target as HTMLFormElement).email.value;
         const password = (event.target as HTMLFormElement).password.value;
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) console.log('Error signing in with email:', error.message);
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+            console.log('Error signing in with email:', error.message);
+        } else {
+            const user = data.user;
+            if (user) {
+                await createOrUpdateUserProfile(user);
+            }
+        }
+    };
+
+    const createOrUpdateUserProfile = async (user: any) => {
+        const { id, email } = user;
+
+        // Check if the user already exists in the custom profiles table
+        const { data: existingUser, error: checkError } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('id', id)
+            .single();
+
+        if (checkError && checkError.code !== 'PGRST116') { // PGRST116 is the code for no rows returned
+            console.error(`Error checking user ${id}:`, checkError.message);
+            return;
+        }
+
+        if (existingUser) {
+            console.log(`User ${id} already exists. Skipping insertion.`);
+            return;
+        }
+
+        const { error: insertError } = await supabase
+            .from('profiles')
+            .insert({
+                id,
+                email,
+                role: 'user', // Default role
+                inserted_at: new Date().toISOString(),
+            });
+
+        if (insertError) {
+            console.error('Error creating/updating user profile:', insertError.message);
+        } else {
+            console.log('User profile created/updated successfully.');
+        }
     };
 
     return (

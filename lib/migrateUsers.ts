@@ -1,3 +1,4 @@
+// migrateUsers.ts
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '@/lib/schema';
 
@@ -17,21 +18,39 @@ const migrateExistingUsers = async () => {
 
     const authUsers = data.users; // Access the users property
 
-    // Insert existing users into the custom users table
+    // Insert existing users into the custom profiles table
     for (const authUser of authUsers) {
         const { id, email } = authUser;
+
+        // Check if the user already exists in the custom profiles table
+        const { data: existingUser, error: checkError } = await supabase
+            .from('profiles') // Changed from 'users' to 'profiles'
+            .select('id')
+            .eq('id', id)
+            .single();
+
+        if (checkError && checkError.code !== 'PGRST116') { // PGRST116 is the code for no rows returned
+            console.error(`Error checking user ${id}:`, checkError.message);
+            continue;
+        }
+
+        if (existingUser) {
+            console.log(`User ${id} already exists. Skipping insertion.`);
+            continue;
+        }
+
         const { error: insertError } = await supabase
-            .from('users')
+            .from('profiles') // Changed from 'users' to 'profiles'
             .insert({
                 id,
                 email: email ?? '',
-                first_name: null, // Set default values for first_name and last_name
-                last_name: null,
-                company_name: null, // Ensure all new fields are included
-                address: null,
-                phone_number: null,
-                profile_picture: null,
+                role: 'user', // Default role
                 inserted_at: new Date().toISOString(),
+                first_name: null,
+                last_name: null,
+                company_name: null,
+                profile_picture: null,
+                address: null,
             });
 
         if (insertError) {

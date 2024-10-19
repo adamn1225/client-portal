@@ -144,39 +144,39 @@ export interface Database {
           commodity?: string | null
         }
       },
-      users: {
+      profiles: {
         Row: {
           id: string // Ensure this is a UUID
           email: string // Add email field
+          role: string // Add this line
+          inserted_at: string // Ensure this is consistent with other tables
           first_name: string | null
           last_name: string | null
-          company_name: string | null // Add this line
-          address: string | null // Add this line
-          phone_number: string | null // Add this line
-          profile_picture: string | null // Add this line
-          inserted_at: string // Ensure this is consistent with other tables
+          company_name: string | null
+          profile_picture: string | null
+          address: string | null
         }
         Insert: {
           id: string // Ensure this is a UUID
           email: string // Add email field
+          role: string // Add this line
+          inserted_at?: string
           first_name?: string | null
           last_name?: string | null
-          company_name?: string | null // Add this line
-          address?: string | null // Add this line
-          phone_number?: string | null // Add this line
-          profile_picture?: string | null // Add this line
-          inserted_at?: string
+          company_name?: string | null
+          profile_picture?: string | null
+          address?: string | null
         }
         Update: {
           id?: string // Ensure this is a UUID
           email?: string // Add email field
+          role?: string // Add this line
+          inserted_at?: string
           first_name?: string | null
           last_name?: string | null
-          company_name?: string | null // Add this line
-          address?: string | null // Add this line
-          phone_number?: string | null // Add this line
-          profile_picture?: string | null // Add this line
-          inserted_at?: string
+          company_name?: string | null
+          profile_picture?: string | null
+          address?: string | null
         }
       }
     }

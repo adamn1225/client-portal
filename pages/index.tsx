@@ -5,41 +5,87 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import Layout from './components/Layout';
 import UserLayout from './components/UserLayout';
-import { UserProvider } from '@/context/UserContext';
+import { UserProvider, useUser } from '@/context/UserContext';
 import { useEffect, useState } from 'react';
 import FreightInventory from '@/components/FreightInventory';
+import AdminLogin from '@/components/AdminLogin'; // Import AdminLogin component
+
+const HomePageContent = () => {
+  const { userProfile } = useUser();
+  const [profileComplete, setProfileComplete] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (userProfile) {
+      console.log('User Profile:', userProfile); // Debugging
+      setProfileComplete(true); // Simplified as we no longer check for first_name
+    }
+  }, [userProfile]);
+
+  return (
+    <UserLayout>
+      <Head>
+        <title>NTS Client Portal</title>
+        <meta name="description" content="Welcome to SSTA Reminders & Tasks" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="w-full flex justify-center items-center p-4">
+        <div className="w-full sm:w-2/3 lg:w-3/4">
+          <FreightInventory />
+          {userProfile?.role === 'admin' && <AdminLogin />} {/* Conditionally render AdminLogin */}
+        </div>
+      </div>
+    </UserLayout>
+  );
+};
 
 export default function HomePage() {
   const session = useSession();
   const supabase = useSupabaseClient();
-  const [error, setError] = useState<string | null>(null);
-  const [profileComplete, setProfileComplete] = useState<boolean>(false);
 
   useEffect(() => {
-    const refreshSession = async () => {
-      const { data, error } = await supabase.auth.refreshSession();
-      if (error) console.log('Error refreshing session:', error.message);
-    };
+    console.log('Session:', session); // Debugging
 
-    const checkProfile = async () => {
-      if (session?.user?.id) {
-        const { data, error } = await supabase
+    const createUserProfile = async () => {
+      if (session?.user) {
+        const { id, email } = session.user;
+
+        // Check if the user already exists in the custom profiles table by email
+        const { data: existingUser, error: checkError } = await supabase
           .from('profiles')
-          .select('first_name')
-          .eq('id', session.user.id)
+          .select('id')
+          .eq('email', email)
           .single();
 
+        if (checkError && checkError.code !== 'PGRST116') { // PGRST116 is the code for no rows returned
+          console.error(`Error checking user ${id}:`, checkError.message);
+          return;
+        }
+
+        if (existingUser) {
+          console.log(`User with email ${email} already exists. Skipping insertion.`);
+          return;
+        }
+
+        const { data, error } = await supabase
+          .from('profiles')
+          .insert({
+            id,
+            email,
+            role: 'user', // Default role
+            inserted_at: new Date().toISOString(),
+          });
+
         if (error) {
-          console.error('Error fetching profile:', error.message);
+          console.error('Error creating/updating user profile:', error.message);
         } else {
-          setProfileComplete(!!data?.first_name);
+          console.log('User profile created/updated:', data);
         }
       }
     };
 
     if (session) {
-      refreshSession();
-      checkProfile();
+      createUserProfile();
     }
   }, [session, supabase]);
 
@@ -49,7 +95,7 @@ export default function HomePage() {
       options: {
         redirectTo: process.env.NODE_ENV === 'development'
           ? 'http://localhost:3000/auth/callback'
-          : 'https://fazytsvctdzbhvsavvwj.supabase.co/auth/v1/callback',
+          : 'https://your-production-url.com/auth/callback',
       },
     });
 
@@ -124,20 +170,8 @@ export default function HomePage() {
   }
 
   return (
-    <UserProvider session={session}>
-      <UserLayout>
-        <Head>
-          <title>NTS Client Portal</title>
-          <meta name="description" content="Welcome to SSTA Reminders & Tasks" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <div className="w-full flex justify-center items-center p-4">
-          <div className="w-full sm:w-2/3 lg:w-3/4">
-            <FreightInventory session={session} />
-          </div>
-        </div>
-      </UserLayout>
+    <UserProvider>
+      <HomePageContent />
     </UserProvider>
   );
 }
