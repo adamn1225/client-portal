@@ -1,3 +1,4 @@
+-- 20230101000000_create_shippingquotes_table.sql
 CREATE TABLE shippingquotes (
   id serial PRIMARY KEY,
   inserted_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,

@@ -5,6 +5,7 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import Layout from './components/Layout';
 import UserLayout from './components/UserLayout';
+import AdminLayout from './components/admin/AdminLayout'; // Import AdminLayout
 import { UserProvider, useUser } from '@/context/UserContext';
 import { useEffect, useState } from 'react';
 import FreightInventory from '@/components/FreightInventory';
@@ -22,7 +23,7 @@ const HomePageContent = () => {
   }, [userProfile]);
 
   return (
-    <UserLayout>
+    <>
       <Head>
         <title>NTS Client Portal</title>
         <meta name="description" content="Welcome to SSTA Reminders & Tasks" />
@@ -35,13 +36,14 @@ const HomePageContent = () => {
           {userProfile?.role === 'admin' && <AdminLogin />} {/* Conditionally render AdminLogin */}
         </div>
       </div>
-    </UserLayout>
+    </>
   );
 };
 
 export default function HomePage() {
   const session = useSession();
   const supabase = useSupabaseClient();
+  const [userProfile, setUserProfile] = useState(null);
 
   useEffect(() => {
     console.log('Session:', session); // Debugging
@@ -53,7 +55,7 @@ export default function HomePage() {
         // Check if the user already exists in the custom profiles table by email
         const { data: existingUser, error: checkError } = await supabase
           .from('profiles')
-          .select('id')
+          .select('id, role')
           .eq('email', email)
           .single();
 
@@ -64,6 +66,7 @@ export default function HomePage() {
 
         if (existingUser) {
           console.log(`User with email ${email} already exists. Skipping insertion.`);
+          setUserProfile(existingUser);
           return;
         }
 
@@ -74,12 +77,14 @@ export default function HomePage() {
             email,
             role: 'user', // Default role
             inserted_at: new Date().toISOString(),
-          });
+          })
+          .select();
 
         if (error) {
           console.error('Error creating/updating user profile:', error.message);
         } else {
           console.log('User profile created/updated:', data);
+          setUserProfile(data[0]);
         }
       }
     };
@@ -171,7 +176,15 @@ export default function HomePage() {
 
   return (
     <UserProvider>
-      <HomePageContent />
+      {userProfile?.role === 'admin' ? (
+        <AdminLayout>
+          <HomePageContent />
+        </AdminLayout>
+      ) : (
+        <UserLayout>
+          <HomePageContent />
+        </UserLayout>
+      )}
     </UserProvider>
   );
 }

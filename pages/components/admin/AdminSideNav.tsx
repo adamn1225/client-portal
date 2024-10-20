@@ -5,11 +5,9 @@ import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const UserSideNav = ({ className = '' }) => {
+const AdminSideNav = ({ className = '' }) => {
     const supabase = useSupabaseClient<Database>();
     const { userProfile } = useUser();
-
-    console.log('User Profile:', userProfile); // Add this line to check the userProfile data
 
     const handleLogout = async () => {
         try {
@@ -47,33 +45,38 @@ const UserSideNav = ({ className = '' }) => {
                     <h3>Welcome {userProfile?.first_name || 'User'}</h3>
                 </li>
                 <li className="w-full text-center flex justify-center m-0">
-                    <Link href="/freight-inventory" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
-                        Freight Inventory
-                    </Link>
-                </li>
-                <li className="w-full text-center flex justify-center m-0">
-                    <Link href="/freight-transport" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
-                        Freight Transport
-                    </Link>
-                </li>
-                <li className="w-full text-center flex justify-center m-0">
                     <Link href="/settings" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
-                        Settings
+                      Admin Settings
+                    </Link>
+                </li>
+                <li className="w-full text-center flex justify-center m-0">
+                    <Link href="/freight-inventory" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
+                        Client&apos;s Freight Inventory
+                    </Link>
+                </li>
+                <li className="w-full text-center flex justify-center m-0">
+                    <Link href="/admin-quote-requests" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
+                    Client&apos;s Freight Transport
                     </Link>
                 </li>
                 <li className="w-full flex justify-center m-0">
                     <button className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
-                        Documents/Resources
+                        Inbox
                     </button>
                 </li>
                 <li className="w-full flex justify-center m-0">
                     <button className="bg-slate-100 text-slate-900 text-nowrap font-bold px-4 py-1 rounded-sm w-4/5">
-                        Community Forum
+                        Client Live Chat
                     </button>
                 </li>
                 <li className="w-full flex justify-center m-0">
                     <button className="bg-slate-100 text-slate-900 text-nowrap font-bold px-4 py-1 rounded-sm w-4/5">
-                        Team Collaboration
+                        Analytics
+                    </button>
+                </li>
+                <li className="w-full flex justify-center m-0">
+                    <button className="bg-slate-100 text-slate-900 text-nowrap font-bold px-4 py-1 rounded-sm w-4/5">
+                        Documents
                     </button>
                 </li>
             </ul>
@@ -88,4 +91,4 @@ const UserSideNav = ({ className = '' }) => {
     );
 };
 
-export default UserSideNav;
+export default AdminSideNav;

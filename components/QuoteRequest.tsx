@@ -44,6 +44,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
         if (error) {
             setErrorText(error.message);
         } else {
+            console.log('Fetched Quotes:', data); // Add this line
             setQuotes(data);
         }
     }, [session, supabase]);
@@ -59,6 +60,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
         if (error) {
             setErrorText(error.message);
         } else {
+            console.log('Fetched Freight:', data); // Add this line
             setFreightList(data);
         }
     }, [session, supabase]);
@@ -129,6 +131,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
             console.error('Error adding quote:', error.message);
             setErrorText('Error adding quote');
         } else {
+            console.log('Quote added successfully:', data); // Add this line
             setQuotes([...quotes, ...(data || [])]);
             setSelectedFreight('');
             setYearAmount('');

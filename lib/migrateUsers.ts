@@ -1,10 +1,17 @@
-// migrateUsers.ts
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '@/lib/schema';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Initialize Supabase client with service role key
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''; // Ensure this is set in your environment variables
+
+if (!supabaseUrl || !supabaseServiceRoleKey) {
+    throw new Error('Supabase URL and Service Role Key must be set in environment variables');
+}
+
 const supabase = createClient<Database>(supabaseUrl, supabaseServiceRoleKey);
 
 const migrateExistingUsers = async () => {
@@ -51,6 +58,7 @@ const migrateExistingUsers = async () => {
                 company_name: null,
                 profile_picture: null,
                 address: null,
+                phone_number: null, // Ensure phone_number is included
             });
 
         if (insertError) {

@@ -106,6 +106,10 @@ export interface Database {
           model: string | null
           pallet_count: string | null
           commodity: string | null
+          length: string | null
+          width: string | null
+          height: string | null
+          weight: string | null
         }
         Insert: {
           id?: number
@@ -124,6 +128,10 @@ export interface Database {
           model?: string | null
           pallet_count?: string | null
           commodity?: string | null
+          length?: string | null
+          width?: string | null
+          height?: string | null
+          weight?: string | null
         }
         Update: {
           id?: number
@@ -142,6 +150,10 @@ export interface Database {
           model?: string | null
           pallet_count?: string | null
           commodity?: string | null
+          length?: string | null
+          width?: string | null
+          height?: string | null
+          weight?: string | null
         }
       },
       profiles: {
@@ -155,6 +167,7 @@ export interface Database {
           company_name: string | null
           profile_picture: string | null
           address: string | null
+          phone_number: string | null // Add phone_number field
         }
         Insert: {
           id: string // Ensure this is a UUID
@@ -166,6 +179,7 @@ export interface Database {
           company_name?: string | null
           profile_picture?: string | null
           address?: string | null
+          phone_number?: string | null // Add phone_number field
         }
         Update: {
           id?: string // Ensure this is a UUID
@@ -177,6 +191,7 @@ export interface Database {
           company_name?: string | null
           profile_picture?: string | null
           address?: string | null
+          phone_number?: string | null // Add phone_number field
         }
       }
     }

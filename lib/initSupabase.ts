@@ -1,8 +1,11 @@
-// lib/initSupabase.ts
+// initSupabase.ts
 import { createClient } from '@supabase/supabase-js';
-import { Database } from './schema';
+import dotenv from 'dotenv';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
+dotenv.config();
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseKey);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);

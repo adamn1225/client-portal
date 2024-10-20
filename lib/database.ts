@@ -1,6 +1,6 @@
-// lib/database.ts
 import { supabase } from './initSupabase';
 
+// Function to get tasks due now
 export async function getTasksDueNow() {
     const now = new Date();
     const today = now.toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
@@ -73,4 +73,36 @@ export async function deleteShippingQuote(id: number) {
     }
 
     return true;
+}
+
+// Function to fetch all users
+export async function fetchAllUsers() {
+    // Fetch users from the profiles table
+    const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, email, first_name')
+        .eq('role', 'user');
+
+    if (profilesError) {
+        console.error('Error fetching users from profiles:', profilesError);
+        return [];
+    }
+
+    console.log('Profiles Data:', profilesData); // Add this line
+
+    return profilesData;
+}
+
+// Function to fetch all quotes
+export async function fetchAllQuotes() {
+    const { data, error } = await supabase
+        .from('shippingquotes')
+        .select('*');
+
+    if (error) {
+        console.error('Error fetching quotes:', error);
+        return [];
+    }
+
+    return data;
 }

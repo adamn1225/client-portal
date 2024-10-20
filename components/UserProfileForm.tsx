@@ -68,7 +68,6 @@ const UserProfileForm = () => {
                 company_name: companyName,
                 address: address,
                 phone_number: phoneNumber,
-                profile_picture: profilePictureUrl,
             })
             .eq('id', session.user.id);
 
@@ -129,14 +128,14 @@ const UserProfileForm = () => {
                     className="rounded w-full p-2 border border-slate-900"
                 />
             </div>
-            <div>
+            {/* <div>
                 <label>Profile Picture</label>
                 <input
                     type="file"
                     onChange={(e) => setProfilePicture(e.target.files ? e.target.files[0] : null)}
                     className="rounded w-full p-2 border border-slate-900"
                 />
-            </div>
+            </div> */}
             <button type="submit" className="btn-slate">
                 Update Profile
             </button>
