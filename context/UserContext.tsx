@@ -30,7 +30,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             if (!session) return;
 
             const { data, error } = await supabase
-                .from('profiles')
+                .from('profiles') // Ensure the table name is correct
                 .select('id, email, first_name, last_name, company_name, profile_picture, address, phone_number')
                 .eq('id', session.user.id)
                 .single();

@@ -25,7 +25,7 @@ const migrateExistingUsers = async () => {
 
     const authUsers = data.users; // Access the users property
 
-    // Insert existing users into the custom profiles table
+    // Insert or update existing users in the custom profiles table
     for (const authUser of authUsers) {
         const { id, email } = authUser;
 
@@ -42,29 +42,48 @@ const migrateExistingUsers = async () => {
         }
 
         if (existingUser) {
-            console.log(`User ${id} already exists. Skipping insertion.`);
-            continue;
-        }
+            // Update the existing user's profile
+            const { error: updateError } = await supabase
+                .from('profiles')
+                .update({
+                    email: email ?? '',
+                    role: 'user', // Default role
+                    first_name: null,
+                    last_name: null,
+                    company_name: null,
+                    profile_picture: null,
+                    address: null,
+                    phone_number: null, // Ensure phone_number is included
+                })
+                .eq('id', id);
 
-        const { error: insertError } = await supabase
-            .from('profiles') // Changed from 'users' to 'profiles'
-            .insert({
-                id,
-                email: email ?? '',
-                role: 'user', // Default role
-                inserted_at: new Date().toISOString(),
-                first_name: null,
-                last_name: null,
-                company_name: null,
-                profile_picture: null,
-                address: null,
-                phone_number: null, // Ensure phone_number is included
-            });
-
-        if (insertError) {
-            console.error(`Error inserting user ${id}:`, insertError.message);
+            if (updateError) {
+                console.error(`Error updating user ${id}:`, updateError.message);
+            } else {
+                console.log(`User ${id} updated successfully.`);
+            }
         } else {
-            console.log(`User ${id} inserted successfully.`);
+            // Insert the new user into the profiles table
+            const { error: insertError } = await supabase
+                .from('profiles')
+                .insert({
+                    id,
+                    email: email ?? '',
+                    role: 'user', // Default role
+                    inserted_at: new Date().toISOString(),
+                    first_name: null,
+                    last_name: null,
+                    company_name: null,
+                    profile_picture: null,
+                    address: null,
+                    phone_number: null, // Ensure phone_number is included
+                });
+
+            if (insertError) {
+                console.error(`Error inserting user ${id}:`, insertError.message);
+            } else {
+                console.log(`User ${id} inserted successfully.`);
+            }
         }
     }
 };

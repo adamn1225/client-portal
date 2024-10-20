@@ -1,4 +1,3 @@
-// pages/signup.tsx
 import { useState } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
@@ -31,13 +30,17 @@ const SignUp = () => {
                 console.log('User ID:', user.id); // Log the user ID
                 const userEmail = user.email ?? ''; // Provide a default value for email
                 const { error: profileError } = await supabase
-                    .from('profiles') // Changed from 'users' to 'profiles'
+                    .from('profiles') // Ensure the table name is correct
                     .insert({
                         id: user.id, // Ensure the user ID is correctly passed
                         email: userEmail, // Ensure the email is correctly passed
                         first_name: firstName,
                         last_name: lastName,
-                        role: 'user', // Default role
+                        role: 'user', // Ensure the role is set
+                        company_name: null, // Ensure all new fields are included
+                        address: null,
+                        phone_number: null,
+                        profile_picture: null,
                         inserted_at: new Date().toISOString(), // Ensure inserted_at is set
                     });
 
