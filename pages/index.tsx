@@ -1,4 +1,3 @@
-// pages/index.tsx
 import Head from 'next/head';
 import Link from 'next/link';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
@@ -10,6 +9,19 @@ import { UserProvider, useUser } from '@/context/UserContext';
 import { useEffect, useState } from 'react';
 import FreightInventory from '@/components/FreightInventory';
 import AdminLogin from '@/components/AdminLogin'; // Import AdminLogin component
+
+interface UserProfile {
+  id: string;
+  email: string;
+  role: string;
+  inserted_at: string;
+  first_name?: string | null;
+  last_name?: string | null;
+  company_name?: string | null;
+  profile_picture?: string | null;
+  address?: string | null;
+  phone_number?: string | null;
+}
 
 const HomePageContent = () => {
   const { userProfile } = useUser();
@@ -32,7 +44,7 @@ const HomePageContent = () => {
       </Head>
       <div className="w-full flex justify-center items-center p-4">
         <div className="w-full sm:w-2/3 lg:w-3/4">
-          <FreightInventory />
+          <FreightInventory session={useSession()} /> {/* Pass session prop */}
           {userProfile?.role === 'admin' && <AdminLogin />} {/* Conditionally render AdminLogin */}
         </div>
       </div>
@@ -43,7 +55,7 @@ const HomePageContent = () => {
 export default function HomePage() {
   const session = useSession();
   const supabase = useSupabaseClient();
-  const [userProfile, setUserProfile] = useState(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
   useEffect(() => {
     console.log('Session:', session); // Debugging
@@ -55,7 +67,7 @@ export default function HomePage() {
         // Check if the user already exists in the custom profiles table by email
         const { data: existingUser, error: checkError } = await supabase
           .from('profiles')
-          .select('id, role')
+          .select('id, email, role, inserted_at')
           .eq('email', email)
           .single();
 
@@ -66,7 +78,7 @@ export default function HomePage() {
 
         if (existingUser) {
           console.log(`User with email ${email} already exists. Skipping insertion.`);
-          setUserProfile(existingUser);
+          setUserProfile(existingUser as UserProfile);
           return;
         }
 
@@ -84,7 +96,7 @@ export default function HomePage() {
           console.error('Error creating/updating user profile:', error.message);
         } else {
           console.log('User profile created/updated:', data);
-          setUserProfile(data[0]);
+          setUserProfile(data[0] as UserProfile);
         }
       }
     };

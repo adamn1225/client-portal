@@ -4,26 +4,26 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Initialize Supabase client with service role key
+// Initialize Supabase client with anon key
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''; // Ensure this is set in your environment variables
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''; // Ensure this is set in your environment variables
 
-if (!supabaseUrl || !supabaseServiceRoleKey) {
-    throw new Error('Supabase URL and Service Role Key must be set in environment variables');
+if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error('Supabase URL and Anon Key must be set in environment variables');
 }
 
-const supabase = createClient<Database>(supabaseUrl, supabaseServiceRoleKey);
+const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
 const migrateExistingUsers = async () => {
-    // Fetch existing users from the auth.users table using the Admin API
-    const { data, error: fetchError } = await supabase.auth.admin.listUsers();
+    // Fetch existing users from the profiles table
+    const { data: authUsers, error: fetchError } = await supabase
+        .from('profiles')
+        .select('id, email');
 
     if (fetchError) {
         console.error('Error fetching existing users:', fetchError.message);
         return;
     }
-
-    const authUsers = data.users; // Access the users property
 
     // Insert or update existing users in the custom profiles table
     for (const authUser of authUsers) {

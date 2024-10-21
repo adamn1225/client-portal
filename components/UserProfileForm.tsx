@@ -1,7 +1,7 @@
-// UserProfileForm.tsx
 import React, { useState, useEffect } from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
+import Image from 'next/image';
 
 const UserProfileForm = () => {
     const session = useSession();
@@ -12,7 +12,9 @@ const UserProfileForm = () => {
     const [address, setAddress] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [profilePicture, setProfilePicture] = useState<File | null>(null);
+    const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(null);
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -28,17 +30,35 @@ const UserProfileForm = () => {
                 console.error('Error fetching user profile:', error.message);
                 setError('Error fetching user profile');
             } else {
+                console.log('Fetched user profile:', data); // Log the fetched data
                 setFirstName(data.first_name || '');
                 setLastName(data.last_name || '');
                 setCompanyName(data.company_name || '');
                 setAddress(data.address || '');
                 setPhoneNumber(data.phone_number || '');
+                setProfilePictureUrl(data.profile_picture ? `https://fazytsvctdzbhvsavvwj.supabase.co/storage/v1/object/public/${data.profile_picture}` : null);
                 setProfilePicture(null); // Reset the profile picture input
             }
         };
 
         fetchUserProfile();
     }, [session, supabase]);
+
+    const uploadProfilePicture = async (file: File, userId: string) => {
+        const { data, error } = await supabase.storage
+            .from('profile-pictures')
+            .upload(`public/${userId}/${file.name}`, file, {
+                cacheControl: '3600',
+                upsert: true,
+            });
+
+        if (error) {
+            console.error('Upload error:', error.message);
+            throw new Error('Error uploading profile picture');
+        }
+
+        return data?.path || '';
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,17 +67,16 @@ const UserProfileForm = () => {
         let profilePictureUrl = '';
 
         if (profilePicture) {
-            const { data, error: uploadError } = await supabase.storage
-                .from('profile-pictures')
-                .upload(`public/${session.user.id}/${profilePicture.name}`, profilePicture);
-
-            if (uploadError) {
-                console.error('Upload error:', uploadError.message);
-                setError('Error uploading profile picture');
+            try {
+                profilePictureUrl = await uploadProfilePicture(profilePicture, session.user.id);
+            } catch (error) {
+                if (error instanceof Error) {
+                    setError(error.message);
+                } else {
+                    setError('An unknown error occurred');
+                }
                 return;
             }
-
-            profilePictureUrl = data?.path || '';
         }
 
         const { error: updateError } = await supabase
@@ -68,6 +87,7 @@ const UserProfileForm = () => {
                 company_name: companyName,
                 address: address,
                 phone_number: phoneNumber,
+                profile_picture: profilePictureUrl || undefined, // Update profile picture URL if available
             })
             .eq('id', session.user.id);
 
@@ -76,6 +96,9 @@ const UserProfileForm = () => {
             setError('Error updating user profile');
         } else {
             console.log('User profile updated successfully');
+            setError('');
+            setSuccess('Profile updated successfully');
+            setProfilePictureUrl(profilePictureUrl ? `https://fazytsvctdzbhvsavvwj.supabase.co/storage/v1/object/public/${profilePictureUrl}` : null);
         }
     };
 
@@ -128,18 +151,30 @@ const UserProfileForm = () => {
                     className="rounded w-full p-2 border border-slate-900"
                 />
             </div>
-            {/* <div>
+            <div>
                 <label>Profile Picture</label>
                 <input
                     type="file"
                     onChange={(e) => setProfilePicture(e.target.files ? e.target.files[0] : null)}
                     className="rounded w-full p-2 border border-slate-900"
                 />
-            </div> */}
+            </div>
+            {profilePictureUrl && (
+                <div>
+                    <Image
+                        src={profilePictureUrl}
+                        alt="Profile Picture"
+                        width={100}
+                        height={100}
+                        className="rounded-full"
+                    />
+                </div>
+            )}
             <button type="submit" className="btn-slate">
                 Update Profile
             </button>
             {error && <p className="text-red-500">{error}</p>}
+            {success && <p className="text-green-500">{success}</p>}
         </form>
     );
 };
