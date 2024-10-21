@@ -9,6 +9,7 @@ import { UserProvider, useUser } from '@/context/UserContext';
 import { useEffect, useState } from 'react';
 import FreightInventory from '@/components/FreightInventory';
 import AdminLogin from '@/components/AdminLogin'; // Import AdminLogin component
+import AdminQuoteRequests from '@/components/admin/AdminQuoteRequests'; // Import AdminQuoteRequests component
 
 interface UserProfile {
   id: string;
@@ -30,6 +31,7 @@ const HomePageContent = () => {
   useEffect(() => {
     if (userProfile) {
       console.log('User Profile:', userProfile); // Debugging
+      console.log('Is Admin:', userProfile.role === 'admin'); // Check if the user is admin
       setProfileComplete(true); // Simplified as we no longer check for first_name
     }
   }, [userProfile]);
@@ -45,7 +47,7 @@ const HomePageContent = () => {
       <div className="w-full flex justify-center items-center p-4">
         <div className="w-full sm:w-2/3 lg:w-3/4">
           <FreightInventory session={useSession()} /> {/* Pass session prop */}
-          {userProfile?.role === 'admin' && <AdminLogin />} {/* Conditionally render AdminLogin */}
+          {userProfile?.role === 'admin' && <AdminQuoteRequests />} {/* Conditionally render AdminQuoteRequests */}
         </div>
       </div>
     </>

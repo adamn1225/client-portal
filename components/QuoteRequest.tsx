@@ -36,17 +36,46 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
     const fetchQuotes = useCallback(async () => {
         if (!session?.user?.id) return;
 
-        const { data, error } = await supabase
-            .from('shippingquotes')
-            .select('*')
-            .eq('user_id', session.user.id);
+        // Fetch user role
+        const { data: profileData, error: profileError } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', session.user.id)
+            .single();
 
-        if (error) {
-            setErrorText(error.message);
-        } else {
-            console.log('Fetched Quotes:', data); // Add this line
-            setQuotes(data);
+        if (profileError) {
+            setErrorText(profileError.message);
+            return;
         }
+
+        const userRole = profileData?.role;
+
+        let quotesData;
+        if (userRole === 'admin') {
+            const { data, error } = await supabase
+                .from('shippingquotes')
+                .select('*');
+
+            if (error) {
+                setErrorText(error.message);
+                return;
+            }
+            quotesData = data;
+        } else {
+            const { data, error } = await supabase
+                .from('shippingquotes')
+                .select('*')
+                .eq('user_id', session.user.id);
+
+            if (error) {
+                setErrorText(error.message);
+                return;
+            }
+            quotesData = data;
+        }
+
+        console.log('Fetched Quotes:', quotesData);
+        setQuotes(quotesData);
     }, [session, supabase]);
 
     const fetchFreight = useCallback(async () => {
@@ -60,7 +89,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
         if (error) {
             setErrorText(error.message);
         } else {
-            console.log('Fetched Freight:', data); // Add this line
+            console.log('Fetched Freight:', data);
             setFreightList(data);
         }
     }, [session, supabase]);
@@ -131,7 +160,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
             console.error('Error adding quote:', error.message);
             setErrorText('Error adding quote');
         } else {
-            console.log('Quote added successfully:', data); // Add this line
+            console.log('Quote added successfully:', data);
             setQuotes([...quotes, ...(data || [])]);
             setSelectedFreight('');
             setYearAmount('');

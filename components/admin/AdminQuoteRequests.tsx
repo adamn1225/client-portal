@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
-import { fetchAllUsers, fetchAllQuotes } from '@/lib/database';
+import { fetchAllUsers, fetchAllQuotesWithUserDetails } from '@/lib/database';
 
 const AdminQuoteRequests = () => {
     const supabase = useSupabaseClient<Database>();
@@ -13,13 +13,18 @@ const AdminQuoteRequests = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const usersData = await fetchAllUsers();
-            console.log('Fetched Users:', usersData);
-            setUsers(usersData);
+            try {
+                const usersData = await fetchAllUsers();
+                console.log('Fetched Users:', usersData);
+                setUsers(usersData);
 
-            const quotesData = await fetchAllQuotes();
-            console.log('Fetched Quotes:', quotesData);
-            setQuotes(quotesData);
+                const quotesData = await fetchAllQuotesWithUserDetails();
+                console.log('Fetched Quotes with User Details:', quotesData);
+                setQuotes(quotesData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setErrorText('Error fetching data');
+            }
         };
 
         fetchData();
@@ -27,7 +32,7 @@ const AdminQuoteRequests = () => {
 
     useEffect(() => {
         if (user) {
-            console.log('Authenticated User ID:', user.id); // Add this line
+            console.log('Authenticated User ID:', user.id);
         }
     }, [user]);
 
@@ -35,50 +40,65 @@ const AdminQuoteRequests = () => {
         const userId = event.target.value;
         setSelectedUser(userId);
 
-        if (userId) {
-            const { data, error } = await supabase
-                .from('shippingquotes')
-                .select('*')
-                .eq('user_id', userId);
+        try {
+            if (userId) {
+                const { data, error } = await supabase
+                    .from('shippingquotes')
+                    .select('*')
+                    .eq('user_id', userId);
 
-            if (error) {
-                console.error('Error fetching quotes for user:', error);
-                setErrorText('Error fetching quotes for user');
+                if (error) {
+                    console.error('Error fetching quotes for user:', error);
+                    setErrorText('Error fetching quotes for user');
+                } else {
+                    console.log('Fetched Quotes for User:', data);
+                    setQuotes(data);
+                }
             } else {
-                console.log('Fetched Quotes for User:', data); // Add this line
-                setQuotes(data);
+                const quotesData = await fetchAllQuotesWithUserDetails();
+                setQuotes(quotesData);
             }
-        } else {
-            const quotesData = await fetchAllQuotes();
-            setQuotes(quotesData);
+        } catch (error) {
+            console.error('Error fetching quotes:', error);
+            setErrorText('Error fetching quotes');
         }
     };
 
     const updateQuote = async (quoteId: number, updatedData: any) => {
-        const { error } = await supabase
-            .from('shippingquotes')
-            .update(updatedData)
-            .eq('id', quoteId);
+        try {
+            const { error } = await supabase
+                .from('shippingquotes')
+                .update(updatedData)
+                .eq('id', quoteId);
 
-        if (error) {
+            if (error) {
+                console.error('Error updating quote:', error);
+                setErrorText('Error updating quote');
+            } else {
+                setQuotes(quotes.map(quote => quote.id === quoteId ? { ...quote, ...updatedData } : quote));
+            }
+        } catch (error) {
             console.error('Error updating quote:', error);
             setErrorText('Error updating quote');
-        } else {
-            setQuotes(quotes.map(quote => quote.id === quoteId ? { ...quote, ...updatedData } : quote));
         }
     };
 
     const deleteQuote = async (quoteId: number) => {
-        const { error } = await supabase
-            .from('shippingquotes')
-            .delete()
-            .eq('id', quoteId);
+        try {
+            const { error } = await supabase
+                .from('shippingquotes')
+                .delete()
+                .eq('id', quoteId);
 
-        if (error) {
+            if (error) {
+                console.error('Error deleting quote:', error);
+                setErrorText('Error deleting quote');
+            } else {
+                setQuotes(quotes.filter(quote => quote.id !== quoteId));
+            }
+        } catch (error) {
             console.error('Error deleting quote:', error);
             setErrorText('Error deleting quote');
-        } else {
-            setQuotes(quotes.filter(quote => quote.id !== quoteId));
         }
     };
 
@@ -103,25 +123,29 @@ const AdminQuoteRequests = () => {
             </div>
             <div className="w-full bg-white shadow overflow-hidden rounded-md border border-slate-400 max-h-screen overflow-y-auto flex-grow">
                 <ul className="flex flex-col h-full">
-                    {quotes.map((quote, index) => (
-                        <li
-                            key={quote.id}
-                            className={`border-b border-slate-400 ${index === quotes.length - 1 ? '' : 'border-b'}`}
-                        >
-                            <div className="flex items-center p-4">
-                                <div className="flex-grow">
-                                    {quote.origin_city} to {quote.destination_city}
+                    {quotes && quotes.length > 0 ? (
+                        quotes.map((quote, index) => (
+                            <li
+                                key={quote.id}
+                                className={`border-b border-slate-400 ${index === quotes.length - 1 ? '' : 'border-b'}`}
+                            >
+                                <div className="flex items-center p-4">
+                                    <div className="flex-grow">
+                                        {quote.origin_city} to {quote.destination_city} (User: {quote.profiles?.first_name} {quote.profiles?.last_name})
+                                    </div>
+                                    <div>(Due: {quote.due_date || 'No due date'})</div>
+                                    <button onClick={() => deleteQuote(quote.id)} className="text-red-500">
+                                        Delete
+                                    </button>
+                                    <button onClick={() => updateQuote(quote.id, { status: 'updated' })} className="text-blue-500">
+                                        Update
+                                    </button>
                                 </div>
-                                <div>(Due: {quote.due_date || 'No due date'})</div>
-                                <button onClick={() => deleteQuote(quote.id)} className="text-red-500">
-                                    Delete
-                                </button>
-                                <button onClick={() => updateQuote(quote.id, { status: 'updated' })} className="text-blue-500">
-                                    Update
-                                </button>
-                            </div>
-                        </li>
-                    ))}
+                            </li>
+                        ))
+                    ) : (
+                        <li className="p-4">No quotes available</li>
+                    )}
                 </ul>
             </div>
         </div>
