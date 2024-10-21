@@ -1,106 +1,107 @@
 import React, { useEffect, useState } from 'react';
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
-import { fetchAllUsers, fetchAllQuotesWithUserDetails } from '@/lib/database';
+import { supabase } from '@/lib/initSupabase'; // Adjust the import path as needed
+import { Quote } from '@/lib/types'; // Adjust the import path as needed
 
 const AdminQuoteRequests = () => {
-    const supabase = useSupabaseClient<Database>();
-    const user = useUser();
-    const [quotes, setQuotes] = useState([]);
-    const [users, setUsers] = useState([]);
-    const [selectedUser, setSelectedUser] = useState('');
-    const [errorText, setErrorText] = useState('');
+    const [quotes, setQuotes] = useState<Quote[]>([]);
+    const [filteredQuotes, setFilteredQuotes] = useState<Quote[]>([]);
+    const [selectedUser, setSelectedUser] = useState<string>('');
+    const [price, setPrice] = useState<string>(''); // Update state to reflect price
+    const [selectedQuoteId, setSelectedQuoteId] = useState<number | null>(null);
+    const [errorText, setErrorText] = useState<string>('');
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const usersData = await fetchAllUsers();
-                console.log('Fetched Users:', usersData);
-                setUsers(usersData);
+        const fetchQuotes = async () => {
+            const { data, error } = await supabase
+                .from('shippingquotes')
+                .select('*')
+                .eq('is_archived', false); // Fetch only non-archived quotes
 
-                const quotesData = await fetchAllQuotesWithUserDetails();
-                console.log('Fetched Quotes with User Details:', quotesData);
-                setQuotes(quotesData);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setErrorText('Error fetching data');
+            if (error) {
+                console.error('Error fetching quotes:', error.message);
+                setErrorText('Error fetching quotes');
+            } else {
+                console.log('Fetched Quotes:', data); // Debugging log
+                setQuotes(data);
+                setFilteredQuotes(data); // Initially, show all quotes
             }
         };
 
-        fetchData();
+        fetchQuotes();
     }, []);
 
-    useEffect(() => {
-        if (user) {
-            console.log('Authenticated User ID:', user.id);
-        }
-    }, [user]);
-
-    const handleUserChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const userId = event.target.value;
+    const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const userId = e.target.value;
         setSelectedUser(userId);
-
-        try {
-            if (userId) {
-                const { data, error } = await supabase
-                    .from('shippingquotes')
-                    .select('*')
-                    .eq('user_id', userId);
-
-                if (error) {
-                    console.error('Error fetching quotes for user:', error);
-                    setErrorText('Error fetching quotes for user');
-                } else {
-                    console.log('Fetched Quotes for User:', data);
-                    setQuotes(data);
-                }
-            } else {
-                const quotesData = await fetchAllQuotesWithUserDetails();
-                setQuotes(quotesData);
-            }
-        } catch (error) {
-            console.error('Error fetching quotes:', error);
-            setErrorText('Error fetching quotes');
+        if (userId === '') {
+            setFilteredQuotes(quotes); // Show all quotes if no user is selected
+        } else {
+            setFilteredQuotes(quotes.filter(quote => quote.user_id === userId));
         }
     };
 
-    const updateQuote = async (quoteId: number, updatedData: any) => {
-        try {
-            const { error } = await supabase
-                .from('shippingquotes')
-                .update(updatedData)
-                .eq('id', quoteId);
+    const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPrice(e.target.value);
+    };
 
-            if (error) {
-                console.error('Error updating quote:', error);
-                setErrorText('Error updating quote');
-            } else {
-                setQuotes(quotes.map(quote => quote.id === quoteId ? { ...quote, ...updatedData } : quote));
-            }
-        } catch (error) {
-            console.error('Error updating quote:', error);
+    const handleQuoteUpdate = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (selectedQuoteId === null) return;
+
+        const { error } = await supabase
+            .from('shippingquotes')
+            .update({ price: parseFloat(price) } as Partial<Quote>) // Update price instead of quote_id
+            .eq('id', selectedQuoteId);
+
+        if (error) {
+            console.error('Error updating quote:', error.message);
             setErrorText('Error updating quote');
+        } else {
+            setQuotes(quotes.map(quote =>
+                quote.id === selectedQuoteId ? { ...quote, price: parseFloat(price) } : quote
+            ));
+            setFilteredQuotes(filteredQuotes.map(quote =>
+                quote.id === selectedQuoteId ? { ...quote, price: parseFloat(price) } : quote
+            ));
+            setPrice('');
+            setSelectedQuoteId(null);
+            setErrorText('');
         }
     };
 
-    const deleteQuote = async (quoteId: number) => {
-        try {
-            const { error } = await supabase
-                .from('shippingquotes')
-                .delete()
-                .eq('id', quoteId);
+    const handleSelectQuote = (id: number) => {
+        setSelectedQuoteId(id);
+    };
 
-            if (error) {
-                console.error('Error deleting quote:', error);
-                setErrorText('Error deleting quote');
-            } else {
-                setQuotes(quotes.filter(quote => quote.id !== quoteId));
-            }
-        } catch (error) {
-            console.error('Error deleting quote:', error);
-            setErrorText('Error deleting quote');
+    const archiveQuote = async (id: number) => {
+        const { error } = await supabase
+            .from('shippingquotes')
+            .update({ is_archived: true } as Partial<Quote>) // Mark the quote as archived
+            .eq('id', id);
+
+        if (error) {
+            console.error('Error archiving quote:', error.message);
+            setErrorText('Error archiving quote');
+        } else {
+            setQuotes(quotes.filter(quote => quote.id !== id));
+            setFilteredQuotes(filteredQuotes.filter(quote => quote.id !== id));
         }
     };
+
+    // Extract unique users from quotes
+    const uniqueUsers = quotes.reduce((acc: { user_id: string; first_name: string | null; last_name: string | null; email: string | null }[], quote) => {
+        if (!acc.some(user => user.user_id === quote.user_id)) {
+            acc.push({
+                user_id: quote.user_id,
+                first_name: quote.first_name,
+                last_name: quote.last_name,
+                email: quote.email,
+            });
+        }
+        return acc;
+    }, []);
+
+    console.log('Unique Users:', uniqueUsers); // Debugging log
 
     return (
         <div className="admin-quote-requests">
@@ -111,43 +112,60 @@ const AdminQuoteRequests = () => {
                     id="user-select"
                     value={selectedUser}
                     onChange={handleUserChange}
-                    className="w-full p-2 border rounded"
+                    className="w-full text-gray-900 p-2 border rounded"
                 >
                     <option value="">All Users</option>
-                    {users.map(user => (
-                        <option key={user.id} value={user.id}>
-                            {user.first_name ? `${user.first_name} (${user.email})` : user.email}
+                    {uniqueUsers.map((user, index) => (
+                        <option key={`${user.user_id}-${index}`} value={user.user_id}>
+                            {user.first_name} {user.last_name} ({user.email})
                         </option>
                     ))}
                 </select>
             </div>
             <div className="w-full bg-white shadow overflow-hidden rounded-md border border-slate-400 max-h-screen overflow-y-auto flex-grow">
                 <ul className="flex flex-col h-full">
-                    {quotes && quotes.length > 0 ? (
-                        quotes.map((quote, index) => (
-                            <li
-                                key={quote.id}
-                                className={`border-b border-slate-400 ${index === quotes.length - 1 ? '' : 'border-b'}`}
-                            >
-                                <div className="flex items-center p-4">
-                                    <div className="flex-grow">
-                                        {quote.origin_city} to {quote.destination_city} (User: {quote.profiles?.first_name} {quote.profiles?.last_name})
-                                    </div>
-                                    <div>(Due: {quote.due_date || 'No due date'})</div>
-                                    <button onClick={() => deleteQuote(quote.id)} className="text-red-500">
-                                        Delete
-                                    </button>
-                                    <button onClick={() => updateQuote(quote.id, { status: 'updated' })} className="text-blue-500">
-                                        Update
-                                    </button>
+                    {filteredQuotes.map((quote, index) => (
+                        <li
+                            key={quote.id}
+                            className={`border-b border-slate-400 ${index === filteredQuotes.length - 1 ? '' : 'border-b'}`}
+                        >
+                            <div className="flex items-center p-4">
+                                <div className="flex-grow">
+                                    {quote.origin_city}, {quote.origin_zip} to {quote.destination_city}, {quote.destination_zip}
                                 </div>
-                            </li>
-                        ))
-                    ) : (
-                        <li className="p-4">No quotes available</li>
-                    )}
+                                <div>{quote.year_amount} {quote.make} {quote.model}</div>
+                                <div>(Due: {quote.due_date || 'No due date'})</div>
+                                <div>{quote.first_name} {quote.last_name} ({quote.email})</div>
+                                <div>Quote ID: {quote.quote_id || 'Not assigned'}</div>
+                                <div>Price: ${quote.price}</div>
+                                <button onClick={() => handleSelectQuote(quote.id)} className="text-blue-500">
+                                    Respond
+                                </button>
+                                <button onClick={() => archiveQuote(quote.id)} className="text-red-500 ml-2">
+                                    Archive
+                                </button>
+                            </div>
+                        </li>
+                    ))}
                 </ul>
             </div>
+            {selectedQuoteId !== null && (
+                <form onSubmit={handleQuoteUpdate} className="mt-4">
+                    <label>
+                        Price:
+                        <input
+                            type="text"
+                            value={price}
+                            onChange={handlePriceChange}
+                            className="ml-2 p-1 border border-gray-300 rounded"
+                        />
+                    </label>
+                    <button type="submit" className="ml-2 p-1 bg-blue-500 text-white rounded">
+                        Update Quote
+                    </button>
+                </form>
+            )}
+            {errorText && <div className="text-red-500 mt-2">{errorText}</div>}
         </div>
     );
 };

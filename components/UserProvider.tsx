@@ -40,13 +40,19 @@ export const UserProvider: React.FC<UserProviderProps> = ({ session, children })
                 .single();
 
             if (error) {
-                console.error('Error fetching profile:', error.message);
+                if (error.code === 'PGRST116') {
+                    console.error('No user profile found for the given ID.');
+                } else {
+                    console.error('Error fetching profile:', error.message);
+                }
             } else {
                 setUserProfile(data);
             }
         };
 
-        fetchProfile();
+        if (session) {
+            fetchProfile();
+        }
     }, [session, supabase]);
 
     return (

@@ -17,14 +17,12 @@ const UserSideNav = ({ className = '' }) => {
             if (error) {
                 console.error('Error logging out:', error.message);
                 alert('Failed to log out. Please try again.');
-                window.location.href = '/login';
-            } else {
-                window.location.reload();
             }
+            window.location.href = '/login'; // Redirect to login page
         } catch (err) {
             console.error('Unexpected error during logout:', err);
             alert('An unexpected error occurred. Please try again.');
-            window.location.href = '/login';
+            window.location.href = '/login'; // Redirect to login page
         }
     };
 

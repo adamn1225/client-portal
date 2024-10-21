@@ -91,6 +91,9 @@ export interface Database {
       shippingquotes: {
         Row: {
           id: number
+          first_name: string | null
+          last_name: string | null
+          email: string | null // Add this line
           inserted_at: string
           is_complete: boolean | null
           origin_city: string | null
@@ -100,6 +103,7 @@ export interface Database {
           destination_state: string | null
           destination_zip: string | null
           user_id: string
+          quote_id: string | null // Add this line
           due_date: string | null
           year_amount: string | null
           make: string | null
@@ -110,9 +114,14 @@ export interface Database {
           width: string | null
           height: string | null
           weight: string | null
+          price: number | null
+          is_archived: boolean | null
         }
         Insert: {
           id?: number
+          first_name: string | null
+          last_name: string | null
+          email?: string | null // Add this line
           inserted_at?: string
           is_complete?: boolean | null
           origin_city?: string | null
@@ -122,6 +131,7 @@ export interface Database {
           destination_state?: string | null
           destination_zip?: string | null
           user_id: string
+          quote_id?: string | null // Add this line
           due_date?: string | null
           year_amount?: string | null
           make?: string | null
@@ -132,9 +142,14 @@ export interface Database {
           width?: string | null
           height?: string | null
           weight?: string | null
+          price: number | null
+          is_archived: boolean | null
         }
         Update: {
           id?: number
+          first_name: string | null
+          last_name: string | null
+          email?: string | null // Add this line
           inserted_at?: string
           is_complete?: boolean | null
           origin_city?: string | null
@@ -144,6 +159,7 @@ export interface Database {
           destination_state?: string | null
           destination_zip?: string | null
           user_id?: string
+          quote_id?: string | null // Add this line
           due_date?: string | null
           year_amount?: string | null
           make?: string | null
@@ -154,6 +170,8 @@ export interface Database {
           width?: string | null
           height?: string | null
           weight?: string | null
+          price: number | null
+          is_archived: boolean | null
         }
       },
       profiles: {
@@ -167,7 +185,7 @@ export interface Database {
           company_name: string | null
           profile_picture: string | null
           address: string | null
-          phone_number: string | null // Add phone_number field
+          phone_number: string | null
         }
         Insert: {
           id: string // Ensure this is a UUID

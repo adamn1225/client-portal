@@ -5,7 +5,7 @@ import { Database } from '@/lib/schema';
 interface UserProfile {
     id: string;
     email: string;
-    role: string; // Add this line
+    role: string;
     first_name: string | null;
     last_name: string | null;
     company_name: string | null;
@@ -32,19 +32,21 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
             const { data, error } = await supabase
                 .from('profiles')
-                .select('id, email, role, first_name, last_name, company_name, profile_picture, address, phone_number') // Add role to the select statement
+                .select('id, email, role, first_name, last_name, company_name, profile_picture, address, phone_number')
                 .eq('id', session.user.id)
                 .single();
 
             if (error) {
                 console.error('Error fetching user profile:', error.message);
             } else {
-                console.log('Fetched user profile:', data); // Log the fetched data
+                console.log('Fetched user profile:', data);
                 setUserProfile(data);
             }
         };
 
-        fetchUserProfile();
+        if (session) {
+            fetchUserProfile();
+        }
     }, [session, supabase]);
 
     return (

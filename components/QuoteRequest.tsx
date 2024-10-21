@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
+import ts from 'typescript';
 
 interface QuoteRequestProps {
     session: Session | null;
@@ -31,51 +32,23 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
     const [destinationState, setDestinationState] = useState<string>('');
     const [destinationZip, setDestinationZip] = useState<string>('');
     const [dueDate, setDueDate] = useState<string>('');
+    const [price, setPrice] = useState<string>(''); // Add this line
     const [errorText, setErrorText] = useState<string>('');
 
     const fetchQuotes = useCallback(async () => {
         if (!session?.user?.id) return;
 
-        // Fetch user role
-        const { data: profileData, error: profileError } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', session.user.id)
-            .single();
+        const { data, error } = await supabase
+            .from('shippingquotes')
+            .select('*')
+            .eq('user_id', session.user.id);
 
-        if (profileError) {
-            setErrorText(profileError.message);
-            return;
-        }
-
-        const userRole = profileData?.role;
-
-        let quotesData;
-        if (userRole === 'admin') {
-            const { data, error } = await supabase
-                .from('shippingquotes')
-                .select('*');
-
-            if (error) {
-                setErrorText(error.message);
-                return;
-            }
-            quotesData = data;
+        if (error) {
+            setErrorText(error.message);
         } else {
-            const { data, error } = await supabase
-                .from('shippingquotes')
-                .select('*')
-                .eq('user_id', session.user.id);
-
-            if (error) {
-                setErrorText(error.message);
-                return;
-            }
-            quotesData = data;
+            console.log('Fetched Quotes:', data);
+            setQuotes(data);
         }
-
-        console.log('Fetched Quotes:', quotesData);
-        setQuotes(quotesData);
     }, [session, supabase]);
 
     const fetchFreight = useCallback(async () => {
@@ -137,6 +110,9 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
             .from('shippingquotes')
             .insert([{
                 user_id: session.user.id,
+                first_name: session.user.user_metadata.first_name,
+                last_name: session.user.user_metadata.last_name,
+                email: session.user.email,
                 due_date: dueDate,
                 origin_city: originCity,
                 origin_state: originState,
@@ -152,7 +128,9 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                 length: length,
                 width: width,
                 height: height,
-                weight: weight
+                weight: weight,
+                price: parseFloat(price),
+                is_archived: true
             }])
             .select();
 
@@ -179,21 +157,23 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
             setDestinationState('');
             setDestinationZip('');
             setDueDate('');
+            setPrice(''); // Add this line
             setErrorText('');
             setSelectedOption('');
         }
     };
 
-    const deleteQuote = async (id: number) => {
+    const archiveQuote = async (id: number) => {
         if (!session?.user?.id) return;
 
         const { error } = await supabase
             .from('shippingquotes')
-            .delete()
+            // @ts-ignore
+            .update({ is_archived: true } as Partial<ShippingQuote>)
             .eq('id', id);
 
         if (error) {
-            console.error('Error deleting quote:', error.message);
+            console.error('Error archiving quote:', error.message);
         } else {
             fetchQuotes();
         }
@@ -422,7 +402,17 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                                 />
                             </label>
                         )}
-
+                        <label className='text-slate-900 font-medium'>Price
+                            <input
+                                className="rounded w-full p-2 border border-slate-900"
+                                type="text"
+                                value={price}
+                                onChange={(e) => {
+                                    setErrorText('');
+                                    setPrice(e.target.value);
+                                }}
+                            />
+                        </label>
                         <div className='flex gap-2'>
                             <label className='text-slate-900 font-medium'>Origin City
                                 <input
@@ -509,7 +499,6 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                         Request Quote
                     </button>
                 </form>
-                {!!errorText && <div className="text-red-500">{errorText}</div>}
             </div>
             <div className="w-full bg-white shadow overflow-hidden rounded-md border border-slate-400 max-h-screen overflow-y-auto flex-grow">
                 <ul className="flex flex-col h-full">
@@ -520,11 +509,13 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                         >
                             <div className="flex items-center p-4">
                                 <div className="flex-grow">
-                                    {quote.origin_city} to {quote.destination_city}
+                                    {quote.origin_city}, {quote.origin_zip} to {quote.destination_city}, {quote.destination_zip}
                                 </div>
+                                <div>{quote.year_amount} {quote.make} {quote.model}</div>
                                 <div>(Due: {quote.due_date || 'No due date'})</div>
-                                <button onClick={() => deleteQuote(quote.id)} className="text-red-500">
-                                    Delete
+                                <div>Price: ${quote.price}</div>
+                                <button onClick={() => archiveQuote(quote.id)} className="text-red-500">
+                                    Archive
                                 </button>
                             </div>
                         </li>
