@@ -184,10 +184,10 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
   };
 
   return (
-    <div className="w-full grid grid-rows-2 gap-12">
+    <div className="w-full grid grid-rows-1 gap-12">
       <div className="w-full">
         <div className='flex flex-col justify-center items-center'>
-          <h1 className="mb-12 text-2xl">Your Freight and Equipment</h1>
+          <h1 className="mb-6 text-2xl">Your Freight and Equipment</h1>
           <button className="btn-slate" onClick={() => setIsModalOpen(true)}>
             Add Freight
           </button>

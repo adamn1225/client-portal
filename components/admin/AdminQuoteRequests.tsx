@@ -1,3 +1,4 @@
+// components/admin/AdminQuoteRequests.tsx
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/initSupabase'; // Adjust the import path as needed
 import { Quote } from '@/lib/types'; // Adjust the import path as needed
@@ -137,7 +138,7 @@ const AdminQuoteRequests = () => {
                                 <div>(Due: {quote.due_date || 'No due date'})</div>
                                 <div>{quote.first_name} {quote.last_name} ({quote.email})</div>
                                 <div>Quote ID: {quote.quote_id || 'Not assigned'}</div>
-                                <div>Price: ${quote.price}</div>
+                                <div>Price: {quote.price ? `$${quote.price}` : 'Not priced yet'}</div>
                                 <button onClick={() => handleSelectQuote(quote.id)} className="text-blue-500">
                                     Respond
                                 </button>
