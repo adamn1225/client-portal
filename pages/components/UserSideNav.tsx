@@ -36,6 +36,7 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
         : 'https://www.gravatar.com/avatar?d=mp&s=100';
 
     return (
+<<<<<<< HEAD
         <div>
             <button
                 className=" fixed left-1 top-1 z-50 p-2 rounded-full "
@@ -96,6 +97,60 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                 </ul>
             </nav>
         </div>
+=======
+        <nav className={`side-navbar bg-slate-700 flex flex-col h-screen z-50 py-6 drop-shadow absolute top-0 left-0 ${className}`}>
+            <h1 className='text-xl mb-4 self-center'>NTS Client Portal</h1>
+            <ul className='flex gap-3 flex-col justify-start items-center flex-grow space-y-1 overflow-y-auto'>
+                <li className="w-full flex flex-col items-center gap-1 justify-center m-0">
+                    <Image
+                        src={profilePictureUrl}
+                        alt='profile-img'
+                        className='rounded-full w-16 h-16'
+                        width={100}
+                        height={100}
+                    />
+                    <h3>Welcome {userProfile?.first_name || 'User'}</h3>
+                </li>
+                <li className="w-full text-center flex justify-center m-0">
+                    <Link href="/freight-inventory" className="bg-slate-100 sidenav-text sidenav-text text-slate-900 font-bold py-1 rounded-sm min-w-max w-[9rem] px-2">
+                        Freight Inventory
+                    </Link>
+                </li>
+                <li className="w-full text-center flex justify-center m-0">
+                    <Link href="/freight-transport" className="bg-slate-100 sidenav-text text-slate-900 font-bold py-1 rounded-sm min-w-max w-[9rem] px-2">
+                        Freight Transport
+                    </Link>
+                </li>
+                <li className="w-full text-center flex justify-center m-0">
+                    <Link href="/settings" className="bg-slate-100 sidenav-text text-slate-900 font-bold min-w-max w-[9rem] px-2 py-1 rounded-sm">
+                        Settings
+                    </Link>
+                </li>
+                <li className="w-full flex justify-center m-0">
+                    <button className="bg-slate-100 sidenav-text text-slate-900 font-bold min-w-max w-[9rem] px-2 py-1 rounded-sm">
+                        Documents/Resources
+                    </button>
+                </li>
+                <li className="w-full flex justify-center m-0">
+                    <button className="bg-slate-100 sidenav-text text-slate-900 text-nowrap font-bold  py-1 rounded-sm min-w-max w-[9rem] px-2">
+                        Community Forum
+                    </button>
+                </li>
+                <li className="w-full flex justify-center m-0">
+                    <button className="bg-slate-100 sidenav-text text-slate-900 text-nowrap font-bold  py-1 rounded-sm min-w-max w-[9rem] px-2">
+                        Team Collaboration
+                    </button>
+                </li>
+            </ul>
+            <ul className='flex flex-col justify-end items-center'>
+                <li className="w-full flex justify-center m-0">
+                    <button className="bg-slate-100 sidenav-text text-slate-900 font-bold py-1 rounded-sm min-w-max w-[9rem] px-2" onClick={handleLogout}>
+                        Logout
+                    </button>
+                </li>
+            </ul>
+        </nav>
+>>>>>>> 15289bee80546632bc578ef0d36af43fb65b21fb
     );
 };
 
