@@ -2,7 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import QuoteForm from './QuoteForm';
-import QuoteList from './QuoteList';
+import QuoteList from './quotetabs/QuoteList';
+import HistoryList from './quotetabs/HistoryList';
+import OrderList from './quotetabs/OrderList';
 
 interface QuoteRequestProps {
     session: Session | null;
@@ -16,7 +18,8 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
     const [quotes, setQuotes] = useState<ShippingQuote[]>([]);
     const [freightList, setFreightList] = useState<Freight[]>([]);
     const [errorText, setErrorText] = useState<string>('');
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State to manage modal open/close
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [activeTab, setActiveTab] = useState('inventory');
 
     const fetchQuotes = useCallback(async () => {
         if (!session?.user?.id) return;
@@ -104,11 +107,11 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
     };
 
     return (
-        <div className="w-full grid grid-rows-2 gap-12">
+        <div className="w-full grid grid-rows gap-12 mt-12">
             <div className="w-full">
                 <div className='flex flex-col justify-center items-center gap-2'>
-                    <h1 className="mb-12 text-2xl">Request a Shipping Quote</h1>
-                    <h3>Provide details about your freight and request a quote.</h3>
+                    <h1 className="mb-12 text-2xl text-center text-wrap">Request a Shipping Quote</h1>
+                    <h3 className='text-center'>Provide details about your freight and request a quote.</h3>
                     <button onClick={() => setIsModalOpen(true)} className="btn-slate">
                         Request a Shiping Estimate
                     </button>
@@ -122,13 +125,51 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                     setErrorText={setErrorText}
                 />
             </div>
+            <div className="flex justify-center items-center border-b border-gray-300">
+                <button
+                    className={`px-4 py-2 ${activeTab === 'requests' ? 'border-b-2 border-blue-500' : ''}`}
+                    onClick={() => setActiveTab('requests')}
+                >
+                    Shipping Requests
+                </button>
+                <button
+                    className={`px-4 py-2 ${activeTab === 'orders' ? 'border-b-2 border-amber-500' : ''}`}
+                    onClick={() => setActiveTab('orders')}
+                >
+                    Shipping Orders
+                </button>
+                <button
+                    className={`px-4 py-2 ${activeTab === 'history' ? 'border-b-2 border-green-500' : ''}`}
+                    onClick={() => setActiveTab('history')}
+                >
+                    Completed Orders
+                </button>
+            </div>
             <div className="w-full bg-white shadow overflow-hidden rounded-md border border-slate-400 max-h-screen overflow-y-auto flex-grow">
-                <QuoteList
-                    session={session}
-                    quotes={quotes}
-                    fetchQuotes={fetchQuotes}
-                    archiveQuote={archiveQuote}
-                />
+                {activeTab === 'requests' && (
+                    <QuoteList
+                        session={session}
+                        quotes={quotes}
+                        fetchQuotes={fetchQuotes}
+                        archiveQuote={archiveQuote}
+                    />
+                )}
+                {activeTab === 'orders' && (
+                    <HistoryList 
+                        session={session}
+                        quotes={quotes}
+                        fetchQuotes={fetchQuotes}
+                        archiveQuote={archiveQuote} 
+                        />
+                )}
+                {activeTab === 'history' && (
+                    <OrderList
+                        session={session}
+                        quotes={quotes}
+                        fetchQuotes={fetchQuotes}
+                        archiveQuote={archiveQuote}
+                    />
+                )}
             </div>
         </div>
     );

@@ -26,8 +26,8 @@ const UserTopNavbar: React.FC<TopNavbarProps> = ({ className }) => {
     };
 
     return (
-        <nav className={`top-navbar bg-slate-100 flex justify-end px-6 py-2 drop-shadow ${className}`}>
-            <ul>
+        <nav className={`top-navbar xs:hidden sm:hidden bg-slate-100 flex justify-end px-6 py-2 drop-shadow ${className}`}>
+            <ul className='xs:hidden sm:hidden'>
                 <li className="w-full flex justify-center m-0">
                     <button className="bg-slate-700 text-slate-100 font-bold px-6 py-1 rounded-sm" onClick={handleLogout}>
                         Contact Support

@@ -48,3 +48,16 @@ export type Quote = {
     price: number | null;
     is_archived: boolean | null;
 };
+
+export type MaintenanceItem = {
+    id: number;
+    user_id: string;
+    freight_id: number;
+    urgency: string;
+    notes: string;
+    need_parts: boolean;
+    part: string | null;
+    schedule_date: string | null;
+    maintenance_crew: string;
+    created_at: string;
+};
