@@ -94,7 +94,7 @@ const MaintenanceTab = ({ freightList, maintenanceList, editFreight, handleDelet
                                     <button onClick={() => openEditModal(freight)} className="text-blue-500 mr-4">
                                         Edit
                                     </button>
-                                    <button onClick={() => handleDeleteClick(freight.id)} className="text-red-500">
+                                    <button onClick={() => handleDeleteClick(freight.id)} className="text-red-500 mr-4">
                                         Delete
                                     </button>
                                 </td>
