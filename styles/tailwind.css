@@ -4,15 +4,15 @@
 
 /* Write your own custom component styles here */
 .btn-black {
-  @apply border border-black bg-black text-white font-bold py-2 px-4 rounded text-center;
+  @apply border border-stone-700 bg-stone-700 text-white font-bold py-2 px-4 rounded text-center;
 }
 
 .btn-black:hover {
-  @apply transition duration-150 bg-white text-black;
+  @apply transition duration-150 bg-white text-stone-700;
 }
 
 .btn-black-outline {
-  @apply border border-black text-black py-2 px-4 rounded font-bold text-center;
+  @apply border border-stone-700 text-stone-700 py-2 px-4 rounded font-bold text-center;
 }
 
 .btn-black-outline:hover {
@@ -20,11 +20,11 @@
 }
 
 .btn-slate {
-  @apply border border-zinc-800 bg-zinc-800 text-white font-bold py-2 px-4 rounded text-center;
+  @apply border border-stone-700 bg-stone-700 text-white font-bold py-2 px-4 rounded text-center;
 }
 
 .btn-reverse-slate {
-  @apply border border-zinc-800 bg-slate-100 text-zinc-800 font-bold py-2 px-4 rounded text-center;
+  @apply border border-stone-700 bg-slate-100 text-stone-700 font-bold py-2 px-4 rounded text-center;
 }
 
 html,
@@ -36,7 +36,8 @@ body,
   /* Ensure no overflow on the body */
 }
 
-h1 {
+h1 h2 h3 h4 h5 h6 p li span div  {
+  @apply text-stone-700 !important;
   font-size: 4rem;
   font-weight: bold;
   display: block;

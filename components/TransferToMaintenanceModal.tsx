@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Database } from '@/lib/schema';
 
 interface TransferToMaintenanceModalProps {
+    freightList: Database['public']['Tables']['freight']['Row'][];
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (data: any) => void;
@@ -13,21 +15,62 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
     const [needParts, setNeedParts] = useState<string>('no');
     const [part, setPart] = useState<string>('');
     const [maintenanceCrew, setMaintenanceCrew] = useState<string>('Bob');
-    const [maintenanceItem, setMaintenanceItem] = useState<any>(freight);
     const [scheduleDate, setScheduleDate] = useState<string>('');
+    const [yearAmount, setYearAmount] = useState<string>('');
+    const [make, setMake] = useState<string>('');
+    const [model, setModel] = useState<string>('');
+    const [palletCount, setPalletCount] = useState<string>('');
+    const [commodity, setCommodity] = useState<string>('');
+    const [length, setLength] = useState<string>('');
+    const [width, setWidth] = useState<string>('');
+    const [height, setHeight] = useState<string>('');
+    const [weight, setWeight] = useState<string>('');
 
-    const handleSubmit = () => {
-        if (maintenanceItem) {
-            onSubmit({
-                ...maintenanceItem,
-                urgency,
-                notes,
-                need_parts: needParts,
-                part,
-                maintenance_crew: maintenanceCrew,
-                schedule_date: scheduleDate || null, // Set to null if empty
-            });
+    useEffect(() => {
+        if (freight) {
+            setUrgency('urgent');
+            setNotes('');
+            setNeedParts('no');
+            setPart('');
+            setMaintenanceCrew('Bob');
+            setScheduleDate('');
+            setYearAmount(freight.year_amount || '');
+            setMake(freight.make || '');
+            setModel(freight.model || '');
+            setPalletCount(freight.pallet_count || '');
+            setCommodity(freight.commodity || '');
+            setLength(freight.length || '');
+            setWidth(freight.width || '');
+            setHeight(freight.height || '');
+            setWeight(freight.weight || '');
         }
+    }, [freight]);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const maintenanceItem = {
+            user_id: freight.user_id, // Ensure user_id is included
+            freight_id: freight.id,
+            urgency,
+            notes,
+            need_parts: needParts === 'yes',
+            part: part || null,
+            maintenance_crew: maintenanceCrew,
+            schedule_date: scheduleDate || null, // Set to null if empty
+            make: make || null,
+            pallets: palletCount || null,
+            serial_number: freight.serial_number || null,
+            model: model || null,
+            year_amount: yearAmount || null, // Ensure year_amount is included
+            length: length || null,
+            width: width || null,
+            height: height || null,
+            weight: weight || null,
+            inventory_number: freight.inventory_number || null,
+            commodity: commodity || null,
+            dimensions: `${length} ${freight.length_unit}, ${width} ${freight.width_unit}, ${height} ${freight.height_unit}`,
+        };
+        onSubmit(maintenanceItem);
     };
 
     if (!isOpen) return null;

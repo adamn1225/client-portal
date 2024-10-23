@@ -50,6 +50,7 @@ export type Quote = {
 };
 
 export type MaintenanceItem = {
+    year_amount: string | null;
     id: number;
     user_id: string;
     freight_id: number;
@@ -60,4 +61,12 @@ export type MaintenanceItem = {
     schedule_date: string | null;
     maintenance_crew: string;
     created_at: string;
+    make: string | null;
+    model: string | null;
+    year: string | null;
+    pallets: string | null;
+    serial_number: string | null;
+    dimensions: string | null;
+    commodity: string | null;
+    inventory_number: string | null; // Ensure inventory_number is included
 };

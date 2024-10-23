@@ -205,27 +205,36 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
     };
 
     const handleTransferSubmit = async (data: any) => {
+        const user = { id: '1' }; // Replace this with the actual user object or import it
         if (!user || !selectedFreight) return;
 
-        const maintenanceItem: Omit<MaintenanceItem, 'created_at'> = {
-            user_id: user.id,
+        const maintenanceItem: Omit<MaintenanceItem, 'id' | 'created_at'> = {
+            user_id: user.id.toString(),
             freight_id: selectedFreight.id,
             urgency: data.urgency,
             notes: data.notes,
-            need_parts: data.needParts,
+            need_parts: data.need_parts,
             part: data.part,
-            maintenance_crew: data.maintenanceCrew,
-            schedule_date: data.scheduleDate || null,
-            id: 0 // Set to 0 to let the database auto-increment
+            maintenance_crew: data.maintenance_crew,
+            schedule_date: data.schedule_date || null,
+            make: selectedFreight.make,
+            model: selectedFreight.model,
+            year: selectedFreight.year,
+            year_amount: selectedFreight.year_amount, // Ensure year_amount is included
+            pallets: selectedFreight.pallet_count,
+            serial_number: selectedFreight.serial_number,
+            dimensions: selectedFreight.dimensions,
+            commodity: selectedFreight.commodity,
+            inventory_number: selectedFreight.inventory_number,
         };
 
         const newItem = await addMaintenanceItem(maintenanceItem);
         if (newItem) {
             setMaintenanceList([...maintenanceList, newItem]);
         }
-
         setIsTransferModalOpen(false);
     };
+
 
     const editMaintenanceItem = async (updatedItem: MaintenanceItem) => {
         if (!user) return;
@@ -256,6 +265,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                 </div>
                 <TransferToMaintenanceModal
                     isOpen={isTransferModalOpen}
+                    freightList={freightList}
                     onClose={() => setIsTransferModalOpen(false)}
                     onSubmit={handleTransferSubmit}
                     freight={selectedFreight}
@@ -497,7 +507,10 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                         maintenanceList={maintenanceList}
                         editFreight={editMaintenanceItem}
                         handleDeleteClick={handleDeleteClick}
-                    />
+                        userId={String(user?.id)}
+                        setMaintenanceList={(items: MaintenanceItem[]) => void setMaintenanceList(items)}
+                        freightList={freightList}
+                      />
                 )}
             </div>
         </div>

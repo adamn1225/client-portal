@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
-import { Database, MaintenanceItem } from '@/lib/schema';
+import { Database } from '@/lib/schema';
 import dotenv from 'dotenv';
+import { MaintenanceItem } from '@/lib/types';
+import MaintenanceTab from '@/components/inventory/MaintenanceTab';
 
 dotenv.config();
 
@@ -56,7 +58,7 @@ export async function fetchAllUsers() {
     return uniqueUsers;
 }
 
-export async function fetchMaintenanceItems(userId: string): Promise<MaintenanceItem[]> {
+export async function fetchMaintenanceItems(userId: string) {
     const { data, error } = await supabase
         .from('maintenance')
         .select('*')
@@ -67,22 +69,62 @@ export async function fetchMaintenanceItems(userId: string): Promise<Maintenance
         return [];
     }
 
-    return data as MaintenanceItem[];
+    return data;
 }
 
-export async function addMaintenanceItem(item: Omit<MaintenanceItem, 'created_at'>): Promise<MaintenanceItem | null> {
+
+
+export async function addMaintenanceItem(item: Omit<MaintenanceItem, 'id' | 'created_at'>): Promise<any> {
+    try {
+        // Fetch the authenticated user to get the user_id
+        const { data: user, error: userError } = await supabase.auth.getUser();
+
+        if (userError) {
+            console.error('Error fetching authenticated user:', userError);
+            throw userError;
+        }
+
+        if (!user || !user.user) {
+            console.error('User is not authenticated');
+            throw new Error('User not authenticated');
+        }
+
+        // Insert the maintenance item with the user_id
+        const { data, error } = await supabase
+            .from('maintenance')
+            .insert([{
+                ...item,
+                user_id: user.user.id, // Use authenticated user's UUID
+                schedule_date: item.schedule_date || null // Handle optional schedule_date
+            }])
+            .select(); // Return the inserted item
+
+        // Handle any errors during the insert operation
+        if (error) {
+            console.error('Error adding maintenance item:', error);
+            throw error; // Re-throw the error for the caller to handle
+        }
+
+        return data[0]; // Return the first inserted maintenance item
+    } catch (error) {
+        console.error('Error in addMaintenanceItem:', error);
+        throw error; // Ensure errors are propagated
+    }
+}
+
+
+
+export async function fetchFreightData(freightId: number) {
     const { data, error } = await supabase
-        .from('maintenance')
-        .insert([{
-            ...item,
-            schedule_date: item.schedule_date || null // Ensure schedule_date is null if empty
-        }])
-        .select();
+        .from('freight')
+        .select('*')
+        .eq('id', freightId)
+        .single();
 
     if (error) {
-        console.error('Error adding maintenance item:', error);
+        console.error('Error fetching freight data:', error);
         return null;
     }
 
-    return data[0] as MaintenanceItem;
+    return data;
 }

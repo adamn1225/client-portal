@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Database } from '@/lib/schema';
 import TransferToMaintenanceModal from '../TransferToMaintenanceModal';
+import { addMaintenanceItem, fetchFreightData } from '@/lib/database';
+import { MaintenanceItem } from '@/lib/schema'; // Import the MaintenanceItem type
 
 interface InventoryTabProps {
     freightList: Database['public']['Tables']['freight']['Row'][];
@@ -9,18 +11,49 @@ interface InventoryTabProps {
     handleTransferToMaintenance: (freight: Database['public']['Tables']['freight']['Row']) => void;
 }
 
-const InventoryTab = ({ freightList, editFreight, handleDeleteClick, handleTransferToMaintenance }: InventoryTabProps) => {
+const InventoryTab = ({ freightList = [], editFreight, handleDeleteClick, handleTransferToMaintenance }: InventoryTabProps) => {
     const [isTransferModalOpen, setIsTransferModalOpen] = useState<boolean>(false);
     const [selectedFreight, setSelectedFreight] = useState<Database['public']['Tables']['freight']['Row'] | null>(null);
+    const [maintenanceList, setMaintenanceList] = useState<MaintenanceItem[]>([]);
 
     const openTransferModal = (freight: Database['public']['Tables']['freight']['Row']) => {
         setSelectedFreight(freight);
         setIsTransferModalOpen(true);
     };
 
-    const handleTransferSubmit = (data: any) => {
-        if (selectedFreight) {
-            handleTransferToMaintenance(selectedFreight);
+    const handleTransferSubmit = async (data: any) => {
+        const user = { id: 'some-uuid' }; // Replace 'some-uuid' with the actual user ID or import the user object
+        if (!user || !selectedFreight) return;
+        // Fetch the user ID from the maintenance or freight table
+        const userId = selectedFreight.user_id; // Assuming user_id is a field in the freight table
+        if (!userId) return;
+        // Fetch the freight data from the API
+        const freightData = await fetchFreightData(selectedFreight.id);
+        if (!freightData) return;
+
+        const maintenanceItem: Omit<MaintenanceItem, 'id' | 'created_at'> = {
+            user_id: user.id.toString(),
+            freight_id: selectedFreight.id,
+            urgency: data.urgency,
+            notes: data.notes,
+            need_parts: data.need_parts,
+            part: data.part,
+            maintenance_crew: data.maintenance_crew,
+            schedule_date: data.schedule_date || null,
+            make: freightData.make,
+            model: freightData.model,
+            pallets: freightData.pallets,
+            serial_number: freightData.serial_number,
+            dimensions: freightData.dimensions,
+            commodity: freightData.commodity,
+            inventory_number: freightData.inventory_number,
+            year: null,
+            year_amount: freightData.year_amount,
+        };
+
+        const newItem = await addMaintenanceItem(maintenanceItem);
+        if (newItem) {
+            setMaintenanceList([...maintenanceList, newItem]);
         }
         setIsTransferModalOpen(false);
     };
@@ -103,9 +136,10 @@ const InventoryTab = ({ freightList, editFreight, handleDeleteClick, handleTrans
                     </div>
                 ))}
             </div>
-            {isTransferModalOpen && (
+            {isTransferModalOpen && selectedFreight && (
                 <TransferToMaintenanceModal
                     isOpen={isTransferModalOpen}
+                    freightList={freightList}
                     onClose={() => setIsTransferModalOpen(false)}
                     onSubmit={handleTransferSubmit}
                     freight={selectedFreight}
