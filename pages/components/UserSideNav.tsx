@@ -45,39 +45,39 @@ const UserSideNav = ({ className = '' }) => {
                     <h3>Welcome {userProfile?.first_name || 'User'}</h3>
                 </li>
                 <li className="w-full text-center flex justify-center m-0">
-                    <Link href="/freight-inventory" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
+                    <Link href="/freight-inventory" className="bg-slate-100 sidenav-text sidenav-text text-slate-900 font-bold py-1 rounded-sm min-w-max w-[9rem] px-2">
                         Freight Inventory
                     </Link>
                 </li>
                 <li className="w-full text-center flex justify-center m-0">
-                    <Link href="/freight-transport" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
+                    <Link href="/freight-transport" className="bg-slate-100 sidenav-text text-slate-900 font-bold py-1 rounded-sm min-w-max w-[9rem] px-2">
                         Freight Transport
                     </Link>
                 </li>
                 <li className="w-full text-center flex justify-center m-0">
-                    <Link href="/settings" className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
+                    <Link href="/settings" className="bg-slate-100 sidenav-text text-slate-900 font-bold min-w-max w-[9rem] px-2 py-1 rounded-sm">
                         Settings
                     </Link>
                 </li>
                 <li className="w-full flex justify-center m-0">
-                    <button className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-4/5">
+                    <button className="bg-slate-100 sidenav-text text-slate-900 font-bold min-w-max w-[9rem] px-2 py-1 rounded-sm">
                         Documents/Resources
                     </button>
                 </li>
                 <li className="w-full flex justify-center m-0">
-                    <button className="bg-slate-100 text-slate-900 text-nowrap font-bold px-4 py-1 rounded-sm w-4/5">
+                    <button className="bg-slate-100 sidenav-text text-slate-900 text-nowrap font-bold  py-1 rounded-sm min-w-max w-[9rem] px-2">
                         Community Forum
                     </button>
                 </li>
                 <li className="w-full flex justify-center m-0">
-                    <button className="bg-slate-100 text-slate-900 text-nowrap font-bold px-4 py-1 rounded-sm w-4/5">
+                    <button className="bg-slate-100 sidenav-text text-slate-900 text-nowrap font-bold  py-1 rounded-sm min-w-max w-[9rem] px-2">
                         Team Collaboration
                     </button>
                 </li>
             </ul>
             <ul className='flex flex-col justify-end items-center'>
                 <li className="w-full flex justify-center m-0">
-                    <button className="bg-slate-100 text-slate-900 font-bold px-4 py-1 rounded-sm w-3/4" onClick={handleLogout}>
+                    <button className="bg-slate-100 sidenav-text text-slate-900 font-bold py-1 rounded-sm min-w-max w-[9rem] px-2" onClick={handleLogout}>
                         Logout
                     </button>
                 </li>

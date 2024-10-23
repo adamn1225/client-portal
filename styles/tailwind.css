@@ -49,13 +49,19 @@ h1 {
 }
 
 .side-navbar {
-  width: 250px;
+  width: 175px;
   height: 100%;
   background-color: #1a202c;
   /* Tailwind's bg-gray-900 */
   color: white;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
+  overflow-x:hidden;
+}
+
+.sidenav-text {
+  font-size: .75em;
+  text-wrap: nowrap;
 }
 
 .main-content {
