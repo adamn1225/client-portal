@@ -4,27 +4,31 @@
 
 /* Write your own custom component styles here */
 .btn-black {
-  @apply border border-stone-700 bg-stone-700 text-white font-bold py-2 px-4 rounded text-center;
+  @apply border border-stone-700 bg-red-900 text-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
-.btn-black:hover {
-  @apply transition duration-150 bg-white text-stone-700;
-}
+/* .btn-black:hover {
+  @apply transition duration-150 bg-stone-100 text-red-900;
+} */
 
 .btn-black-outline {
-  @apply border border-stone-700 text-stone-700 py-2 px-4 rounded font-bold text-center;
+  @apply border border-stone-700 bg-red-900 text-stone-100 py-2 px-4 rounded font-bold text-center;
 }
 
-.btn-black-outline:hover {
-  @apply transition duration-150 bg-black text-white;
-}
+/* .btn-black-outline:hover {
+  @apply transition duration-150 bg-stone-100 text-red-900;
+} */
 
 .btn-slate {
-  @apply border border-stone-700 bg-stone-700 text-white font-bold py-2 px-4 rounded text-center;
+  @apply border border-stone-700 bg-red-900 text-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
+/* .btn-slate:hover {
+  @apply transition duration-150 bg-stone-100 text-red-900;
+} */
+
 .btn-reverse-slate {
-  @apply border border-stone-700 bg-slate-100 text-stone-700 font-bold py-2 px-4 rounded text-center;
+  @apply border border-stone-700 text-red-900 bg-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
 html,
@@ -36,7 +40,7 @@ body,
   /* Ensure no overflow on the body */
 }
 
-h1 h2 h3 h4 h5 h6 p li span div  {
+h1 h2 h3 h4 h5 h6 p li span div {
   @apply text-stone-700 !important;
   font-size: 4rem;
   font-weight: bold;
@@ -50,18 +54,35 @@ h1 h2 h3 h4 h5 h6 p li span div  {
 }
 
 .side-navbar {
-  width: 175px;
   height: 100%;
   /* Tailwind's bg-gray-900 */
   color: white;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  overflow-x:hidden;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .sidenav-text {
   font-size: .75em;
   text-wrap: nowrap;
+  width: 100%;
+}
+
+.side-nav-btn {
+  @apply bg-stone-100 text-red-900 font-bold w-full box-border;
+  padding: 7px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.side-nav-btn:hover {
+  @apply bg-red-900 text-stone-100;
+}
+
+.side-nav-btn.active {
+  @apply bg-red-900 text-stone-100;
 }
 
 .main-content {
@@ -84,14 +105,6 @@ main {
 
 .side-navbar li {
   margin: 0;
-}
-
-.side-navbar .btn-black {
-  @apply bg-slate-100 text-slate-900 font-bold;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .side-navbar .btn-black:hover {

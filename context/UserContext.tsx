@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 
+
+
 interface UserProfile {
     id: string;
     email: string;
