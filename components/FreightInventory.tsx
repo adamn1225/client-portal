@@ -113,25 +113,29 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         }
     };
 
-    const deleteFreight = async (id: number) => {
+    const deleteItem = async (id: number, table: 'freight' | 'maintenance') => {
         if (!user) return;
 
         const { error } = await supabase
-            .from('freight')
+            .from(table)
             .delete()
             .eq('id', id);
 
         if (error) {
-            console.error('Error deleting freight:', error.message);
+            console.error(`Error deleting from ${table}:`, error.message);
         } else {
-            fetchFreight();
+            if (table === 'freight') {
+                fetchFreight();
+            } else {
+                fetchMaintenance();
+            }
         }
     };
 
-    const handleDeleteClick = (id: number) => {
-        const confirmed = window.confirm('Are you sure you want to delete this freight item?');
+    const handleDeleteClick = (id: number, table: 'freight' | 'maintenance') => {
+        const confirmed = window.confirm(`Are you sure you want to delete this ${table} item?`);
         if (confirmed) {
-            deleteFreight(id);
+            deleteItem(id, table);
         }
     };
 
@@ -199,13 +203,31 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         setMaintenanceList(data);
     };
 
-    const handleTransferToMaintenance = (freight: Freight) => {
+    const handleTransferToMaintenance = async (freight: Database['public']['Tables']['freight']['Row']) => {
+        if (!user) return;
+    
+        // Check for duplicates in the maintenance table
+        const { data: maintenanceList, error } = await supabase
+            .from('maintenance')
+            .select('*')
+            .or(`inventory_number.eq.${freight.inventory_number},serial_number.eq.${freight.serial_number}`);
+    
+        if (error) {
+            console.error('Error checking maintenance items:', error.message);
+            return;
+        }
+    
+        if (maintenanceList && maintenanceList.length > 0) {
+            alert('This item is already in the maintenance list.');
+            return;
+        }
+    
         setSelectedFreight(freight);
         setIsTransferModalOpen(true);
     };
 
     const handleTransferSubmit = async (data: any) => {
-        const user = { id: '1' }; // Replace this with the actual user object or import it
+        const user = { id: data.user_id }; // Replace this with the actual user object or import it
         if (!user || !selectedFreight) return;
 
         const maintenanceItem: Omit<MaintenanceItem, 'id' | 'created_at'> = {
@@ -235,7 +257,6 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         setIsTransferModalOpen(false);
     };
 
-
     const editMaintenanceItem = async (updatedItem: MaintenanceItem) => {
         if (!user) return;
 
@@ -254,6 +275,8 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         }
     };
 
+    
+
     return (
         <div className="w-full grid grid-rows gap-12 mt-12">
             <div className="w-full">
@@ -265,10 +288,11 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                 </div>
                 <TransferToMaintenanceModal
                     isOpen={isTransferModalOpen}
-                    freightList={freightList}
                     onClose={() => setIsTransferModalOpen(false)}
                     onSubmit={handleTransferSubmit}
                     freight={selectedFreight}
+                    maintenanceList={maintenanceList}
+                    freightList={freightList}
                 />
                 {isModalOpen && (
                     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
@@ -481,7 +505,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
             </div>
             <div className="flex justify-center border-b border-gray-300">
                 <button
-                    className={`px-4 py-2 ${activeTab === 'inventory' ? 'border-b-2 border-amber-900' : ''}`}
+                    className={`px-4 py-2 ${activeTab === 'inventory' ? 'border-b-2 border-amber-300' : ''}`}
                     onClick={() => setActiveTab('inventory')}
                 >
                     Inventory
@@ -498,15 +522,16 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                     <InventoryTab
                         freightList={freightList}
                         editFreight={editFreight}
-                        handleDeleteClick={handleDeleteClick}
+                        handleDeleteClick={(id) => handleDeleteClick(id, 'freight')}
                         handleTransferToMaintenance={handleTransferToMaintenance}
+                        maintenanceList={maintenanceList}
                     />
                 )}
                 {activeTab === 'maintenance' && (
                     <MaintenanceTab
                         maintenanceList={maintenanceList}
                         editFreight={editMaintenanceItem}
-                        handleDeleteClick={handleDeleteClick}
+                        handleDeleteClick={(id) => handleDeleteClick(id, 'maintenance')}
                         userId={String(user?.id)}
                         setMaintenanceList={(items: MaintenanceItem[]) => void setMaintenanceList(items)}
                         freightList={freightList}

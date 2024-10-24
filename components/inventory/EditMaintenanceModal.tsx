@@ -52,9 +52,11 @@ const EditMaintenanceModal: React.FC<EditMaintenanceModalProps> = ({ isOpen, onC
                             onChange={(e) => setNotes(e.target.value)}
                         />
                     </label>
-                    <label className='text-slate-900 font-medium'>Need Parts
+                    <label htmlFor='needParts' className='text-slate-900 font-medium flex items-center gap-2'>
+                        Parts Needed?
                         <input
-                            className="rounded w-full p-2 border border-slate-900"
+                            className="rounded p-6 border border-slate-900"
+                            name='needParts'
                             type="checkbox"
                             checked={needParts}
                             onChange={(e) => setNeedParts(e.target.checked)}

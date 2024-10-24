@@ -52,7 +52,7 @@ const SideNavbar: React.FC<SideNavbarProps> = ({ isSidebarOpen, toggleSidebar, c
                 <ul className='flex flex-col justify-end items-center'>
                     <li className="w-full flex justify-center m-0">
                         <Link href="/login" legacyBehavior>
-                            <a className="side-nav-btn bg-slate-100 text-slate-900 text-center font-bold px-4 py-1 rounded-sm w-4/5">Log In</a>
+                            <a className="logout text-center font-bold px-4 py-1 rounded-sm w-4/5">Log In</a>
                         </Link>
                     </li>
                 </ul>

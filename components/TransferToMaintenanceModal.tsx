@@ -3,13 +3,14 @@ import { Database } from '@/lib/schema';
 
 interface TransferToMaintenanceModalProps {
     freightList: Database['public']['Tables']['freight']['Row'][];
+    maintenanceList: Database['public']['Tables']['maintenance']['Row'][];
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (data: any) => void;
     freight: any;
 }
 
-const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({ isOpen, onClose, onSubmit, freight }) => {
+const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({ isOpen, onClose, onSubmit, freight, maintenanceList }) => {
     const [urgency, setUrgency] = useState<string>('urgent');
     const [notes, setNotes] = useState<string>('');
     const [needParts, setNeedParts] = useState<string>('no');
@@ -25,6 +26,8 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
     const [width, setWidth] = useState<string>('');
     const [height, setHeight] = useState<string>('');
     const [weight, setWeight] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [inventoryNumber, setInventoryNumber] = useState<string>('');
 
     useEffect(() => {
         if (freight) {
@@ -48,29 +51,28 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Check for duplicates in the maintenance list
+        const duplicate = maintenanceList.some(item => item.inventory_number === freight.inventory_number || item.serial_number === freight.serial_number);
+        if (duplicate) {
+            setErrorMessage('This item is already in the maintenance list.');
+            return;
+        }
+
         const maintenanceItem = {
-            user_id: freight.user_id, // Ensure user_id is included
+            user_id: freight.user_id,
             freight_id: freight.id,
+            inventory_number: freight.inventory_number,
             urgency,
             notes,
             need_parts: needParts === 'yes',
-            part: part || null,
+            part: part || "None",
             maintenance_crew: maintenanceCrew,
-            schedule_date: scheduleDate || null, // Set to null if empty
-            make: make || null,
-            pallets: palletCount || null,
-            serial_number: freight.serial_number || null,
-            model: model || null,
-            year_amount: yearAmount || null, // Ensure year_amount is included
-            length: length || null,
-            width: width || null,
-            height: height || null,
-            weight: weight || null,
-            inventory_number: freight.inventory_number || null,
-            commodity: commodity || null,
-            dimensions: `${length} ${freight.length_unit}, ${width} ${freight.width_unit}, ${height} ${freight.height_unit}`,
+            schedule_date: scheduleDate || null,
         };
+
         onSubmit(maintenanceItem);
+        onClose();
     };
 
     if (!isOpen) return null;
@@ -200,7 +202,7 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
                             </>
                         )}
 
-                        <label className="text-slate-900 font-medium">Delegate task to Maintenance Team?
+                        <label className="text-slate-900 font-medium">Assign Maintenance Task?
                             <select
                                 className="rounded w-full p-2 border border-slate-900"
                                 value={maintenanceCrew}
@@ -212,6 +214,7 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
                             </select>
                         </label>
                     </div>
+                    {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
                     <button className="btn-slate" type="submit">Submit</button>
                     <button type="button" className="btn-slate mt-2" onClick={onClose}>Close</button>
                 </form>

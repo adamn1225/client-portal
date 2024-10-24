@@ -6,15 +6,15 @@ import { MaintenanceItem } from '@/lib/schema'; // Import the MaintenanceItem ty
 
 interface InventoryTabProps {
     freightList: Database['public']['Tables']['freight']['Row'][];
+    maintenanceList: Database['public']['Tables']['maintenance']['Row'][];
     editFreight: (freight: Database['public']['Tables']['freight']['Row']) => void;
     handleDeleteClick: (id: number) => void;
     handleTransferToMaintenance: (freight: Database['public']['Tables']['freight']['Row']) => void;
 }
 
-const InventoryTab = ({ freightList = [], editFreight, handleDeleteClick, handleTransferToMaintenance }: InventoryTabProps) => {
+const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDeleteClick, handleTransferToMaintenance }: InventoryTabProps) => {
     const [isTransferModalOpen, setIsTransferModalOpen] = useState<boolean>(false);
     const [selectedFreight, setSelectedFreight] = useState<Database['public']['Tables']['freight']['Row'] | null>(null);
-    const [maintenanceList, setMaintenanceList] = useState<MaintenanceItem[]>([]);
 
     const openTransferModal = (freight: Database['public']['Tables']['freight']['Row']) => {
         setSelectedFreight(freight);
@@ -51,18 +51,31 @@ const InventoryTab = ({ freightList = [], editFreight, handleDeleteClick, handle
             year_amount: freightData.year_amount,
         };
 
-        const newItem = await addMaintenanceItem(maintenanceItem);
-        if (newItem) {
-            setMaintenanceList([...maintenanceList, newItem]);
+        try {
+            const newItem = await addMaintenanceItem(maintenanceItem);
+            if (newItem) {
+                // Call the parent component's function to update the maintenance list
+                handleTransferToMaintenance(newItem);
+            }
+            setIsTransferModalOpen(false);
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error('Error adding maintenance item:', error.message);
+            } else {
+                console.error('Error adding maintenance item:', error);
+            }
         }
-        setIsTransferModalOpen(false);
+    };
+
+    const isInMaintenance = (freight: Database['public']['Tables']['freight']['Row']) => {
+        return maintenanceList.some(item => item.inventory_number === freight.inventory_number || item.serial_number === freight.serial_number);
     };
 
     return (
         <div className="w-full bg-white shadow overflow-hidden rounded-md border border-slate-400 max-h-max overflow-y-auto flex-grow">
             <div className="hidden xl:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50 sticky top-0">
+                    <thead className="bg-gray-50 ">
                         <tr className='border-b border-slate-900/20'>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Freight Item</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Dimensions</th>
@@ -93,8 +106,12 @@ const InventoryTab = ({ freightList = [], editFreight, handleDeleteClick, handle
                                     <button onClick={() => handleDeleteClick(freight.id)} className="text-red-500 mr-4">
                                         Delete
                                     </button>
-                                    <button onClick={() => openTransferModal(freight)} className="text-green-500">
-                                        Transfer to Maintenance
+                                    <button
+                                        onClick={() => openTransferModal(freight)}
+                                        className={`${isInMaintenance(freight) ? 'text-amber-500 cursor-not-allowed' : 'text-green-500'}`}
+                                        disabled={isInMaintenance(freight)}
+                                    >
+                                        {isInMaintenance(freight) ? 'Already in Maintenance' : 'Transfer to Maintenance'}
                                     </button>
                                 </td>
                             </tr>
@@ -129,8 +146,12 @@ const InventoryTab = ({ freightList = [], editFreight, handleDeleteClick, handle
                             <button onClick={() => handleDeleteClick(freight.id)} className="text-red-500 mr-4">
                                 Delete
                             </button>
-                            <button onClick={() => openTransferModal(freight)} className="text-green-500">
-                                Transfer to Maintenance
+                            <button
+                                onClick={() => openTransferModal(freight)}
+                                className={`${isInMaintenance(freight) ? 'text-amber-500 cursor-not-allowed' : 'text-green-500'}`}
+                                disabled={isInMaintenance(freight)}
+                            >
+                                {isInMaintenance(freight) ? 'Already in Maintenance' : 'Transfer to Maintenance'}
                             </button>
                         </div>
                     </div>
@@ -139,10 +160,11 @@ const InventoryTab = ({ freightList = [], editFreight, handleDeleteClick, handle
             {isTransferModalOpen && selectedFreight && (
                 <TransferToMaintenanceModal
                     isOpen={isTransferModalOpen}
-                    freightList={freightList}
                     onClose={() => setIsTransferModalOpen(false)}
                     onSubmit={handleTransferSubmit}
                     freight={selectedFreight}
+                    maintenanceList={maintenanceList}
+                    freightList={freightList}
                 />
             )}
         </div>

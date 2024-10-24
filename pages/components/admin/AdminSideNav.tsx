@@ -58,21 +58,22 @@ const AdminSideNav: React.FC<AdminSideNavProps> = ({ isSidebarOpen, toggleSideba
                         />
                         <h3>Welcome {userProfile?.first_name || 'User'}</h3>
                     </li>
-                    <li className="w-full text-center flex justify-center m-0">
-                        <Link href="/settings" className="side-nav-btn text-slate-900 font-bold py-1 w-full">
-                            Admin Settings
-                        </Link>
-                    </li>
-                    <li className="w-full text-center flex justify-center m-0">
-                        <Link href="/freight-inventory" className="side-nav-btn text-slate-900 font-bold py-1 w-full">
-                            Client&apos;s Freight Inventory
-                        </Link>
-                    </li>
-                    <li className="w-full text-center flex justify-center m-0">
+                    <li className="w-full text-base flex justify-center m-0">
                         <Link href="/admin-quote-requests" className="side-nav-btn text-slate-900 font-bold py-1 w-full">
                             Client&apos;s Freight Transport
                         </Link>
                     </li>
+                    <li className="w-full text-base flex justify-center m-0">
+                        <Link href="/settings" className="side-nav-btn text-slate-900 font-bold py-1 w-full">
+                            Admin Settings
+                        </Link>
+                    </li>
+                    <li className="w-full text-base flex justify-center m-0">
+                        <Link href="/freight-inventory" className="side-nav-btn text-slate-900 font-bold py-1 w-full">
+                            Client&apos;s Freight Inventory
+                        </Link>
+                    </li>
+
                     <li className="w-full flex justify-center m-0">
                         <button className="side-nav-btn text-slate-900 font-bold py-1 w-full">
                             Inbox
@@ -96,7 +97,7 @@ const AdminSideNav: React.FC<AdminSideNavProps> = ({ isSidebarOpen, toggleSideba
                 </ul>
                 <ul className='flex flex-col justify-end items-center'>
                     <li className="w-full flex justify-center m-0">
-                        <button className="side-nav-btn text-slate-900 font-bold py-1 w-full" onClick={handleLogout}>
+                        <button className="logout font-bold py-1 w-full" onClick={handleLogout}>
                             Logout
                         </button>
                     </li>
