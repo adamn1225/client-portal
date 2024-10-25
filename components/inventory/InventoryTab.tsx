@@ -15,6 +15,7 @@ interface InventoryTabProps {
 const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDeleteClick, handleTransferToMaintenance }: InventoryTabProps) => {
     const [isTransferModalOpen, setIsTransferModalOpen] = useState<boolean>(false);
     const [selectedFreight, setSelectedFreight] = useState<Database['public']['Tables']['freight']['Row'] | null>(null);
+    const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
     const openTransferModal = (freight: Database['public']['Tables']['freight']['Row']) => {
         setSelectedFreight(freight);
@@ -22,8 +23,8 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
     };
 
     const handleTransferSubmit = async (data: any) => {
-        const user = { id: 'some-uuid' }; // Replace 'some-uuid' with the actual user ID or import the user object
-        if (!user || !selectedFreight) return;
+        const user = { id: 'some-uuid' };
+        if(!user || !selectedFreight) return;
         // Fetch the user ID from the maintenance or freight table
         const userId = selectedFreight.user_id; // Assuming user_id is a field in the freight table
         if (!userId) return;
@@ -72,8 +73,8 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
     };
 
     return (
-        <div className="w-full bg-white shadow overflow-hidden rounded-md border border-slate-400 max-h-max overflow-y-auto flex-grow">
-            <div className="hidden xl:block overflow-x-auto">
+        <div className="w-full bg-white shadow rounded-md border border-slate-400 max-h-max flex-grow">
+            <div className="hidden xl:block parent-container overflow-x-auto ">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50 ">
                         <tr className='border-b border-slate-900/20'>
@@ -99,19 +100,43 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
                                     {freight.inventory_number}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap flex justify-between">
-                                    <button onClick={() => editFreight(freight)} className="text-blue-500 mr-4">
-                                        Edit
-                                    </button>
-                                    <button onClick={() => handleDeleteClick(freight.id)} className="text-red-500 mr-4">
-                                        Delete
-                                    </button>
+                                <td className="px-6 py-4 whitespace-nowrap flex justify-between relative">
+                                    <div className="relative">
+                                        <button
+                                            onClick={() => setOpenDropdownId(openDropdownId === freight.id ? null : freight.id)}
+                                            className="text-blue-500 mr-4"
+                                        >
+                                            Actions
+                                        </button>
+                                        {openDropdownId === freight.id && (
+                                            <div className="absolute z-50 right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+                                                <button
+                                                    onClick={() => {
+                                                        editFreight(freight);
+                                                        setOpenDropdownId(null);
+                                                    }}
+                                                    className="block w-full text-left px-4 py-2 text-sm text-blue-500 hover:bg-gray-100"
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        handleDeleteClick(freight.id);
+                                                        setOpenDropdownId(null);
+                                                    }}
+                                                    className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
                                     <button
                                         onClick={() => openTransferModal(freight)}
-                                        className={`${isInMaintenance(freight) ? 'text-amber-500 cursor-not-allowed' : 'text-green-500'}`}
+                                        className={`${isInMaintenance(freight) ? 'text-red-400 cursor-not-allowed shadow-sm bg-slate-800 font-medium py-2 px-4 rounded text-center' : 'text-amber-300 bg-slate-800 shadow-sm font-normal py-2 px-4 rounded text-center'}`}
                                         disabled={isInMaintenance(freight)}
                                     >
-                                        {isInMaintenance(freight) ? 'Already in Maintenance' : 'Transfer to Maintenance'}
+                                        {isInMaintenance(freight) ? 'In Maintenance' : 'Transfer to Maintenance'}
                                     </button>
                                 </td>
                             </tr>
@@ -140,15 +165,39 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                             <div className="text-sm font-medium text-gray-900">{freight.serial_number}</div>
                         </div>
                         <div className="flex justify-between items-center">
-                            <button onClick={() => editFreight(freight)} className="text-blue-500 mr-4">
-                                Edit
-                            </button>
-                            <button onClick={() => handleDeleteClick(freight.id)} className="text-red-500 mr-4">
-                                Delete
-                            </button>
+                            <div className="relative">
+                                <button
+                                    onClick={() => setOpenDropdownId(openDropdownId === freight.id ? null : freight.id)}
+                                    className="text-blue-500 mr-4"
+                                >
+                                    Actions
+                                </button>
+                                {openDropdownId === freight.id && (
+                                    <div className="absolute z-50 right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+                                        <button
+                                            onClick={() => {
+                                                editFreight(freight);
+                                                setOpenDropdownId(null);
+                                            }}
+                                            className="block w-full text-left px-4 py-2 text-sm text-blue-500 hover:bg-gray-100"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                handleDeleteClick(freight.id);
+                                                setOpenDropdownId(null);
+                                            }}
+                                            className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                             <button
                                 onClick={() => openTransferModal(freight)}
-                                className={`${isInMaintenance(freight) ? 'text-amber-500 cursor-not-allowed' : 'text-green-500'}`}
+                                className={`${isInMaintenance(freight) ? 'text-red-400 cursor-not-allowed shadow-sm bg-slate-800 font-medium py-2 px-4 rounded text-center' : 'text-amber-300 bg-slate-800 shadow-sm font-normal py-2 px-4 rounded text-center'}`}
                                 disabled={isInMaintenance(freight)}
                             >
                                 {isInMaintenance(freight) ? 'Already in Maintenance' : 'Transfer to Maintenance'}

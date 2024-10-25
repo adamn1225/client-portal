@@ -45,7 +45,7 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                 >
                     {isSidebarOpen ? <PanelRightClose size={24} className='text-white' /> : <PanelLeftOpen size={28} className='text-gray-900' />}
                 </button>
-                <nav className={`side-navbar px-4 max-w-max  flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out ${className}`}>
+                <nav className={`side-navbar px-0 max-w-max  flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out ${className}`}>
                     <h1 className='text-xl mb-4 self-center'>NTS Client Portal</h1>
                     <ul className='flex gap-3 flex-col flex-grow space-y-1 overflow-y-auto'>
                         <li className="w-full flex flex-col items-center gap-1 justify-center m-0">
@@ -77,10 +77,10 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                                 Documents
                             </Link>
                         </li>
-                        <li className="w-full flex justify-normal m-0">
-                            <button className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
-                                Team Collaboration
-                            </button>
+                        <li className="w-full flex text-base justify-normal m-0">
+                            <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
+                                Projects/Contracts (coming soon)
+                            </Link>
                         </li>
                     </ul>
                     <ul className='flex flex-col justify-end items-center'>

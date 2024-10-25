@@ -282,7 +282,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
             <div className="w-full">
                 <div className='flex flex-col justify-center items-center'>
                     <h1 className="mb-12 text-2xl text-center">Your Freight and Equipment</h1>
-                    <button className="btn-slate" onClick={() => setIsModalOpen(true)}>
+                    <button className="btn-slate shadow-md" onClick={() => setIsModalOpen(true)}>
                         Add Inventory
                     </button>
                 </div>

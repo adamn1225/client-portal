@@ -4,7 +4,7 @@
 
 /* Write your own custom component styles here */
 .btn-black {
-  @apply border border-slate-700 bg-slate-900 text-stone-100 font-bold py-2 px-4 rounded text-center;
+  @apply border border-slate-700 bg-slate-800 text-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
 /* .btn-black:hover {
@@ -12,7 +12,7 @@
 } */
 
 .btn-black-outline {
-  @apply border border-stone-700 bg-slate-900 text-stone-100 py-2 px-4 rounded font-bold text-center;
+  @apply border border-stone-700 bg-slate-800 text-stone-100 py-2 px-4 rounded font-bold text-center;
 }
 
 /* .btn-black-outline:hover {
@@ -20,18 +20,19 @@
 } */
 
 .btn-slate {
-  @apply border border-stone-700 bg-slate-900 text-stone-100 font-bold py-2 px-4 rounded text-center;
+  @apply border border-stone-700 bg-slate-800 text-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
 .btn-slate:hover {
-  @apply transition duration-150 bg-stone-200 text-slate-900;
+  @apply transition duration-300 bg-slate-800 text-amber-200;
 }
+
 /* .btn-slate:hover {
   @apply transition duration-150 bg-stone-100 text-red-900;
 } */
 
 .btn-reverse-slate {
-  @apply border border-stone-700 text-slate-900 bg-stone-100 font-bold py-2 px-4 rounded text-center;
+  @apply border border-stone-700 text-slate-800 bg-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
 html,
@@ -57,7 +58,9 @@ h1 h2 h3 h4 h5 h6 p li span div {
 }
 
 .side-navbar {
-  @apply bg-slate-900;
+  @apply bg-gray-900;
+  width: 13em !important;
+  min-width: 13em !important;
   height: 100%;
   /* Tailwind's bg-gray-900 */
   color: white;
@@ -74,27 +77,30 @@ h1 h2 h3 h4 h5 h6 p li span div {
 }
 
 .side-nav-btn {
-  @apply text-stone-100  font-bold w-full box-border;
-  padding: 7px;
+  @apply text-stone-100 font-bold w-full box-border;
+  padding-left: 15px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
+  display: block !important;
 }
 
 .side-nav-btn:hover {
-  @apply text-amber-300;
+  @apply text-amber-300 bg-gray-700;
 }
 
 .side-nav-btn.active {
-  @apply text-amber-300;
+  border-bottom: 2px solid #fbbf24;
+  color: #fbbf24;
+  width: 100%;
 }
 
 .logout {
-  @apply bg-stone-100 text-slate-800 font-bold py-2 px-4 rounded text-center;
+  @apply bg-stone-200 text-slate-800 font-bold py-2 px-4 rounded text-center;
 }
 
 .logout:hover {
-  @apply bg-amber-100 text-slate-800;
+  @apply bg-stone-100 text-slate-800 underline;
 }
 
 .main-content {
@@ -140,4 +146,8 @@ main {
   .table-responsive td {
     white-space: nowrap;
   }
+}
+
+.parent-container {
+  overflow: visible;
 }
