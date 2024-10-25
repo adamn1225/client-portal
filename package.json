@@ -2,7 +2,6 @@
   "name": "nextjs-todo-list",
   "version": "2.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run dev:css\" \"next dev\"",
     "dev:css": "tailwindcss -w -i ./styles/tailwind.css -o styles/app.css",
