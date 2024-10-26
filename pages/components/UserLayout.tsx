@@ -1,5 +1,6 @@
 import React, { ReactNode, useState, useEffect } from 'react';
-import UserSideNav from './UserSideNav'; // Adjust the import path if necessary
+import UserSideNav from './UserSideNav'; 
+import UserTopNav from './UserTopNav';
 
 interface UserLayoutProps {
     children: ReactNode;
@@ -35,9 +36,13 @@ const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
     return (
         <div className="layout">
             <UserSideNav isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-            <main className="main-content p-4">
-                {children}
-            </main>
+            <div className="fixed top-0 w-full">
+                <UserTopNav />
+            </div>
+                <main className="main-content p-4 mt-20">
+                    
+                    {children}
+                </main>
         </div>
     );
 };

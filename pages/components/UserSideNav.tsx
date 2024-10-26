@@ -47,17 +47,11 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                 </button>
                 <nav className={`side-navbar flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out ${className}`}>
                     <h1 className='text-xl mb-4 self-center'>NTS Client Portal</h1>
-                    <ul className='flex gap-3 flex-col flex-grow space-y-1 overflow-y-auto'>
-                        <li className="w-full flex flex-col items-center gap-1 justify-center m-0">
-                            <Image
-                                src={profilePictureUrl}
-                                alt='profile-img'
-                                className='rounded-full w-16 h-16'
-                                width={100}
-                                height={100} />
+                    <div className="w-full flex flex-col items-center gap-1 justify-center mb-6 border-b border-stone-100/40 pb-4">
                             <h3>Welcome {userProfile?.first_name || 'User'}</h3>
-                        </li>
-                        <li className={`w-full text-base flex justify-center m-0 ${router.pathname == "/freight-inventory" ? "active" : ""}`}>
+                   </div>
+                    <ul className='flex gap-3 flex-col flex-grow space-y-1 overflow-y-auto'>
+                        <li className={`w-full text-base flex justify-center mt-0 ${router.pathname == "/freight-inventory" ? "active" : ""}`}>
                             <Link href="/freight-inventory" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/freight-inventory" ? "active" : ""}`}>
                                 Freight Inventory
                             </Link>
@@ -79,7 +73,7 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                         </li>
                         <li className="w-full flex text-base justify-normal m-0">
                             <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
-                                Projects/Contracts (coming soon)
+                                Projects/Contracts <br /> (coming soon)
                             </Link>
                         </li>
                     </ul>

@@ -77,7 +77,7 @@ h1 h2 h3 h4 h5 h6 p li span div {
 }
 
 .side-nav-btn {
-  @apply text-stone-100 font-bold w-full box-border;
+  @apply text-stone-100 font-normal w-full box-border;
   padding-left: 15px;
   border: none;
   cursor: pointer;
