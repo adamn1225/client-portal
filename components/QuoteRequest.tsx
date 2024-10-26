@@ -178,7 +178,8 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                         quotes={quotes}
                         fetchQuotes={fetchQuotes}
                         archiveQuote={archiveQuote}
-                        transferToOrderList={transferToOrderList} // Pass the function as a prop
+                        transferToOrderList={transferToOrderList}
+                        isAdmin={false}
                     />
                 )}
                 {activeTab === 'orders' && (
@@ -186,6 +187,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                         session={session}
                         fetchQuotes={fetchQuotes}
                         archiveQuote={archiveQuote}
+                        isAdmin={false}
                     />
                 )}
                 {activeTab === 'history' && (

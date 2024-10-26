@@ -7,10 +7,12 @@ interface QuoteListProps {
     quotes: Database['public']['Tables']['shippingquotes']['Row'][];
     fetchQuotes: () => void;
     archiveQuote: (id: number) => Promise<void>;
-    transferToOrderList: (quoteId: number) => Promise<void>; // Add this prop
+    transferToOrderList: (quoteId: number) => Promise<void>;
+    handleSelectQuote: (id: number) => void;
+    isAdmin: boolean; // Add this prop
 }
 
-const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToOrderList }) => {
+const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToOrderList, handleSelectQuote, isAdmin }) => {
     return (
         <div className="w-full bg-white shadow rounded-md border border-slate-400 max-h-max flex-grow">
             <div className="hidden 2xl:block overflow-x-auto">
@@ -65,6 +67,11 @@ const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToO
                                             Press if Urgent
                                         </button>
                                     )}
+                                    {isAdmin && (
+                                        <button onClick={() => handleSelectQuote(quote.id)} className="text-blue-500 ml-2">
+                                            Respond
+                                        </button>
+                                    )}
                                 </td>
                             </tr>
                         ))}
@@ -116,6 +123,11 @@ const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToO
                                     className="ml-2 p-1 bg-yellow-500 text-white rounded"
                                 >
                                     Contact if Urgent
+                                </button>
+                            )}
+                            {isAdmin && (
+                                <button onClick={() => handleSelectQuote(quote.id)} className="text-blue-500 ml-2">
+                                    Respond
                                 </button>
                             )}
                         </div>

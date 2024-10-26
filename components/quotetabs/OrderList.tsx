@@ -6,15 +6,17 @@ import Modal from '@/components/Modal'; // Adjust the import path as needed
 
 interface OrderListProps {
     session: Session | null;
-    fetchQuotes: () => Promise<void>; // Add this prop
+    fetchQuotes: () => void;
     archiveQuote: (id: number) => Promise<void>;
+    markAsComplete: (orderId: number) => Promise<void>;
+    isAdmin: boolean; // Add this prop
 }
 
 type Order = Database['public']['Tables']['orders']['Row'] & {
     shippingquotes: Database['public']['Tables']['shippingquotes']['Row'];
 };
 
-const OrderList: React.FC<OrderListProps> = ({ session }) => {
+const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuote, markAsComplete, isAdmin }) => {
     const [orders, setOrders] = useState<Order[]>([]);
     const [errorText, setErrorText] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -22,9 +24,7 @@ const OrderList: React.FC<OrderListProps> = ({ session }) => {
     const [cancellationReason, setCancellationReason] = useState<string>('');
 
     const fetchOrders = useCallback(async () => {
-        if (!session?.user?.id) return;
-
-        const { data, error } = await supabase
+        let query = supabase
             .from('orders')
             .select(`
                 *,
@@ -46,7 +46,13 @@ const OrderList: React.FC<OrderListProps> = ({ session }) => {
                     price
                 )
             `)
-            .eq('user_id', session.user.id);
+            .neq('status', 'delivered'); // Exclude delivered orders
+
+        if (!isAdmin && session?.user?.id) {
+            query = query.eq('user_id', session.user.id);
+        }
+
+        const { data, error } = await query;
 
         if (error) {
             setErrorText(error.message);
@@ -54,35 +60,53 @@ const OrderList: React.FC<OrderListProps> = ({ session }) => {
             console.log('Fetched Orders:', data);
             setOrders(data);
         }
-    }, [session]);
+    }, [session, isAdmin]);
 
     useEffect(() => {
-        if (session?.user?.id) {
-            fetchOrders();
-        }
+        fetchOrders();
     }, [session, fetchOrders]);
-
-    const handleCancelOrder = (id: number) => {
-        setSelectedOrderId(id);
-        setIsModalOpen(true);
-    };
 
     const confirmCancelOrder = async () => {
         if (selectedOrderId === null) return;
 
-        const { error } = await supabase
-            .from('orders')
-            .update({ is_archived: true, cancellation_reason: cancellationReason } as Partial<Order>)
-            .eq('id', selectedOrderId);
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ status: 'cancelled', cancellation_reason: cancellationReason })
+                .eq('id', selectedOrderId);
 
-        if (error) {
-            console.error('Error archiving order:', error.message);
-            setErrorText('Error archiving order');
-        } else {
-            setOrders(orders.filter(order => order.id !== selectedOrderId));
-            setIsModalOpen(false);
-            setSelectedOrderId(null);
-            setCancellationReason('');
+            if (error) {
+                console.error('Error cancelling order:', error.message);
+                setErrorText('Error cancelling order');
+            } else {
+                setOrders(orders.filter(order => order.id !== selectedOrderId));
+                setIsModalOpen(false);
+                setSelectedOrderId(null);
+                setCancellationReason('');
+            }
+        } catch (error) {
+            console.error('Error cancelling order:', error);
+            setErrorText('Error cancelling order');
+        }
+    };
+
+    const handleMarkAsComplete = async (orderId: number) => {
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ status: 'delivered' })
+                .eq('id', orderId);
+
+            if (error) {
+                console.error('Error marking order as complete:', error.message);
+                setErrorText('Error marking order as complete');
+            } else {
+                setOrders(orders.filter(order => order.id !== orderId));
+                fetchOrders(); // Fetch orders after marking as complete
+            }
+        } catch (error) {
+            console.error('Error marking order as complete:', error);
+            setErrorText('Error marking order as complete');
         }
     };
 
@@ -123,9 +147,14 @@ const OrderList: React.FC<OrderListProps> = ({ session }) => {
                                     {order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'coming soon'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap flex justify-between">
-                                    <button onClick={() => handleCancelOrder(order.id)} className="text-red-500 ml-2">
+                                    <button onClick={() => { setSelectedOrderId(order.id); setIsModalOpen(true); }} className="text-red-500 ml-2">
                                         Cancel Order
                                     </button>
+                                    {isAdmin && (
+                                        <button onClick={() => handleMarkAsComplete(order.id)} className="text-blue-500 ml-2">
+                                            Order Completed
+                                        </button>
+                                    )}
                                 </td>
                             </tr>
                         ))}
@@ -161,9 +190,14 @@ const OrderList: React.FC<OrderListProps> = ({ session }) => {
                             <div className="text-sm font-medium text-gray-900">{order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'coming soon'}</div>
                         </div>
                         <div className="flex justify-between items-center">
-                            <button onClick={() => handleCancelOrder(order.id)} className="text-red-500 ml-2">
+                            <button onClick={() => { setSelectedOrderId(order.id); setIsModalOpen(true); }} className="text-red-500 ml-2">
                                 Cancel Order
                             </button>
+                            {isAdmin && (
+                                        <button onClick={() => handleMarkAsComplete(order.id)} className="text-blue-500 ml-2">
+                                            Order Completed
+                                        </button>
+                           )}
                         </div>
                     </div>
                 ))}

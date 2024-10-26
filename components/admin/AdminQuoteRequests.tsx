@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/initSupabase'; // Adjust the import path as needed
 import { Quote } from '@/lib/types'; // Adjust the import path as needed
+import QuoteList from '../quotetabs/QuoteList';
+import OrderList from '../quotetabs/OrderList';
+import HistoryList from '../quotetabs/HistoryList';
 
 const AdminQuoteRequests = () => {
     const [quotes, setQuotes] = useState<Quote[]>([]);
@@ -9,6 +12,7 @@ const AdminQuoteRequests = () => {
     const [price, setPrice] = useState<string>(''); // Update state to reflect price
     const [selectedQuoteId, setSelectedQuoteId] = useState<number | null>(null);
     const [errorText, setErrorText] = useState<string>('');
+    const [activeTab, setActiveTab] = useState('requests');
 
     useEffect(() => {
         const fetchQuotes = async () => {
@@ -92,7 +96,7 @@ const AdminQuoteRequests = () => {
         try {
             const { data, error } = await supabase
                 .from('orders')
-                .insert([{ quote_id: quoteId }]);
+                .insert([{ quote_id: quoteId, user_id: quotes.find(quote => quote.id === quoteId)?.user_id, status: 'pending', is_archived: false }]);
 
             if (error) {
                 console.error('Error transferring quote to order list:', error);
@@ -119,8 +123,8 @@ const AdminQuoteRequests = () => {
                 console.error('Error marking order as complete:', error);
                 setErrorText('Error marking order as complete');
             } else {
-                setQuotes(quotes.filter(quote => quote.id !== orderId));
-                setFilteredQuotes(filteredQuotes.filter(quote => quote.id !== orderId));
+                // Refresh the order list after marking as complete
+                fetchQuotes();
             }
         } catch (error) {
             console.error('Error marking order as complete:', error);
@@ -162,50 +166,55 @@ const AdminQuoteRequests = () => {
                     ))}
                 </select>
             </div>
+            <div className="flex justify-center items-center border-b border-gray-300">
+                <button
+                    className={`px-4 py-2 ${activeTab === 'requests' ? 'border-b-2 border-blue-500' : ''}`}
+                    onClick={() => setActiveTab('requests')}
+                >
+                    Shipping Requests
+                </button>
+                <button
+                    className={`px-4 py-2 ${activeTab === 'orders' ? 'border-b-2 border-amber-500' : ''}`}
+                    onClick={() => setActiveTab('orders')}
+                >
+                    Shipping Orders
+                </button>
+                <button
+                    className={`px-4 py-2 ${activeTab === 'history' ? 'border-b-2 border-green-500' : ''}`}
+                    onClick={() => setActiveTab('history')}
+                >
+                    Completed Orders
+                </button>
+            </div>
             <div className="w-full bg-white shadow overflow-hidden rounded-md border border-slate-400 max-h-screen overflow-y-auto flex-grow">
-                <ul className="flex flex-col h-full">
-                    {filteredQuotes.map((quote, index) => (
-                        <li
-                            key={quote.id}
-                            className={`border-b border-slate-400 ${index === filteredQuotes.length - 1 ? '' : 'border-b'}`}
-                        >
-                            <div className="flex items-center p-4">
-                                <div className="flex-grow">
-                                    {quote.origin_city}, {quote.origin_zip} to {quote.destination_city}, {quote.destination_zip}
-                                </div>
-                                <div>{quote.year_amount} {quote.make} {quote.model}</div>
-                                <div>(Due: {quote.due_date || 'No due date'})</div>
-                                <div>{quote.first_name} {quote.last_name} ({quote.email})</div>
-                                <div>Quote ID: {quote.quote_id || 'Not assigned'}</div>
-                                <div>
-                                    Price: {quote.price ? (
-                                        <>
-                                            {`$${quote.price}`}
-                                            <button
-                                                onClick={() => transferToOrderList(quote.id)}
-                                                className="ml-2 px-4 py-2 font-semibold bg-slate-800 text-white rounded"
-                                            >
-                                                Create Order
-                                            </button>
-                                        </>
-                                    ) : 'Not priced yet'}
-                                </div>
-                                <button onClick={() => handleSelectQuote(quote.id)} className="text-blue-500">
-                                    Respond
-                                </button>
-                                <button onClick={() => archiveQuote(quote.id)} className="text-red-500 ml-2">
-                                    Archive
-                                </button>
-                                <button
-                                    onClick={() => markAsComplete(quote.id)}
-                                    className="ml-2 px-4 py-2 font-semibold bg-green-500 text-white rounded"
-                                >
-                                    Mark as Complete
-                                </button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+                {activeTab === 'requests' && (
+                    <QuoteList
+                        session={null} // Admin does not need a session
+                        quotes={filteredQuotes}
+                        fetchQuotes={() => {}} // No need to fetch quotes again
+                        archiveQuote={archiveQuote}
+                        transferToOrderList={transferToOrderList} // Pass the function as a prop
+                        handleSelectQuote={handleSelectQuote} // Pass the function as a prop
+                        isAdmin={true} // Pass the isAdmin prop
+                    />
+                )}
+                {activeTab === 'orders' && (
+                    <OrderList
+                        session={null} // Admin does not need a session
+                        fetchQuotes={() => {}} // No need to fetch quotes again
+                        archiveQuote={archiveQuote}
+                        markAsComplete={markAsComplete} // Pass the function as a prop
+                        isAdmin={true} // Pass the isAdmin prop
+                    />
+                )}
+                {activeTab === 'history' && (
+                    <HistoryList 
+                        session={null} // Admin does not need a session
+                        quotes={filteredQuotes}
+                        fetchQuotes={() => {}} // No need to fetch quotes again
+                        archiveQuote={archiveQuote} 
+                    />
+                )}
             </div>
             {selectedQuoteId !== null && (
                 <form onSubmit={handleQuoteUpdate} className="mt-4">

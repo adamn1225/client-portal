@@ -16,9 +16,7 @@ const HistoryList: React.FC<HistoryListProps> = ({ session }) => {
     const [errorText, setErrorText] = useState<string>('');
 
     const fetchDeliveredOrders = useCallback(async () => {
-        if (!session?.user?.id) return;
-
-        const { data, error } = await supabase
+        const query = supabase
             .from('orders')
             .select(`
                 *,
@@ -40,8 +38,13 @@ const HistoryList: React.FC<HistoryListProps> = ({ session }) => {
                     price
                 )
             `)
-            .eq('user_id', session.user.id)
             .eq('status', 'delivered');
+
+        if (session?.user?.id) {
+            query.eq('user_id', session.user.id);
+        }
+
+        const { data, error } = await query;
 
         if (error) {
             setErrorText(error.message);
@@ -52,9 +55,7 @@ const HistoryList: React.FC<HistoryListProps> = ({ session }) => {
     }, [session]);
 
     useEffect(() => {
-        if (session?.user?.id) {
-            fetchDeliveredOrders();
-        }
+        fetchDeliveredOrders();
     }, [session, fetchDeliveredOrders]);
 
     return (
