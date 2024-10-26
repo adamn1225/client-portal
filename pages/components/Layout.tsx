@@ -1,21 +1,15 @@
-import React, { ReactNode, useState, useEffect } from 'react';
-import SideNavbar from './SideNavbar';
+import React, { useState, useEffect } from 'react';
+import SideNavbar from './SideNavbar'; // Adjust the import path as needed
 
-interface LayoutProps {
-    children: ReactNode;
-}
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
-        // Check if the screen size is large enough to display the sidebar by default
-        const mediaQuery = window.matchMedia('(min-width: 1024px)');
+        const mediaQuery = window.matchMedia('(min-width: 768px)');
         if (mediaQuery.matches) {
             setIsSidebarOpen(true);
         }
 
-        // Add a listener to update the state if the screen size changes
         const handleMediaQueryChange = (e: MediaQueryListEvent) => {
             setIsSidebarOpen(e.matches);
         };
@@ -34,12 +28,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     return (
         <div className="layout">
-            <div className="flex flex-grow">
                 <SideNavbar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
                 <main className="main-content p-4">
                     {children}
                 </main>
-            </div>
         </div>
     );
 };

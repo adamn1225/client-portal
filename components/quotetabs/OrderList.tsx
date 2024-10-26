@@ -109,8 +109,8 @@ const OrderList: React.FC<OrderListProps> = ({ session }) => {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
                                     <div className="flex flex-col justify-start">
-                                    <span><strong>Origin:</strong> {quote.origin_city}, {quote.origin_state} {quote.origin_zip}</span>
-                                    <span><strong>Destination:</strong> {quote.destination_city}, {quote.destination_state} {quote.destination_zip}</span>
+                                    <span><strong>Origin:</strong> {order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</span>
+                                    <span><strong>Destination:</strong> {order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</span>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">

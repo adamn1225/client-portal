@@ -8,7 +8,7 @@
 }
 
 /* .btn-black:hover {
-  @apply transition duration-150 bg-stone-100 text-red-900;
+  @apply transition duration-150 bg-slate-100 text-red-900;
 } */
 
 .btn-black-outline {
@@ -16,11 +16,11 @@
 }
 
 /* .btn-black-outline:hover {
-  @apply transition duration-150 bg-stone-100 text-red-900;
+  @apply transition duration-150 bg-slate-100 text-red-900;
 } */
 
 .btn-slate {
-  @apply border border-stone-700 bg-slate-800 text-stone-100 font-bold py-2 px-4 rounded text-center;
+  @apply border border-slate-700 bg-slate-800 text-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
 .btn-slate:hover {
@@ -28,11 +28,11 @@
 }
 
 /* .btn-slate:hover {
-  @apply transition duration-150 bg-stone-100 text-red-900;
+  @apply transition duration-150 bg-slate-100 text-red-900;
 } */
 
 .btn-reverse-slate {
-  @apply border border-stone-700 text-slate-800 bg-stone-100 font-bold py-2 px-4 rounded text-center;
+  @apply border border-slate-700 text-slate-800 bg-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
 html,
@@ -67,6 +67,7 @@ h1 h2 h3 h4 h5 h6 p li span div {
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
+  z-index: 10; /* Ensure the sidebar is above the main content */
 }
 
 .sidenav-text {
@@ -106,6 +107,7 @@ h1 h2 h3 h4 h5 h6 p li span div {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  z-index: 1; /* Ensure the main content is below the sidebar */
 }
 
 main {
@@ -143,30 +145,22 @@ main {
   white-space: nowrap;
 }
 
+
+
 @media (max-width: 1024px) {
-  .layout {
-    grid-template-columns: 1fr; /* Single column layout on small screens */
-  }
-
-  .side-navbar {
-    width: 100% !important;
-    min-width: 100% !important;
-    height: auto;
-  }
-
-  .table-responsive {
+  .quote-list-responsive {
     display: block;
     width: 100%;
     overflow-x: auto;
   }
 
-  .table-responsive table {
+  .quote-list-responsive table {
     width: 100%;
     border-collapse: collapse;
   }
 
-  .table-responsive th,
-  .table-responsive td {
+  .quote-list-responsive th,
+  .quote-list-responsive td {
     white-space: nowrap;
   }
 }

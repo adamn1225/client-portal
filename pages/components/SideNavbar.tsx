@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Link from 'next/link';
-import { Menu, X, PanelLeftOpen, PanelRightClose } from 'lucide-react';
+import { PanelLeftOpen, PanelRightClose } from 'lucide-react';
 
 interface SideNavbarProps {
     isSidebarOpen: boolean;
@@ -44,7 +44,7 @@ const SideNavbar: React.FC<SideNavbarProps> = ({ isSidebarOpen, toggleSidebar, c
                         <h3 className='font-medium text-lg'>Welcome!</h3>
                     </li>
                     <li className="w-full flex flex-col gap-3 items-center justify-center m-0">
-                        <button className="side-nav-btn bg-slate-100 text-slate-900 text-nowrap font-bold px-4 py-1 rounded-sm w-4/5">
+                        <button className="side-nav-btn bg-slate-100/70 text-slate-900 text-nowrap font-bold px-4 py-1 rounded-sm w-4/5">
                             Contact Support
                         </button>
                     </li>

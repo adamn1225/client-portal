@@ -108,6 +108,26 @@ const AdminQuoteRequests = () => {
         }
     };
 
+    const markAsComplete = async (orderId: number) => {
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ status: 'delivered' })
+                .eq('id', orderId);
+
+            if (error) {
+                console.error('Error marking order as complete:', error);
+                setErrorText('Error marking order as complete');
+            } else {
+                setQuotes(quotes.filter(quote => quote.id !== orderId));
+                setFilteredQuotes(filteredQuotes.filter(quote => quote.id !== orderId));
+            }
+        } catch (error) {
+            console.error('Error marking order as complete:', error);
+            setErrorText('Error marking order as complete');
+        }
+    };
+
     // Extract unique users from quotes
     const uniqueUsers = quotes.reduce((acc: { user_id: string; first_name: string | null; last_name: string | null; email: string | null }[], quote) => {
         if (!acc.some(user => user.user_id === quote.user_id)) {
@@ -158,23 +178,29 @@ const AdminQuoteRequests = () => {
                                 <div>{quote.first_name} {quote.last_name} ({quote.email})</div>
                                 <div>Quote ID: {quote.quote_id || 'Not assigned'}</div>
                                 <div>
-                                        Price: {quote.price ? (
-                                            <>
-                                                {`$${quote.price}`}
-                                                <button
-                                                    onClick={() => transferToOrderList(quote.id)}
-                                                    className="ml-2 px-4 py-2 font-semibold bg-slate-800 text-white rounded"
-                                                >
-                                                    Create Order
-                                                </button>
-                                            </>
-                                        ) : 'Not priced yet'}
-                                    </div>
+                                    Price: {quote.price ? (
+                                        <>
+                                            {`$${quote.price}`}
+                                            <button
+                                                onClick={() => transferToOrderList(quote.id)}
+                                                className="ml-2 px-4 py-2 font-semibold bg-slate-800 text-white rounded"
+                                            >
+                                                Create Order
+                                            </button>
+                                        </>
+                                    ) : 'Not priced yet'}
+                                </div>
                                 <button onClick={() => handleSelectQuote(quote.id)} className="text-blue-500">
                                     Respond
                                 </button>
                                 <button onClick={() => archiveQuote(quote.id)} className="text-red-500 ml-2">
                                     Archive
+                                </button>
+                                <button
+                                    onClick={() => markAsComplete(quote.id)}
+                                    className="ml-2 px-4 py-2 font-semibold bg-green-500 text-white rounded"
+                                >
+                                    Mark as Complete
                                 </button>
                             </div>
                         </li>

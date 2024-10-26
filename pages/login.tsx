@@ -1,10 +1,9 @@
-// pages/login.tsx
 import Head from 'next/head';
 import Link from 'next/link';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import Layout from './components/Layout';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function LoginPage() {
     const session = useSession();
@@ -23,6 +22,7 @@ export default function LoginPage() {
 
         if (error) {
             console.error('Error signing in with Google:', error.message);
+            setError('Error signing in with Google. Please try again.');
         }
     };
 
@@ -41,6 +41,7 @@ export default function LoginPage() {
                             <span className="font-sans text-4xl text-center pb-2 mb-1 border-b mx-4 align-center">
                                 Sign In
                             </span>
+                            {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                             <div className="mt-4">
                                 <Auth
                                     supabaseClient={supabase}
