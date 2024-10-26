@@ -5,7 +5,7 @@ import { Database } from '@/lib/schema';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Menu, X, PanelLeftOpen, PanelRightClose } from 'lucide-react';
+import { PanelLeftOpen, PanelRightClose } from 'lucide-react';
 
 interface UserSideNavProps {
     isSidebarOpen: boolean;
@@ -45,7 +45,7 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                 >
                     {isSidebarOpen ? <PanelRightClose size={24} className='text-white' /> : <PanelLeftOpen size={28} className='text-gray-900' />}
                 </button>
-                <nav className={`side-navbar px-0 max-w-max  flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out ${className}`}>
+                <nav className={`side-navbar flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out ${className}`}>
                     <h1 className='text-xl mb-4 self-center'>NTS Client Portal</h1>
                     <ul className='flex gap-3 flex-col flex-grow space-y-1 overflow-y-auto'>
                         <li className="w-full flex flex-col items-center gap-1 justify-center m-0">
@@ -73,7 +73,7 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                             </Link>
                         </li>
                         <li className="w-full text-base flex justify-normal m-0">
-                            <Link href="/settings"  className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
+                            <Link href="/settings" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
                                 Documents
                             </Link>
                         </li>

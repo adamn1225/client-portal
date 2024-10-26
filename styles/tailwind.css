@@ -52,8 +52,8 @@ h1 h2 h3 h4 h5 h6 p li span div {
 }
 
 .layout {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 13em 1fr; /* Sidenav width and main content */
   height: 100vh;
 }
 
@@ -62,7 +62,6 @@ h1 h2 h3 h4 h5 h6 p li span div {
   width: 13em !important;
   min-width: 13em !important;
   height: 100%;
-  /* Tailwind's bg-gray-900 */
   color: white;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
@@ -104,7 +103,6 @@ h1 h2 h3 h4 h5 h6 p li span div {
 }
 
 .main-content {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -129,12 +127,37 @@ main {
   background-color: #333;
 }
 
-@media (max-width: 640px) {
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-responsive table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-responsive th,
+.table-responsive td {
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr; /* Single column layout on small screens */
+  }
+
+  .side-navbar {
+    width: 100% !important;
+    min-width: 100% !important;
+    height: auto;
+  }
+
   .table-responsive {
     display: block;
     width: 100%;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
 
   .table-responsive table {

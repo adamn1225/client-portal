@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Menu, X, PanelLeftOpen, PanelRightClose } from 'lucide-react';
+import { PanelLeftOpen, PanelRightClose } from 'lucide-react';
 
 interface AdminSideNavProps {
     isSidebarOpen: boolean;

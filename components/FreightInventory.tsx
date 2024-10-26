@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import { Database, MaintenanceItem } from '@/lib/schema';
 import InventoryTab from '@/components/inventory/InventoryTab';
@@ -41,14 +41,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
 
     const user = session?.user;
 
-    useEffect(() => {
-        if (user) {
-            fetchFreight();
-            fetchMaintenance();
-        }
-    }, [user]);
-
-    const fetchFreight = async () => {
+    const fetchFreight = useCallback(async () => {
         if (!user) return;
 
         const { data, error } = await supabase
@@ -61,7 +54,30 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         } else {
             setFreightList(data);
         }
-    };
+    }, [user, supabase]);
+
+    const fetchMaintenance = useCallback(async () => {
+        if (!user) return;
+
+        const { data, error } = await supabase
+            .from('maintenance')
+            .select('*')
+            .eq('user_id', user.id);
+
+        if (error) {
+            setErrorText(error.message);
+        } else {
+            setMaintenanceList(data);
+        }
+    }, [user, supabase]);
+
+    useEffect(() => {
+        if (user) {
+            fetchFreight();
+            fetchMaintenance();
+        }
+    }, [user, fetchFreight, fetchMaintenance]);
+
 
     const addOrUpdateFreight = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -196,13 +212,6 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         }
     };
 
-    const fetchMaintenance = async () => {
-        if (!user) return;
-
-        const data = await fetchMaintenanceItems(user.id);
-        setMaintenanceList(data);
-    };
-
     const handleTransferToMaintenance = async (freight: Database['public']['Tables']['freight']['Row']) => {
         if (!user) return;
     
@@ -274,7 +283,6 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
             );
         }
     };
-
     
 
     return (

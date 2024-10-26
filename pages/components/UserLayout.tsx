@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useEffect } from 'react';
-import UserSideNav from './UserSideNav';
+import UserSideNav from './UserSideNav'; // Adjust the import path if necessary
 
 interface UserLayoutProps {
     children: ReactNode;
@@ -33,13 +33,11 @@ const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
     };
 
     return (
-        <div className="relative flex h-screen overflow-hidden">
+        <div className="layout">
             <UserSideNav isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-            <div className={`flex flex-col flex-grow ${isSidebarOpen ? 'ml-64' : 'ml-0'} transition-all duration-300 ease-in-out overflow-auto`}>
-                <main className="flex-grow p-4">
-                    {children}
-                </main>
-            </div>
+            <main className="main-content p-4">
+                {children}
+            </main>
         </div>
     );
 };

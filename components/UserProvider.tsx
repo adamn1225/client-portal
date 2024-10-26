@@ -24,7 +24,7 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 interface UserProviderProps {
     session: Session;
-    children: ReactNode; // Explicitly type the children prop
+    children: ReactNode;
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ session, children }) => {
@@ -34,7 +34,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ session, children })
     useEffect(() => {
         const fetchProfile = async () => {
             const { data, error } = await supabase
-                .from('profiles') // Ensure the table name is correct
+                .from('profiles')
                 .select('id, email, first_name, last_name, company_name, address, phone_number, profile_picture, role')
                 .eq('id', session.user.id)
                 .single();

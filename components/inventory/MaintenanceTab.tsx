@@ -66,7 +66,7 @@ const MaintenanceTab = ({ freightList, maintenanceList, editFreight, handleDelet
     return (
         <div className="w-full bg-white shadow overflow-hidden rounded-md border border-slate-400 max-h-max overflow-y-auto flex-grow">
             <div className="hidden xl:block overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
+                <table className="min-w-full divide-y parent-container divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr className='border-b border-slate-900/20'>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-tight border-r border-slate-900/20">Maintenance Item</th>

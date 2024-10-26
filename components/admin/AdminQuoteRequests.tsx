@@ -1,4 +1,3 @@
-// components/admin/AdminQuoteRequests.tsx
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/initSupabase'; // Adjust the import path as needed
 import { Quote } from '@/lib/types'; // Adjust the import path as needed
@@ -89,6 +88,26 @@ const AdminQuoteRequests = () => {
         }
     };
 
+    const transferToOrderList = async (quoteId: number) => {
+        try {
+            const { data, error } = await supabase
+                .from('orders')
+                .insert([{ quote_id: quoteId }]);
+
+            if (error) {
+                console.error('Error transferring quote to order list:', error);
+                setErrorText('Error transferring quote to order list');
+            } else {
+                console.log('Quote transferred to order list:', data);
+                setQuotes(quotes.filter(quote => quote.id !== quoteId));
+                setFilteredQuotes(filteredQuotes.filter(quote => quote.id !== quoteId));
+            }
+        } catch (error) {
+            console.error('Error transferring quote to order list:', error);
+            setErrorText('Error transferring quote to order list');
+        }
+    };
+
     // Extract unique users from quotes
     const uniqueUsers = quotes.reduce((acc: { user_id: string; first_name: string | null; last_name: string | null; email: string | null }[], quote) => {
         if (!acc.some(user => user.user_id === quote.user_id)) {
@@ -138,7 +157,19 @@ const AdminQuoteRequests = () => {
                                 <div>(Due: {quote.due_date || 'No due date'})</div>
                                 <div>{quote.first_name} {quote.last_name} ({quote.email})</div>
                                 <div>Quote ID: {quote.quote_id || 'Not assigned'}</div>
-                                <div>Price: {quote.price ? `$${quote.price}` : 'Not priced yet'}</div>
+                                <div>
+                                        Price: {quote.price ? (
+                                            <>
+                                                {`$${quote.price}`}
+                                                <button
+                                                    onClick={() => transferToOrderList(quote.id)}
+                                                    className="ml-2 px-4 py-2 font-semibold bg-slate-800 text-white rounded"
+                                                >
+                                                    Create Order
+                                                </button>
+                                            </>
+                                        ) : 'Not priced yet'}
+                                    </div>
                                 <button onClick={() => handleSelectQuote(quote.id)} className="text-blue-500">
                                     Respond
                                 </button>

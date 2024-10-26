@@ -1,5 +1,3 @@
-import { ex } from "@fullcalendar/core/internal-common";
-
 export interface Database {
   public: {
     Tables: {
@@ -232,14 +230,90 @@ export interface Database {
           commodity?: string | null;
           inventory_number: string | null; 
         };
+      },
+      orders: {
+        Row: {
+          id: number;
+          quote_id: number;
+          user_id: string;
+          created_at: string;
+          status: string;
+          is_archived: boolean;
+        };
+        Insert: {
+          id?: number;
+          quote_id: number;
+          user_id: string;
+          created_at?: string;
+          status?: string;
+          is_archived?: boolean;
+        };
+        Update: {
+          id?: number;
+          quote_id?: number;
+          user_id?: string;
+          created_at?: string;
+          status?: string;
+          is_archived?: boolean;
+        };
+      },
+      profiles: {
+        Row: {
+          id: string;
+          email: string;
+          inserted_at: string;
+          role: string;
+          first_name: string | null;
+          last_name: string | null;
+          company_name: string | null;
+          profile_picture: string | null;
+          address: string | null;
+          phone_number: string | null;
+        };
+        Insert: {
+          id: string;
+          email: string;
+          inserted_at?: string;
+          role: string;
+          first_name?: string | null;
+          last_name?: string | null;
+          company_name?: string | null;
+          profile_picture?: string | null;
+          address?: string | null;
+          phone_number?: string | null;
+        };
+        Update: {
+          id?: string;
+          email?: string;
+          inserted_at?: string;
+          role?: string;
+          first_name?: string | null;
+          last_name?: string | null;
+          company_name?: string | null;
+          profile_picture?: string | null;
+          address?: string | null;
+          phone_number?: string | null;
+        };
       };
-      // other tables...
-    };
-    // other properties...
-  };
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
 }
 
 // Define the Task type
 export type Task = Database['public']['Tables']['freight']['Row'];
 export type MaintenanceItem = Database['public']['Tables']['maintenance']['Row'];
 export type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
+export type Order = Database['public']['Tables']['orders']['Row'];
+export type Profile = Database['public']['Tables']['profiles']['Row'];

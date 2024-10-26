@@ -1,11 +1,13 @@
-// pages/settings/index.tsx
+// pages/freight-transport/index.tsx
 import React from 'react';
 import { useSession } from '@supabase/auth-helpers-react';
-import UserLayout from '../components/UserLayout';
+import dynamic from 'next/dynamic';
 import { UserProvider } from '@/context/UserContext';
-import QuoteRequest from '@/components/QuoteRequest';
 
-const UserProfilePage: React.FC = () => {
+const UserLayout = dynamic(() => import('../components/UserLayout'));
+const QuoteRequest = dynamic(() => import('@/components/QuoteRequest'));
+
+const FreightTransportPage: React.FC = () => {
     const session = useSession();
 
     if (!session) {
@@ -21,4 +23,4 @@ const UserProfilePage: React.FC = () => {
     );
 };
 
-export default UserProfilePage;
+export default FreightTransportPage;
