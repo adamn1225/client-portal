@@ -53,7 +53,9 @@ const migrateExistingUsers = async () => {
                     company_name: null,
                     profile_picture: null,
                     address: null,
-                    phone_number: null, // Ensure phone_number is included
+                    phone_number: null,
+                    email_notifications: true,
+
                 })
                 .eq('id', id);
 
@@ -76,7 +78,8 @@ const migrateExistingUsers = async () => {
                     company_name: null,
                     profile_picture: null,
                     address: null,
-                    phone_number: null, // Ensure phone_number is included
+                    phone_number: null,
+                    email_notifications: true,
                 });
 
             if (insertError) {
