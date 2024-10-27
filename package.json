@@ -27,6 +27,7 @@
     "@types/node": "18.14.0",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
+    "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
@@ -41,6 +42,7 @@
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.15",
     "papaparse": "^5.4.1",
+    "postcss": "^8.4.47",
     "quill": "^2.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -55,7 +57,7 @@
     "@types/nodemailer": "^6.4.16",
     "@types/papaparse": "^5.3.15",
     "concurrently": "^7.6.0",
-    "tailwindcss": "^3.2.7",
+    "tailwindcss": "^3.4.14",
     "webpack-bundle-analyzer": "^4.10.2"
   }
 }
