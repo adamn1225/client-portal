@@ -70,6 +70,18 @@ const AdminQuoteRequests = () => {
             setPrice('');
             setSelectedQuoteId(null);
             setErrorText('');
+
+            // Create a notification for the user
+            const updatedQuote = quotes.find(quote => quote.id === selectedQuoteId);
+            if (updatedQuote) {
+                const { error: notificationError } = await supabase
+                    .from('notifications')
+                    .insert([{ user_id: updatedQuote.user_id, message: `Your quote #${updatedQuote.id} has been updated with a new price.` }]);
+
+                if (notificationError) {
+                    console.error('Error creating notification:', notificationError.message);
+                }
+            }
         }
     };
 

@@ -109,7 +109,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                                             Actions
                                         </button>
                                         {openDropdownId === freight.id && (
-                                            <div className="absolute z-50 right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+                                            <div className="absolute z-0 right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
                                                 <button
                                                     onClick={() => {
                                                         editFreight(freight);
@@ -173,7 +173,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                                     Actions
                                 </button>
                                 {openDropdownId === freight.id && (
-                                    <div className="absolute z-50 right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+                                    <div className="absolute z-0 right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
                                         <button
                                             onClick={() => {
                                                 editFreight(freight);

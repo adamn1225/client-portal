@@ -294,6 +294,29 @@ export interface Database {
           address?: string | null;
           phone_number?: string | null;
         };
+      },
+      notifications: {
+        Row: {
+          id: number;
+          user_id: string;
+          message: string;
+          is_read: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          user_id: string;
+          message: string;
+          is_read?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: number;
+          user_id?: string;
+          message?: string;
+          is_read?: boolean;
+          created_at?: string;
+        };
       };
     }
     Views: {
@@ -317,3 +340,4 @@ export type MaintenanceItem = Database['public']['Tables']['maintenance']['Row']
 export type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
 export type Order = Database['public']['Tables']['orders']['Row'];
 export type Profile = Database['public']['Tables']['profiles']['Row'];
+export type Notification = Database['public']['Tables']['notifications']['Row'];

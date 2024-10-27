@@ -36,13 +36,12 @@ const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
     return (
         <div className="layout">
             <UserSideNav isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-            <div className="fixed top-0 w-full">
-                <UserTopNav />
-            </div>
-                <main className="main-content p-4 mt-20">
-                    
-                    {children}
-                </main>
+            <main className="main-content z-0 p-4 mt-20 relative">
+                <div className="fixed top-0 left-0 w-full z-50">
+                    <UserTopNav />
+                </div>
+                {children}
+            </main>
         </div>
     );
 };

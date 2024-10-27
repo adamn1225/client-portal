@@ -1,6 +1,7 @@
 import React from 'react';
 import { Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 interface QuoteListProps {
     session: Session | null;
@@ -13,6 +14,37 @@ interface QuoteListProps {
 }
 
 const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToOrderList, handleSelectQuote, isAdmin }) => {
+    const supabase = useSupabaseClient<Database>();
+
+    const handleRespond = async (quoteId: number) => {
+        handleSelectQuote(quoteId);
+
+        // Fetch the quote details
+        const { data: quote, error: fetchError } = await supabase
+            .from('shippingquotes')
+            .select('*')
+            .eq('id', quoteId)
+            .single();
+
+        if (fetchError) {
+            console.error('Error fetching quote details:', fetchError.message);
+            return;
+        }
+
+        console.log('Fetched quote details:', quote); // Debugging log
+
+        // Add notification entry to the database
+        const { error } = await supabase
+            .from('notifications')
+            .insert([{ user_id: quote.user_id, message: `You have a new response to your quote request for quote #${quote.id}` }]);
+
+        if (error) {
+            console.error('Error adding notification:', error.message);
+        } else {
+            console.log('Notification added successfully'); // Debugging log
+        }
+    };
+
     return (
         <div className="w-full bg-white shadow rounded-md border border-slate-400 max-h-max flex-grow">
             <div className="hidden 2xl:block overflow-x-auto">
@@ -68,7 +100,7 @@ const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToO
                                         </button>
                                     )}
                                     {isAdmin && (
-                                        <button onClick={() => handleSelectQuote(quote.id)} className="text-blue-500 ml-2">
+                                        <button onClick={() => handleRespond(quote.id)} className="text-blue-500 ml-2">
                                             Respond
                                         </button>
                                     )}
@@ -126,7 +158,7 @@ const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToO
                                 </button>
                             )}
                             {isAdmin && (
-                                <button onClick={() => handleSelectQuote(quote.id)} className="text-blue-500 ml-2">
+                                <button onClick={() => handleRespond(quote.id)} className="text-blue-500 ml-2">
                                     Respond
                                 </button>
                             )}

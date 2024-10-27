@@ -61,6 +61,11 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                                 Freight Transport
                             </Link>
                         </li>
+                        <li className="w-full flex text-base justify-normal m-0">
+                            <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
+                                Inbox
+                            </Link>
+                        </li>
                         <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/settings" ? "active" : ""}`}>
                             <Link href="/settings" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/settings" ? "active" : ""}`}>
                                 Settings
