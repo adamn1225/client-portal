@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
+import Papa from 'papaparse';
 import { Database, MaintenanceItem } from '@/lib/schema';
 import InventoryTab from '@/components/inventory/InventoryTab';
 import MaintenanceTab from '@/components/inventory/MaintenanceTab';
 import TransferToMaintenanceModal from '@/components/TransferToMaintenanceModal';
-import { fetchMaintenanceItems, addMaintenanceItem } from '@/lib/database';
+import { checkDuplicateInventoryNumber, addFreightItem, addMaintenanceItem } from '@/lib/database';
 
 interface FreightInventoryProps {
     session: Session | null;
@@ -78,10 +79,55 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         }
     }, [user, fetchFreight, fetchMaintenance]);
 
+    const checkDuplicateInventoryNumber = async (inventoryNumber: string) => {
+        const { data, error } = await supabase
+            .from('freight')
+            .select('id')
+            .eq('inventory_number', inventoryNumber);
+
+        if (error) {
+            console.error('Error checking duplicate inventory number:', error.message);
+            return false;
+        }
+
+        return data.length > 0;
+    };
+
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            Papa.parse(file, {
+                header: true,
+                complete: async (results) => {
+                    const data = results.data as Database['public']['Tables']['freight']['Insert'][];
+                    for (const item of data) {
+                        if (item.inventory_number && await checkDuplicateInventoryNumber(item.inventory_number)) {
+                            window.alert(`Duplicate inventory number found: ${item.inventory_number}. Please use unique inventory numbers.`);
+                            continue;
+                        }
+                        try {
+                            await addFreightItem(item);
+                        } catch (error) {
+                            console.error('Error adding freight item:', error);
+                        }
+                    }
+                },
+                error: (error) => {
+                    console.error('Error parsing CSV file:', error);
+                },
+            });
+        }
+    };
 
     const addOrUpdateFreight = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!user) return;
+
+        // Check for duplicate inventory number
+        if (await checkDuplicateInventoryNumber(inventoryNumber)) {
+            window.alert('Duplicate inventory number. Please use a unique inventory number.');
+            return;
+        }
 
         const freightData = {
             user_id: user.id,
@@ -120,8 +166,8 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         const { data, error } = response;
 
         if (error) {
-            console.error('Error adding/updating freight:', error.message);
-            setErrorText('Error adding/updating freight');
+            console.error('Error adding/updating Inventory:', error.message);
+            setErrorText('Error adding/updating Inventory');
         } else {
             setFreightList([...freightList.filter(f => f.id !== editingFreight?.id), ...(data || [])]);
             resetForm();
@@ -235,64 +281,66 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         setIsTransferModalOpen(true);
     };
 
-    const handleTransferSubmit = async (data: any) => {
-        const user = { id: data.user_id }; // Replace this with the actual user object or import it
-        if (!user || !selectedFreight) return;
+        const handleTransferSubmit = async (data: any) => {
+            const user = { id: data.user_id }; // Replace this with the actual user object or import it
+            if (!user || !selectedFreight) return;
 
-        const maintenanceItem: Omit<MaintenanceItem, 'id' | 'created_at'> = {
-            user_id: user.id.toString(),
-            freight_id: selectedFreight.id,
-            urgency: data.urgency,
-            notes: data.notes,
-            need_parts: data.need_parts,
-            part: data.part,
-            maintenance_crew: data.maintenance_crew,
-            schedule_date: data.schedule_date || null,
-            make: selectedFreight.make,
-            model: selectedFreight.model,
-            year: selectedFreight.year,
-            year_amount: selectedFreight.year_amount, // Ensure year_amount is included
-            pallets: selectedFreight.pallet_count,
-            serial_number: selectedFreight.serial_number,
-            dimensions: selectedFreight.dimensions,
-            commodity: selectedFreight.commodity,
-            inventory_number: selectedFreight.inventory_number,
+            const maintenanceItem: Omit<MaintenanceItem, 'id' | 'created_at'> = {
+                user_id: user.id.toString(),
+                freight_id: selectedFreight.id,
+                urgency: data.urgency,
+                notes: data.notes,
+                need_parts: data.need_parts,
+                part: data.part,
+                maintenance_crew: data.maintenance_crew,
+                schedule_date: data.schedule_date || null,
+                make: selectedFreight.make,
+                model: selectedFreight.model,
+                year: selectedFreight.year,
+                year_amount: selectedFreight.year_amount, // Ensure year_amount is included
+                pallets: selectedFreight.pallet_count,
+                serial_number: selectedFreight.serial_number,
+                dimensions: selectedFreight.dimensions,
+                commodity: selectedFreight.commodity,
+                inventory_number: selectedFreight.inventory_number,
+            };
+
+            const newItem = await addMaintenanceItem(maintenanceItem);
+            if (newItem) {
+                setMaintenanceList([...maintenanceList, newItem]);
+            }
+            setIsTransferModalOpen(false);
         };
 
-        const newItem = await addMaintenanceItem(maintenanceItem);
-        if (newItem) {
-            setMaintenanceList([...maintenanceList, newItem]);
+        const editMaintenanceItem = async (updatedItem: MaintenanceItem) => {
+            if (!user) return;
+
+            const { data, error } = await supabase
+                .from('maintenance')
+                .update(updatedItem)
+                .eq('id', updatedItem.id)
+                .select();
+
+            if (error) {
+                console.error('Error updating maintenance item:', error.message);
+            } else {
+                setMaintenanceList((prevList) =>
+                    prevList.map((item) => (item.id === updatedItem.id ? updatedItem : item))
+                );
+            }
+        };
+
+
+        function handleAddFreight(freight: { id: number; inserted_at: string; is_complete: boolean | null; freight_type: string | null; make: string | null; model: string | null; year: string | null; pallets: string | null; serial_number: string | null; dimensions: string | null; freight_id: string | null; freight_class: string | null; status: string | null; user_id: string; due_date: string | null; in_progress: boolean | null; reminder_time: string | null; year_amount: string | null; pallet_count: string | null; commodity: string | null; length: string | null; length_unit: string | null; width: string | null; width_unit?: string | null | undefined; height: string | null; height_unit?: string | null | undefined; weight: string | null; weight_unit: string | null; inventory_number: string | null; }): void {
+            throw new Error('Function not implemented.');
         }
-        setIsTransferModalOpen(false);
-    };
-
-    const editMaintenanceItem = async (updatedItem: MaintenanceItem) => {
-        if (!user) return;
-
-        const { data, error } = await supabase
-            .from('maintenance')
-            .update(updatedItem)
-            .eq('id', updatedItem.id)
-            .select();
-
-        if (error) {
-            console.error('Error updating maintenance item:', error.message);
-        } else {
-            setMaintenanceList((prevList) =>
-                prevList.map((item) => (item.id === updatedItem.id ? updatedItem : item))
-            );
-        }
-    };
-    
 
     return (
         <div className="w-full grid grid-rows gap-6 mt-12">
             <div className="w-full">
                 <div className='flex flex-col justify-center items-center'>
-                    <h1 className="mb-6 text-2xl text-center">Your Freight and Equipment</h1>
-                    <button className="btn-slate shadow-md" onClick={() => setIsModalOpen(true)}>
-                        Add Inventory
-                    </button>
+                    <h1 className="mb-6 text-2xl font-semibold text-center">Your Inventory/Equipment</h1>
+                    
                 </div>
                 <TransferToMaintenanceModal
                     isOpen={isTransferModalOpen}
@@ -494,23 +542,43 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                         </label>
                                     </div>
                                 </div>
-                                <button className="btn-slate" type="submit">
-                                    {editingFreight ? 'Update Freight' : 'Add Freight'}
+                                <button className="btn-slate shadow-md" type="submit">
+                                    {editingFreight ? 'Update Inventory' : 'Add Inventory'}
                                 </button>
                                 {editingFreight && (
-                                    <button type="button" className="btn-slate mt-2" onClick={resetForm}>
-                                        Cancel
+                                    <button type="button" className="btn-slate mt-2 shadow-md hover:bg-stone-300/50 hover:text-slate-700" onClick={resetForm}>
+                                        Close
                                     </button>
                                 )}
-                                <button type="button" className="btn-slate mt-2" onClick={() => setIsModalOpen(false)}>
+                                <button type="button" className="bg-stone-300  text-slate-800 py-2 px-4 font-semibold mt-2 hover:bg-stone-300/50 hover:text-slate-700" onClick={() => setIsModalOpen(false)}>
                                     Close
                                 </button>
+                                <form onSubmit={addOrUpdateFreight}>
+                                    {/* Your existing form fields */}
+                                    <button className="bg-blue-600 font-medium text-stone-100 py-2 px-4 shadow-md mt-2" type="submit"><h2>Or Import your entire Inventory with a csv</h2></button>
+                                </form>
                             </form>
+
                         </div>
                     </div>
                 )}
                 {!!errorText && <div className="text-red-500">{errorText}</div>}
             </div>
+
+            <div className='flex gap-2 justify-evenly items-end w-full'>
+                <div>
+                    <div className="mt-4 ">
+                        <label className="custom-file-upload">
+                            <div className='flex-grow-1 flex flex-nowrap flex-col justify-center items-center gap-1'>
+                                <h2 className='text-nowrap font-normal'>Import your entire Inventory</h2>
+                                <input className='hidden' type="file" accept=".csv" onChange={handleFileUpload} />
+                                <span className="upload-button cursor-pointer self-center w-3/4 text-center">Upload CSV</span>
+                            </div>
+                        </label>
+                    </div>
+                    {errorText && <div className="text-red-500">{errorText}</div>}
+                </div>
+
             <div className="flex justify-center border-b border-gray-300">
                 <button
                     className={`px-4 py-2 ${activeTab === 'inventory' ? 'border-b-2 border-amber-300' : ''}`}
@@ -524,6 +592,11 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                 >
                     Maintenance
                 </button>
+
+                </div>
+                <button className="btn-slate shadow-m max-h-max" onClick={() => setIsModalOpen(true)}>
+                    Add Inventory Item
+                </button>
             </div>
             <div className="w-full">
                 {activeTab === 'inventory' && (
@@ -533,6 +606,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                         handleDeleteClick={(id) => handleDeleteClick(id, 'freight')}
                         handleTransferToMaintenance={handleTransferToMaintenance}
                         maintenanceList={maintenanceList}
+                        handleAddFreight={handleAddFreight}
                     />
                 )}
                 {activeTab === 'maintenance' && (
@@ -543,6 +617,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                         userId={String(user?.id)}
                         setMaintenanceList={(items: MaintenanceItem[]) => void setMaintenanceList(items)}
                         freightList={freightList}
+                        
                       />
                 )}
             </div>

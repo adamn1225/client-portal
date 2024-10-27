@@ -22,6 +22,8 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
     const [errorText, setErrorText] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [activeTab, setActiveTab] = useState('requests');
+    const [cancellationReason, setCancellationReason] = useState<string>('');
+    const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
 
     const fetchQuotes = useCallback(async () => {
         if (!session?.user?.id) return;
@@ -77,7 +79,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                 inserted_at: quote.inserted_at || new Date().toISOString(),
                 is_complete: quote.is_complete || false,
                 price: quote.price || 0,
-                is_archived: quote.is_archived || false
+                is_archived: quote.is_archived || false,
             }])
             .select();
 
@@ -134,7 +136,28 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
         }
     };
 
-    
+    const confirmCancelOrder = async () => {
+        if (selectedOrderId === null) return;
+
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ status: 'cancelled', cancellation_reason: cancellationReason })
+                .eq('id', selectedOrderId);
+
+            if (error) {
+                console.error('Error cancelling order:', error.message);
+                setErrorText('Error cancelling order');
+            } else {
+                setOrders(orders.filter(order => order.id !== selectedOrderId));
+                setSelectedOrderId(null);
+                setCancellationReason('');
+            }
+        } catch (error) {
+            console.error('Error cancelling order:', error);
+            setErrorText('Error cancelling order. Please check your internet connection and try again.');
+        }
+    };
 
     const handleMarkAsComplete = async (orderId: number): Promise<void> => {
         try {

@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import Layout from './components/Layout';
 import UserLayout from './components/UserLayout';
 import AdminLayout from './components/admin/AdminLayout'; // Import AdminLayout
@@ -10,6 +9,7 @@ import { useEffect, useState } from 'react';
 import FreightInventory from '@/components/FreightInventory';
 import AdminLogin from '@/components/AdminLogin'; // Import AdminLogin component
 import AdminQuoteRequests from '@/components/admin/AdminQuoteRequests'; // Import AdminQuoteRequests component
+import CustomSignInForm from '@/components/CustomSignInForm'; // Import CustomSignInForm
 
 interface UserProfile {
   id: string;
@@ -108,21 +108,6 @@ export default function HomePage() {
     }
   }, [session, supabase]);
 
-  const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: process.env.NODE_ENV === 'development'
-          ? 'http://localhost:3000/auth/callback'
-          : 'https://your-production-url.com/auth/callback',
-      },
-    });
-
-    if (error) {
-      console.error('Error signing in with Google:', error.message);
-    }
-  };
-
   if (!session) {
     return (
       <Layout>
@@ -140,12 +125,7 @@ export default function HomePage() {
                   Sign In
                 </span>
                 <div className="mt-4">
-                  <Auth
-                    supabaseClient={supabase}
-                    providers={['google']}
-                    appearance={{ theme: ThemeSupa }}
-                    theme="dark"
-                  />
+                  <CustomSignInForm />
                 </div>
                 <div className="mt-4 text-center">
                   <p>Don&apos;t have an account?</p>

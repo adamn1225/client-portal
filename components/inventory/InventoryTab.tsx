@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Database } from '@/lib/schema';
 import TransferToMaintenanceModal from '../TransferToMaintenanceModal';
-import { addMaintenanceItem, fetchFreightData } from '@/lib/database';
+import { addMaintenanceItem, fetchFreightData, addFreightItem } from '@/lib/database';
 import { MaintenanceItem } from '@/lib/schema'; // Import the MaintenanceItem type
 
 interface InventoryTabProps {
@@ -10,12 +10,14 @@ interface InventoryTabProps {
     editFreight: (freight: Database['public']['Tables']['freight']['Row']) => void;
     handleDeleteClick: (id: number) => void;
     handleTransferToMaintenance: (freight: Database['public']['Tables']['freight']['Row']) => void;
+    handleAddFreight: (freight: Database['public']['Tables']['freight']['Row']) => void; // Add this prop
 }
 
-const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDeleteClick, handleTransferToMaintenance }: InventoryTabProps) => {
+const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDeleteClick, handleTransferToMaintenance, handleAddFreight }: InventoryTabProps) => {
     const [isTransferModalOpen, setIsTransferModalOpen] = useState<boolean>(false);
     const [selectedFreight, setSelectedFreight] = useState<Database['public']['Tables']['freight']['Row'] | null>(null);
     const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+    const [error, setError] = useState<string | null>(null); // Add error state
 
     const openTransferModal = (freight: Database['public']['Tables']['freight']['Row']) => {
         setSelectedFreight(freight);
@@ -24,9 +26,9 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
 
     const handleTransferSubmit = async (data: any) => {
         const user = { id: 'some-uuid' };
-        if(!user || !selectedFreight) return;
+        if (!user || !selectedFreight) return;
         // Fetch the user ID from the maintenance or freight table
-        const userId = selectedFreight.user_id; 
+        const userId = selectedFreight.user_id;
         if (!userId) return;
         // Fetch the freight data from the API
         const freightData = await fetchFreightData(selectedFreight.id);
@@ -72,8 +74,29 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
         return maintenanceList.some(item => item.inventory_number === freight.inventory_number || item.serial_number === freight.serial_number);
     };
 
+    const handleAddFreightSubmit = async (freight: Database['public']['Tables']['freight']['Row']) => {
+        try {
+            const newFreight = await addFreightItem(freight);
+            if (newFreight) {
+                handleAddFreight(newFreight);
+                setError(null); // Clear any previous error
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                if (error.message.includes('unique constraint')) {
+                    setError('Duplicate inventory number. Please use a unique inventory number.');
+                } else {
+                    setError('Error adding freight item: ' + error.message);
+                }
+            } else {
+                setError('Error adding freight item.');
+            }
+        }
+    };
+
     return (
         <div className="w-full bg-white shadow rounded-md border border-slate-400 max-h-max flex-grow">
+            {error && <div className="text-red-500 p-4">{error}</div>} {/* Display error message */}
             <div className="hidden xl:block parent-container overflow-x-auto ">
                 <table className="min-w-full divide-y  divide-gray-200">
                     <thead className="bg-gray-50 ">
@@ -133,7 +156,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                                     </div>
                                     <button
                                         onClick={() => openTransferModal(freight)}
-                                        className={`${isInMaintenance(freight) ? 'text-red-400 cursor-not-allowed shadow-sm bg-slate-800 font-medium py-2 px-4 rounded text-center' : 'text-amber-300 bg-slate-800 shadow-sm font-normal py-2 px-4 rounded text-center'}`}
+                                        className={`${isInMaintenance(freight) ? 'text-red-400 cursor-not-allowed shadow-sm bg-slate-800 font-medium py-2 px-4 rounded text-center' : 'text-amber-300 bg-slate-800 shadow-sm font-medium py-2 px-4 rounded text-center'}`}
                                         disabled={isInMaintenance(freight)}
                                     >
                                         {isInMaintenance(freight) ? 'In Maintenance' : 'Add to Maintenance'}
@@ -197,7 +220,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                             </div>
                             <button
                                 onClick={() => openTransferModal(freight)}
-                                className={`${isInMaintenance(freight) ? 'text-red-400 cursor-not-allowed shadow-sm bg-slate-800 font-medium py-2 px-4 rounded text-center' : 'text-amber-300 bg-slate-800 shadow-sm font-normal py-2 px-4 rounded text-center'}`}
+                                className={`${isInMaintenance(freight) ? 'text-red-400 cursor-not-allowed shadow-sm bg-slate-800 font-medium py-2 px-4 rounded text-center' : 'text-amber-300 bg-slate-800 shadow-sm font-medium py-2 px-4 rounded text-center'}`}
                                 disabled={isInMaintenance(freight)}
                             >
                                 {isInMaintenance(freight) ? 'Already in Maintenance' : 'Add to Maintenance'}

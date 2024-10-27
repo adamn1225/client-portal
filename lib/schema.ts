@@ -37,7 +37,16 @@ export interface Database {
           id?: number;
           inserted_at?: string;
           is_complete?: boolean | null;
-          task?: string | null;
+          freight_type?: string | null;
+          make?: string | null;
+          model?: string | null;
+          year?: string | null;
+          pallets?: string | null;
+          serial_number?: string | null;
+          dimensions?: string | null;
+          freight_id?: string | null;
+          freight_class?: string | null;
+          status?: string | null;
           user_id: string;
           due_date?: string | null;
           in_progress?: boolean | null;
@@ -53,14 +62,22 @@ export interface Database {
           height_unit?: string | null;
           weight?: string | null;
           weight_unit?: string | null;
-          serial_number?: string | null;
           inventory_number?: string | null;
         };
         Update: {
           id?: number;
           inserted_at?: string;
           is_complete?: boolean | null;
-          task?: string | null;
+          freight_type?: string | null;
+          make?: string | null;
+          model?: string | null;
+          year?: string | null;
+          pallets?: string | null;
+          serial_number?: string | null;
+          dimensions?: string | null;
+          freight_id?: string | null;
+          freight_class?: string | null;
+          status?: string | null;
           user_id?: string;
           due_date?: string | null;
           in_progress?: boolean | null;
@@ -76,7 +93,6 @@ export interface Database {
           height_unit?: string | null;
           weight?: string | null;
           weight_unit?: string | null;
-          serial_number?: string | null;
           inventory_number?: string | null;
         };
       };
@@ -91,9 +107,11 @@ export interface Database {
           origin_city: string | null;
           origin_state: string | null;
           origin_zip: string | null;
+          origin_street: string | null; // New column
           destination_city: string | null;
           destination_state: string | null;
           destination_zip: string | null;
+          destination_street: string | null; // New column
           user_id: string;
           quote_id: string | null;
           due_date: string | null;
@@ -119,9 +137,11 @@ export interface Database {
           origin_city?: string | null;
           origin_state?: string | null;
           origin_zip?: string | null;
+          origin_street?: string | null; // New column
           destination_city?: string | null;
           destination_state?: string | null;
           destination_zip?: string | null;
+          destination_street?: string | null; // New column
           user_id: string;
           quote_id?: string | null;
           due_date?: string | null;
@@ -134,8 +154,8 @@ export interface Database {
           width?: string | null;
           height?: string | null;
           weight?: string | null;
-          price: number | null;
-          is_archived: boolean | null;
+          price?: number | null;
+          is_archived?: boolean | null;
         };
         Update: {
           id?: number;
@@ -147,9 +167,11 @@ export interface Database {
           origin_city?: string | null;
           origin_state?: string | null;
           origin_zip?: string | null;
+          origin_street?: string | null; // New column
           destination_city?: string | null;
           destination_state?: string | null;
           destination_zip?: string | null;
+          destination_street?: string | null; // New column
           user_id?: string;
           quote_id?: string | null;
           due_date?: string | null;
@@ -162,8 +184,8 @@ export interface Database {
           width?: string | null;
           height?: string | null;
           weight?: string | null;
-          price: number | null;
-          is_archived: boolean | null;
+          price?: number | null;
+          is_archived?: boolean | null;
         };
       },
       maintenance: {
@@ -228,7 +250,7 @@ export interface Database {
           serial_number?: string | null;
           dimensions?: string | null;
           commodity?: string | null;
-          inventory_number: string | null; 
+          inventory_number: string | null;
         };
       },
       orders: {
@@ -239,6 +261,12 @@ export interface Database {
           created_at: string;
           status: string;
           is_archived: boolean;
+          earliest_pickup_date: string;
+          latest_pickup_date: string;
+          origin_street: string | null;
+          destination_street: string | null; 
+          cancellation_reason: string | null;
+          notes: string | null;
         };
         Insert: {
           id?: number;
@@ -247,6 +275,12 @@ export interface Database {
           created_at?: string;
           status?: string;
           is_archived?: boolean;
+          origin_street?: string | null;
+          destination_street?: string | null;
+          earliest_pickup_date?: string;
+          latest_pickup_date?: string;
+          cancellation_reason?: string | null;
+          notes?: string | null;
         };
         Update: {
           id?: number;
@@ -255,6 +289,12 @@ export interface Database {
           created_at?: string;
           status?: string;
           is_archived?: boolean;
+          origin_street?: string | null;
+          destination_street?: string | null;
+          earliest_pickup_date?: string;
+          latest_pickup_date?: string;
+          cancellation_reason?: string | null;
+          notes?: string | null;
         };
       },
       profiles: {

@@ -72,8 +72,6 @@ export async function fetchMaintenanceItems(userId: string) {
     return data;
 }
 
-
-
 export async function addMaintenanceItem(item: Omit<MaintenanceItem, 'id' | 'created_at'>): Promise<any> {
     try {
         // Fetch the authenticated user to get the user_id
@@ -112,8 +110,6 @@ export async function addMaintenanceItem(item: Omit<MaintenanceItem, 'id' | 'cre
     }
 }
 
-
-
 export async function fetchFreightData(freightId: number) {
     const { data, error } = await supabase
         .from('freight')
@@ -127,4 +123,38 @@ export async function fetchFreightData(freightId: number) {
     }
 
     return data;
+}
+
+export async function addFreightItem(freight: Database['public']['Tables']['freight']['Insert']): Promise<Database['public']['Tables']['freight']['Row'] | null> {
+    try {
+        const { data, error } = await supabase
+            .from('freight')
+            .insert([freight])
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error adding freight item:', error);
+            throw error;
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error in addFreightItem:', error);
+        throw error;
+    }
+}
+
+export async function checkDuplicateInventoryNumber(inventoryNumber: string): Promise<boolean> {
+    const { data, error } = await supabase
+        .from('freight')
+        .select('id')
+        .eq('inventory_number', inventoryNumber);
+
+    if (error) {
+        console.error('Error checking duplicate inventory number:', error);
+        throw error;
+    }
+
+    return data.length > 0;
 }

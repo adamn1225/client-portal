@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
-import { supabase } from '@/lib/initSupabase'; // Adjust the import path as needed
-import Modal from '@/components/Modal'; // Adjust the import path as needed
+import { supabase } from '@/lib/initSupabase'; 
+import Modal from '@/components/Modal';
+import { sendEmail } from '@/lib/emailService.mjs'; 
 
 interface OrderListProps {
     session: Session | null;
@@ -22,6 +23,8 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
     const [cancellationReason, setCancellationReason] = useState<string>('');
+    const [isEditMode, setIsEditMode] = useState<boolean>(false);
+    const [editData, setEditData] = useState<Partial<Order>>({});
 
     const fetchOrders = useCallback(async () => {
         let query = supabase
@@ -83,10 +86,17 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                 setIsModalOpen(false);
                 setSelectedOrderId(null);
                 setCancellationReason('');
+
+                // Send email notification
+                await sendEmail(
+                    'noah@ntslogistics.com', // Replace with your email
+                    'Order Cancelled',
+                    `Order ID: ${selectedOrderId} has been cancelled.\nReason: ${cancellationReason}`
+                );
             }
         } catch (error) {
             console.error('Error cancelling order:', error);
-            setErrorText('Error cancelling order');
+            setErrorText('Error cancelling order. Please check your internet connection and try again.');
         }
     };
 
@@ -106,7 +116,49 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
             }
         } catch (error) {
             console.error('Error marking order as complete:', error);
-            setErrorText('Error marking order as complete');
+            setErrorText('Error marking order as complete. Please check your internet connection and try again.');
+        }
+    };
+
+    const handleEditOrder = (order: Order) => {
+        setIsEditMode(true);
+        setEditData(order);
+    };
+
+    const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setEditData(prevData => ({ ...prevData, [name]: value }));
+    };
+
+    const handleEditSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (selectedOrderId === null) return;
+
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update(editData)
+                .eq('id', selectedOrderId);
+
+            if (error) {
+                console.error('Error editing order:', error.message);
+                setErrorText('Error editing order');
+            } else {
+                setOrders(orders.map(order => (order.id === selectedOrderId ? { ...order, ...editData } : order)));
+                setIsModalOpen(false);
+                setSelectedOrderId(null);
+                setEditData({});
+
+                // Send email notification
+                await sendEmail(
+                    'noah@ntslogistics.com', // Replace with your email
+                    'Order Edited',
+                    `Order ID: ${selectedOrderId} has been edited.\nChanges: ${JSON.stringify(editData, null, 2)}`
+                );
+            }
+        } catch (error) {
+            console.error('Error editing order:', error);
+            setErrorText('Error editing order. Please check your internet connection and try again.');
         }
     };
 
@@ -133,8 +185,10 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
                                     <div className="flex flex-col justify-start">
-                                    <span><strong>Origin:</strong> {order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</span>
-                                    <span><strong>Destination:</strong> {order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</span>
+                                        <span><strong>Origin Address:</strong>  {order.origin_street} </span>
+                                        <span><strong>Origin City/State/Zip:</strong> {order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</span>
+                                        <span><strong>Destination Address:</strong>  {order.destination_street} </span>
+                                        <span><strong>Destination City/State/Zip:</strong> {order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</span>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
@@ -146,14 +200,22 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
                                     {order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'coming soon'}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap flex justify-between">
+                                <td className="px-6 py-4 whitespace-nowrap flex justify-evenly">
+                                    <button onClick={() => handleEditOrder(order)} className="text-blue-600 ml-2">
+                                        Edit Order
+                                    </button>
                                     <button onClick={() => { setSelectedOrderId(order.id); setIsModalOpen(true); }} className="text-red-500 ml-2">
                                         Cancel Order
                                     </button>
                                     {isAdmin && (
-                                        <button onClick={() => handleMarkAsComplete(order.id)} className="text-blue-500 ml-2">
-                                            Order Completed
-                                        </button>
+                                        <>
+                                            <button onClick={() => handleMarkAsComplete(order.id)} className="text-green-600 ml-2">
+                                                Order Completed
+                                            </button>
+                                            <button onClick={() => handleEditOrder(order)} className="text-blue-600 ml-2">
+                                                Edit Order
+                                            </button>
+                                        </>
                                     )}
                                 </td>
                             </tr>
@@ -171,11 +233,11 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                         <div className='border-b border-slate-600 mb-4'></div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
                             <div className="text-sm font-extrabold text-gray-500">Origin</div>
-                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</div>
+                            <div className="text-sm font-medium text-gray-900">{order.origin_street} {order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
                             <div className="text-sm font-extrabold text-gray-500">Destination</div>
-                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</div>
+                            <div className="text-sm font-medium text-gray-900">{order.destination_street} {order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
                             <div className="text-sm font-extrabold text-gray-500">Freight</div>
@@ -190,14 +252,22 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                             <div className="text-sm font-medium text-gray-900">{order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'coming soon'}</div>
                         </div>
                         <div className="flex justify-between items-center">
+                            <button onClick={() => handleEditOrder(order)} className="text-blue-600 ml-2">
+                                Edit Order
+                            </button>
                             <button onClick={() => { setSelectedOrderId(order.id); setIsModalOpen(true); }} className="text-red-500 ml-2">
                                 Cancel Order
                             </button>
                             {isAdmin && (
-                                        <button onClick={() => handleMarkAsComplete(order.id)} className="text-blue-500 ml-2">
-                                            Order Completed
-                                        </button>
-                           )}
+                                <>
+                                    <button onClick={() => handleMarkAsComplete(order.id)} className="text-green-600 ml-2">
+                                        Order Completed
+                                    </button>
+                                    <button onClick={() => handleEditOrder(order)} className="text-blue-600 ml-2">
+                                        Edit Order
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                 ))}
@@ -225,6 +295,121 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                     </div>
                 )}
             </Modal>
+            {isEditMode && (
+                <Modal isOpen={isEditMode} onClose={() => setIsEditMode(false)}>
+                    <h2 className="text-xl mb-4">Edit Order</h2>
+                    <form onSubmit={handleEditSubmit}>
+                        <div className="mb-4">
+                            <label htmlFor="origin_street" className="block text-sm font-medium text-gray-700">
+                                Origin Street
+                            </label>
+                            <input
+                                type="text"
+                                id="origin_street"
+                                name="origin_street"
+                                value={editData.origin_street || ''}
+                                onChange={handleEditChange}
+                                className="mt-1 p-2 border border-gray-300 rounded w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="destination_street" className="block text-sm font-medium text-gray-700">
+                                Destination Street
+                            </label>
+                            <input
+                                type="text"
+                                id="destination_street"
+                                name="destination_street"
+                                value={editData.destination_street || ''}
+                                onChange={handleEditChange}
+                                className="mt-1 p-2 border border-gray-300 rounded w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="origin_city" className="block text-sm font-medium text-gray-700">
+                                Origin City
+                            </label>
+                            <input
+                                type="text"
+                                id="origin_city"
+                                name="origin_city"
+                                value={editData.shippingquotes?.origin_city || ''}
+                                onChange={handleEditChange}
+                                className="mt-1 p-2 border border-gray-300 rounded w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="destination_city" className="block text-sm font-medium text-gray-700">
+                                Destination City
+                            </label>
+                            <input
+                                type="text"
+                                id="destination_city"
+                                name="destination_city"
+                                value={editData.shippingquotes?.destination_city || ''}
+                                onChange={handleEditChange}
+                                className="mt-1 p-2 border border-gray-300 rounded w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="origin_state" className="block text-sm font-medium text-gray-700">
+                                Origin State
+                            </label>
+                            <input
+                                type="text"
+                                id="origin_state"
+                                name="origin_state"
+                                value={editData.shippingquotes?.origin_state || ''}
+                                onChange={handleEditChange}
+                                className="mt-1 p-2 border border-gray-300 rounded w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="destination_state" className="block text-sm font-medium text-gray-700">
+                                Destination State
+                            </label>
+                            <input
+                                type="text"
+                                id="destination_state"
+                                name="destination_state"
+                                value={editData.shippingquotes?.destination_state || ''}
+                                onChange={handleEditChange}
+                                className="mt-1 p-2 border border-gray-300 rounded w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="origin_zip" className="block text-sm font-medium text-gray-700">
+                                Origin Zip
+                            </label>
+                            <input
+                                type="text"
+                                id="origin_zip"
+                                name="origin_zip"
+                                value={editData.shippingquotes?.origin_zip || ''}
+                                onChange={handleEditChange}
+                                className="mt-1 p-2 border border-gray-300 rounded w-full"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="destination_zip" className="block text-sm font-medium text-gray-700">
+                                Destination Zip
+                            </label>
+                            <input
+                                type="text"
+                                id="destination_zip"
+                                name="destination_zip"
+                                value={editData.shippingquotes?.destination_zip || ''}
+                                onChange={handleEditChange}
+                                className="mt-1 p-2 border border-gray-300 rounded w-full"
+                            />
+                        </div>
+                        <button onClick={handleEditSubmit} className="btn-slate">
+                            Submit Changes
+                        </button>
+                    </form>
+                </Modal>
+            )}
+
         </div>
     );
 };

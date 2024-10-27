@@ -1,21 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { sendEmail } from '@/lib/emailService'; // Correct import statement
+import { sendEmail } from '@/lib/emailService.mjs'; // Correct import statement
+import OrderFormModal from './OrderFormModal';
 
 interface QuoteListProps {
     session: Session | null;
     quotes: Database['public']['Tables']['shippingquotes']['Row'][];
     fetchQuotes: () => void;
     archiveQuote: (id: number) => Promise<void>;
-    transferToOrderList: (quoteId: number) => Promise<void>;
+    transferToOrderList: (quoteId: number, data: any) => Promise<void>;
     handleSelectQuote: (id: number) => void;
     isAdmin: boolean; // Add this prop
 }
 
-const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToOrderList, handleSelectQuote, isAdmin }) => {
+const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, archiveQuote, transferToOrderList, handleSelectQuote, isAdmin }) => {
     const supabase = useSupabaseClient<Database>();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedQuoteId, setSelectedQuoteId] = useState<number | null>(null);
+
+    const handleCreateOrderClick = (quoteId: number) => {
+        setSelectedQuoteId(quoteId);
+        setIsModalOpen(true);
+    };
+
+    const handleModalSubmit = async (data: any) => {
+        if (selectedQuoteId !== null && session?.user?.id) {
+            // Post data to the orders table
+            const { error } = await supabase
+                .from('orders')
+                .insert({
+                    quote_id: selectedQuoteId,
+                    user_id: session.user.id, // Ensure user_id is included
+                    origin_street: data.originStreet,
+                    destination_street: data.destinationStreet,
+                    earliest_pickup_date: data.earliestPickupDate,
+                    latest_pickup_date: data.latestPickupDate,
+                    notes: data.notes,
+                    status: 'pending', // Set initial status
+                });
+
+            if (error) {
+                console.error('Error creating order:', error.message);
+            } else {
+                // Transfer data to OrderList.tsx
+                transferToOrderList(selectedQuoteId, data);
+            }
+        }
+        setIsModalOpen(false);
+    };
 
     const handleRespond = async (quoteId: number) => {
         handleSelectQuote(quoteId);
@@ -64,6 +98,11 @@ const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToO
 
     return (
         <div className="w-full bg-white shadow rounded-md border border-slate-400 max-h-max flex-grow">
+            <OrderFormModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSubmit={handleModalSubmit}
+            />
             <div className="hidden 2xl:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
@@ -103,7 +142,7 @@ const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToO
                                     </button>
                                     {quote.price ? (
                                         <button
-                                            onClick={() => transferToOrderList(quote.id)}
+                                            onClick={() => handleCreateOrderClick(quote.id)}
                                             className="ml-2 px-4 py-2 font-semibold bg-slate-800 text-white rounded"
                                         >
                                             Create Order
@@ -161,7 +200,7 @@ const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToO
                             </button>
                             {quote.price ? (
                                 <button
-                                    onClick={() => transferToOrderList(quote.id)}
+                                    onClick={() => handleCreateOrderClick(quote.id)}
                                     className="ml-2 p-1 bg-blue-500 text-white rounded"
                                 >
                                     Create Order

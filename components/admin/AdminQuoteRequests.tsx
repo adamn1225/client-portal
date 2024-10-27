@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/initSupabase'; // Adjust the import path as needed
-import { Quote } from '@/lib/types'; // Adjust the import path as needed
+import { Database } from '@/lib/schema'; // Adjust the import path as needed
 import QuoteList from '../quotetabs/QuoteList';
 import OrderList from '../quotetabs/OrderList';
 import HistoryList from '../quotetabs/HistoryList';
 
+type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
+
 const AdminQuoteRequests = () => {
-    const [quotes, setQuotes] = useState<Quote[]>([]);
-    const [filteredQuotes, setFilteredQuotes] = useState<Quote[]>([]);
+    const [quotes, setQuotes] = useState<ShippingQuote[]>([]);
+    const [filteredQuotes, setFilteredQuotes] = useState<ShippingQuote[]>([]);
     const [selectedUser, setSelectedUser] = useState<string>('');
     const [price, setPrice] = useState<string>(''); // Update state to reflect price
     const [selectedQuoteId, setSelectedQuoteId] = useState<number | null>(null);
@@ -54,7 +56,7 @@ const AdminQuoteRequests = () => {
 
         const { error } = await supabase
             .from('shippingquotes')
-            .update({ price: parseFloat(price) } as Partial<Quote>) // Update price instead of quote_id
+            .update({ price: parseFloat(price) } as Partial<ShippingQuote>) // Update price instead of quote_id
             .eq('id', selectedQuoteId);
 
         if (error) {
@@ -92,7 +94,7 @@ const AdminQuoteRequests = () => {
     const archiveQuote = async (id: number) => {
         const { error } = await supabase
             .from('shippingquotes')
-            .update({ is_archived: true } as Partial<Quote>) // Mark the quote as archived
+            .update({ is_archived: true } as Partial<ShippingQuote>) // Mark the quote as archived
             .eq('id', id);
 
         if (error) {
@@ -201,26 +203,26 @@ const AdminQuoteRequests = () => {
             <div className="w-full bg-white shadow overflow-hidden rounded-md border border-slate-400 max-h-screen overflow-y-auto flex-grow">
                 {activeTab === 'requests' && (
                     <QuoteList
-                        session={null} // Admin does not need a session
-                        quotes={filteredQuotes}
-                        fetchQuotes={() => {}} // No need to fetch quotes again
+                        session={null}
+                        quotes={quotes}
+                        fetchQuotes={() => { }} // No need to fetch quotes again
                         archiveQuote={archiveQuote}
-                        transferToOrderList={transferToOrderList} // Pass the function as a prop
-                        handleSelectQuote={handleSelectQuote} // Pass the function as a prop
-                        isAdmin={true} // Pass the isAdmin prop
+                        transferToOrderList={transferToOrderList}
+                        handleSelectQuote={handleSelectQuote}
+                        isAdmin={true}
                     />
                 )}
                 {activeTab === 'orders' && (
                     <OrderList
                         session={null} // Admin does not need a session
-                        fetchQuotes={() => {}} // No need to fetch quotes again
+                        fetchQuotes={() => { }} // No need to fetch quotes again
                         archiveQuote={archiveQuote}
                         markAsComplete={markAsComplete} // Pass the function as a prop
                         isAdmin={true} // Pass the isAdmin prop
                     />
                 )}
                 {activeTab === 'history' && (
-                    <HistoryList 
+                    <HistoryList
                         session={null}
                     />
                 )}

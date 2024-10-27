@@ -3,6 +3,7 @@ import { Database } from '@/lib/schema';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import NotificationBell from '@/components/NotificationBell';
+import FeedBack from '@/components/FeedBack';
 
 interface TopNavbarProps {
     className?: string;
@@ -45,6 +46,9 @@ const UserTopNavbar: React.FC<TopNavbarProps> = ({ className = '' }) => {
                         className='rounded-full shadow-md'
                         width={40}
                         height={40} />
+                </li>
+                <li className="m-0 z-50">
+                    <FeedBack />
                 </li>
             </ul>
         </nav>

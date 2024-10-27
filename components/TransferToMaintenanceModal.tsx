@@ -215,8 +215,8 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
                         </label>
                     </div>
                     {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
-                    <button className="btn-slate" type="submit">Submit</button>
-                    <button type="button" className="btn-slate mt-2" onClick={onClose}>Close</button>
+                    <button className="btn-slate shadow-md" type="submit">Submit</button>
+                    <button type="button" className="bg-stone-300 text-slate-800 shadow-md py-2 px-4 font-semibold mt-2 hover:bg-stone-300/50 hover:text-slate-700" onClick={onClose}>Close</button>
                 </form>
             </div>
         </div>
