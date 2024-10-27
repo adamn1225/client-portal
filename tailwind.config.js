@@ -4,7 +4,9 @@ export const content = [
 	'./components/**/*.{js,ts,jsx,tsx}',
 	'./pages/**/*.{js,ts,jsx,tsx}',
 	'./lib/**/*.{js,ts,jsx,tsx}',
-	'./context/**/*.{js,ts,jsx,tsx}'
+	'./context/**/*.{js,ts,jsx,tsx}',
+	'./src/**/*.{js,ts,jsx,tsx}',
+	'./styles/**/*.{css,scss,sass}',
 ];
 export const theme = {
 	extend: {
