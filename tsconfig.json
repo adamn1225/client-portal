@@ -19,6 +19,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tailwind.config.js", "pages/api/sendFeedback.mjs", "lib/emailService.mjs", "pages/api/sendEmail.mjs"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tailwind.config.js", "pages/api/sendFeedback.ts", "lib/emailService.ts", "pages/api/sendEmail.ts"],
   "exclude": ["node_modules"]
 }

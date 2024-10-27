@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { sendEmail } from '@/lib/emailService.mjs'; // Correct import statement
 import OrderFormModal from './OrderFormModal';
 
 interface QuoteListProps {
@@ -91,8 +90,26 @@ const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, archiveQuote, tr
             }
 
             if (userSettings.email_notifications) {
-                await sendEmail(userSettings.email, 'New Notification', `You have a new response to your quote request for quote #${quote.id}`);
+                await sendEmailNotification(userSettings.email, 'New Notification', `You have a new response to your quote request for quote #${quote.id}`);
             }
+        }
+    };
+
+    const sendEmailNotification = async (to: string, subject: string, text: string) => {
+        try {
+            const response = await fetch('/api/sendEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ to, subject, text }),
+            });
+
+            if (!response.ok) {
+                console.error('Error sending email:', await response.json());
+            }
+        } catch (error) {
+            console.error('Error sending email:', error);
         }
     };
 

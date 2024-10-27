@@ -7,7 +7,6 @@ import AdminLayout from './components/admin/AdminLayout'; // Import AdminLayout
 import { UserProvider, useUser } from '@/context/UserContext';
 import { useEffect, useState } from 'react';
 import FreightInventory from '@/components/FreightInventory';
-import AdminLogin from '@/components/AdminLogin'; // Import AdminLogin component
 import AdminQuoteRequests from '@/components/admin/AdminQuoteRequests'; // Import AdminQuoteRequests component
 import CustomSignInForm from '@/components/CustomSignInForm'; // Import CustomSignInForm
 

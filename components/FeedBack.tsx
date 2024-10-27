@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,14 +11,38 @@ import {
 } from "@/components/ui/popover";
 
 const FeedBack = () => {
+    const supabase = useSupabaseClient();
+    const user = useUser();
     const [message, setMessage] = useState('');
     const [screenshot, setScreenshot] = useState<File | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (!user) {
+            alert('You must be logged in to send feedback.');
+            return;
+        }
+
+        // Fetch user profile information
+        const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('first_name, last_name, email, phone_number')
+            .eq('id', user.id)
+            .single();
+
+        if (error) {
+            console.error('Error fetching profile:', error);
+            alert('Failed to fetch user profile.');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('message', message);
+        formData.append('first_name', profile.first_name || '');
+        formData.append('last_name', profile.last_name || '');
+        formData.append('email', profile.email || '');
+        formData.append('phone_number', profile.phone_number || '');
         if (screenshot) {
             formData.append('screenshot', screenshot);
         }

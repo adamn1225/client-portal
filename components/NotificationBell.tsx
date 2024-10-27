@@ -3,7 +3,6 @@ import { Bell } from 'lucide-react';
 import { supabase } from '@/lib/initSupabase';
 import { Database } from '@/lib/schema';
 import { Session } from '@supabase/auth-helpers-react';
-import { sendEmail } from '@/lib/emailService'; // Adjust the import path as needed
 
 type Notification = Database['public']['Tables']['notifications']['Row'];
 
@@ -91,21 +90,21 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ session }) => {
         }
     };
 
-    const sendNotificationEmail = async (userId: string, message: string) => {
-        // Fetch user email settings
-        const { data: userSettings, error } = await supabase
-            .from('profiles')
-            .select('email, email_notifications')
-            .eq('id', userId)
-            .single();
+    const handleSendEmailNotification = async (to: string, subject: string, text: string) => {
+        try {
+            const response = await fetch('/api/sendEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ to, subject, text }),
+            });
 
-        if (error) {
-            console.error('Error fetching user settings:', error.message);
-            return;
-        }
-
-        if (userSettings.email_notifications) {
-            await sendEmail(userSettings.email, 'New Notification', message);
+            if (!response.ok) {
+                console.error('Error sending email:', await response.json());
+            }
+        } catch (error) {
+            console.error('Error sending email:', error);
         }
     };
 

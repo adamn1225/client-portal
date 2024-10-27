@@ -3,7 +3,6 @@ import { Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import { supabase } from '@/lib/initSupabase'; 
 import Modal from '@/components/Modal';
-import { sendEmail } from '@/lib/emailService.mjs'; 
 
 interface OrderListProps {
     session: Session | null;
@@ -88,7 +87,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                 setCancellationReason('');
 
                 // Send email notification
-                await sendEmail(
+                await sendEmailNotification(
                     'noah@ntslogistics.com', // Replace with your email
                     'Order Cancelled',
                     `Order ID: ${selectedOrderId} has been cancelled.\nReason: ${cancellationReason}`
@@ -150,7 +149,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                 setEditData({});
 
                 // Send email notification
-                await sendEmail(
+                await sendEmailNotification(
                     'noah@ntslogistics.com', // Replace with your email
                     'Order Edited',
                     `Order ID: ${selectedOrderId} has been edited.\nChanges: ${JSON.stringify(editData, null, 2)}`
@@ -162,6 +161,23 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
         }
     };
 
+    const sendEmailNotification = async (to: string, subject: string, text: string) => {
+        try {
+            const response = await fetch('/api/sendEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ to, subject, text }),
+            });
+
+            if (!response.ok) {
+                console.error('Error sending email:', await response.json());
+            }
+        } catch (error) {
+            console.error('Error sending email:', error);
+        }
+    };
     return (
         <div className="w-full bg-white shadow rounded-md border border-slate-400 max-h-max flex-grow">
             {!!errorText && <div className="text-red-500">{errorText}</div>}
