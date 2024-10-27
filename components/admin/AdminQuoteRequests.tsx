@@ -14,23 +14,23 @@ const AdminQuoteRequests = () => {
     const [errorText, setErrorText] = useState<string>('');
     const [activeTab, setActiveTab] = useState('requests');
 
+    const fetchQuotes = async () => {
+        const { data, error } = await supabase
+            .from('shippingquotes')
+            .select('*')
+            .eq('is_archived', false); // Fetch only non-archived quotes
+
+        if (error) {
+            console.error('Error fetching quotes:', error.message);
+            setErrorText('Error fetching quotes');
+        } else {
+            console.log('Fetched Quotes:', data); // Debugging log
+            setQuotes(data);
+            setFilteredQuotes(data); // Initially, show all quotes
+        }
+    };
+
     useEffect(() => {
-        const fetchQuotes = async () => {
-            const { data, error } = await supabase
-                .from('shippingquotes')
-                .select('*')
-                .eq('is_archived', false); // Fetch only non-archived quotes
-
-            if (error) {
-                console.error('Error fetching quotes:', error.message);
-                setErrorText('Error fetching quotes');
-            } else {
-                console.log('Fetched Quotes:', data); // Debugging log
-                setQuotes(data);
-                setFilteredQuotes(data); // Initially, show all quotes
-            }
-        };
-
         fetchQuotes();
     }, []);
 
@@ -221,10 +221,7 @@ const AdminQuoteRequests = () => {
                 )}
                 {activeTab === 'history' && (
                     <HistoryList 
-                        session={null} // Admin does not need a session
-                        quotes={filteredQuotes}
-                        fetchQuotes={() => {}} // No need to fetch quotes again
-                        archiveQuote={archiveQuote} 
+                        session={null}
                     />
                 )}
             </div>

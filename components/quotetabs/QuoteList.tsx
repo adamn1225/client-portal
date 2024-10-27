@@ -2,6 +2,7 @@ import React from 'react';
 import { Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { sendEmail } from '@/lib/emailService'; // Correct import statement
 
 interface QuoteListProps {
     session: Session | null;
@@ -42,6 +43,22 @@ const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToO
             console.error('Error adding notification:', error.message);
         } else {
             console.log('Notification added successfully'); // Debugging log
+
+            // Fetch user email settings
+            const { data: userSettings, error: settingsError } = await supabase
+                .from('profiles')
+                .select('email, email_notifications')
+                .eq('id', quote.user_id)
+                .single();
+
+            if (settingsError) {
+                console.error('Error fetching user settings:', settingsError.message);
+                return;
+            }
+
+            if (userSettings.email_notifications) {
+                await sendEmail(userSettings.email, 'New Notification', `You have a new response to your quote request for quote #${quote.id}`);
+            }
         }
     };
 
@@ -67,8 +84,8 @@ const QuoteList: React.FC<QuoteListProps> = ({ quotes, archiveQuote, transferToO
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
                                     <div className="flex flex-col justify-start">
-                                    <span><strong>Origin:</strong> {quote.origin_city}, {quote.origin_state} {quote.origin_zip}</span>
-                                    <span><strong>Destination:</strong> {quote.destination_city}, {quote.destination_state} {quote.destination_zip}</span>
+                                        <span><strong>Origin:</strong> {quote.origin_city}, {quote.origin_state} {quote.origin_zip}</span>
+                                        <span><strong>Destination:</strong> {quote.destination_city}, {quote.destination_state} {quote.destination_zip}</span>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">

@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Bell } from 'lucide-react';
-import { supabase } from '@/lib/initSupabase'; 
+import { supabase } from '@/lib/initSupabase';
 import { Database } from '@/lib/schema';
 import { Session } from '@supabase/auth-helpers-react';
+import { sendEmail } from '@/lib/emailService'; // Adjust the import path as needed
 
 type Notification = Database['public']['Tables']['notifications']['Row'];
 
@@ -15,6 +16,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ session }) => {
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [errorText, setErrorText] = useState<string>('');
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -52,6 +54,19 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ session }) => {
         fetchNotifications();
     }, [session]);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownRef]);
+
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
@@ -76,8 +91,26 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ session }) => {
         }
     };
 
+    const sendNotificationEmail = async (userId: string, message: string) => {
+        // Fetch user email settings
+        const { data: userSettings, error } = await supabase
+            .from('profiles')
+            .select('email, email_notifications')
+            .eq('id', userId)
+            .single();
+
+        if (error) {
+            console.error('Error fetching user settings:', error.message);
+            return;
+        }
+
+        if (userSettings.email_notifications) {
+            await sendEmail(userSettings.email, 'New Notification', message);
+        }
+    };
+
     return (
-        <div className="relative z-50 h-full">
+        <div className="relative z-50 h-full" ref={dropdownRef}>
             <button onClick={toggleDropdown}>
                 <Bell className="h-6 w-6" />
                 {hasNotifications && <div className="absolute top-16 right-0 h-2 w-2 bg-red-500 rounded-full"></div>}

@@ -269,6 +269,7 @@ export interface Database {
           profile_picture: string | null;
           address: string | null;
           phone_number: string | null;
+          email_notifications: boolean;
         };
         Insert: {
           id: string;
@@ -281,6 +282,7 @@ export interface Database {
           profile_picture?: string | null;
           address?: string | null;
           phone_number?: string | null;
+          email_notifications: boolean;
         };
         Update: {
           id?: string;
@@ -293,6 +295,7 @@ export interface Database {
           profile_picture?: string | null;
           address?: string | null;
           phone_number?: string | null;
+          email_notifications: boolean;
         };
       },
       notifications: {
@@ -318,6 +321,41 @@ export interface Database {
           created_at?: string;
         };
       };
+      documents: {
+        Row: {
+          id: number;
+          user_id: string;
+          title: string;
+          description: string;
+          file_name: string;
+          file_type: string;
+          file_url: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          user_id: string;
+          title: string;
+          description: string;
+          file_name: string;
+          file_type: string;
+          file_url: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: number;
+          user_id?: string;
+          title?: string;
+          description?: string;
+          file_name?: string;
+          file_type?: string;
+          file_url?: string;
+          created_at?: string;
+        };
+        Delete: {
+          id: number;
+        };
+      };
     }
     Views: {
       [_ in never]: never
@@ -341,3 +379,4 @@ export type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'
 export type Order = Database['public']['Tables']['orders']['Row'];
 export type Profile = Database['public']['Tables']['profiles']['Row'];
 export type Notification = Database['public']['Tables']['notifications']['Row'];
+export type Document = Database['public']['Tables']['documents']['Row'];

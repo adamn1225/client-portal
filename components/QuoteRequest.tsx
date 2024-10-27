@@ -11,12 +11,14 @@ interface QuoteRequestProps {
 }
 
 type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
+type Order = Database['public']['Tables']['orders']['Row'];
 type Freight = Database['public']['Tables']['freight']['Row'];
 
 const QuoteRequest = ({ session }: QuoteRequestProps) => {
     const supabase = useSupabaseClient<Database>();
     const [quotes, setQuotes] = useState<ShippingQuote[]>([]);
     const [freightList, setFreightList] = useState<Freight[]>([]);
+    const [orders, setOrders] = useState<Order[]>([]);
     const [errorText, setErrorText] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [activeTab, setActiveTab] = useState('requests');
@@ -132,6 +134,27 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
         }
     };
 
+    
+
+    const handleMarkAsComplete = async (orderId: number): Promise<void> => {
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ status: 'delivered' })
+                .eq('id', orderId);
+
+            if (error) {
+                console.error('Error marking order as complete:', error.message);
+                setErrorText('Error marking order as complete');
+            } else {
+                setOrders(orders.filter(order => order.id !== orderId));
+            }
+        } catch (error) {
+            console.error('Error marking order as complete:', error);
+            setErrorText('Error marking order as complete');
+        }
+    };
+
     return (
         <div className="w-full h-full overflow-auto">
             <div className="w-full">
@@ -179,6 +202,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                         fetchQuotes={fetchQuotes}
                         archiveQuote={archiveQuote}
                         transferToOrderList={transferToOrderList}
+                        handleSelectQuote={string => console.log(string)}
                         isAdmin={false}
                     />
                 )}
@@ -187,15 +211,13 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                         session={session}
                         fetchQuotes={fetchQuotes}
                         archiveQuote={archiveQuote}
+                        markAsComplete={handleMarkAsComplete} // Add this line
                         isAdmin={false}
                     />
                 )}
                 {activeTab === 'history' && (
                     <HistoryList 
                         session={session}
-                        quotes={quotes}
-                        fetchQuotes={fetchQuotes}
-                        archiveQuote={archiveQuote} 
                     />
                 )}
             </div>
