@@ -108,8 +108,7 @@ h1 h2 h3 h4 h5 h6 p li span div {
   flex-direction: column;
   overflow: hidden;
   z-index: 0; /* Ensure the main content is below the sidebar */
-  width: 100%;
-  max-width: max-content;
+
 }
 
 main {

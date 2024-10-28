@@ -940,11 +940,6 @@ body {
   max-width: 56rem;
 }
 
-.max-w-max {
-  max-width: -moz-max-content;
-  max-width: max-content;
-}
-
 .max-w-md {
   max-width: 28rem;
 }
@@ -1893,9 +1888,6 @@ h1 h2 h3 h4 h5 h6 p li span div {
   overflow: hidden;
   z-index: 0;
   /* Ensure the main content is below the sidebar */
-  width: 100%;
-  max-width: -moz-max-content;
-  max-width: max-content;
 }
 
 main {
