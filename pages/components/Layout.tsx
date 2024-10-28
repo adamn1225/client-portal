@@ -27,9 +27,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
 
     return (
-        <div className="layout">
+        <div className="md:layout">
                 <SideNavbar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-                <main className="main-content p-4">
+            <main className="main-content z-0 p-4 mt-20 relative">
                     {children}
                 </main>
         </div>

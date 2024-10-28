@@ -40,13 +40,13 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
         <>
             <div>
                 <button
-                    className="fixed left-1 top-1 p-2 rounded-full"
+                    className="fixed left-1 z-50 top-1 p-2 rounded-full"
                     onClick={toggleSidebar}
                 >
-                    {isSidebarOpen ? <PanelRightClose size={24} className='text-white' /> : <PanelLeftOpen size={28} className='text-gray-900' />}
+                    {isSidebarOpen ? <PanelRightClose size={24} className='text-white z-50' /> : <PanelLeftOpen size={28} className='z-50 text-gray-900' />}
                 </button>
-                <nav className={`side-navbar flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out ${className}`}>
-                    <h1 className='text-xl mb-4 self-center'>NTS Client Portal</h1>
+                <nav className={`side-navbar z-50  flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0 z-50' : '-translate-x-full'} transition-transform duration-300  ease-in-out z-50 ${className}`}>
+                    <h1 className='text-xl mt-4 md:mt-0 mb-4 self-center'>NTS Client Portal</h1>
                     <div className="w-full flex flex-col items-center gap-1 justify-center mb-6 border-b border-stone-100/40 pb-4">
                             <h3>Welcome {userProfile?.first_name || 'User'}</h3>
                    </div>

@@ -67,7 +67,7 @@ h1 h2 h3 h4 h5 h6 p li span div {
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
-  z-index: 10; /* Ensure the sidebar is above the main content */
+  z-index: 40; /* Ensure the sidebar is above the main content */
 }
 
 .sidenav-text {
@@ -108,11 +108,14 @@ h1 h2 h3 h4 h5 h6 p li span div {
   flex-direction: column;
   overflow: hidden;
   z-index: 0; /* Ensure the main content is below the sidebar */
+  width: 100%;
+  max-width: max-content;
 }
 
 main {
+  @apply p-0 md:p-20;
   flex-grow: 1;
-  padding: 20px;
+  
   overflow-y: auto;
 }
 

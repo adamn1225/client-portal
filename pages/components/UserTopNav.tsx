@@ -34,9 +34,9 @@ const UserTopNavbar: React.FC<TopNavbarProps> = ({ className = '' }) => {
         : 'https://www.gravatar.com/avatar?d=mp&s=100';
 
     return (
-        <nav className={`w-full bg-slate-100 z-50 flex justify-end px-4 py-1 drop-shadow ${className}`}>
-            <ul className='flex gap-4 z-50 items-end justify-center mr-4'>
-                <li className="m-0 z-50">
+        <nav className={`w-full bg-slate-100 flex justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
+            <ul className='flex gap-4 items-end z-50 justify-center mr-4'>
+                <li className="m-0">
                     <NotificationBell session={session} />
                 </li>
                 <li className="flex flex-col justify-center items-center m-0">

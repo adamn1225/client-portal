@@ -336,10 +336,10 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         }
 
     return (
-        <div className="w-full grid grid-rows gap-6 mt-12">
+        <div className="w-full grid grid-rows md:gap-6 md:mt-12">
             <div className="w-full">
                 <div className='flex flex-col justify-center items-center'>
-                    <h1 className="mb-6 text-2xl font-semibold text-center">Your Inventory/Equipment</h1>
+                    <h1 className="xs:text-md mb-6 text-xl md:text-2xl font-semibold text-center">Your Inventory/Equipment</h1>
                     
                 </div>
                 <TransferToMaintenanceModal
@@ -351,8 +351,8 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                     freightList={freightList}
                 />
                 {isModalOpen && (
-                    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-                        <div className="bg-white p-8 rounded shadow-md w-1/2">
+                    <div className="fixed inset-0 z-50  h-full bg-gray-600 bg-opacity-50 flex justify-center items-center ">
+                        <div className="bg-white z-50 p-4 md:p-8 h-[770px] max-h-max my-16 rounded shadow-md w-full md:w-1/2 overflow-y-auto">
                             <h2 className="text-xl mb-4">{editingFreight ? 'Edit Freight' : 'Add Freight'}</h2>
                             <form onSubmit={addOrUpdateFreight} className="flex flex-col w-full gap-2 my-2">
                                 <div className='flex flex-col gap-4 w-full'>
@@ -369,7 +369,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                     </label>
 
                                     {selectedOption === 'equipment' && (
-                                        <div className='flex gap-2 w-full'>
+                                        <div className='md:flex gap-2 w-full'>
                                             <label className='text-slate-900 font-medium'>Year/Amount
                                                 <input
                                                     className="rounded w-full p-2 border border-slate-900"
@@ -433,7 +433,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                         </div>
                                     )}
 
-                                    <div className='flex gap-2'>
+                                    <div className='md:flex gap-2'>
                                         <label className='text-slate-900 font-medium'>Length
                                             <input
                                                 className="rounded w-full p-2 border border-slate-900"
@@ -553,20 +553,20 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                 <button type="button" className="bg-stone-300  text-slate-800 py-2 px-4 font-semibold mt-2 hover:bg-stone-300/50 hover:text-slate-700" onClick={() => setIsModalOpen(false)}>
                                     Close
                                 </button>
-                                <form onSubmit={addOrUpdateFreight}>
-                                    {/* Your existing form fields */}
-                                    <button className="bg-blue-600 font-medium text-stone-100 py-2 px-4 shadow-md mt-2" type="submit"><h2>Or Import your entire Inventory with a csv</h2></button>
-                                </form>
                             </form>
 
                         </div>
                     </div>
                 )}
                 {!!errorText && <div className="text-red-500">{errorText}</div>}
+                
             </div>
 
-            <div className='flex gap-2 justify-evenly items-end w-full'>
-                <div>
+            <div className='flex flex-col gap-2 justify-center items-center w-full'>
+                <div className='flex flex-col-reverse gap-2 justify-center items-center w-full'>
+                    <button className="btn-slate shadow-m max-h-max" onClick={() => setIsModalOpen(true)}>
+                        Add Inventory Item
+                    </button>
                     <div className="mt-4 ">
                         <label className="custom-file-upload">
                             <div className='flex-grow-1 flex flex-nowrap flex-col justify-center items-center gap-1'>
@@ -577,9 +577,10 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                         </label>
                     </div>
                     {errorText && <div className="text-red-500">{errorText}</div>}
+
                 </div>
 
-            <div className="flex justify-center border-b border-gray-300">
+            <div className="flex justify-center w-full border-b border-gray-300">
                 <button
                     className={`px-4 py-2 ${activeTab === 'inventory' ? 'border-b-2 border-amber-300' : ''}`}
                     onClick={() => setActiveTab('inventory')}
@@ -594,9 +595,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                 </button>
 
                 </div>
-                <button className="btn-slate shadow-m max-h-max" onClick={() => setIsModalOpen(true)}>
-                    Add Inventory Item
-                </button>
+
             </div>
             <div className="w-full">
                 {activeTab === 'inventory' && (

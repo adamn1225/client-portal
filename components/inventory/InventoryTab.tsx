@@ -187,7 +187,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                             <div className="text-sm font-extrabold text-gray-500">Serial Number</div>
                             <div className="text-sm font-medium text-gray-900">{freight.serial_number}</div>
                         </div>
-                        <div className="flex justify-between items-center">
+                        <div className="block justify-between items-center md:flex md:flex-col ">
                             <div className="relative">
                                 <button
                                     onClick={() => setOpenDropdownId(openDropdownId === freight.id ? null : freight.id)}
@@ -220,7 +220,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                             </div>
                             <button
                                 onClick={() => openTransferModal(freight)}
-                                className={`${isInMaintenance(freight) ? 'text-red-400 cursor-not-allowed shadow-sm bg-slate-800 font-medium py-2 px-4 rounded text-center' : 'text-amber-300 bg-slate-800 shadow-sm font-medium py-2 px-4 rounded text-center'}`}
+                                className={`${isInMaintenance(freight) ? 'text-red-400 cursor-not-allowed shadow-sm bg-slate-800 font-medium py-2 px-4 rounded text-center ' : 'text-amber-300 bg-slate-800 shadow-sm font-medium py-1 px-3 rounded text-center'}`}
                                 disabled={isInMaintenance(freight)}
                             >
                                 {isInMaintenance(freight) ? 'Already in Maintenance' : 'Add to Maintenance'}

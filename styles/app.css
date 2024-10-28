@@ -682,6 +682,10 @@ body {
   z-index: 20;
 }
 
+.z-30 {
+  z-index: 30;
+}
+
 .z-40 {
   z-index: 40;
 }
@@ -701,6 +705,11 @@ body {
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
+}
+
+.my-16 {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
 }
 
 .my-2 {
@@ -831,6 +840,10 @@ body {
 
 .h-9 {
   height: 2.25rem;
+}
+
+.h-\[770px\] {
+  height: 770px;
 }
 
 .h-full {
@@ -980,6 +993,10 @@ body {
 
 .flex-col {
   flex-direction: column;
+}
+
+.flex-col-reverse {
+  flex-direction: column-reverse;
 }
 
 .flex-nowrap {
@@ -1209,11 +1226,6 @@ body {
 .bg-blue-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
-}
-
-.bg-blue-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
 .bg-destructive {
@@ -1817,7 +1829,7 @@ h1 h2 h3 h4 h5 h6 p li span div {
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
-  z-index: 10;
+  z-index: 40;
   /* Ensure the sidebar is above the main content */
 }
 
@@ -1881,11 +1893,23 @@ h1 h2 h3 h4 h5 h6 p li span div {
   overflow: hidden;
   z-index: 0;
   /* Ensure the main content is below the sidebar */
+  width: 100%;
+  max-width: -moz-max-content;
+  max-width: max-content;
+}
+
+main {
+  padding: 0px;
+}
+
+@media (min-width: 768px) {
+  main {
+    padding: 5rem;
+  }
 }
 
 main {
   flex-grow: 1;
-  padding: 20px;
   overflow-y: auto;
 }
 
@@ -2202,6 +2226,10 @@ input:disabled+.slider:before {
   .xs\:w-2\/5 {
     width: 40%;
   }
+
+  .xs\:w-full {
+    width: 100%;
+  }
 }
 
 @media (min-width: 640px) {
@@ -2223,6 +2251,22 @@ input:disabled+.slider:before {
 }
 
 @media (min-width: 768px) {
+  .md\:mt-0 {
+    margin-top: 0px;
+  }
+
+  .md\:mt-12 {
+    margin-top: 3rem;
+  }
+
+  .md\:flex {
+    display: flex;
+  }
+
+  .md\:w-1\/2 {
+    width: 50%;
+  }
+
   .md\:w-full {
     width: 100%;
   }
@@ -2238,6 +2282,23 @@ input:disabled+.slider:before {
 
   .md\:flex-row {
     flex-direction: row;
+  }
+
+  .md\:flex-col {
+    flex-direction: column;
+  }
+
+  .md\:gap-6 {
+    gap: 1.5rem;
+  }
+
+  .md\:p-8 {
+    padding: 2rem;
+  }
+
+  .md\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 }
 

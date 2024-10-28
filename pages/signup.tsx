@@ -152,9 +152,9 @@ export default function SignUpPage() {
                 <meta name="description" content="Sign up for an account" />
             </Head>
             <div className="min-h-screen flex items-center justify-center">
-                <div className="w-full max-w-md bg-white shadow-md rounded">
+                <div className="w-full max-w-max bg-white shadow-md rounded">
                     <h2 className="text-2xl font-bold text-center">NTS Portal</h2>
-                    <div className="xs:w-2/5 md:w-full h-full sm:h-auto p-5 bg-white shadow flex flex-col gap-2 text-base">
+                    <div className="xs:w-full md:w-full h-full sm:h-auto p-5 bg-white shadow flex flex-col gap-2 text-base">
                         <span className="font-sans text-4xl text-center pb-2 mb-1 border-b mx-4 align-center">
                             Sign Up
                         </span>
