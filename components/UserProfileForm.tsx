@@ -34,7 +34,7 @@ const UserProfileForm = () => {
 
             const { data, error } = await supabase
                 .from('profiles')
-                .select('first_name, last_name, company_name, address, phone_number, profile_picture, email_notifications')
+                .select('first_name, last_name, company_name, address, phone_number, profile_picture, email_notifications, company_size')
                 .eq('id', session.user.id)
                 .single();
 
@@ -103,7 +103,7 @@ const UserProfileForm = () => {
                 phone_number: phoneNumber,
                 profile_picture: profilePictureUrl || undefined, // Update profile picture URL if available
                 email: email,
-                email_notifications: false
+                email_notifications: false,
             })
             .eq('id', session.user.id);
 
