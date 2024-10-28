@@ -1,4 +1,4 @@
-// pages/AdminSignUp.tsx
+// components/AdminSignUp.tsx
 import { useState } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Layout from '../pages/components/Layout';
@@ -31,10 +31,11 @@ export default function AdminSignUpPage() {
             .from('invitation_codes')
             .select('code')
             .eq('code', invitationCode)
+            .eq('is_used', false)
             .single();
 
         if (codeError || !validCode) {
-            setError('Invalid invitation code');
+            setError('Invalid or already used invitation code');
             setLoading(false);
             return;
         }
@@ -67,6 +68,12 @@ export default function AdminSignUpPage() {
                 setLoading(false);
                 return;
             }
+
+            // Mark the invitation code as used
+            await supabase
+                .from('invitation_codes')
+                .update({ is_used: true })
+                .eq('code', invitationCode);
 
             setSuccess(true);
         }

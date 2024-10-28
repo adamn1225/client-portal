@@ -264,7 +264,7 @@ export interface Database {
           earliest_pickup_date: string;
           latest_pickup_date: string;
           origin_street: string | null;
-          destination_street: string | null; 
+          destination_street: string | null;
           cancellation_reason: string | null;
           notes: string | null;
         };
@@ -399,6 +399,23 @@ export interface Database {
           id: number;
         };
       };
+      invitation_codes: {
+        Row: {
+          id: number;
+          code: string;
+          is_used: boolean;
+        };
+        Insert: {
+          id?: number;
+          code: string;
+          is_used?: boolean;
+        };
+        Update: {
+          id?: number;
+          code?: string;
+          is_used?: boolean;
+        };
+      };
     }
     Views: {
       [_ in never]: never
@@ -423,3 +440,4 @@ export type Order = Database['public']['Tables']['orders']['Row'];
 export type Profile = Database['public']['Tables']['profiles']['Row'];
 export type Notification = Database['public']['Tables']['notifications']['Row'];
 export type Document = Database['public']['Tables']['documents']['Row'];
+export type InvitationCode = Database['public']['Tables']['invitation_codes']['Row'];
