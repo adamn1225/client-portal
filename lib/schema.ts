@@ -310,6 +310,7 @@ export interface Database {
           address: string | null;
           phone_number: string | null;
           email_notifications: boolean;
+          company_size: number | null;
         };
         Insert: {
           id: string;
@@ -322,7 +323,8 @@ export interface Database {
           profile_picture?: string | null;
           address?: string | null;
           phone_number?: string | null;
-          email_notifications: boolean;
+          email_notifications?: boolean;
+          company_size?: number | null;
         };
         Update: {
           id?: string;
@@ -335,7 +337,8 @@ export interface Database {
           profile_picture?: string | null;
           address?: string | null;
           phone_number?: string | null;
-          email_notifications: boolean;
+          email_notifications?: boolean;
+          company_size?: number | null;
         };
       },
       notifications: {
