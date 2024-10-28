@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from "next/router";
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import { useUser } from '@/context/UserContext';
@@ -37,6 +38,8 @@ const AdminSideNav: React.FC<AdminSideNavProps> = ({ isSidebarOpen, toggleSideba
         ? supabase.storage.from('profile-pictures').getPublicUrl(userProfile.profile_picture).data.publicUrl
         : 'https://www.gravatar.com/avatar?d=mp&s=100';
 
+    const router = useRouter();
+
     return (
         <div>
             <button
@@ -60,43 +63,45 @@ const AdminSideNav: React.FC<AdminSideNavProps> = ({ isSidebarOpen, toggleSideba
                     </li>
                     <li className="w-full text-base flex justify-center m-0">
                         <Link href="/admin-quote-requests" className="side-nav-btn text-slate-900 font-bold py-1 w-full">
-                            Client&apos;s Freight Transport
+                            Client&apos;s Logistics RFQ
                         </Link>
                     </li>
-                    <li className="w-full text-base flex justify-center m-0">
-                        <Link href="/settings" className="side-nav-btn text-slate-900 font-bold py-1 w-full">
-                            Admin Settings
-                        </Link>
-                    </li>
-                    <li className="w-full text-base flex justify-center m-0">
-                        <Link href="/freight-inventory" className="side-nav-btn text-slate-900 font-bold py-1 w-full">
-                            Client&apos;s Freight Inventory
+                    <li className={`w-full text-base flex justify-center mt-0 ${router.pathname == "/inventory" ? "active" : ""}`}>
+                        <Link href="/inventory" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/inventory" ? "active" : ""}`}>
+                            Client&apos;s Inventory
                         </Link>
                     </li>
 
-                    <li className="w-full flex justify-center m-0">
-                        <button className="side-nav-btn text-slate-900 font-bold py-1 w-full">
-                            Inbox
-                        </button>
-                    </li>
-                    <li className="w-full flex justify-center m-0">
-                        <button className="side-nav-btn text-slate-900 text-nowrap font-bold py-1 w-full">
-                            Client Live Chat
-                        </button>
-                    </li>
-                    <li className="w-full flex justify-center m-0">
-                        <button className="side-nav-btn text-slate-900 text-nowrap font-bold py-1 w-full">
-                            Analytics
-                        </button>
-                    </li>
-                    <li className="w-full flex justify-center m-0">
-                        <button className="side-nav-btn text-slate-900 text-nowrap font-bold py-1 w-full">
+                    <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/user-documents" ? "active" : ""}`}>
+                        <Link href="/user-documents" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/user-documents" ? "active" : ""}`}>
                             Documents
-                        </button>
+                        </Link>
+                    </li>
+                    <li className="w-full flex text-base justify-normal m-0">
+                        <Link href="/freight-rfq" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
+                            Procurement <br />  (coming soon)
+                        </Link>
+                    </li>
+
+                    <li className="w-full flex text-base justify-normal m-0">
+                        <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
+                            Projects <br /> (coming soon)
+                        </Link>
+                    </li>
+
+                    <li className="w-full flex text-base justify-normal m-0">
+                        <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
+                            Analytics <br /> (coming soon)
+                        </Link>
                     </li>
                 </ul>
                 <ul className='flex flex-col justify-end items-center'>
                     <li className="w-full flex justify-center m-0">
+                        <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/settings" ? "active" : ""}`}>
+                            <Link href="/settings" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/settings" ? "active" : ""}`}>
+                                Admin Settings
+                            </Link>
+                        </li>
                         <button className="logout font-bold py-1 w-full" onClick={handleLogout}>
                             Logout
                         </button>

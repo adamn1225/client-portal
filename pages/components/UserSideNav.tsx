@@ -5,7 +5,7 @@ import { Database } from '@/lib/schema';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PanelLeftOpen, PanelRightClose } from 'lucide-react';
+import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer  } from 'lucide-react';
 
 interface UserSideNavProps {
     isSidebarOpen: boolean;
@@ -51,42 +51,42 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                             <h3>Welcome {userProfile?.first_name || 'User'}</h3>
                    </div>
                     <ul className='flex gap-3 flex-col flex-grow space-y-1 overflow-y-auto'>
-                        <li className={`w-full text-base flex justify-center mt-0 ${router.pathname == "/freight-inventory" ? "active" : ""}`}>
-                            <Link href="/freight-inventory" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/freight-inventory" ? "active" : ""}`}>
-                                Freight Inventory
+                        <li className={`w-full text-base flex justify-center mt-0 ${router.pathname == "/inventory" ? "active" : ""}`}>
+                            <Link href="/inventory" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/inventory" ? "active" : ""}`}>
+                                <span className='flex items-center flex-nowrap justify-normal gap-2'><ListCollapse /> <span className='text-sm'>Inventory </span></span>
                             </Link>
                         </li>
-                        <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/freight-transport" ? "active" : ""}`}>
-                            <Link href="/freight-transport" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/freight-transport" ? "active" : ""}`}>
-                                Freight Transport
+                        <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/freight-rfq" ? "active" : ""}`}>
+                            <Link href="/freight-rfq" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/freight-rfq" ? "active" : ""}`}>
+                                <span className='flex items-center flex-nowrap justify-normal gap-2'><Workflow /> <span className='text-sm'>Logistics RFQ </span></span>
                             </Link>
                         </li>
                         <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/user-documents" ? "active" : ""}`}>
                             <Link href="/user-documents" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/user-documents" ? "active" : ""}`}>
-                                Documents
+                                <span className='flex items-center flex-nowrap justify-normal gap-2'><Folders /> <span className='text-sm'>Documents </span></span>
                             </Link>
                         </li>
 
-                        <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/settings" ? "active" : ""}`}>
-                            <Link href="/settings" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/settings" ? "active" : ""}`}>
-                                Settings
+                        <li className="w-full flex text-base justify-normal m-0">
+                            <Link href="/freight-rfq" className="side-nav-btn  text-stone-100  font-bold py-1 w-full">
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Signature /> <span className='text-sm'>Procurement <br />(coming soon)</span></span>
                             </Link>
                         </li>
 
                         <li className="w-full flex text-base justify-normal m-0">
                             <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
-                                Inbox (coming soon)
-                            </Link>
-                        </li>
-
-                        <li className="w-full flex text-base justify-normal m-0">
-                            <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
-                                Projects/Contracts <br /> (coming soon)
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer /> <span className='text-sm'>Projects <br />(coming soon)</span></span>
                             </Link>
                         </li>
                     </ul>
-                    <ul className='flex flex-col justify-end items-center'>
-                        <li className="w-full flex justify-center m-0">
+                    <ul className='flex flex-col gap-4 justify-end items-center'>
+                        <li className={`w-full text-nowrap flex justify-normal m-0 ${router.pathname == "/settings" ? "active" : ""}`}>
+                            <Link href="/settings" className={`logout flex items-center justify-center gap-2 font-bold py-1 w-full ${router.pathname == "/settings" ? "active" : ""}`}>
+                                <Settings />   Settings
+                            </Link>
+                        </li>
+                        <li className="w-full flex items-centerjustify-center m-0">
+                            
                             <button className="logout font-bold py-1 w-full" onClick={handleLogout}>
                                 Logout
                             </button>
