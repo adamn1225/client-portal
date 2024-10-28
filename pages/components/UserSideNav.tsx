@@ -5,7 +5,7 @@ import { Database } from '@/lib/schema';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer  } from 'lucide-react';
+import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer, Handshake  } from 'lucide-react';
 
 interface UserSideNavProps {
     isSidebarOpen: boolean;
@@ -76,6 +76,12 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                         <li className="w-full flex text-base justify-normal m-0">
                             <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
                                 <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer /> <span className='text-sm'>Projects <br />(coming soon)</span></span>
+                            </Link>
+                        </li>
+
+                        <li className="w-full flex text-base justify-normal m-0">
+                            <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Handshake /> <span className='text-sm'>Vendors <br />(coming soon)</span></span>
                             </Link>
                         </li>
                     </ul>

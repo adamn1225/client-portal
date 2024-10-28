@@ -39,7 +39,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
             <div className="fixed top-0 left-0 z-30 w-full">
                 <UserTopNav />
             </div>
-            <main className="md:main-content md:ml-0 lg:ml-64 z-0 p-4 mt-20 relative">
+            <main className="main-content ml-0 lg:ml-52 z-0 md:p-4 mt-20 relative">
 
                 {children}
             </main>

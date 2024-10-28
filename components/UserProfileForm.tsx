@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import Image from 'next/image';
-import { UserRoundPen, BellRing, Building2 } from 'lucide-react'
+import { UserRoundPen, BellRing, Building2, Shield, Menu } from 'lucide-react';
 
 const UserProfileForm = () => {
     const session = useSession();
@@ -20,8 +20,13 @@ const UserProfileForm = () => {
     const [profileSuccess, setProfileSuccess] = useState('');
     const [notificationsError, setNotificationsError] = useState('');
     const [notificationsSuccess, setNotificationsSuccess] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [passwordSuccess, setPasswordSuccess] = useState('');
     const [isEditing, setIsEditing] = useState(false); // State to control editing
     const [activeSection, setActiveSection] = useState('personal'); // State to control active section
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [sidebarOpen, setSidebarOpen] = useState(false); // State to control sidebar visibility
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -135,9 +140,41 @@ const UserProfileForm = () => {
         }
     };
 
+    const handlePasswordSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!session) return;
+
+        if (newPassword !== confirmPassword) {
+            setPasswordError('Passwords do not match');
+            return;
+        }
+
+        const { error } = await supabase.auth.updateUser({
+            password: newPassword,
+        });
+
+        if (error) {
+            console.error('Error updating password:', error.message);
+            setPasswordError('Error updating password');
+        } else {
+            console.log('Password updated successfully');
+            setPasswordError('');
+            setPasswordSuccess('Password updated successfully');
+            setNewPassword('');
+            setConfirmPassword('');
+        }
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setProfilePicture(e.target.files[0]);
+        }
+    };
+
     return (
-        <div className="flex">
-            <div className="w-1/4 p-4 bg-gray-100 border-r border-gray-300">
+        <div className="flex h-screen">
+            {/* Sidebar */}
+            <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out w-64 bg-gray-100 p-4 border-r border-gray-300 z-50 md:relative md:translate-x-0`}>
                 <h2 className="text-xl font-bold mb-4">Settings</h2>
                 <ul className="space-y-2">
                     <li className='flex gap-1 items-center'>
@@ -167,88 +204,126 @@ const UserProfileForm = () => {
                             Notification Settings
                         </button>
                     </li>
+                    <li className='flex gap-1 items-center'>
+                        <Shield />
+                        <button
+                            className={`w-full text-left p-2 ${activeSection === 'security' ? 'bg-gray-300' : ''}`}
+                            onClick={() => setActiveSection('security')}
+                        >
+                            Security Settings
+                        </button>
+                    </li>
                 </ul>
             </div>
-            <div className="w-3/4 p-4">
+
+            {/* Main Content */}
+            <div className="flex-1 p-4">
+
+                {/* Header */}
+
+                <div className="flex flex-row-reverse md:flex-row justify-between items-center mb-4">
+
+                    <h1 className="text-2xl xs:pr-8  text-center w-full font-bold">
+                        {activeSection === 'personal' && 'Personal Details'}
+                        {activeSection === 'company' && 'Company Details'}
+                        {activeSection === 'notifications' && 'Notification Settings'}
+                        {activeSection === 'security' && 'Security Settings'}
+                    </h1>
+                    <button className="md:hidden btn-blue" onClick={() => setSidebarOpen(!sidebarOpen)}>
+                        <Menu className="h-6 w-6" />
+                    </button>
+                </div>
+
                 {activeSection === 'personal' && (
-                    <div>
-                        <h1 className="text-2xl font-bold">Personal Details</h1>
+                    <div className=' flex flex-col w-full justify-center'>
                         <button
                             onClick={() => setIsEditing(true)}
-                            className="btn-slate my-4 text-nowrap flex-nowrap cursor-pointer self-start"
+                            className="btn-slate my-4 text-nowrap max-w-max flex-nowrap w-full self-center cursor-pointer"
                             disabled={isEditing}
                         >
                             Edit Profile Information
                         </button>
                         <div className="flex flex-col gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
-                            <form onSubmit={handleProfileSubmit} className="grid grid-cols-2 gap-4 w-full">
+                            <form onSubmit={handleProfileSubmit} className="flex flex-col justify-center items-center gap-4 w-full">
                                 {profilePictureUrl && (
-                                    <div className="col-span-2">
+                                    <div className="flex flex-col items-center">
                                         <Image
                                             src={profilePictureUrl}
                                             alt="Profile Picture"
                                             width={100}
                                             height={100}
-                                            className="rounded-full shadow-md"
+                                            className="rounded-full shadow-md self-center"
                                         />
-                                        <div className='flex flex-col mt-3 mb-6'>
+                                        <div className='w-full flex flex-col items-center justify-center mt-3 mb-6'>
                                             <label className='font-semibold text-slate-800'>Update Profile Image</label>
                                             <input
                                                 type="file"
-                                                onChange={(e) => setProfilePicture(e.target.files ? e.target.files[0] : null)}
-                                                className="rounded"
+                                                onChange={handleFileChange}
+                                                className="hidden"
+                                                id="profile-picture-upload"
                                                 disabled={!isEditing}
                                             />
+                                            <label
+                                                htmlFor="profile-picture-upload"
+                                                className={`btn-blue cursor-pointer ${!isEditing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                            >
+                                                Upload Image
+                                            </label>
                                         </div>
                                     </div>
                                 )}
 
-                                <div className="flex flex-col">
-                                    <label>First Name</label>
-                                    <input
-                                        type="text"
-                                        value={firstName}
-                                        onChange={(e) => setFirstName(e.target.value)}
-                                        required
-                                        className="rounded w-full p-2 border border-slate-900"
-                                        disabled={!isEditing}
-                                    />
+                                <div className='lg:flex justify-center items-center gap-2'>
+                                    <div className="flex flex-col">
+                                        <label>First Name</label>
+                                        <input
+                                            type="text"
+                                            value={firstName}
+                                            onChange={(e) => setFirstName(e.target.value)}
+                                            required
+                                            className="rounded w-full p-2 border border-slate-900"
+                                            disabled={!isEditing}
+                                        />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <label>Last Name</label>
+                                        <input
+                                            type="text"
+                                            value={lastName}
+                                            onChange={(e) => setLastName(e.target.value)}
+                                            required
+                                            className="rounded w-full p-2 border border-slate-900"
+                                            disabled={!isEditing}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <label>Last Name</label>
-                                    <input
-                                        type="text"
-                                        value={lastName}
-                                        onChange={(e) => setLastName(e.target.value)}
-                                        required
-                                        className="rounded w-full p-2 border border-slate-900"
-                                        disabled={!isEditing}
-                                    />
-                                </div>
-                                <div className="flex flex-col">
-                                    <label>Phone Number</label>
-                                    <input
-                                        type="text"
-                                        value={phoneNumber}
-                                        onChange={(e) => setPhoneNumber(e.target.value)}
-                                        className="rounded w-full p-2 border border-slate-900"
-                                        disabled={!isEditing}
-                                    />
-                                </div>
-                                <div className="flex flex-col">
-                                    <label>Email</label>
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                        className="rounded w-full p-2 border border-slate-900"
-                                        disabled={!isEditing}
-                                    />
+
+                                <div className='lg:flex justify-center items-center gap-2'>
+                                    <div className="flex flex-col">
+                                        <label>Phone Number</label>
+                                        <input
+                                            type="text"
+                                            value={phoneNumber}
+                                            onChange={(e) => setPhoneNumber(e.target.value)}
+                                            className="rounded w-full p-2 border border-slate-900"
+                                            disabled={!isEditing}
+                                        />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <label>Email</label>
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                            className="rounded w-full p-2 border border-slate-900"
+                                            disabled={!isEditing}
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="col-span-2">
-                                    <button type="submit" className="btn-black-outline w-full" disabled={!isEditing}>
+                                    <button type="submit" className="btn-black-outline w-full mt-4" disabled={!isEditing}>
                                         Update Profile
                                     </button>
                                 </div>
@@ -261,7 +336,6 @@ const UserProfileForm = () => {
 
                 {activeSection === 'company' && (
                     <div>
-                        <h1 className="text-2xl font-bold">Company Details</h1>
                         <button
                             onClick={() => setIsEditing(true)}
                             className="btn-slate my-4 text-nowrap flex-nowrap cursor-pointer self-start"
@@ -270,7 +344,7 @@ const UserProfileForm = () => {
                             Edit Company Information
                         </button>
                         <div className="flex flex-col gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
-                            <form onSubmit={handleProfileSubmit} className="grid grid-cols-2 gap-4 w-full">
+                            <form onSubmit={handleProfileSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                                 <div className="flex flex-col">
                                     <label>Company Name</label>
                                     <input
@@ -306,7 +380,6 @@ const UserProfileForm = () => {
 
                 {activeSection === 'notifications' && (
                     <div>
-                        <h1 className="text-2xl font-bold">Notification Settings</h1>
                         <div className="flex flex-col gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
                             <form onSubmit={handleNotificationsSubmit} className="flex flex-col gap-4 w-full">
                                 <div className='flex items-center gap-1 flex-nowrap'>
@@ -327,6 +400,41 @@ const UserProfileForm = () => {
                                 </button>
                                 {notificationsError && <p className="text-red-500">{notificationsError}</p>}
                                 {notificationsSuccess && <p className="text-green-500">{notificationsSuccess}</p>}
+                            </form>
+                        </div>
+                    </div>
+                )}
+
+                {activeSection === 'security' && (
+                    <div>
+                        <div className="flex flex-col gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
+                            <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4 w-full">
+                                <div className="flex flex-col">
+                                    <label>New Password</label>
+                                    <input
+                                        type="password"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        required
+                                        className="rounded w-full p-2 border border-slate-900"
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label>Confirm New Password</label>
+                                    <input
+                                        type="password"
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        required
+                                        className="rounded w-full p-2 border border-slate-900"
+                                    />
+                                </div>
+
+                                <button type="submit" className="btn-black-outline">
+                                    Update Password
+                                </button>
+                                {passwordError && <p className="text-red-500">{passwordError}</p>}
+                                {passwordSuccess && <p className="text-green-500">{passwordSuccess}</p>}
                             </form>
                         </div>
                     </div>
