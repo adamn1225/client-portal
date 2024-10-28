@@ -16,7 +16,7 @@ export default function LoginPage() {
             options: {
                 redirectTo: process.env.NODE_ENV === 'development'
                     ? 'http://localhost:3000/auth/callback'
-                    : 'https://fazytsvctdzbhvsavvwj.supabase.co/auth/v1/callback',
+                    : 'https://ssta-nts-client.netlify.app/auth/callback',
             },
         });
 
@@ -25,6 +25,7 @@ export default function LoginPage() {
             setError('Error signing in with Google. Please try again.');
         }
     };
+
 
     return (
         <Layout>
