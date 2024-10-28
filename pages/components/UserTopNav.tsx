@@ -59,25 +59,26 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
 
     return (
         <nav className={`w-full bg-slate-100 dark:bg-gray-700 flex justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
-            <ul className='flex gap-4 items-end z-50 justify-center mr-4'>
-                <li className="m-0">
+            <ul className='flex gap-2 md:gap-4 items-end z-50 justify-end mr-4'>
+                <li className="m-0 flex flex-col justify-end items-end">
                     <NotificationBell session={session} />
                 </li>
-                <li className="flex flex-col justify-center items-center m-0">
+
+                <li className="flex flex-col justify-end items-end m-0">
+                    <button onClick={toggleDarkMode} className="p-2 rounded-full">
+                        {darkMode ? <Sun className="text-yellow-500" /> : <Moon className="text-gray-800" />}
+                    </button>
+                </li>
+                <li className="flex flex-col justify-end items-end m-0">
+                    <FeedBack />
+                </li>
+                <li className="flex flex-col justify-end items-end m-0">
                     <Image
                         src={profilePictureUrl}
                         alt='profile-img'
                         className='rounded-full shadow-md'
                         width={40}
                         height={40} />
-                </li>
-                <li className="flex flex-col justify-center items-center m-0">
-                    <button onClick={toggleDarkMode} className="p-2 rounded-full">
-                        {darkMode ? <Sun className="text-yellow-500" /> : <Moon className="text-gray-800" />}
-                    </button>
-                </li>
-                <li className="flex flex-col justify-center items-center m-0">
-                    <FeedBack />
                 </li>
             </ul>
         </nav>

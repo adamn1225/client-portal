@@ -24,6 +24,7 @@ const UserProfileForm = () => {
     const [passwordSuccess, setPasswordSuccess] = useState('');
     const [isEditing, setIsEditing] = useState(false); // State to control editing
     const [activeSection, setActiveSection] = useState('personal'); // State to control active section
+    const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [sidebarOpen, setSidebarOpen] = useState(false); // State to control sidebar visibility
@@ -133,28 +134,6 @@ const UserProfileForm = () => {
 
     
 
-    const handleNotificationsSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!session) return;
-
-        const { error: updateError } = await supabase
-            .from('profiles') // Ensure the table name is correct
-            .update({
-                email_notifications: emailNotifications,
-            })
-            .eq('id', session.user.id);
-
-        if (updateError) {
-            console.error('Error updating notification settings:', updateError.message);
-            setNotificationsError('Error updating notification settings');
-        } else {
-            console.log('Notification settings updated successfully');
-            setNotificationsError('');
-            setNotificationsSuccess('Notification settings updated successfully');
-        }
-    };
-    
-
     const handlePasswordSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!session) return;
@@ -164,6 +143,18 @@ const UserProfileForm = () => {
             return;
         }
 
+        // Re-authenticate the user with the current password
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+            email: session.user.email || '',
+            password: currentPassword,
+        });
+
+        if (signInError) {
+            setPasswordError('Current password is incorrect');
+            return;
+        }
+
+        // Update the password
         const { error } = await supabase.auth.updateUser({
             password: newPassword,
         });
@@ -175,6 +166,7 @@ const UserProfileForm = () => {
             console.log('Password updated successfully');
             setPasswordError('');
             setPasswordSuccess('Password updated successfully');
+            setCurrentPassword('');
             setNewPassword('');
             setConfirmPassword('');
         }
@@ -206,7 +198,7 @@ const UserProfileForm = () => {
                     <li className='flex gap-1 items-center'>
                         <UserRoundPen />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'personal' ? 'bg-gray-300' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'personal' ? ' bg-gray-300 dark:text-slate-800' : ''}`}
                             onClick={() => setActiveSection('personal')}
                         >
                             Personal Details
@@ -215,7 +207,7 @@ const UserProfileForm = () => {
                     <li className='flex gap-1 items-center'>
                         <Building2 />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'company' ? 'bg-gray-300' : ''}`}
+                            className={`w-full text-left p-2  ${activeSection === 'company' ? ' bg-gray-300  dark:text-slate-800' : ''}`}
                             onClick={() => setActiveSection('company')}
                         >
                             Company Details
@@ -224,7 +216,7 @@ const UserProfileForm = () => {
                     <li className='flex gap-1 items-center'>
                         <BellRing />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'notifications' ? 'bg-gray-300' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'notifications' ? ' bg-gray-300 dark:text-slate-800' : ''}`}
                             onClick={() => setActiveSection('notifications')}
                         >
                             Notification Settings
@@ -233,7 +225,7 @@ const UserProfileForm = () => {
                     <li className='flex gap-1 items-center'>
                         <Shield />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'security' ? 'bg-gray-300' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'security' ? ' bg-gray-300 dark:text-slate-800' : ''}`}
                             onClick={() => setActiveSection('security')}
                         >
                             Security Settings
@@ -242,7 +234,7 @@ const UserProfileForm = () => {
                 </ul>
                 <div className="mt-4">
                     <button
-                        className="flex items-center p-2 text-gray-700 hover:bg-gray-200 rounded w-full text-left"
+                        className="flex items-center p-2 text-gray-700 hover:bg-gray-200 rounded w-full text-left bg-gray-200 dark:bg-gray-900 dark:text-white"
                         onClick={toggleDarkMode}
                     >
                         {darkMode ? <Sun className="mr-2" /> : <Moon className="mr-2" />}
@@ -257,28 +249,28 @@ const UserProfileForm = () => {
                 {/* Header */}
 
                 <div className="flex flex-row-reverse md:flex-row justify-between items-center mb-4">
-
+                    <button className="md:hidden btn-blue" onClick={() => setSidebarOpen(!sidebarOpen)}>
+                        <Menu className="h-6 w-6" />
+                    </button>
                     <h1 className="text-2xl xs:pr-8  text-center w-full font-bold">
                         {activeSection === 'personal' && 'Personal Details'}
                         {activeSection === 'company' && 'Company Details'}
                         {activeSection === 'notifications' && 'Notification Settings'}
                         {activeSection === 'security' && 'Security Settings'}
                     </h1>
-                    <button className="md:hidden btn-blue" onClick={() => setSidebarOpen(!sidebarOpen)}>
-                        <Menu className="h-6 w-6" />
-                    </button>
+
                 </div>
 
                 {activeSection === 'personal' && (
-                    <div className=' flex flex-col w-full justify-center'>
+                    <div className=' flex flex-col w-full lg:w-1/2 md:items-center justify-center'>
                         <button
                             onClick={() => setIsEditing(true)}
-                            className="btn-slate my-4 text-nowrap max-w-max flex-nowrap w-full self-center cursor-pointer"
+                            className="btn-slate my-4 text-nowrap max-w-max dark:bg-slate-100 dark:text-slate-800 flex-nowrap w-full self-center cursor-pointer dark:hover:bg-amber-400 dark:hover:text-gray-800"
                             disabled={isEditing}
                         >
                             Edit Profile Information
                         </button>
-                        <div className="flex flex-col gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
+                        <div className="flex flex-col gap-4 bg-stone-200 dark:text-slate-800 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
                             <form onSubmit={handleProfileSubmit} className="flex flex-col justify-center items-center gap-4 w-full">
                                 {profilePictureUrl && (
                                     <div className="flex flex-col items-center">
@@ -290,7 +282,7 @@ const UserProfileForm = () => {
                                             className="rounded-full shadow-md self-center"
                                         />
                                         <div className='w-full flex flex-col items-center justify-center mt-3 mb-6'>
-                                            <label className='font-semibold text-slate-800'>Update Profile Image</label>
+                                            <label className='font-semibold text-slate-800 dark:text-slate-800'>Update Profile Image</label>
                                             <input
                                                 type="file"
                                                 onChange={handleFileChange}
@@ -300,7 +292,7 @@ const UserProfileForm = () => {
                                             />
                                             <label
                                                 htmlFor="profile-picture-upload"
-                                                className={`btn-blue cursor-pointer ${!isEditing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                                className={`btn-blue cursor-pointer px-6 py-2 dark:bg-slate-800 dark:text-slate-100 font-bold ${!isEditing ? 'opacity-50 dark:text-slate-100 dark:bg-slate-900 cursor-not-allowed' : ''}`}
                                             >
                                                 Upload Image
                                             </label>
@@ -358,7 +350,7 @@ const UserProfileForm = () => {
                                 </div>
 
                                 <div className="col-span-2">
-                                    <button type="submit" className="btn-black-outline w-full mt-4" disabled={!isEditing}>
+                                    <button type="submit" className="btn-black-outline w-full mt-4 dark:hover:bg-amber-400 dark:hover:text-gray-800" disabled={!isEditing}>
                                         Update Profile
                                     </button>
                                 </div>
@@ -373,13 +365,13 @@ const UserProfileForm = () => {
                     <div>
                         <button
                             onClick={() => setIsEditing(true)}
-                            className="btn-slate my-4 text-nowrap flex-nowrap cursor-pointer self-start"
+                            className="btn-slate my-4 text-nowrap flex-nowrap cursor-pointer self-start dark:bg-slate-100 dark:text-slate-800 dark:hover:bg-amber-400 dark:hover:text-gray-800"
                             disabled={isEditing}
                         >
                             Edit Company Information
                         </button>
-                        <div className="flex flex-col gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
-                            <form onSubmit={handleProfileSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                        <div className="flex flex-col w-full lg:w-1/2 md:items-center justify-center gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
+                            <form onSubmit={handleProfileSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full dark:text-slate-800">
                                 <div className="flex flex-col">
                                     <label>Company Name</label>
                                     <input
@@ -402,7 +394,7 @@ const UserProfileForm = () => {
                                 </div>
 
                                 <div className="col-span-2">
-                                    <button type="submit" className="btn-black-outline w-full" disabled={!isEditing}>
+                                    <button type="submit" className="btn-black-outline w-full dark:hover:bg-amber-400 dark:hover:text-gray-800" disabled={!isEditing}>
                                         Update Company Details
                                     </button>
                                 </div>
@@ -415,8 +407,8 @@ const UserProfileForm = () => {
 
                 {activeSection === 'notifications' && (
                     <div>
-                        <div className="flex flex-col gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
-                            <form onSubmit={handleNotificationsSubmit} className="flex flex-col gap-4 w-full">
+                        <div className="flex flex-col w-full lg:w-1/2 md:items-center justify-center  gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
+                            <form onSubmit={handleNotificationsSubmit} className="flex flex-col gap-4 w-full dark:text-slate-800">
                                 <div className='flex items-center gap-1 flex-nowrap'>
                                     <label className='text-lg font-medium'>Email Notifications</label>
                                     <label className="switch">
@@ -430,7 +422,7 @@ const UserProfileForm = () => {
                                     </label>
                                 </div>
 
-                                <button type="submit" className="btn-black-outline" disabled={!isEditing}>
+                                <button type="submit" className="btn-black-outline dark:hover:bg-amber-400 dark:hover:text-gray-800" disabled={!isEditing}>
                                     Update Notification Settings
                                 </button>
                                 {notificationsError && <p className="text-red-500">{notificationsError}</p>}
@@ -442,8 +434,19 @@ const UserProfileForm = () => {
 
                 {activeSection === 'security' && (
                     <div>
-                        <div className="flex flex-col gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
-                            <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4 w-full">
+                        <div className="flex flex-col w-full lg:w-1/2 md:items-center justify-center gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
+                            <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4 w-full dark:text-slate-800">
+                                <h2 className='font-bold'>Change Password</h2>
+                                <div className="flex flex-col">
+                                    <label>Current Password</label>
+                                    <input
+                                        type="password"
+                                        value={currentPassword}
+                                        onChange={(e) => setCurrentPassword(e.target.value)}
+                                        required
+                                        className="rounded w-full p-2 border border-slate-900"
+                                    />
+                                </div>
                                 <div className="flex flex-col">
                                     <label>New Password</label>
                                     <input
@@ -465,7 +468,7 @@ const UserProfileForm = () => {
                                     />
                                 </div>
 
-                                <button type="submit" className="btn-black-outline">
+                                <button type="submit" className="btn-black-outline dark:hover:bg-amber-400 dark:hover:text-gray-800">
                                     Update Password
                                 </button>
                                 {passwordError && <p className="text-red-500">{passwordError}</p>}
