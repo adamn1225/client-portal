@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
-import { Users, FolderHeart, Trash2, Folder } from 'lucide-react'
+import { Users, FolderHeart, Trash2, Folder, Menu } from 'lucide-react';
 
 interface DocumentsProps {
     session: Session | null;
@@ -28,6 +28,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [activeSection, setActiveSection] = useState('all'); // State to control active section
+    const [sidebarOpen, setSidebarOpen] = useState(false); // State to control sidebar visibility
 
     const fetchDocuments = useCallback(async () => {
         if (!session) return;
@@ -108,7 +109,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
     return (
         <div className="flex h-screen">
             {/* Sidebar */}
-            <div className="w-1/4 bg-gray-100 p-4 border-r border-gray-300">
+            <div className={`fixed inset-y-0  transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out w-64 bg-gray-100 p-4 border-r border-gray-300 z-50 md:relative md:translate-x-0`}>
                 <h2 className="text-xl font-bold mb-4">Documents</h2>
                 <ul className="space-y-2">
                     <li className='flex gap-1 items-center'>
@@ -151,7 +152,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 p-4">
+            <div className="flex-1 p-4 ml-0">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-2xl font-bold">
@@ -161,6 +162,9 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                         {activeSection === 'trash' && 'Trash'}
                     </h1>
                     <button className="btn-blue" onClick={handleUpload}>Upload Document</button>
+                    <button className="md:hidden btn-blue" onClick={() => setSidebarOpen(!sidebarOpen)}>
+                        <Menu className="h-6 w-6" />
+                    </button>
                 </div>
 
                 {/* Upload Form */}
