@@ -132,6 +132,27 @@ const UserProfileForm = () => {
         }
     };
 
+    const handleNotificationsSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!session) return;
+
+        const { error: updateError } = await supabase
+            .from('profiles') // Ensure the table name is correct
+            .update({
+                email_notifications: emailNotifications,
+            })
+            .eq('id', session.user.id);
+
+        if (updateError) {
+            console.error('Error updating notification settings:', updateError.message);
+            setNotificationsError('Error updating notification settings');
+        } else {
+            console.log('Notification settings updated successfully');
+            setNotificationsError('');
+            setNotificationsSuccess('Notification settings updated successfully');
+        }
+    };
+
     
 
     const handlePasswordSubmit = async (e: React.FormEvent) => {
