@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import Image from 'next/image';
-import { UserRoundPen, BellRing, Building2, Shield, Menu } from 'lucide-react';
+import { UserRoundPen, BellRing, Building2, Shield, Menu, Sun, Moon } from 'lucide-react';
 
 const UserProfileForm = () => {
     const session = useSession();
@@ -27,6 +27,7 @@ const UserProfileForm = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [sidebarOpen, setSidebarOpen] = useState(false); // State to control sidebar visibility
+    const [darkMode, setDarkMode] = useState(false); // State to control dark mode
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -57,6 +58,17 @@ const UserProfileForm = () => {
 
         fetchUserProfile();
     }, [session, supabase]);
+
+    useEffect(() => {
+        // Load dark mode preference from local storage
+        const darkModePreference = localStorage.getItem('darkMode');
+        if (darkModePreference) {
+            setDarkMode(darkModePreference === 'true');
+            if (darkModePreference === 'true') {
+                document.documentElement.classList.add('dark');
+            }
+        }
+    }, []);
 
     const uploadProfilePicture = async (file: File, userId: string) => {
         const { data, error } = await supabase.storage
@@ -119,6 +131,8 @@ const UserProfileForm = () => {
         }
     };
 
+    
+
     const handleNotificationsSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!session) return;
@@ -139,6 +153,7 @@ const UserProfileForm = () => {
             setNotificationsSuccess('Notification settings updated successfully');
         }
     };
+    
 
     const handlePasswordSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -171,10 +186,21 @@ const UserProfileForm = () => {
         }
     };
 
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+        if (!darkMode) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('darkMode', 'true');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('darkMode', 'false');
+        }
+    };
+
     return (
         <div className="flex h-screen">
             {/* Sidebar */}
-            <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out w-64 bg-gray-100 p-4 border-r border-gray-300 z-50 md:relative md:translate-x-0`}>
+            <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out w-64 bg-gray-200 dark:bg-gray-900 dark:text-white p-4 border-r border-t border-gray-700/20 shadow-lg z-50 md:relative md:translate-x-0`}>
                 <h2 className="text-xl font-bold mb-4">Settings</h2>
                 <ul className="space-y-2">
                     <li className='flex gap-1 items-center'>
@@ -214,6 +240,15 @@ const UserProfileForm = () => {
                         </button>
                     </li>
                 </ul>
+                <div className="mt-4">
+                    <button
+                        className="flex items-center p-2 text-gray-700 hover:bg-gray-200 rounded w-full text-left"
+                        onClick={toggleDarkMode}
+                    >
+                        {darkMode ? <Sun className="mr-2" /> : <Moon className="mr-2" />}
+                        {darkMode ? 'Light Mode' : 'Dark Mode'}
+                    </button>
+                </div>
             </div>
 
             {/* Main Content */}

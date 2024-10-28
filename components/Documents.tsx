@@ -109,13 +109,13 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
     return (
         <div className="flex h-screen">
             {/* Sidebar */}
-            <div className={`fixed inset-y-0  transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out w-64 bg-gray-100 p-4 border-r border-gray-300 z-50 md:relative md:translate-x-0`}>
+            <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out w-64 bg-gray-200 dark:bg-gray-900 dark:text-white p-4 border-r border-t border-gray-700/20 shadow-lg z-50 md:relative md:translate-x-0`}>
                 <h2 className="text-xl font-bold mb-4">Documents</h2>
                 <ul className="space-y-2">
                     <li className='flex gap-1 items-center'>
                         <Folder />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'all' ? 'bg-gray-200' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'all' ? 'bg-gray-100 dark:text-slate-800' : ''}`}
                             onClick={() => setActiveSection('all')}
                         >
                             All Documents
@@ -124,7 +124,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                     <li className='flex gap-1 items-center'>
                         <Users />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'shared' ? 'bg-gray-200' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'shared' ? 'bg-gray-100 dark:text-slate-800' : ''}`}
                             onClick={() => setActiveSection('shared')}
                         >
                             Shared with Me
@@ -133,7 +133,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                     <li className='flex gap-1 items-center'>
                         <FolderHeart />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'favorites' ? 'bg-gray-200' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'favorites' ? 'bg-gray-100 dark:text-slate-800' : ''}`}
                             onClick={() => setActiveSection('favorites')}
                         >
                             Favorites
@@ -142,7 +142,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                     <li className='flex gap-1 items-center'>
                         <Trash2 />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'trash' ? 'bg-gray-200' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'trash' ? 'bg-gray-100 dark:text-slate-800' : ''}`}
                             onClick={() => setActiveSection('trash')}
                         >
                             Trash

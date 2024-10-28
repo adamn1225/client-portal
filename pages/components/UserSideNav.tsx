@@ -83,20 +83,20 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                         </li>
 
                         <li className="w-full flex text-base justify-normal m-0">
-                            <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
+                            <Link href="/freight-transport" className="side-nav-btn  text-stone-100 text-nowrap font-bold py-1 w-full">
                                 <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Handshake /> <span className='text-sm'>Vendors <br />(coming soon)</span></span>
                             </Link>
                         </li>
                     </ul>
                     <ul className='flex flex-col gap-4 justify-end items-center'>
                         <li className={`w-full text-nowrap flex justify-normal m-0 ${router.pathname == "/settings" ? "active" : ""}`}>
-                            <Link href="/settings" className={`logout flex items-center justify-center gap-2 font-bold py-1 w-full ${router.pathname == "/settings" ? "active" : ""}`}>
+                            <Link href="/settings" className={`logout dark:bg-gray-300 dark:text-gray-700 flex items-center justify-center gap-2 font-bold py-1 w-full ${router.pathname == "/settings" ? "active" : ""}`}>
                                 <Settings />   Settings
                             </Link>
                         </li>
                         <li className="w-full flex items-centerjustify-center m-0">
                             
-                            <button className="logout font-bold py-1 w-full" onClick={handleLogout}>
+                            <button className="logout dark:bg-gray-300 dark:text-gray-700 font-bold py-1 w-full" onClick={handleLogout}>
                                 Logout
                             </button>
                         </li>

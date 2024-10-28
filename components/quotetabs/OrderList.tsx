@@ -179,21 +179,21 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
         }
     };
     return (
-        <div className="w-full bg-white shadow rounded-md border border-slate-400 max-h-max flex-grow">
+        <div className="w-full bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded-md border border-slate-400 max-h-max flex-grow">
             {!!errorText && <div className="text-red-500">{errorText}</div>}
             <div className="hidden 2xl:block overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50 sticky top-0 z-10">
+                <table className="min-w-full divide-y divide-gray-200 dark:text-gray-900">
+                    <thead className="bg-gray-50 sticky top-0 z-10 dark:bg-gray-800 dark:text-gray-100">
                         <tr className='border-b border-slate-900/20'>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">ID</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Origin</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Freight</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Shipping Date</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Price</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">ID</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Origin</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Freight</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Shipping Date</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Price</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:text-gray-100">
                         {orders.map((order) => (
                             <tr key={order.id}>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
@@ -217,7 +217,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                                     {order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'coming soon'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap flex justify-evenly">
-                                    <button onClick={() => handleEditOrder(order)} className="text-blue-600 ml-2">
+                                    <button onClick={() => handleEditOrder(order)} className="text-blue-600 dark:text-blue-400 ml-2">
                                         Edit Order
                                     </button>
                                     <button onClick={() => { setSelectedOrderId(order.id); setIsModalOpen(true); }} className="text-red-500 ml-2">
@@ -228,7 +228,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                                             <button onClick={() => handleMarkAsComplete(order.id)} className="text-green-600 ml-2">
                                                 Order Completed
                                             </button>
-                                            <button onClick={() => handleEditOrder(order)} className="text-blue-600 ml-2">
+                                            <button onClick={() => handleEditOrder(order)} className="text-blue-600 dark:text-blue-400 ml-2">
                                                 Edit Order
                                             </button>
                                         </>
@@ -239,54 +239,56 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                     </tbody>
                 </table>
             </div>
-            <div className="block 2xl:hidden">
-                {orders.map((order) => (
-                    <div key={order.id} className="bg-white shadow rounded-md mb-4 p-4 border border-slate-400">
-                        <div className="flex justify-between items-center mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">ID</div>
-                            <div className="text-sm font-medium text-gray-900">{order.id}</div>
+            <div className="block 2xl:hidden mt-">
+                <div className='mt-1'>
+                    {orders.map((order) => (
+                        <div key={order.id} className="bg-white dark:bg-gray-800 shadow rounded-md mb-4 p-4 border border-slate-400 dark:text-white">
+                            <div className="flex justify-between items-center mb-2">
+                                <div className="text-sm font-extrabold dark:text-white">ID</div>
+                                <div className="text-sm font-medium text-gray-900">{order.id}</div>
+                            </div>
+                            <div className='border-b border-slate-600 mb-4'></div>
+                            <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
+                                <div className="text-sm font-extrabold text-gray-500 dark:text-white">Origin</div>
+                                <div className="text-sm font-medium text-gray-900 dark:text-white">{order.origin_street} {order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</div>
+                            </div>
+                            <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
+                                <div className="text-sm font-extrabold text-gray-500 dark:text-white">Destination</div>
+                                <div className="text-sm font-medium text-gray-900 dark:text-white">{order.destination_street} {order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</div>
+                            </div>
+                            <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
+                                <div className="text-sm font-extrabold text-gray-500 dark:text-white">Freight</div>
+                                <div className="text-sm font-medium text-gray-900 dark:text-white">{order.shippingquotes.year_amount} {order.shippingquotes.make} {order.shippingquotes.model}</div>
+                            </div>
+                            <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
+                                <div className="text-sm font-extrabold text-gray-500 dark:text-white">Shipping Date</div>
+                                <div className="text-sm font-medium text-gray-900 dark:text-white">{order.shippingquotes.due_date || 'No due date'}</div>
+                            </div>
+                            <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
+                                <div className="text-sm font-extrabold text-gray-500 dark:text-white">Price</div>
+                                <div className="text-sm font-medium text-gray-900 dark:text-white">{order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'coming soon'}</div>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <button onClick={() => handleEditOrder(order)} className="text-blue-600 dark:text-blue-400 ml-2">
+                                    Edit Order
+                                </button>
+                                <button onClick={() => { setSelectedOrderId(order.id); setIsModalOpen(true); }} className="text-red-500 ml-2">
+                                    Cancel Order
+                                </button>
+                                {isAdmin && (
+                                    <>
+                                        <button onClick={() => handleMarkAsComplete(order.id)} className="text-green-600 ml-2">
+                                            Order Completed
+                                        </button>
+                                        <button onClick={() => handleEditOrder(order)} className="text-blue-600 dark:text-blue-400 ml-2">
+                                            Edit Order
+                                        </button>
+                                    </>
+                                )}
+                            </div>
                         </div>
-                        <div className='border-b border-slate-600 mb-4'></div>
-                        <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">Origin</div>
-                            <div className="text-sm font-medium text-gray-900">{order.origin_street} {order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</div>
-                        </div>
-                        <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">Destination</div>
-                            <div className="text-sm font-medium text-gray-900">{order.destination_street} {order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</div>
-                        </div>
-                        <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">Freight</div>
-                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes.year_amount} {order.shippingquotes.make} {order.shippingquotes.model}</div>
-                        </div>
-                        <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">Shipping Date</div>
-                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes.due_date || 'No due date'}</div>
-                        </div>
-                        <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">Price</div>
-                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'coming soon'}</div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <button onClick={() => handleEditOrder(order)} className="text-blue-600 ml-2">
-                                Edit Order
-                            </button>
-                            <button onClick={() => { setSelectedOrderId(order.id); setIsModalOpen(true); }} className="text-red-500 ml-2">
-                                Cancel Order
-                            </button>
-                            {isAdmin && (
-                                <>
-                                    <button onClick={() => handleMarkAsComplete(order.id)} className="text-green-600 ml-2">
-                                        Order Completed
-                                    </button>
-                                    <button onClick={() => handleEditOrder(order)} className="text-blue-600 ml-2">
-                                        Edit Order
-                                    </button>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <h2 className="text-xl mb-4">Are you sure you want to cancel the order?</h2>

@@ -37,7 +37,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
         <div className="md:layout">
             <div className='z-50'><UserSideNav isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} /></div>
             <div className="fixed top-0 left-0 z-30 w-full">
-                <UserTopNav />
+                <UserTopNav session={undefined} />
             </div>
             <main className="main-content ml-0 lg:ml-52 z-0 md:p-4 mt-20 relative">
 

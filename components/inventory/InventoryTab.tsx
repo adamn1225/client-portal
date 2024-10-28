@@ -99,28 +99,28 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
             {error && <div className="text-red-500 p-4">{error}</div>} {/* Display error message */}
             <div className="hidden xl:block parent-container overflow-x-auto ">
                 <table className="min-w-full divide-y  divide-gray-200">
-                    <thead className="bg-gray-50 ">
-                        <tr className='border-b border-slate-900/20'>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Inventory Item</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Dimensions</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Serial Number</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Inventory Number</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <thead className="bg-gray-50 dark:bg-gray-800 dark:text-white">
+                        <tr className='border-b border-slate-900/20  dark:border-slate-100/20 '>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-wider border-r border-slate-900/20  dark:border-slate-100/20 ">Inventory Item</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-wider border-r border-slate-900/20  dark:border-slate-100/20 ">Dimensions</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-wider border-r border-slate-900/20  dark:border-slate-100/20 ">Serial Number</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-wider border-r border-slate-900/20  dark:border-slate-100/20 ">Inventory Number</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white dark:bg-gray-800 dark:text-white divide-y divide-gray-200 dark:divide-stone-100/20">
                         {freightList.map((freight) => (
                             <tr key={freight.id}>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className=" px-6 py-4 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20   dark:text-white">
                                     {freight.freight_type === 'ltl_ftl' ? freight.commodity : `${freight.year_amount} ${freight.make} ${freight.model}`}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className=" px-6 py-4 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20   dark:text-white">
                                     {freight.length} {freight.length_unit}, {freight.width} {freight.width_unit}, {freight.height} {freight.height_unit}, {freight.weight} {freight.weight_unit}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className=" px-6 py-4 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20   dark:text-white">
                                     {freight.serial_number}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className=" px-6 py-4 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20   dark:text-white">
                                     {freight.inventory_number}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap flex justify-between gap-6 relative">
@@ -169,22 +169,22 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
             </div>
             <div className="block xl:hidden">
                 {freightList.map((freight) => (
-                    <div key={freight.id} className="bg-white shadow rounded-md mb-4 p-4 border border-slate-400">
+                    <div key={freight.id} className="bg-white dark:bg-gray-800 dark:text-white shadow rounded-md mb-4 p-4 border border-slate-400">
                         <div className="flex justify-between items-center mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">Inventory Number</div>
+                            <div className="text-sm font-extrabold text-gray-500 dark:text-white">Inventory Number</div>
                             <div className="text-sm font-medium text-gray-900">{freight.inventory_number}</div>
                         </div>
                         <div className='border-b border-slate-600 mb-4'></div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">Inventory Item</div>
-                            <div className="text-sm font-medium text-gray-900">{freight.freight_type === 'ltl_ftl' ? freight.commodity : `${freight.year_amount} ${freight.make} ${freight.model}`}</div>
+                            <div className="text-sm font-extrabold text-gray-500 dark:text-white">Inventory Item</div>
+                            <div className="text-sm font-medium dark:text-gray-900">{freight.freight_type === 'ltl_ftl' ? freight.commodity : `${freight.year_amount} ${freight.make} ${freight.model}`}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">Dimensions</div>
+                            <div className="text-sm font-extrabold text-gray-500 dark:text-white">Dimensions</div>
                             <div className="text-sm font-medium text-gray-900">{freight.length} {freight.length_unit}, {freight.width} {freight.width_unit}, {freight.height} {freight.height_unit}, {freight.weight} {freight.weight_unit}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">Serial Number</div>
+                            <div className="text-sm font-extrabold text-gray-500 dark:text-white">Serial Number</div>
                             <div className="text-sm font-medium text-gray-900">{freight.serial_number}</div>
                         </div>
                         <div className="block justify-between items-center md:flex md:flex-col ">
