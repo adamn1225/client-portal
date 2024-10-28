@@ -116,7 +116,7 @@ const MaintenanceTab = ({ freightList, maintenanceList, editFreight, handleDelet
                 {maintenanceList.map((freight) => (
                     <div key={freight.id} className="bg-white shadow rounded-md mb-4 p-4 border border-slate-400">
                         <div className="flex justify-between items-center mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">Freight ID</div>
+                            <div className="text-sm font-extrabold text-gray-500">Inventory ID</div>
                             <div className="text-sm text-gray-900">{freight.freight_id}</div>
                         </div>
                         <div>

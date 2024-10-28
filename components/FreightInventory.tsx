@@ -356,7 +356,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                             <h2 className="text-xl mb-4">{editingFreight ? 'Edit Freight' : 'Add Freight'}</h2>
                             <form onSubmit={addOrUpdateFreight} className="flex flex-col w-full gap-2 my-2">
                                 <div className='flex flex-col gap-4 w-full'>
-                                    <label className='text-slate-900 font-medium'>Freight Type
+                                    <label className='text-slate-900 font-medium'>Inventory Type
                                         <select
                                             className="rounded w-full p-2 border border-slate-900"
                                             value={selectedOption}
@@ -364,7 +364,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                         >
                                             <option value="">Select...</option>
                                             <option value="equipment">Equipment/Machinery</option>
-                                            <option value="ltl_ftl">LTL/FTL</option>
+                                            <option value="ltl_ftl">Commodity (pallets, crates, loose parts, etc.)</option>
                                         </select>
                                     </label>
 

@@ -101,7 +101,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                 <table className="min-w-full divide-y  divide-gray-200">
                     <thead className="bg-gray-50 ">
                         <tr className='border-b border-slate-900/20'>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Freight Item</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Inventory Item</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Dimensions</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Serial Number</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-slate-900/20">Inventory Number</th>
@@ -176,7 +176,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                         </div>
                         <div className='border-b border-slate-600 mb-4'></div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500">Freight Item</div>
+                            <div className="text-sm font-extrabold text-gray-500">Inventory Item</div>
                             <div className="text-sm font-medium text-gray-900">{freight.freight_type === 'ltl_ftl' ? freight.commodity : `${freight.year_amount} ${freight.make} ${freight.model}`}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
