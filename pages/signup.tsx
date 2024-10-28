@@ -1,7 +1,9 @@
+// signup.tsx
 import { useState } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Layout from './components/Layout';
 import Head from 'next/head';
+import { sendInvitations } from '@/lib/invitationService'; // Adjust the path as needed
 
 export default function SignUpPage() {
     const supabase = useSupabaseClient();
@@ -86,7 +88,7 @@ export default function SignUpPage() {
                 .from('profiles')
                 .insert({
                     id: user.id,
-                    email: user.email, // Ensure email is correctly passed
+                    email: user.email,
                     first_name: firstName,
                     last_name: lastName,
                     company_name: companyName,
@@ -112,39 +114,6 @@ export default function SignUpPage() {
         setLoading(false);
     };
 
-    const sendInvitations = async (emails: string[], userId: string, companyId: string) => {
-        for (const email of emails) {
-            try {
-                const response = await fetch('/api/sendInviteEmail', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        to: email,
-                        subject: 'Invitation to join NTS Portal',
-                        text: `You have been invited to join NTS Portal by ${userId}. Please sign up using this email address.`,
-                    }),
-                });
-
-                if (!response.ok) {
-                    console.error('Error sending invitation:', await response.json());
-                } else {
-                    // Create a pending profile for the invited user
-                    await supabase
-                        .from('profiles')
-                        .insert({
-                            email,
-                            company_id: companyId,
-                            invited_by: userId,
-                        });
-                }
-            } catch (error) {
-                console.error('Error sending invitation:', error);
-            }
-        }
-    };
-
     return (
         <Layout>
             <Head>
@@ -152,50 +121,50 @@ export default function SignUpPage() {
                 <meta name="description" content="Sign up for an account" />
             </Head>
             <div className="min-h-screen flex items-center justify-center">
-                <div className="w-full max-w-max bg-white shadow-md rounded">
+                <div className="w-full max-w-md bg-white shadow-md rounded">
                     <h2 className="text-2xl font-bold text-center">NTS Portal</h2>
-                    <div className="xs:w-full md:w-full h-full sm:h-auto p-5 bg-white shadow flex flex-col gap-2 text-base">
+                    <div className="xs:w-2/5 md:w-full h-full sm:h-auto p-5 bg-white shadow flex flex-col text-base">
                         <span className="font-sans text-4xl text-center pb-2 mb-1 border-b mx-4 align-center">
                             Sign Up
                         </span>
                         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                         {success && <div className="text-green-500 text-center mb-4">Sign up successful! Please check your email to confirm your account.</div>}
-                        <form className="mt-4 flex flex-col gap-1" onSubmit={handleSignUp}>
-                            <label htmlFor="firstName">First Name
+                        <form className="mt-4" onSubmit={handleSignUp}>
+                            <label htmlFor="firstName">First Name</label>
                             <input
                                 type="text"
                                 id="firstName"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
                                 required
-                                className="w-full p-2 border rounded"
+                                className="w-full p-2 mt-2 border rounded"
                                 disabled={loading}
-                                /></label>
-                            <label htmlFor="lastName" className="mt-4">Last Name
+                            />
+                            <label htmlFor="lastName" className="mt-4">Last Name</label>
                             <input
                                 type="text"
                                 id="lastName"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                                 required
-                                className="w-full p-2 border rounded"
+                                className="w-full p-2 mt-2 border rounded"
                                 disabled={loading}
-                                /></label>
-                            <label htmlFor="companyName" className="mt-4">Company Name
+                            />
+                            <label htmlFor="companyName" className="mt-4">Company Name</label>
                             <input
                                 type="text"
                                 id="companyName"
                                 value={companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
-                                className="w-full p-2 border rounded"
+                                className="w-full p-2 mt-2 border rounded"
                                 disabled={loading}
-                                /></label>
-                            <label htmlFor="companySize" className="mt-4">Company Size
+                            />
+                            <label htmlFor="companySize" className="mt-4">Company Size</label>
                             <select
                                 id="companySize"
                                 value={companySize}
                                 onChange={(e) => setCompanySize(e.target.value)}
-                                className="w-full p-2 border rounded"
+                                className="w-full p-2 mt-2 border rounded"
                                 disabled={loading}
                             >
                                 <option value="">Select Company Size</option>
@@ -205,28 +174,28 @@ export default function SignUpPage() {
                                 <option value="201-500">201-500</option>
                                 <option value="501-1000">501-1000</option>
                                 <option value="1001+">1001+</option>
-                        </select></label>
-                            <label htmlFor="email" className="mt-4">Email
+                            </select>
+                            <label htmlFor="email" className="mt-4">Email</label>
                             <input
                                 type="email"
                                 id="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                className="w-full p-2 border rounded"
+                                className="w-full p-2 mt-2 border rounded"
                                 disabled={loading}
-                                /></label>
-                            <label htmlFor="password" className="mt-4">Password
+                            />
+                            <label htmlFor="password" className="mt-4">Password</label>
                             <input
                                 type="password"
                                 id="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                className="w-full p-2 border rounded"
+                                className="w-full p-2 mt-2 border rounded"
                                 disabled={loading}
-                                /></label>
-                            <label htmlFor="confirmPassword" className="mt-4">Confirm Password
+                            />
+                            <label htmlFor="confirmPassword" className="mt-4">Confirm Password</label>
                             <input
                                 type="password"
                                 id="confirmPassword"
@@ -235,18 +204,16 @@ export default function SignUpPage() {
                                 required
                                 className="w-full p-2 mt-2 border rounded"
                                 disabled={loading}
-                                /></label>
-                            <span className=' flex gap-2 w-full max-w-max items-center h-full max-h-max justify-center'>
-                                <label htmlFor="inviteOthers" className="mt-2">Invite Others</label>
-                                <input
-                                    type="checkbox"
-                                    id="inviteOthers"
-                                    checked={inviteOthers}
-                                    onChange={(e) => setInviteOthers(e.target.checked)}
-                                    className="mt-2"
-                                    disabled={loading}
-                                />
-                            </span>
+                            />
+                            <label htmlFor="inviteOthers" className="mt-4">Invite Others</label>
+                            <input
+                                type="checkbox"
+                                id="inviteOthers"
+                                checked={inviteOthers}
+                                onChange={(e) => setInviteOthers(e.target.checked)}
+                                className="mt-2"
+                                disabled={loading}
+                            />
                             {inviteOthers && (
                                 <div className="mt-4">
                                     <label htmlFor="inviteEmails">Invite Emails (comma separated)</label>
