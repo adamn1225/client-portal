@@ -86,6 +86,7 @@ export default function SignUpPage() {
                 .from('profiles')
                 .insert({
                     id: user.id,
+                    email: user.email, // Ensure email is correctly passed
                     first_name: firstName,
                     last_name: lastName,
                     company_name: companyName,
@@ -215,29 +216,6 @@ export default function SignUpPage() {
                                 className="w-full p-2 mt-2 border rounded"
                                 disabled={loading}
                             />
-                            <label htmlFor="inviteOthers" className="mt-4">Invite others to your team?</label>
-                            <select
-                                id="inviteOthers"
-                                value={inviteOthers ? 'yes' : 'no'}
-                                onChange={(e) => setInviteOthers(e.target.value === 'yes')}
-                                className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
-                            >
-                                <option value="no">No</option>
-                                <option value="yes">Yes</option>
-                            </select>
-                            {inviteOthers && (
-                                <div className="mt-4">
-                                    <label htmlFor="inviteEmails">Invite Emails (comma separated)</label>
-                                    <textarea
-                                        id="inviteEmails"
-                                        value={inviteEmails}
-                                        onChange={(e) => setInviteEmails(e.target.value)}
-                                        className="w-full p-2 mt-2 border rounded"
-                                        disabled={loading}
-                                    />
-                                </div>
-                            )}
                             <label htmlFor="password" className="mt-4">Password</label>
                             <input
                                 type="password"
@@ -258,7 +236,32 @@ export default function SignUpPage() {
                                 className="w-full p-2 mt-2 border rounded"
                                 disabled={loading}
                             />
-                            <button type="submit" className="w-full p-2 mt-4 bg-blue-500 text-white rounded" disabled={loading}>
+                            <label htmlFor="inviteOthers" className="mt-4">Invite Others</label>
+                            <input
+                                type="checkbox"
+                                id="inviteOthers"
+                                checked={inviteOthers}
+                                onChange={(e) => setInviteOthers(e.target.checked)}
+                                className="mt-2"
+                                disabled={loading}
+                            />
+                            {inviteOthers && (
+                                <div className="mt-4">
+                                    <label htmlFor="inviteEmails">Invite Emails (comma separated)</label>
+                                    <textarea
+                                        id="inviteEmails"
+                                        value={inviteEmails}
+                                        onChange={(e) => setInviteEmails(e.target.value)}
+                                        className="w-full p-2 mt-2 border rounded"
+                                        disabled={loading}
+                                    />
+                                </div>
+                            )}
+                            <button
+                                type="submit"
+                                className="w-full p-2 mt-4 bg-blue-500 text-white rounded"
+                                disabled={loading}
+                            >
                                 {loading ? 'Signing Up...' : 'Sign Up'}
                             </button>
                         </form>
