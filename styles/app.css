@@ -795,6 +795,10 @@ body {
   margin-top: 1rem;
 }
 
+.ml-4 {
+  margin-left: 1rem;
+}
+
 .block {
   display: block;
 }
@@ -1707,7 +1711,7 @@ body {
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Write your own custom component styles here */
+/* Custom styles */
 
 .btn-black {
   border-radius: 0.25rem;
@@ -1726,10 +1730,6 @@ body {
   color: rgb(245 245 244 / var(--tw-text-opacity));
 }
 
-/* .btn-black:hover {
-  @apply transition duration-150 bg-slate-100 text-red-900;
-} */
-
 .btn-black-outline {
   border-radius: 0.25rem;
   border-width: 1px;
@@ -1746,10 +1746,6 @@ body {
   --tw-text-opacity: 1;
   color: rgb(245 245 244 / var(--tw-text-opacity));
 }
-
-/* .btn-black-outline:hover {
-  @apply transition duration-150 bg-slate-100 text-red-900;
-} */
 
 .btn-slate {
   border-radius: 0.25rem;
@@ -1778,10 +1774,6 @@ body {
   animation-duration: 300ms;
 }
 
-/* .btn-slate:hover {
-  @apply transition duration-150 bg-slate-100 text-red-900;
-} */
-
 .btn-reverse-slate {
   border-radius: 0.25rem;
   border-width: 1px;
@@ -1805,21 +1797,11 @@ body,
   height: 100vh;
   min-height: 100vh;
   overflow-x: hidden;
-  /* Ensure no overflow on the body */
-}
-
-h1 h2 h3 h4 h5 h6 p li span div {
-  --tw-text-opacity: 1 !important;
-  color: rgb(51 65 85 / var(--tw-text-opacity)) !important;
-  font-size: 4rem;
-  font-weight: bold;
-  display: block;
 }
 
 .layout {
   display: grid;
   grid-template-columns: 13em 1fr;
-  /* Sidenav width and main content */
   height: 100vh;
 }
 
@@ -1828,14 +1810,13 @@ h1 h2 h3 h4 h5 h6 p li span div {
   background-color: rgb(17 24 39 / var(--tw-bg-opacity));
   width: 13em !important;
   min-width: 13em !important;
-  height: 100%;
+  height: screen;
   color: white;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
   z-index: 40;
-  /* Ensure the sidebar is above the main content */
 }
 
 .sidenav-text {
@@ -1897,7 +1878,6 @@ h1 h2 h3 h4 h5 h6 p li span div {
   flex-direction: column;
   overflow: hidden;
   z-index: 0;
-  /* Ensure the main content is below the sidebar */
 }
 
 main {
@@ -2050,7 +2030,6 @@ input:disabled+.slider:before {
   display: inline-block;
   padding: 10px 20px;
   background-color: #2d3748;
-  /* Tailwind CSS slate-700 */
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -2059,7 +2038,6 @@ input:disabled+.slider:before {
 
 .upload-button:hover {
   background-color: #4a5568;
-  /* Tailwind CSS slate-800 */
 }
 
 .file\:border-0::file-selector-button {
@@ -2114,6 +2092,11 @@ input:disabled+.slider:before {
 
 .hover\:bg-stone-300\/50:hover {
   background-color: rgb(214 211 209 / 0.5);
+}
+
+.hover\:bg-gray-200:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
 .hover\:text-accent-foreground:hover {
@@ -2271,6 +2254,10 @@ input:disabled+.slider:before {
 
   .md\:mt-12 {
     margin-top: 3rem;
+  }
+
+  .md\:block {
+    display: block;
   }
 
   .md\:flex {

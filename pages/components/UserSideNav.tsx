@@ -5,7 +5,7 @@ import { Database } from '@/lib/schema';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer, Handshake  } from 'lucide-react';
+import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer, Handshake } from 'lucide-react';
 
 interface UserSideNavProps {
     isSidebarOpen: boolean;
@@ -36,16 +36,19 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
         ? supabase.storage.from('profile-pictures').getPublicUrl(userProfile.profile_picture).data.publicUrl
         : 'https://www.gravatar.com/avatar?d=mp&s=100';
     const router = useRouter();
+
     return (
         <>
-            <div>
+        <div>
+            <div className="md:hidden">
                 <button
                     className="fixed left-1 z-50 top-1 p-2 rounded-full"
                     onClick={toggleSidebar}
                 >
                     {isSidebarOpen ? <PanelRightClose size={24} className='text-white z-50' /> : <PanelLeftOpen size={28} className='z-50 text-gray-900' />}
                 </button>
-                <nav className={`side-navbar z-50  flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0 z-50' : '-translate-x-full'} transition-transform duration-300  ease-in-out z-50 ${className}`}>
+            </div>
+                <nav className={`side-navbar  z-50  flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0 z-50' : '-translate-x-full'} transition-transform duration-300 h-screen  ease-in-out z-50 ${className}`}>
                     <h1 className='text-xl mt-4 md:mt-0 mb-4 self-center'>NTS Client Portal</h1>
                     <div className="w-full flex flex-col items-center gap-1 justify-center mb-6 border-b border-stone-100/40 pb-4">
                             <h3>Welcome {userProfile?.first_name || 'User'}</h3>

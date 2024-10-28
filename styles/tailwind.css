@@ -2,22 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Write your own custom component styles here */
+/* Custom styles */
 .btn-black {
   @apply border border-slate-700 bg-slate-800 text-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
-/* .btn-black:hover {
-  @apply transition duration-150 bg-slate-100 text-red-900;
-} */
-
 .btn-black-outline {
   @apply border border-stone-700 bg-slate-800 text-stone-100 py-2 px-4 rounded font-bold text-center;
 }
-
-/* .btn-black-outline:hover {
-  @apply transition duration-150 bg-slate-100 text-red-900;
-} */
 
 .btn-slate {
   @apply bg-slate-800 text-stone-100 font-bold py-2 px-4 rounded text-center;
@@ -26,10 +18,6 @@
 .btn-slate:hover {
   @apply transition duration-300 bg-slate-800 text-amber-200;
 }
-
-/* .btn-slate:hover {
-  @apply transition duration-150 bg-slate-100 text-red-900;
-} */
 
 .btn-reverse-slate {
   @apply border border-slate-700 text-slate-800 bg-stone-100 font-bold py-2 px-4 rounded text-center;
@@ -41,19 +29,11 @@ body,
   height: 100vh;
   min-height: 100vh;
   overflow-x: hidden;
-  /* Ensure no overflow on the body */
-}
-
-h1 h2 h3 h4 h5 h6 p li span div {
-  @apply text-slate-700 !important;
-  font-size: 4rem;
-  font-weight: bold;
-  display: block;
 }
 
 .layout {
   display: grid;
-  grid-template-columns: 13em 1fr; /* Sidenav width and main content */
+  grid-template-columns: 13em 1fr;
   height: 100vh;
 }
 
@@ -61,13 +41,13 @@ h1 h2 h3 h4 h5 h6 p li span div {
   @apply bg-gray-900;
   width: 13em !important;
   min-width: 13em !important;
-  height: 100%;
+  height: screen;
   color: white;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
-  z-index: 40; /* Ensure the sidebar is above the main content */
+  z-index: 40;
 }
 
 .sidenav-text {
@@ -107,14 +87,12 @@ h1 h2 h3 h4 h5 h6 p li span div {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  z-index: 0; /* Ensure the main content is below the sidebar */
-
+  z-index: 0;
 }
 
 main {
   @apply p-0 md:p-20;
   flex-grow: 1;
-  
   overflow-y: auto;
 }
 
@@ -168,7 +146,6 @@ main {
 .parent-container {
   overflow: visible;
 }
-
 
 .switch {
   position: relative;
@@ -231,7 +208,6 @@ input:disabled+.slider:before {
   background-color: #bfbfbf;
 }
 
-
 .custom-file-upload {
   position: relative;
   overflow: hidden;
@@ -255,7 +231,6 @@ input:disabled+.slider:before {
   display: inline-block;
   padding: 10px 20px;
   background-color: #2d3748;
-  /* Tailwind CSS slate-700 */
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -264,7 +239,6 @@ input:disabled+.slider:before {
 
 .upload-button:hover {
   background-color: #4a5568;
-  /* Tailwind CSS slate-800 */
 }
 
 @layer base {
@@ -295,6 +269,7 @@ input:disabled+.slider:before {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -327,6 +302,7 @@ input:disabled+.slider:before {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
