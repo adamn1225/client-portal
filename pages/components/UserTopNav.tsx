@@ -5,6 +5,7 @@ import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import NotificationBell from '@/components/NotificationBell';
 import { Moon, Sun } from 'lucide-react';
+import FeedBack from '@/components/FeedBack';
 
 interface UserTopNavProps {
     session: any;
@@ -76,7 +77,7 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
                     </button>
                 </li>
                 <li className="flex flex-col justify-center items-center m-0">
-                    <button onClick={handleLogout} className="btn-black-outline dark:bg-gray-900 dark:text-gray-400">Logout</button>
+                    <FeedBack />
                 </li>
             </ul>
         </nav>

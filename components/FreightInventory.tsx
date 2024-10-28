@@ -351,10 +351,10 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                     freightList={freightList}
                 />
                 {isModalOpen && (
-                    <div className="fixed inset-0 z-50  h-full dark:text-slate-800 dark:bg-gray-800 bg-opacity-50 flex justify-center items-center ">
-                        <div className="dark:text-slate-800 dark:bg-gray-200  z-50 p-4 md:p-8 h-[770px] max-h-max my-16 rounded shadow-md w-full md:w-1/2 overflow-y-auto">
-                            <h2 className="text-xl mb-4">{editingFreight ? 'Edit Freight' : 'Add Freight'}</h2>
-                            <form onSubmit={addOrUpdateFreight} className="flex flex-col w-full gap-2 my-2 dark:text-slate-100">
+                    <div className="fixed inset-0 dark:text-slate-100  z-50 h-full bg-gray-100 bg-opacity-50 flex justify-center items-center ">
+                        <div className="dark:text-slate-100 dark:bg-slate-700 border border-slate-700/20 shadow-lg bg-gray-100 z-50 p-4 md:p-8 h-[770px] max-h-max my-16 rounded  w-full md:w-1/2 overflow-y-auto">
+                            <h2 className="text-xl dark:text-slate-100 mb-4 ">{editingFreight ? 'Edit Inventory' : 'Add Inventory'}</h2>
+                            <form onSubmit={addOrUpdateFreight} className="flex  bg-gray-100 flex-col w-full gap-2 my-2 dark:bg-slate-700 dark:text-slate-100">
                                 <div className='flex flex-col gap-4 w-full dark:text-slate-100'>
                                     <label className='text-slate-900 font-medium dark:text-slate-100'>Inventory Type
                                         <select
@@ -370,7 +370,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
 
                                     {selectedOption === 'equipment' && (
                                         <div className='md:flex gap-2 w-full'>
-                                            <label className='dark:text-slate-100 font-medium'>Year/Amount
+                                            <label className='dark:text-slate-dark:text-slate-100 font-medium'>Year/Amount
                                                 <input
                                                     className="rounded w-full p-2 border border-slate-900"
                                                     type="text"
@@ -381,7 +381,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                     }}
                                                 />
                                             </label>
-                                            <label className='dark:text-slate-800 font-medium'>Make
+                                            <label className='dark:text-slate-100 font-medium'>Make
                                                 <input
                                                     className="rounded w-full p-2 border border-slate-900"
                                                     type="text"
@@ -392,7 +392,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                     }}
                                                 />
                                             </label>
-                                            <label className='dark:text-slate-800 font-medium'>Model
+                                            <label className='dark:text-slate-100 font-medium'>Model
                                                 <input
                                                     className="rounded w-full p-2 border border-slate-900"
                                                     type="text"
@@ -408,7 +408,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
 
                                     {selectedOption === 'ltl_ftl' && (
                                         <div className='flex gap-2 w-full'>
-                                            <label className='dark:text-slate-800 font-medium'>Pallet/Crate Count
+                                            <label className='dark:text-slate-100 font-medium'>Pallet/Crate Count
                                                 <input
                                                     className="rounded w-full p-2 border border-slate-900"
                                                     type="text"
@@ -419,7 +419,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                     }}
                                                 />
                                             </label>
-                                            <label className='dark:text-slate-800 font-medium'>Commodity
+                                            <label className='dark:text-slate-100 font-medium'>Commodity
                                                 <input
                                                     className="rounded w-full p-2 border border-slate-900"
                                                     type="text"
@@ -434,7 +434,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                     )}
 
                                     <div className='md:flex gap-2'>
-                                        <label className='dark:text-slate-800 font-medium'>Length
+                                        <label className='dark:text-slate-100 font-medium'>Length
                                             <input
                                                 className="rounded w-full p-2 border border-slate-900"
                                                 type="text"
@@ -455,7 +455,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                 </select>
                                             )}
                                         </label>
-                                        <label className='dark:text-slate-800 font-medium'>Width
+                                        <label className='dark:text-slate-100 font-medium'>Width
                                             <input
                                                 className="rounded w-full p-2 border border-slate-900"
                                                 type="text"
@@ -476,7 +476,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                 </select>
                                             )}
                                         </label>
-                                        <label className='dark:text-slate-800 font-medium'>Height
+                                        <label className='dark:text-slate-100 font-medium'>Height
                                             <input
                                                 className="rounded w-full p-2 border border-slate-900"
                                                 type="text"
@@ -497,7 +497,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                 </select>
                                             )}
                                         </label>
-                                        <label className='dark:text-slate-800 font-medium'>Weight
+                                        <label className='dark:text-slate-100 font-medium'>Weight
                                             <input
                                                 className="rounded w-full p-2 border border-slate-900"
                                                 type="text"
@@ -518,7 +518,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                         </label>
                                     </div>
                                     <div className='flex gap-2'>
-                                        <label className='dark:text-slate-800 font-medium'>Serial Number
+                                        <label className='dark:text-slate-100 font-medium'>Serial Number
                                             <input
                                                 className="rounded w-full p-2 border border-slate-900"
                                                 type="text"
@@ -529,7 +529,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                 }}
                                             />
                                         </label>
-                                        <label className='dark:text-slate-800 font-medium'>Inventory Number
+                                        <label className='dark:text-slate-100 font-medium'>Inventory Number
                                             <input
                                                 className="rounded w-full p-2 border border-slate-900"
                                                 type="text"
@@ -542,7 +542,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                         </label>
                                     </div>
                                 </div>
-                                <button className="btn-slate shadow-md" type="submit">
+                                <button className="btn-slate dark:text-slate-100 dark:bg-gray-900 dark:hover:bg-amber-400 dark:hover:text-gray-800 mt-4 shadow-xl" type="submit">
                                     {editingFreight ? 'Update Inventory' : 'Add Inventory'}
                                 </button>
                                 {editingFreight && (
@@ -564,7 +564,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
 
             <div className='flex flex-col gap-2 justify-center items-center w-full'>
                 <div className='flex flex-col-reverse gap-2 justify-center items-center w-full'>
-                    <button className="btn-slate shadow-m max-h-max dark:bg-gray-900 dark:text-gray-400" onClick={() => setIsModalOpen(true)}>
+                    <button className="btn-slate shadow-m max-h-max bg-white dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-amber-400 dark:hover:text-gray-800" onClick={() => setIsModalOpen(true)}>
                         Add Inventory Item
                     </button>
                     <div className="mt-4 ">
@@ -572,7 +572,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                             <div className='flex-grow-1 flex flex-nowrap flex-col justify-center items-center gap-1'>
                                 <h2 className='text-nowrap font-normal'>Import your entire Inventory</h2>
                                 <input className='hidden' type="file" accept=".csv" onChange={handleFileUpload} />
-                                <span className="upload-button cursor-pointer self-center w-3/4 text-center dark:bg-gray-900 dark:text-gray-400">Upload CSV</span>
+                                <span className="upload-button cursor-pointer self-center w-3/4 text-center dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-amber-400 dark:hover:text-gray-800">Upload CSV</span>
                             </div>
                         </label>
                     </div>

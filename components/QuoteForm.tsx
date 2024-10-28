@@ -30,6 +30,7 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
     const [destinationState, setDestinationState] = useState<string>('');
     const [destinationZip, setDestinationZip] = useState<string>('');
     const [dueDate, setDueDate] = useState<string | null>(null); // Ensure dueDate is either a valid timestamp or null
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleFreightChange = (freightId: string) => {
         setSelectedFreight(freightId);
@@ -88,11 +89,11 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <form onSubmit={handleSubmit} className="flex flex-col w-full gap-2">
-                <div className='flex flex-col gap-4 w-full'>
-                    <label className='text-slate-900 font-medium'>Select Freight (Optional)
+            <form onSubmit={handleSubmit} className="flex flex-col w-full gap-2 dark:bg-slate-800 dark:text-slate-100">
+                <div className='flex flex-col gap-4 w-full dark:text-slate-100'>
+                    <label className='text-slate-900 dark:text-slate-100 font-medium '>Select Freight (Optional)
                         <select
-                            className="rounded w-full p-2 border border-slate-900"
+                            className="rounded dark:text-slate-800  w-full p-2 border  border-slate-800"
                             value={selectedFreight}
                             onChange={(e) => handleFreightChange(e.target.value)}
                         >
@@ -107,9 +108,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
 
                     {!selectedFreight && (
                         <>
-                            <label className='text-slate-900 font-medium'>Select Option
+                            <label className='text-slate-900 dark:text-slate-100 font-medium'>Select Option
                                 <select
-                                    className="rounded w-full p-2 border border-slate-900"
+                                    className="rounded w-full dark:text-slate-800 p-2 border border-slate-900"
                                     value={selectedOption}
                                     onChange={(e) => {
                                         setErrorText('');
@@ -123,10 +124,10 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                             </label>
 
                             {selectedOption === 'equipment' && (
-                                <div className='flex gap-2 w-full'>
-                                    <label className='text-slate-900 font-medium'>Year/Amount
+                                <div className='flex gap-2 dark:text-slate-100 w-full'>
+                                    <label className='text-slate-900 dark:text-slate-100 font-medium'>Year/Amount
                                         <input
-                                            className="rounded w-full p-2 border border-slate-900"
+                                            className="rounded dark:text-slate-800 w-full  p-2 border border-slate-900"
                                             type="text"
                                             value={yearAmount}
                                             onChange={(e) => {
@@ -135,9 +136,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                                             }}
                                         />
                                     </label>
-                                    <label className='text-slate-900 font-medium'>Make
+                                    <label className='text-slate-900 dark:text-slate-100 font-medium'>Make
                                         <input
-                                            className="rounded w-full p-2 border border-slate-900"
+                                            className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                             type="text"
                                             value={make}
                                             onChange={(e) => {
@@ -146,9 +147,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                                             }}
                                         />
                                     </label>
-                                    <label className='text-slate-900 font-medium'>Model
+                                    <label className='text-slate-900 dark:text-slate-100 font-medium'>Model
                                         <input
-                                            className="rounded w-full p-2 border border-slate-900"
+                                            className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                             type="text"
                                             value={model}
                                             onChange={(e) => {
@@ -162,9 +163,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
 
                             {selectedOption === 'ltl_ftl' && (
                                 <div className='flex items-center justify-center gap-2 w-full'>
-                                    <label className='text-slate-900 font-medium'>Pallet/Crate Count
+                                    <label className='text-slate-900 dark:text-slate-100 font-medium'>Pallet/Crate Count
                                         <input
-                                            className="rounded w-full p-2 border border-slate-900"
+                                            className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                             type="text"
                                             value={palletCount}
                                             onChange={(e) => {
@@ -173,9 +174,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                                             }}
                                         />
                                     </label>
-                                    <label className='text-slate-900 font-medium'>Commodity
+                                    <label className='text-slate-900 dark:text-slate-100 font-medium'>Commodity
                                         <input
-                                            className="rounded w-full p-2 border border-slate-900"
+                                            className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                             type="text"
                                             value={commodity}
                                             onChange={(e) => {
@@ -191,9 +192,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
 
                     <div className='flex gap-2'>
                         {yearAmount && (
-                            <label className='text-slate-900 font-medium'>Year/Amount
+                            <label className='text-slate-900 dark:text-slate-100 font-medium'>Year/Amount
                                 <input
-                                    className="rounded w-full p-2 border border-slate-900"
+                                    className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                     type="text"
                                     value={yearAmount}
                                     onChange={(e) => {
@@ -204,9 +205,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                             </label>
                         )}
                         {make && (
-                            <label className='text-slate-900 font-medium'>Make
+                            <label className='text-slate-900 dark:text-slate-100 font-medium'>Make
                                 <input
-                                    className="rounded w-full p-2 border border-slate-900"
+                                    className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                     type="text"
                                     value={make}
                                     onChange={(e) => {
@@ -217,9 +218,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                             </label>
                         )}
                         {model && (
-                            <label className='text-slate-900 font-medium'>Model
+                            <label className='text-slate-900 dark:text-slate-100 font-medium'>Model
                                 <input
-                                    className="rounded w-full p-2 border border-slate-900"
+                                    className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                     type="text"
                                     value={model}
                                     onChange={(e) => {
@@ -232,9 +233,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                     </div>
                     <div className='flex w-full justify-evenly items-center self-center'>
                         {palletCount && (
-                            <label className='text-slate-900 font-medium'>Pallet/Crate Count
+                            <label className='text-slate-900 dark:text-slate-100 font-medium'>Pallet/Crate Count
                                 <input
-                                    className="rounded w-full p-2 border border-slate-900"
+                                    className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                     type="text"
                                     value={palletCount}
                                     onChange={(e) => {
@@ -245,9 +246,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                             </label>
                         )}
                         {commodity && (
-                            <label className='text-slate-900 font-medium'>Commodity
+                            <label className='text-slate-900 dark:text-slate-100 font-medium'>Commodity
                                 <input
-                                    className="rounded w-full p-2 border border-slate-900"
+                                    className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                     type="text"
                                     value={commodity}
                                     onChange={(e) => {
@@ -259,9 +260,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                     )}
                     </div>
                     {length && (
-                        <label className='text-slate-900 font-medium'>Length
+                        <label className='text-slate-900 dark:text-slate-100 font-medium'>Length
                             <input
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                 type="text"
                                 value={length}
                                 onChange={(e) => {
@@ -272,9 +273,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                         </label>
                     )}
                     {width && (
-                        <label className='text-slate-900 font-medium'>Width
+                        <label className='text-slate-900 dark:text-slate-100 font-medium'>Width
                             <input
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                 type="text"
                                 value={width}
                                 onChange={(e) => {
@@ -285,9 +286,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                         </label>
                     )}
                     {height && (
-                        <label className='text-slate-900 font-medium'>Height
+                        <label className='text-slate-900 dark:text-slate-100 font-medium'>Height
                             <input
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                 type="text"
                                 value={height}
                                 onChange={(e) => {
@@ -298,9 +299,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                         </label>
                     )}
                     {weight && (
-                        <label className='text-slate-900 font-medium'>Weight
+                        <label className='text-slate-900 dark:text-slate-100 font-medium'>Weight
                             <input
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                 type="text"
                                 value={weight}
                                 onChange={(e) => {
@@ -312,9 +313,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                     )}
 
                     <div className='flex gap-2'>
-                        <label className='text-slate-900 font-medium'>Origin City
+                        <label className='text-slate-900 dark:text-slate-100 font-medium'>Origin City
                             <input
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                 type="text"
                                 value={originCity}
                                 onChange={(e) => {
@@ -324,9 +325,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                                 autoComplete="new-origin-city" // Unique autoComplete value
                             />
                         </label>
-                        <label className='text-slate-900 font-medium'>Origin State
+                        <label className='text-slate-900 dark:text-slate-100 font-medium'>Origin State
                             <input
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                 type="text"
                                 value={originState}
                                 onChange={(e) => {
@@ -336,9 +337,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                                 autoComplete="new-origin-state" // Unique autoComplete value
                             />
                         </label>
-                        <label className='text-slate-900 font-medium'>Origin Zip
+                        <label className='text-slate-900 dark:text-slate-100 font-medium'>Origin Zip
                             <input
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                 type="text"
                                 value={originZip}
                                 onChange={(e) => {
@@ -350,9 +351,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                         </label>
                     </div>
                     <div className='flex gap-2'>
-                        <label className='text-slate-900 font-medium'>Destination City
+                        <label className='text-slate-900 dark:text-slate-100 font-medium'>Destination City
                             <input
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                 type="text"
                                 value={destinationCity}
                                 onChange={(e) => {
@@ -362,9 +363,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                                 autoComplete="new-destination-city" // Unique autoComplete value
                             />
                         </label>
-                        <label className='text-slate-900 font-medium'>Destination State
+                        <label className='text-slate-900 dark:text-slate-100 font-medium'>Destination State
                             <input
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                 type="text"
                                 value={destinationState}
                                 onChange={(e) => {
@@ -374,9 +375,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                                 autoComplete="new-destination-state" // Unique autoComplete value
                             />
                         </label>
-                        <label className='text-slate-900 font-medium'>Destination Zip
+                        <label className='text-slate-900 dark:text-slate-100 font-medium'>Destination Zip
                             <input
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                                 type="text"
                                 value={destinationZip}
                                 onChange={(e) => {
@@ -387,9 +388,9 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                             />
                         </label>
                     </div>
-                    <label className='text-slate-900 font-medium'>Shipping Date
+                    <label className='text-slate-900 dark:text-slate-100 font-medium'>Shipping Date
                         <input
-                            className="rounded w-full p-2 border border-slate-900"
+                            className="rounded dark:text-slate-800 w-full p-2 border border-slate-900"
                             type="date"
                             value={dueDate || ''} // Ensure dueDate is either a valid timestamp or an empty string
                             onChange={(e) => {
@@ -399,8 +400,11 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                         />
                     </label>
                 </div>
-                <button className="btn-slate" type="submit">
+                <button className="btn-slate dark:hover:bg-amber-400 dark:hover:text-gray-800" type="submit">
                     Request Quote
+                </button>
+                <button type="button" className="bg-stone-300  text-slate-800 py-2 px-4 font-semibold mt-2 hover:bg-stone-300/50 hover:text-slate-700" onClick={onClose}>
+                    Close
                 </button>
                 {errorText && <p className="text-red-500">{errorText}</p>}
             </form>
