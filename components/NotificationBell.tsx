@@ -115,7 +115,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ session }) => {
                 {hasNotifications && <div className="absolute top-16 right-0 h-2 w-2 bg-red-500 rounded-full"></div>}
             </button>
             {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-96 max-h-96 bg-white border border-gray-300 overflow-y-scroll rounded shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-full sm:w-96 max-h-96 bg-white border border-gray-300 overflow-y-scroll rounded shadow-lg z-50">
                     <div className="p-2">
                         {notifications.length > 0 ? (
                             notifications.map((notification) => (

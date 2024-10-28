@@ -924,10 +924,6 @@ body {
   width: 20rem;
 }
 
-.w-96 {
-  width: 24rem;
-}
-
 .w-full {
   width: 100%;
 }
@@ -2240,23 +2236,23 @@ input:disabled+.slider:before {
   .sm\:w-2\/5 {
     width: 40%;
   }
+
+  .sm\:w-96 {
+    width: 24rem;
+  }
 }
 
 @media (min-width: 768px) {
+  .md\:ml-52 {
+    margin-left: 13rem;
+  }
+
   .md\:mt-0 {
     margin-top: 0px;
   }
 
   .md\:mt-12 {
     margin-top: 3rem;
-  }
-
-  .md\:ml-64 {
-    margin-left: 16rem;
-  }
-
-  .md\:ml-52 {
-    margin-left: 13rem;
   }
 
   .md\:flex {
