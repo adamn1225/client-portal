@@ -2251,6 +2251,14 @@ input:disabled+.slider:before {
     margin-top: 3rem;
   }
 
+  .md\:ml-64 {
+    margin-left: 16rem;
+  }
+
+  .md\:ml-52 {
+    margin-left: 13rem;
+  }
+
   .md\:flex {
     display: flex;
   }
