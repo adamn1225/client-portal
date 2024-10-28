@@ -154,48 +154,48 @@ export default function SignUpPage() {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="w-full max-w-md bg-white shadow-md rounded">
                     <h2 className="text-2xl font-bold text-center">NTS Portal</h2>
-                    <div className="xs:w-2/5 md:w-full h-full sm:h-auto p-5 bg-white shadow flex flex-col text-base">
+                    <div className="xs:w-2/5 md:w-full h-full sm:h-auto p-5 bg-white shadow flex flex-col gap-2 text-base">
                         <span className="font-sans text-4xl text-center pb-2 mb-1 border-b mx-4 align-center">
                             Sign Up
                         </span>
                         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                         {success && <div className="text-green-500 text-center mb-4">Sign up successful! Please check your email to confirm your account.</div>}
-                        <form className="mt-4" onSubmit={handleSignUp}>
-                            <label htmlFor="firstName">First Name</label>
+                        <form className="mt-4 flex flex-col gap-1" onSubmit={handleSignUp}>
+                            <label htmlFor="firstName">First Name
                             <input
                                 type="text"
                                 id="firstName"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
                                 required
-                                className="w-full p-2 mt-2 border rounded"
+                                className="w-full p-2 border rounded"
                                 disabled={loading}
-                            />
-                            <label htmlFor="lastName" className="mt-4">Last Name</label>
+                                /></label>
+                            <label htmlFor="lastName" className="mt-4">Last Name
                             <input
                                 type="text"
                                 id="lastName"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                                 required
-                                className="w-full p-2 mt-2 border rounded"
+                                className="w-full p-2 border rounded"
                                 disabled={loading}
-                            />
-                            <label htmlFor="companyName" className="mt-4">Company Name</label>
+                                /></label>
+                            <label htmlFor="companyName" className="mt-4">Company Name
                             <input
                                 type="text"
                                 id="companyName"
                                 value={companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
-                                className="w-full p-2 mt-2 border rounded"
+                                className="w-full p-2 border rounded"
                                 disabled={loading}
-                            />
-                            <label htmlFor="companySize" className="mt-4">Company Size</label>
+                                /></label>
+                            <label htmlFor="companySize" className="mt-4">Company Size
                             <select
                                 id="companySize"
                                 value={companySize}
                                 onChange={(e) => setCompanySize(e.target.value)}
-                                className="w-full p-2 mt-2 border rounded"
+                                className="w-full p-2 border rounded"
                                 disabled={loading}
                             >
                                 <option value="">Select Company Size</option>
@@ -205,28 +205,28 @@ export default function SignUpPage() {
                                 <option value="201-500">201-500</option>
                                 <option value="501-1000">501-1000</option>
                                 <option value="1001+">1001+</option>
-                            </select>
-                            <label htmlFor="email" className="mt-4">Email</label>
+                        </select></label>
+                            <label htmlFor="email" className="mt-4">Email
                             <input
                                 type="email"
                                 id="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                className="w-full p-2 mt-2 border rounded"
+                                className="w-full p-2 border rounded"
                                 disabled={loading}
-                            />
-                            <label htmlFor="password" className="mt-4">Password</label>
+                                /></label>
+                            <label htmlFor="password" className="mt-4">Password
                             <input
                                 type="password"
                                 id="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                className="w-full p-2 mt-2 border rounded"
+                                className="w-full p-2 border rounded"
                                 disabled={loading}
-                            />
-                            <label htmlFor="confirmPassword" className="mt-4">Confirm Password</label>
+                                /></label>
+                            <label htmlFor="confirmPassword" className="mt-4">Confirm Password
                             <input
                                 type="password"
                                 id="confirmPassword"
@@ -235,16 +235,18 @@ export default function SignUpPage() {
                                 required
                                 className="w-full p-2 mt-2 border rounded"
                                 disabled={loading}
-                            />
-                            <label htmlFor="inviteOthers" className="mt-4">Invite Others</label>
-                            <input
-                                type="checkbox"
-                                id="inviteOthers"
-                                checked={inviteOthers}
-                                onChange={(e) => setInviteOthers(e.target.checked)}
-                                className="mt-2"
-                                disabled={loading}
-                            />
+                                /></label>
+                            <span className=' flex gap-2 w-full max-w-max items-center h-full max-h-max justify-center'>
+                                <label htmlFor="inviteOthers" className="mt-2">Invite Others</label>
+                                <input
+                                    type="checkbox"
+                                    id="inviteOthers"
+                                    checked={inviteOthers}
+                                    onChange={(e) => setInviteOthers(e.target.checked)}
+                                    className="mt-2"
+                                    disabled={loading}
+                                />
+                            </span>
                             {inviteOthers && (
                                 <div className="mt-4">
                                     <label htmlFor="inviteEmails">Invite Emails (comma separated)</label>
