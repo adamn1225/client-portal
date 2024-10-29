@@ -1,7 +1,7 @@
 // components/AdminLogin.tsx
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/initSupabase';
-import AdminDashboard from './AdminDashboard'; // Ensure you have this component
+import AdminDashboard from './admin/AdminAnalytics'; // Ensure you have this component
 
 const AdminLogin = () => {
   const [isAdmin, setIsAdmin] = useState(false);

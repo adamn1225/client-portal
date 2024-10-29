@@ -39,7 +39,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         <div className="relative flex h-screen overflow-hidden">
             <AdminSideNav isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
             <div className={`flex flex-col flex-grow ${isSidebarOpen ? 'ml-64' : 'ml-0'} transition-all duration-300 ease-in-out overflow-auto`}>
-                {/* <AdminTopNav /> */}
+                <div className="fixed top-0 left-0 z-30 w-full">
+                    <AdminTopNav session={undefined} />
+                </div>
                 <main className="flex-grow p-4">
                     {children}
                 </main>
