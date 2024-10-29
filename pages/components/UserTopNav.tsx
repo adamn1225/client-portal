@@ -30,12 +30,10 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
 
     useEffect(() => {
         if (userProfile?.profile_picture) {
-            const { data } = supabase.storage.from('profile-pictures').getPublicUrl(userProfile.profile_picture);
-            if (data?.publicUrl) {
-                setProfilePictureUrl(encodeURIComponent(data.publicUrl));
-            }
+            const profilePicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}${userProfile.profile_picture}`;
+            setProfilePictureUrl(profilePicUrl);
         }
-    }, [userProfile, supabase]);
+    }, [userProfile]);
 
     const handleLogout = async () => {
         try {
