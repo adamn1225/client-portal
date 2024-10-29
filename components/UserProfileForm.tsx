@@ -51,7 +51,7 @@ const UserProfileForm = () => {
                 setCompanyName(data.company_name || '');
                 setAddress(data.address || '');
                 setPhoneNumber(data.phone_number || '');
-                const profilePicUrl = data.profile_picture ? `https://fazytsvctdzbhvsavvwj.supabase.co/storage/v1/object/public/profile-pictures/${data.profile_picture}` : null;
+                const profilePicUrl = data.profile_picture ? `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}${data.profile_picture}` : null;
                 console.log('Profile Picture URL:', profilePicUrl); // Log the profile picture URL
                 setProfilePictureUrl(profilePicUrl);
                 setEmail(session.user.email || '');
