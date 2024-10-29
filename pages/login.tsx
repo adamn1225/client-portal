@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import FreightInventory from '@/components/FreightInventory';
 import AdminQuoteRequests from '@/components/admin/AdminQuoteRequests'; // Import AdminQuoteRequests component
 import CustomSignInForm from '@/components/CustomSignInForm'; // Import CustomSignInForm
+import { Move3d } from 'lucide-react';
 
 interface UserProfile {
     id: string;
@@ -109,18 +110,36 @@ export default function HomePage() {
 
     if (!session) {
         return (
-            <Layout>
+            <>
                 <Head>
-                    <title>NTS Client Portal</title>
+                    <title>SSTA Inc</title>
                     <meta name="description" content="Welcome to SSTA Reminders & Tasks" />
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <div className="w-full h-full bg-200">
-                    <div className="min-w-full min-h-screen flex items-start justify-center">
-                        <div className="w-full h-full flex justify-center items-start p-4">
-                            <div className="w-full h-full sm:h-auto sm:w-2/5 max-w-sm p-5 bg-white shadow flex flex-col text-base">
-                                <span className="font-sans text-4xl text-center pb-2 mb-1 border-b mx-4 align-center">
+                    <div className="sm::grid-rows-2 min-w-full min-h-screen grid md:grid-cols-2 ">
+
+                        <div className="h-1/3 w-full md:h-full col-span-1 bg-gray-900">
+                            <div className='absolute top-5 left-5'>
+                                <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> SSTA Inc</h1>
+                            </div>
+                            <div className='hidden h-5/6 w-full md:flex items-end justify-center'>
+                                <h1 className='text-stone-100 font-medium text-xl italic'>Inventory Management. Procurement. Logistics.</h1>
+                            </div>
+                        </div>
+
+                        <div className='sm:row-span-1 md:col-span-1 w-full h-full flex flex-col justify-center items-center '>
+                            <div className='absolute top-5 right-5'>
+                                <Link href="/signup" legacyBehavior>
+                                    <a className="bg-gray-900 text-stone-100 px-4 py-2 rounded-md shadow-sm font-medium text-xl">Sign Up</a>
+                                </Link>
+                            </div>
+                            <div className=" w-full text-gray-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
+                                <span className="font-sans text-4xl font-medium text-center pb-2 mb-1 border-b mx-4 align-center">
+                                    SSTA Inc
+                                </span>
+                                <span className="font-sans text-2xl text-center pb-2 mb-1 border-b mx-4 align-center">
                                     Sign In
                                 </span>
                                 <div className="mt-4">
@@ -132,11 +151,16 @@ export default function HomePage() {
                                         <a className="text-blue-500">Sign Up</a>
                                     </Link>
                                 </div>
+                                <div className='md:hidden h-5/6 w-full flex items-end justify-center'>
+                                    <h1 className='text-gray-900 font-medium w-full text-lg text-center italic'>Inventory Management. Procurement. Logistics.</h1>
+                                </div>
                             </div>
+
                         </div>
+
                     </div>
                 </div>
-            </Layout>
+            </>
         );
     }
 
