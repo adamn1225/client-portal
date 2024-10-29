@@ -16,6 +16,7 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
     const supabase = useSupabaseClient<Database>();
     const { userProfile } = useUser();
     const [darkMode, setDarkMode] = useState(false);
+    const [profilePictureUrl, setProfilePictureUrl] = useState<string>('https://www.gravatar.com/avatar?d=mp&s=100');
 
     useEffect(() => {
         const savedDarkMode = localStorage.getItem('darkMode') === 'true';
@@ -26,6 +27,15 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
             document.documentElement.classList.remove('dark');
         }
     }, []);
+
+    useEffect(() => {
+        if (userProfile?.profile_picture) {
+            const { data } = supabase.storage.from('profile-pictures').getPublicUrl(userProfile.profile_picture);
+            if (data?.publicUrl) {
+                setProfilePictureUrl(encodeURIComponent(data.publicUrl));
+            }
+        }
+    }, [userProfile, supabase]);
 
     const handleLogout = async () => {
         try {
@@ -52,10 +62,6 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
             localStorage.setItem('darkMode', 'false');
         }
     };
-
-    const profilePictureUrl = userProfile?.profile_picture
-        ? supabase.storage.from('profile-pictures').getPublicUrl(userProfile.profile_picture).data.publicUrl
-        : 'https://www.gravatar.com/avatar?d=mp&s=100';
 
     return (
         <nav className={`w-full bg-slate-100 dark:bg-gray-700 flex justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
