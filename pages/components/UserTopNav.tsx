@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
+import { supabase } from '@/lib/initSupabase';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import NotificationBell from '@/components/NotificationBell';
@@ -13,7 +12,6 @@ interface UserTopNavProps {
 }
 
 const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
-    const supabase = useSupabaseClient<Database>();
     const { userProfile } = useUser();
     const [darkMode, setDarkMode] = useState(false);
     const [profilePictureUrl, setProfilePictureUrl] = useState<string>('https://www.gravatar.com/avatar?d=mp&s=100');

@@ -2,7 +2,6 @@ import { createClient } from '@supabase/supabase-js';
 import { Database } from '@/lib/schema';
 import dotenv from 'dotenv';
 import { MaintenanceItem } from '@/lib/types';
-import MaintenanceTab from '@/components/inventory/MaintenanceTab';
 
 dotenv.config();
 
