@@ -30,6 +30,7 @@ const UserProfileForm = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false); // State to control sidebar visibility
     const [darkMode, setDarkMode] = useState(false); // State to control dark mode
 
+    
     useEffect(() => {
         const fetchUserProfile = async () => {
             if (!session) return;
@@ -50,7 +51,9 @@ const UserProfileForm = () => {
                 setCompanyName(data.company_name || '');
                 setAddress(data.address || '');
                 setPhoneNumber(data.phone_number || '');
-                setProfilePictureUrl(data.profile_picture ? `https://fazytsvctdzbhvsavvwj.supabase.co/storage/v1/object/public/profile-pictures/${data.profile_picture}` : null);
+                const profilePicUrl = data.profile_picture ? `https://fazytsvctdzbhvsavvwj.supabase.co/storage/v1/object/public/profile-pictures/${data.profile_picture}` : null;
+                console.log('Profile Picture URL:', profilePicUrl); // Log the profile picture URL
+                setProfilePictureUrl(profilePicUrl);
                 setEmail(session.user.email || '');
                 setEmailNotifications(data.email_notifications || false);
                 setProfilePicture(null); // Reset the profile picture input
