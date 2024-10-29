@@ -128,7 +128,7 @@ const UserProfileForm = () => {
             setProfileError('');
             setProfileSuccess('Profile updated successfully');
             setProfilePictureUrl(profilePictureUrl ? `https://fazytsvctdzbhvsavvwj.supabase.co/storage/v1/object/public/profile-pictures/${profilePictureUrl}` : null);
-            setIsEditing(false); // Disable editing after successful update
+            setIsEditing(false); 
         }
     };
 
@@ -137,7 +137,7 @@ const UserProfileForm = () => {
         if (!session) return;
 
         const { error: updateError } = await supabase
-            .from('profiles') // Ensure the table name is correct
+            .from('profiles') 
             .update({
                 email_notifications: emailNotifications,
             })
