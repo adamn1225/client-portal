@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import Image from 'next/image';
 import { UserRoundPen, BellRing, Building2, Shield, Menu, Sun, Moon } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
 const UserProfileForm = () => {
     const session = useSession();
@@ -30,7 +30,6 @@ const UserProfileForm = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false); // State to control sidebar visibility
     const [darkMode, setDarkMode] = useState(false); // State to control dark mode
 
-    
     useEffect(() => {
         const fetchUserProfile = async () => {
             if (!session) return;
@@ -52,8 +51,9 @@ const UserProfileForm = () => {
                 setAddress(data.address || '');
                 setPhoneNumber(data.phone_number || '');
                 const profilePicUrl = data.profile_picture ? `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}${data.profile_picture}` : null;
+                const encodedProfilePicUrl = profilePicUrl ? encodeURIComponent(profilePicUrl) : null;
                 console.log('Profile Picture URL:', profilePicUrl); // Log the profile picture URL
-                setProfilePictureUrl(profilePicUrl);
+                setProfilePictureUrl(encodedProfilePicUrl);
                 setEmail(session.user.email || '');
                 setEmailNotifications(data.email_notifications || false);
                 setProfilePicture(null); // Reset the profile picture input
@@ -62,6 +62,8 @@ const UserProfileForm = () => {
 
         fetchUserProfile();
     }, [session, supabase]);
+
+    
 
     useEffect(() => {
         // Load dark mode preference from local storage
