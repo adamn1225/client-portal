@@ -419,52 +419,6 @@ export interface Database {
           id: number;
         };
       };
-      invitation_codes: {
-        Row: {
-          id: number;
-          code: string;
-          is_used: boolean;
-        };
-        Insert: {
-          id?: number;
-          code: string;
-          is_used?: boolean;
-        };
-        Update: {
-          id?: number;
-          code?: string;
-          is_used?: boolean;
-        };
-      };
-      invitations: {
-        Row: {
-          id: number;
-          email: string;
-          token: string;
-          invited_by: string;
-          company_id: string;
-          created_at: string;
-          is_used: boolean;
-        };
-        Insert: {
-          id?: number;
-          email: string;
-          token: string;
-          invited_by: string;
-          company_id: string;
-          created_at?: string;
-          is_used?: boolean;
-        };
-        Update: {
-          id?: number;
-          email?: string;
-          token?: string;
-          invited_by?: string;
-          company_id?: string;
-          created_at?: string;
-          is_used?: boolean;
-        };
-      };
       usage_stats: {
         Row: {
           id: number;
@@ -513,5 +467,3 @@ export type Order = Database['public']['Tables']['orders']['Row'];
 export type Profile = Database['public']['Tables']['profiles']['Row'];
 export type Notification = Database['public']['Tables']['notifications']['Row'];
 export type Document = Database['public']['Tables']['documents']['Row'];
-export type InvitationCode = Database['public']['Tables']['invitation_codes']['Row'];
-export type Invitation = Database['public']['Tables']['invitations']['Row'];

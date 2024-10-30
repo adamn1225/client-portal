@@ -1,15 +1,18 @@
 import React from 'react';
 import { useSession } from '@supabase/auth-helpers-react';
-import UserLayout from '../components/UserLayout';
+import Layout from '../components/Layout';
 import { UserProvider } from '@/context/UserContext';
-import SignUpPage from '@/components/UserSignUp';
+import SignUpPage from '../components/SignUpPage';
 
 const SignUpUser: React.FC = () => {
+    const session = useSession();
 
     return (
-        <>
-            <SignUpPage />
-        </>
+        <UserProvider>
+            <Layout>
+                <SignUpPage />
+            </Layout>
+        </UserProvider>
     );
 };
 
