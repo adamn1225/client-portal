@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -20,19 +16,12 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@components/*": [
-        "/components/*"
-      ],
-      "@lib/*": [
-        "lib/*"
-      ],
-      "@pages/*": [
-        "pages/*"
-      ]
-    }
+      "@/*": ["./*"],
+      "@components/*": ["components/*"],
+      "@lib/*": ["lib/*"],
+      "@pages/*": ["pages/*"]
+    },
+    "types": ["node", "react", "react-dom"],
   },
   "include": [
     "src",
@@ -44,7 +33,8 @@
     "lib/initSupabase.ts",
     "lib/migrateUsers.ts",
     "lib/types.ts",
-    "lib/utils.ts"
+    "lib/utils.ts",
+    "netlify/functions"
   ],
   "exclude": [
     "node_modules"

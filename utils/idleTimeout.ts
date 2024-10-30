@@ -12,7 +12,7 @@ const resetIdleTimeout = () => {
 
 const logoutUser = async () => {
     await supabase.auth.signOut();
-    window.location.href = '/login'; // Redirect to login page
+    window.location.href = '/'; // Redirect to login page
 };
 
 const setupIdleTimeout = () => {

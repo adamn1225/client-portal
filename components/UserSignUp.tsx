@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { supabase, fetchCompanyByName, addCompany } from '@lib/database'; // Use the centralized client and functions
-import { Profile, Company } from '@lib/schema'; // Adjust the import path as needed
-import Layout from './components/Layout';
+import Layout from '@pages/components/Layout';
 import Head from 'next/head';
 
 export default function SignUpPage() {
@@ -10,8 +8,6 @@ export default function SignUpPage() {
     const [companyName, setCompanyName] = useState('');
     const [companySize, setCompanySize] = useState('');
     const [email, setEmail] = useState('');
-    const [inviteOthers, setInviteOthers] = useState(false);
-    const [inviteEmails, setInviteEmails] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
@@ -30,69 +26,35 @@ export default function SignUpPage() {
             return;
         }
 
-        // Sign up the user with Supabase Auth
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-        });
+        try {
+            const response = await fetch('/.netlify/functions/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    firstName,
+                    lastName,
+                    companyName,
+                    companySize,
+                }),
+            });
 
-        if (error) {
-            setError(error.message);
-            setLoading(false);
-            return;
-        }
+            const result = await response.json();
 
-        const user = data.user;
-
-        if (user) {
-            // Check if the company already exists
-            const existingCompany = await fetchCompanyByName(companyName);
-
-            let companyId: string;
-
-            if (existingCompany) {
-                companyId = existingCompany.id;
+            if (response.ok) {
+                setSuccess(true);
             } else {
-                // Create a new company record
-                const newCompany = await addCompany({
-                    name: companyName,
-                    size: companySize,
-                });
-
-                if (!newCompany) {
-                    setError('Error creating new company');
-                    setLoading(false);
-                    return;
-                }
-
-                companyId = newCompany.id;
+                setError(result.error);
             }
-
-            // Store additional user information in the profiles table
-            const { error: profileError } = await supabase
-                .from('profiles')
-                .insert({
-                    id: user.id,
-                    email: user.email,
-                    inserted_at: new Date().toISOString(),
-                    role: 'user',
-                    first_name: firstName,
-                    last_name: lastName,
-                    company_name: companyName,
-                    company_size: companySize,
-                    company_id: companyId,
-                });
-
-            if (profileError) {
-                setError(profileError.message);
-                setLoading(false);
-                return;
-            }
-
-            setSuccess(true);
+        } catch (error) {
+            setError('An unexpected error occurred. Please try again later.');
+            console.error('SignUp Error:', error);
+        } finally {
+            setLoading(false);
         }
-
-        setLoading(false);
     };
 
     return (
@@ -147,7 +109,17 @@ export default function SignUpPage() {
                                 onChange={(e) => setCompanySize(e.target.value)}
                                 className="w-full p-2 mt-2 border rounded"
                                 disabled={loading}
+                                required
                             >
+                                <option value="">Select Company Size</option>
+                                <option value="1-10">1-10 employees</option>
+                                <option value="11-50">11-50 employees</option>
+                                <option value="51-200">51-200 employees</option>
+                                <option value="201-500">201-500 employees</option>
+                                <option value="501-1000">501-1000 employees</option>
+                                <option value="1001-5000">1001-5000 employees</option>
+                                <option value="5001-10000">5001-10000 employees</option>
+                                <option value="10001+">10001+ employees</option>
                             </select>
                             <label htmlFor="email" className="mt-4">Email</label>
                             <input
@@ -177,15 +149,6 @@ export default function SignUpPage() {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
                                 className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
-                            />
-                            <label htmlFor="inviteOthers" className="mt-4">Invite Others</label>
-                            <input
-                                type="checkbox"
-                                id="inviteOthers"
-                                checked={inviteOthers}
-                                onChange={(e) => setInviteOthers(e.target.checked)}
-                                className="mt-2"
                                 disabled={loading}
                             />
                             <button
