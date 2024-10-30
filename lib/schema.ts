@@ -260,7 +260,7 @@ export interface Database {
           size: string;
         };
         Insert: {
-          id: string;
+          id?: string;
           name: string;
           size: string;
         };
