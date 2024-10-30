@@ -2428,10 +2428,6 @@ input:disabled+.slider:before {
     width: 40%;
   }
 
-  .xs\:w-full {
-    width: 100%;
-  }
-
   .xs\:pr-8 {
     padding-right: 2rem;
   }
