@@ -124,4 +124,4 @@ export const handler: Handler = async (event) => {
             body: JSON.stringify({ error: 'An unexpected error occurred.' }),
         };
     }
-}; 
+};

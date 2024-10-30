@@ -14,6 +14,8 @@ export default function SignUpPage() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
+    const isLocal = window.location.hostname === 'localhost';
+
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -26,8 +28,12 @@ export default function SignUpPage() {
             return;
         }
 
+        const apiUrl = isLocal
+            ? 'http://localhost:8888/.netlify/functions/signup'
+            : '/.netlify/functions/signup';
+
         try {
-            const response = await fetch('/.netlify/functions/signup', {
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,13 +48,14 @@ export default function SignUpPage() {
                 }),
             });
 
-            const result = await response.json();
-
-            if (response.ok) {
-                setSuccess(true);
-            } else {
+            if (!response.ok) {
+                const result = await response.json();
                 setError(result.error);
+                setLoading(false);
+                return;
             }
+
+            setSuccess(true);
         } catch (error) {
             setError('An unexpected error occurred. Please try again later.');
             console.error('SignUp Error:', error);
