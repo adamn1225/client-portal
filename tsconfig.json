@@ -33,8 +33,7 @@
     "lib/initSupabase.ts",
     "lib/migrateUsers.ts",
     "lib/types.ts",
-    "lib/utils.ts",
-    "netlify/functions"
+    "lib/utils.ts"
   ],
   "exclude": [
     "node_modules"

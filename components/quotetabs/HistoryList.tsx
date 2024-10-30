@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Session } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 import { supabase } from '@/lib/initSupabase'; // Adjust the import path as needed
 
 interface HistoryListProps {

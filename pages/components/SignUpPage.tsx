@@ -1,20 +1,15 @@
 import { useState } from 'react';
-import Layout from './Layout';
+import { supabase } from '@/lib/initSupabase'; // Import the Supabase client
+import Layout from '../components/Layout';
 import Head from 'next/head';
 
 export default function SignUpPage() {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [companyName, setCompanyName] = useState('');
-    const [companySize, setCompanySize] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
-
-    const isLocal = typeof window !== 'undefined' && window.location.hostname === 'localhost';
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,29 +23,31 @@ export default function SignUpPage() {
             return;
         }
 
-        const apiUrl = isLocal
-            ? 'http://localhost:8888/.netlify/functions/signup'
-            : '/.netlify/functions/signup';
-
         try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                    firstName,
-                    lastName,
-                    companyName,
-                    companySize,
-                }),
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
             });
 
-            if (!response.ok) {
-                const result = await response.json();
-                setError(result.error);
+            if (error) {
+                setError(error.message);
+                setLoading(false);
+                return;
+            }
+
+            // Insert additional user information into the profiles table
+            const { error: profileError } = await supabase
+                .from('profiles')
+                .insert({
+                    id: data.user?.id,
+                    email: data.user?.email,
+                    role: 'user', // Default role
+                    inserted_at: new Date().toISOString(),
+                });
+
+            if (profileError) {
+                console.error('Supabase Profile Error:', profileError);
+                setError(profileError.message);
                 setLoading(false);
                 return;
             }
@@ -80,55 +77,7 @@ export default function SignUpPage() {
                         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                         {success && <div className="text-green-500 text-center mb-4">Sign up successful! Please check your email to confirm your account.</div>}
                         <form className="mt-4" onSubmit={handleSignUp}>
-                            <label htmlFor="firstName">First Name</label>
-                            <input
-                                type="text"
-                                id="firstName"
-                                value={firstName}
-                                onChange={(e) => setFirstName(e.target.value)}
-                                required
-                                className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
-                            />
-                            <label htmlFor="lastName" className="mt-4">Last Name</label>
-                            <input
-                                type="text"
-                                id="lastName"
-                                value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
-                                required
-                                className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
-                            />
-                            <label htmlFor="companyName" className="mt-4">Company Name</label>
-                            <input
-                                type="text"
-                                id="companyName"
-                                value={companyName}
-                                onChange={(e) => setCompanyName(e.target.value)}
-                                className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
-                            />
-                            <label htmlFor="companySize" className="mt-4">Company Size</label>
-                            <select
-                                id="companySize"
-                                value={companySize}
-                                onChange={(e) => setCompanySize(e.target.value)}
-                                className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
-                                required
-                            >
-                                <option value="">Select Company Size</option>
-                                <option value="1-10">1-10 employees</option>
-                                <option value="11-50">11-50 employees</option>
-                                <option value="51-200">51-200 employees</option>
-                                <option value="201-500">201-500 employees</option>
-                                <option value="501-1000">501-1000 employees</option>
-                                <option value="1001-5000">1001-5000 employees</option>
-                                <option value="5001-10000">5001-10000 employees</option>
-                                <option value="10001+">10001+ employees</option>
-                            </select>
-                            <label htmlFor="email" className="mt-4">Email</label>
+                            <label htmlFor="email">Email</label>
                             <input
                                 type="email"
                                 id="email"

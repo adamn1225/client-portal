@@ -13,18 +13,12 @@ export default function SignUpPage() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
-        setError(null);
-        setSuccess(false);
 
         if (password !== confirmPassword) {
             setError('Passwords do not match');
-            setLoading(false);
             return;
         }
 
@@ -35,7 +29,6 @@ export default function SignUpPage() {
 
         if (error) {
             setError(error.message);
-            setLoading(false);
             return;
         }
 
@@ -53,7 +46,6 @@ export default function SignUpPage() {
 
             if (companyError && companyError.code !== 'PGRST116') { // PGRST116 is the code for no rows returned
                 setError(companyError.message);
-                setLoading(false);
                 return;
             }
 
@@ -72,7 +64,6 @@ export default function SignUpPage() {
 
                 if (newCompanyError) {
                     setError(newCompanyError.message);
-                    setLoading(false);
                     return;
                 }
 
@@ -93,14 +84,9 @@ export default function SignUpPage() {
 
             if (profileError) {
                 setError(profileError.message);
-                setLoading(false);
                 return;
             }
-
-            setSuccess(true);
         }
-
-        setLoading(false);
     };
 
     return (
@@ -117,7 +103,6 @@ export default function SignUpPage() {
                             Sign Up
                         </span>
                         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-                        {success && <div className="text-green-500 text-center mb-4">Sign up successful! Please check your email to confirm your account.</div>}
                         <form className="mt-4" onSubmit={handleSignUp}>
                             <label htmlFor="firstName">First Name</label>
                             <input
@@ -127,7 +112,6 @@ export default function SignUpPage() {
                                 onChange={(e) => setFirstName(e.target.value)}
                                 required
                                 className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
                             />
                             <label htmlFor="lastName" className="mt-4">Last Name</label>
                             <input
@@ -137,7 +121,6 @@ export default function SignUpPage() {
                                 onChange={(e) => setLastName(e.target.value)}
                                 required
                                 className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
                             />
                             <label htmlFor="companyName" className="mt-4">Company Name</label>
                             <input
@@ -146,7 +129,6 @@ export default function SignUpPage() {
                                 value={companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
                                 className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
                             />
                             <label htmlFor="companySize" className="mt-4">Company Size</label>
                             <select
@@ -154,7 +136,6 @@ export default function SignUpPage() {
                                 value={companySize}
                                 onChange={(e) => setCompanySize(e.target.value)}
                                 className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
                             >
                                 <option value="">Select Company Size</option>
                                 <option value="1-10">1-10</option>
@@ -172,9 +153,7 @@ export default function SignUpPage() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
                             />
-
                             <label htmlFor="password" className="mt-4">Password</label>
                             <input
                                 type="password"
@@ -183,7 +162,6 @@ export default function SignUpPage() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                                 className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
                             />
                             <label htmlFor="confirmPassword" className="mt-4">Confirm Password</label>
                             <input
@@ -193,10 +171,9 @@ export default function SignUpPage() {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
                                 className="w-full p-2 mt-2 border rounded"
-                                disabled={loading}
                             />
-                            <button type="submit" className="w-full p-2 mt-4 bg-blue-500 text-white rounded" disabled={loading}>
-                                {loading ? 'Signing Up...' : 'Sign Up'}
+                            <button type="submit" className="w-full p-2 mt-4 bg-blue-500 text-white rounded">
+                                Sign Up
                             </button>
                         </form>
                     </div>

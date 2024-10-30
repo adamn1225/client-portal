@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '@/lib/initSupabase'; // Adjust the import path as needed
-import { Database } from '@/lib/schema'; // Adjust the import path as needed
+import { Database } from '@/lib/database.types';
+import { supabase } from '@/lib/initSupabase';
 import QuoteList from '../quotetabs/QuoteList';
 import OrderList from '../quotetabs/OrderList';
 import HistoryList from '../quotetabs/HistoryList';
