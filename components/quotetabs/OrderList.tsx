@@ -60,7 +60,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
             setErrorText(error.message);
         } else {
             console.log('Fetched Orders:', data);
-            setOrders(data);
+            setOrders(orders);
         }
     }, [session, isAdmin]);
 
