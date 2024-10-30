@@ -1,6 +1,6 @@
 // invitationService.ts
 import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/lib/schema';
+import { Database } from '@lib/schema';
 import { v4 as uuidv4 } from 'uuid';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

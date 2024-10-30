@@ -1,11 +1,14 @@
 // components/AdminSignUp.tsx
 import { useState } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/router';
 import Layout from '../pages/components/Layout';
 import Head from 'next/head';
+import { Database } from '@/lib/schema'; // Adjust the path as needed
 
 export default function AdminSignUpPage() {
-    const supabase = useSupabaseClient();
+    const supabase = useSupabaseClient<Database>();
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -59,6 +62,7 @@ export default function AdminSignUpPage() {
             return;
         }
 
+        // Sign up the user
         const { data, error } = await supabase.auth.signUp({
             email,
             password,
@@ -95,6 +99,9 @@ export default function AdminSignUpPage() {
                 .eq('code', invitationCode);
 
             setSuccess(true);
+
+            // Redirect to the callback route
+            router.push('/auth/callback');
         }
 
         setLoading(false);

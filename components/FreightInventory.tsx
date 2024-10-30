@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import Papa from 'papaparse';
-import { Database, MaintenanceItem } from '@/lib/schema';
+import { Database, MaintenanceItem } from '@lib/schema';
 import InventoryTab from '@/components/inventory/InventoryTab';
 import MaintenanceTab from '@/components/inventory/MaintenanceTab';
 import TransferToMaintenanceModal from '@/components/TransferToMaintenanceModal';
-import { checkDuplicateInventoryNumber, addFreightItem, addMaintenanceItem } from '@/lib/database';
+import { checkDuplicateInventoryNumber, addFreightItem, addMaintenanceItem } from '@lib/database';
 
 interface FreightInventoryProps {
     session: Session | null;

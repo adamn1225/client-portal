@@ -1,14 +1,14 @@
-// pages/InviteSignUp.tsx
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Layout from '../pages/components/Layout';
 import Head from 'next/head';
+import { Database } from '@lib/schema';
 
 export default function InviteSignUpPage() {
     const router = useRouter();
     const { token } = router.query;
-    const supabase = useSupabaseClient();
+    const supabase = useSupabaseClient<Database>();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -29,13 +29,13 @@ export default function InviteSignUpPage() {
                 if (error || !data) {
                     setError('Invalid or expired invitation token');
                 } else {
-                    setEmail(data.email);
+                    setEmail(data.email as string);
                 }
             }
         };
 
         fetchInvitation();
-    }, [token]);
+    }, [token, supabase]);
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();

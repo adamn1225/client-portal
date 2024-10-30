@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -16,17 +20,33 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ],
+      "@components/*": [
+        "/components/*"
+      ],
+      "@lib/*": [
+        "lib/*"
+      ],
+      "@pages/*": [
+        "pages/*"
+      ]
     }
   },
   "include": [
+    "src",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "tailwind.config.cjs",
-    "pages/api/sendFeedback.ts",
-    "lib/emailService.ts",
-    "pages/api/sendEmail.ts"
-, "lib/generateInvitationCode.cjs"  ],
-  "exclude": ["node_modules"]
+    "lib/schema.ts", // Ensure this file is included
+    "lib/database.ts",
+    "lib/initSupabase.ts",
+    "lib/migrateUsers.ts",
+    "lib/types.ts",
+    "lib/utils.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -1,6 +1,6 @@
 // components/AdminLogin.tsx
 import { useEffect, useState } from 'react';
-import { supabase } from '../lib/initSupabase';
+import { supabase } from '@/lib/initSupabase'; // Adjust the path as needed
 import AdminDashboard from './admin/AdminAnalytics'; // Ensure you have this component
 
 const AdminLogin = () => {
@@ -19,10 +19,10 @@ const AdminLogin = () => {
       if (user) {
         console.log('User ID:', user.id); // Debugging
         const { data, error } = await supabase
-          .from('profiles') // Ensure the table name is correct
+          .from('profiles')
           .select('role')
           .eq('id', user.id)
-          .single();
+          .single<{ role: string }>(); // Explicitly define the type here
 
         if (error) {
           console.error('Error fetching user role:', error.message);

@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/lib/schema';
+import { Database } from '@lib/schema';
 import dotenv from 'dotenv';
-import { MaintenanceItem } from '@/lib/types';
+import { MaintenanceItem, Company } from '@lib/schema';
 
 dotenv.config();
 
@@ -41,7 +41,7 @@ export async function fetchAllUsers() {
 
     // Extract unique users
     const uniqueUsers = data.reduce((acc: any, quote: any) => {
-        if (!acc.some((quote: any) => quote.user_id === quote.user_id)) {
+        if (!acc.some((q: any) => q.user_id === quote.user_id)) {
             acc.push({
                 user_id: quote.user_id,
                 first_name: quote.first_name,
@@ -114,7 +114,7 @@ export async function fetchFreightData(freightId: number) {
         .from('freight')
         .select('*')
         .eq('id', freightId)
-        .single();
+        .single<Database['public']['Tables']['freight']['Row']>(); // Explicitly define the type here
 
     if (error) {
         console.error('Error fetching freight data:', error);
@@ -130,7 +130,7 @@ export async function addFreightItem(freight: Database['public']['Tables']['frei
             .from('freight')
             .insert([freight])
             .select()
-            .single();
+            .single<Database['public']['Tables']['freight']['Row']>(); // Explicitly define the type here
 
         if (error) {
             console.error('Error adding freight item:', error);
@@ -156,4 +156,41 @@ export async function checkDuplicateInventoryNumber(inventoryNumber: string): Pr
     }
 
     return data.length > 0;
+}
+
+// New functions for companies table
+
+export async function fetchCompanyByName(companyName: string): Promise<Company | null> {
+    const { data, error } = await supabase
+        .from('companies')
+        .select('*')
+        .eq('name', companyName)
+        .maybeSingle<Company>(); // Use maybeSingle to handle no rows returned
+
+    if (error) {
+        console.error('Error fetching company by name:', error);
+        return null;
+    }
+
+    return data;
+}
+
+export async function addCompany(companies: Database['public']['Tables']['companies']['Insert']): Promise<Database['public']['Tables']['companies']['Row'] | null > {
+    try {
+        const { data, error } = await supabase
+            .from('companies')
+            .insert([companies])
+            .select()
+            .single<Company>(); // Explicitly define the type here
+
+        if (error) {
+            console.error('Error adding company:', error);
+            throw error;
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error in addCompany:', error);
+        throw error;
+    }
 }

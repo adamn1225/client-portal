@@ -2,4 +2,6 @@
     "github-actions.use-enterprise": true,
     "github-actions.workflows.pinned.refresh.enabled": true,
     "workbench.editor.wrapTabs": true,
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "typescript.tsdk": "node_modules/typescript/lib",
 }

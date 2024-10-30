@@ -129,8 +129,8 @@ export interface Database {
         };
         Insert: {
           id?: number;
-          first_name: string | null;
-          last_name: string | null;
+          first_name?: string | null;
+          last_name?: string | null;
           email?: string | null;
           inserted_at?: string;
           is_complete?: boolean | null;
@@ -159,8 +159,8 @@ export interface Database {
         };
         Update: {
           id?: number;
-          first_name: string | null;
-          last_name: string | null;
+          first_name?: string | null;
+          last_name?: string | null;
           email?: string | null;
           inserted_at?: string;
           is_complete?: boolean | null;
@@ -187,7 +187,7 @@ export interface Database {
           price?: number | null;
           is_archived?: boolean | null;
         };
-      },
+      };
       maintenance: {
         Row: {
           id: number;
@@ -224,12 +224,12 @@ export interface Database {
           make?: string | null;
           model?: string | null;
           year?: string | null;
-          year_amount: string | null;
+          year_amount?: string | null;
           pallets?: string | null;
           serial_number?: string | null;
           dimensions?: string | null;
           commodity?: string | null;
-          inventory_number: string | null;
+          inventory_number?: string | null;
         };
         Update: {
           id?: number;
@@ -245,14 +245,31 @@ export interface Database {
           make?: string | null;
           model?: string | null;
           year?: string | null;
-          year_amount: string | null;
+          year_amount?: string | null;
           pallets?: string | null;
           serial_number?: string | null;
           dimensions?: string | null;
           commodity?: string | null;
-          inventory_number: string | null;
+          inventory_number?: string | null;
         };
-      },
+      };
+      companies: {
+        Row: {
+          id: string;
+          name: string;
+          size: string;
+        };
+        Insert: {
+          id: string;
+          name: string;
+          size: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          size?: string;
+        };
+      };
       orders: {
         Row: {
           id: number;
@@ -296,51 +313,54 @@ export interface Database {
           cancellation_reason?: string | null;
           notes?: string | null;
         };
-      },
+      };
       profiles: {
         Row: {
-          id: string;
+          id: string; // UUID
           email: string;
-          inserted_at: string;
+          inserted_at: string; // timestamp with time zone
           role: string;
           first_name: string | null;
           last_name: string | null;
           company_name: string | null;
+          company_size: string | null;
+          company_id: string | null; // UUID
           profile_picture: string | null;
           address: string | null;
           phone_number: string | null;
           email_notifications: boolean;
-          company_size: string | null;
         };
         Insert: {
-          id: string;
+          id?: string; // UUID
           email: string;
-          inserted_at?: string;
+          inserted_at?: string; // timestamp with time zone
           role: string;
           first_name?: string | null;
           last_name?: string | null;
           company_name?: string | null;
+          company_size?: string | null;
+          company_id?: string | null; // UUID
           profile_picture?: string | null;
           address?: string | null;
           phone_number?: string | null;
           email_notifications?: boolean;
-          company_size?: string | null;
         };
         Update: {
-          id?: string;
+          id?: string; // UUID
           email?: string;
-          inserted_at?: string;
+          inserted_at?: string; // timestamp with time zone
           role?: string;
           first_name?: string | null;
           last_name?: string | null;
           company_name?: string | null;
+          company_size?: string | null;
+          company_id?: string | null; // UUID
           profile_picture?: string | null;
           address?: string | null;
           phone_number?: string | null;
           email_notifications?: boolean;
-          company_size?: string | null;
         };
-      },
+      };
       notifications: {
         Row: {
           id: number;
@@ -446,7 +466,7 @@ export interface Database {
         };
       };
       usage_stats: {
-        row: {
+        Row: {
           id: number;
           user_id: string;
           login_count: number;
@@ -468,24 +488,25 @@ export interface Database {
           created_at?: string;
         };
       };
-    }
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
+      [_ in never]: never;
+    };
+  };
 }
 
 // Define the Task type
-export type Task = Database['public']['Tables']['freight']['Row'];
+export type Freight = Database['public']['Tables']['freight']['Row'];
+export type Company = Database['public']['Tables']['companies']['Row'];
 export type MaintenanceItem = Database['public']['Tables']['maintenance']['Row'];
 export type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
 export type Order = Database['public']['Tables']['orders']['Row'];

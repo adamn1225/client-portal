@@ -1,24 +1,14 @@
-import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/lib/schema';
+import { supabase } from '@lib/database'; // Use the centralized client
 import dotenv from 'dotenv';
 
 dotenv.config();
-
-// Initialize Supabase client with anon key
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''; // Ensure this is set in your environment variables
-
-if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Supabase URL and Anon Key must be set in environment variables');
-}
-
-const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
 const migrateExistingUsers = async () => {
     // Fetch existing users from the profiles table
     const { data: authUsers, error: fetchError } = await supabase
         .from('profiles')
-        .select('id, email');
+        .select('id, email')
+        .returns<{ id: string; email: string }[]>(); // Explicitly define the type here
 
     if (fetchError) {
         console.error('Error fetching existing users:', fetchError.message);
@@ -34,58 +24,30 @@ const migrateExistingUsers = async () => {
             .from('profiles') // Changed from 'users' to 'profiles'
             .select('id')
             .eq('id', id)
-            .single();
+            .single<{ id: string }>(); // Explicitly define the type here
 
         if (checkError && checkError.code !== 'PGRST116') { // PGRST116 is the code for no rows returned
             console.error(`Error checking user ${id}:`, checkError.message);
             continue;
         }
 
-        if (existingUser) {
-            // Update the existing user's profile
+        // Insert or update the user in the custom profiles table
+        if (!existingUser) {
+            const { error: insertError } = await supabase
+                .from('profiles')
+                .insert({ id, email, role: 'user' }); // Add the required 'role' property
+
+            if (insertError) {
+                console.error(`Error inserting user ${id}:`, insertError.message);
+            }
+        } else {
             const { error: updateError } = await supabase
                 .from('profiles')
-                .update({
-                    email: email ?? '',
-                    role: 'user', // Default role
-                    first_name: null,
-                    last_name: null,
-                    company_name: null,
-                    profile_picture: null,
-                    address: null,
-                    phone_number: null,
-                    email_notifications: true,
-
-                })
+                .update({ email })
                 .eq('id', id);
 
             if (updateError) {
                 console.error(`Error updating user ${id}:`, updateError.message);
-            } else {
-                console.log(`User ${id} updated successfully.`);
-            }
-        } else {
-            // Insert the new user into the profiles table
-            const { error: insertError } = await supabase
-                .from('profiles')
-                .insert({
-                    id,
-                    email: email ?? '',
-                    role: 'user', // Default role
-                    inserted_at: new Date().toISOString(),
-                    first_name: null,
-                    last_name: null,
-                    company_name: null,
-                    profile_picture: null,
-                    address: null,
-                    phone_number: null,
-                    email_notifications: true,
-                });
-
-            if (insertError) {
-                console.error(`Error inserting user ${id}:`, insertError.message);
-            } else {
-                console.log(`User ${id} inserted successfully.`);
             }
         }
     }
