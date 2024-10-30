@@ -1,6 +1,7 @@
 import { Handler } from '@netlify/functions';
 import { createClient, User } from '@supabase/supabase-js';
 import { EventEmitter } from 'events';
+import { Database } from '@lib/schema';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY as string;
@@ -9,7 +10,7 @@ if (!supabaseUrl || !serviceRoleKey) {
     throw new Error('Supabase URL and Service Role Key must be set in environment variables');
 }
 
-const supabase = createClient(supabaseUrl, serviceRoleKey);
+const supabase = createClient<Database>(supabaseUrl, serviceRoleKey);
 
 // Increase the limit of listeners
 EventEmitter.defaultMaxListeners = 20;
@@ -70,7 +71,7 @@ export const handler: Handler = async (event) => {
                         name: companyName,
                         size: companySize,
                     })
-                    .single();
+                    .single<Database['public']['Tables']['companies']['Row']>();
 
                 if (newCompanyError) {
                     console.error('Supabase New Company Error:', newCompanyError);
