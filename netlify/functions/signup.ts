@@ -80,7 +80,7 @@ export const handler: Handler = async (event) => {
                     };
                 }
 
-                companyId = user.id;
+                companyId = newCompany.id;
             }
 
             // Store additional user information in the profiles table
