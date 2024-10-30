@@ -50,7 +50,7 @@ const HistoryList: React.FC<HistoryListProps> = ({ session }) => {
             setErrorText(error.message);
         } else {
             console.log('Fetched Delivered Orders:', data);
-            setOrders(data);
+            setOrders(orders);
         }
     }, [session]);
 
