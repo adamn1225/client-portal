@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Layout from '@pages/components/Layout';
+import Layout from './Layout';
 import Head from 'next/head';
 
 export default function SignUpPage() {
@@ -14,7 +14,7 @@ export default function SignUpPage() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
-    const isLocal = window.location.hostname === 'localhost';
+    const isLocal = typeof window !== 'undefined' && window.location.hostname === 'localhost';
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
