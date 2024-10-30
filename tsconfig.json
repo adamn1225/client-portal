@@ -21,14 +21,14 @@
       "@lib/*": ["lib/*"],
       "@pages/*": ["pages/*"]
     },
-    "types": ["node", "react", "react-dom"],
+    "types": ["node", "react", "react-dom"]
   },
   "include": [
     "src",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "lib/schema.ts", // Ensure this file is included
+    "lib/schema.ts",
     "lib/database.ts",
     "lib/initSupabase.ts",
     "lib/migrateUsers.ts",
