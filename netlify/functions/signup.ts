@@ -69,7 +69,6 @@ export const handler: Handler = async (event) => {
                     .insert({
                         name: companyName,
                         size: companySize,
-                        id: data.user.id,
                     })
                     .single();
 
@@ -81,7 +80,7 @@ export const handler: Handler = async (event) => {
                     };
                 }
 
-                companyId = data.user.id;
+                companyId = user.id;
             }
 
             // Store additional user information in the profiles table
