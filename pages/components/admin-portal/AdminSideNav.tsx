@@ -5,7 +5,7 @@ import { Database } from '@/lib/schema';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PanelLeftOpen, PanelRightClose } from 'lucide-react';
+import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer, Handshake } from 'lucide-react';
 
 interface AdminSideNavProps {
     isSidebarOpen: boolean;
@@ -42,12 +42,14 @@ const AdminSideNav: React.FC<AdminSideNavProps> = ({ isSidebarOpen, toggleSideba
 
     return (
         <div>
-            <button
-                className="fixed left-1 top-1 z-50 p-2 rounded-full"
-                onClick={toggleSidebar}
-            >
-                {isSidebarOpen ? <PanelRightClose size={24} className='text-white' /> : <PanelLeftOpen size={28} className='text-gray-900' />}
-            </button>
+            <div className="md:hidden">
+                <button
+                    className="fixed left-1 top-1 z-50 p-2 rounded-full"
+                    onClick={toggleSidebar}
+                >
+                    {isSidebarOpen ? <PanelRightClose size={24} className='text-white' /> : <PanelLeftOpen size={28} className='text-gray-900' />}
+                </button>
+            </div>
             <nav className={`side-navbar bg-slate-700 flex flex-col h-screen z-40 py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out ${className}`}>
                 <h1 className='text-xl mb-4 self-center'>NTS Client Portal</h1>
                 <ul className='flex gap-3 flex-col justify-start items-center flex-grow space-y-1 overflow-y-auto'>
@@ -61,48 +63,49 @@ const AdminSideNav: React.FC<AdminSideNavProps> = ({ isSidebarOpen, toggleSideba
                         />
                         <h3>Welcome {userProfile?.first_name || 'User'}</h3>
                     </li>
+
+                    <li className={`w-full text-base flex justify-center mt-0 ${router.pathname == "/admin-dashboard" ? "active" : ""}`}>
+                        <Link href="/admin-dashboard" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/admin-dashboard" ? "active" : ""}`}>
+                            Analytics
+                        </Link>
+                    </li>
                     <li className="w-full text-base flex justify-center m-0">
                         <Link href="/admin-quote-requests" className="side-nav-btn text-slate-900 font-bold py-1 w-full">
                             Client&apos;s Logistics RFQ
                         </Link>
                     </li>
-                    <li className={`w-full text-base flex justify-center mt-0 ${router.pathname == "/inventory" ? "active" : ""}`}>
-                        <Link href="/inventory" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/inventory" ? "active" : ""}`}>
+                    <li className={`w-full text-base flex justify-center mt-0 ${router.pathname == "/admin-quote-requests" ? "active" : ""}`}>
+                        <Link href="/admin-quote-requests" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/admin-quote-requests" ? "active" : ""}`}>
+                            Client&apos;s Logistics RFQ
+                        </Link>
+                    </li>
+                    <li className={`w-full text-base flex justify-center mt-0 ${router.pathname == "/" ? "active" : ""}`}>
+                        <Link href="/" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/" ? "active" : ""}`}>
                             Client&apos;s Inventory
                         </Link>
                     </li>
 
-                    <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/user-documents" ? "active" : ""}`}>
-                        <Link href="/user-documents" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/user-documents" ? "active" : ""}`}>
+                    <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/admin-documents" ? "active" : ""}`}>
+                        <Link href="/admin-documents" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/admin-documents" ? "active" : ""}`}>
                             Documents
                         </Link>
                     </li>
                     <li className="w-full flex text-base justify-normal m-0">
-                        <Link href="/freight-rfq" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
-                            Procurement <br />  (coming soon)
+                        <Link href="/" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
+                            Procurements <br />  (coming soon)
                         </Link>
                     </li>
 
-                    <li className="w-full flex text-base justify-normal m-0">
-                        <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
-                            Projects <br /> (coming soon)
-                        </Link>
-                    </li>
-
-                    <li className="w-full flex text-base justify-normal m-0">
-                        <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
-                            Analytics <br /> (coming soon)
-                        </Link>
-                    </li>
                 </ul>
-                <ul className='flex flex-col justify-end items-center'>
-                    <li className="w-full flex justify-center m-0">
-                        <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/settings" ? "active" : ""}`}>
-                            <Link href="/settings" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/settings" ? "active" : ""}`}>
-                                Admin Settings
-                            </Link>
-                        </li>
-                        <button className="logout font-bold py-1 w-full" onClick={handleLogout}>
+                <ul className='flex flex-col gap-4 justify-end items-center'>
+                    <li className={`w-full text-nowrap flex justify-normal m-0 ${router.pathname == "/admin-settings" ? "active" : ""}`}>
+                        <Link href="/admin-settings" className={`logout dark:bg-gray-300 dark:text-gray-700 flex items-center justify-center gap-2 font-bold py-1 w-full ${router.pathname == "/admin-settings" ? "active" : ""}`}>
+                            <Settings />   Settings
+                        </Link>
+                    </li>
+                    <li className="w-full flex items-centerjustify-center m-0">
+
+                        <button className="logout dark:bg-gray-300 dark:text-gray-700 font-bold py-1 w-full" onClick={handleLogout}>
                             Logout
                         </button>
                     </li>

@@ -26,6 +26,25 @@ export default function AdminSignUpPage() {
             return;
         }
 
+        // Check if the email is already registered
+        const { data: existingUser, error: existingUserError } = await supabase
+            .from('profiles')
+            .select('email')
+            .eq('email', email)
+            .single();
+
+        if (existingUserError && existingUserError.code !== 'PGRST116') {
+            setError('Error checking existing user');
+            setLoading(false);
+            return;
+        }
+
+        if (existingUser) {
+            setError('Email is already registered');
+            setLoading(false);
+            return;
+        }
+
         // Validate invitation code
         const { data: validCode, error: codeError } = await supabase
             .from('invitation_codes')

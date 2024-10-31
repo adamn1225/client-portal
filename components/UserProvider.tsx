@@ -1,7 +1,6 @@
-// UserProvider.tsx
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 
 interface UserProfile {
     id: string;
@@ -18,6 +17,8 @@ interface UserProfile {
 interface UserContextProps {
     userProfile: UserProfile | null;
     setUserProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>;
+    loading: boolean;
+    error: string | null;
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
@@ -30,9 +31,16 @@ interface UserProviderProps {
 export const UserProvider: React.FC<UserProviderProps> = ({ session, children }) => {
     const supabase = useSupabaseClient<Database>();
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchProfile = async () => {
+            if (!session) {
+                setLoading(false);
+                return;
+            }
+
             const { data, error } = await supabase
                 .from('profiles')
                 .select('id, email, first_name, last_name, company_name, address, phone_number, profile_picture, role')
@@ -42,21 +50,27 @@ export const UserProvider: React.FC<UserProviderProps> = ({ session, children })
             if (error) {
                 if (error.code === 'PGRST116') {
                     console.error('No user profile found for the given ID.');
+                    setError('No user profile found for the given ID.');
                 } else {
                     console.error('Error fetching profile:', error.message);
+                    setError('Error fetching profile');
                 }
             } else {
                 setUserProfile(data);
             }
+
+            setLoading(false);
         };
 
         if (session) {
             fetchProfile();
+        } else {
+            setLoading(false);
         }
     }, [session, supabase]);
 
     return (
-        <UserContext.Provider value={{ userProfile, setUserProfile }}>
+        <UserContext.Provider value={{ userProfile, setUserProfile, loading, error }}>
             {children}
         </UserContext.Provider>
     );

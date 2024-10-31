@@ -1,10 +1,10 @@
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/database.types';
+import { Database } from '@/lib/schema';
 import Image from 'next/image';
 import { UserRoundPen, BellRing, Building2, Shield, Menu, Sun, Moon } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
-const UserProfileForm = () => {
+const AdminSettings = () => {
     const session = useSession();
     const supabase = useSupabaseClient<Database>();
     const [firstName, setFirstName] = useState('');
@@ -44,15 +44,16 @@ const UserProfileForm = () => {
                 console.error('Error fetching user profile:', error.message);
                 setProfileError('Error fetching user profile');
             } else {
+                console.log('Fetched user profile:', data); // Log the fetched data
                 setFirstName(data.first_name || '');
                 setLastName(data.last_name || '');
                 setCompanyName(data.company_name || '');
                 setAddress(data.address || '');
                 setPhoneNumber(data.phone_number || '');
-                const profilePicUrl = data.profile_picture
-                    ? supabase.storage.from('profile-pictures').getPublicUrl(data.profile_picture).data.publicUrl
-                    : 'https://www.gravatar.com/avatar?d=mp&s=100';
-                setProfilePictureUrl(profilePicUrl);
+                const profilePicUrl = data.profile_picture ? `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}${data.profile_picture}` : null;
+                const encodedProfilePicUrl = profilePicUrl ? encodeURIComponent(profilePicUrl) : null;
+                console.log('Profile Picture URL:', profilePicUrl); // Log the profile picture URL
+                setProfilePictureUrl(encodedProfilePicUrl);
                 setEmail(session.user.email || '');
                 setEmailNotifications(data.email_notifications || false);
                 setProfilePicture(null); // Reset the profile picture input
@@ -95,11 +96,11 @@ const UserProfileForm = () => {
         e.preventDefault();
         if (!session) return;
 
-        let profilePicturePath = '';
+        let profilePictureUrl = '';
 
         if (profilePicture) {
             try {
-                profilePicturePath = await uploadProfilePicture(profilePicture, session.user.id);
+                profilePictureUrl = await uploadProfilePicture(profilePicture, session.user.id);
             } catch (error) {
                 if (error instanceof Error) {
                     setProfileError(error.message);
@@ -118,21 +119,20 @@ const UserProfileForm = () => {
                 company_name: companyName,
                 address: address,
                 phone_number: phoneNumber,
-                profile_picture: profilePicturePath || undefined, // Update profile picture URL if available
+                profile_picture: profilePictureUrl || undefined, // Update profile picture URL if available
                 email: email,
-                email_notifications: emailNotifications,
+                email_notifications: false,
             })
             .eq('id', session.user.id);
+
         if (updateError) {
             console.error('Error updating user profile:', updateError.message);
             setProfileError('Error updating user profile');
         } else {
+            console.log('User profile updated successfully');
             setProfileError('');
             setProfileSuccess('Profile updated successfully');
-            const profilePicUrl = profilePicturePath
-                ? supabase.storage.from('profile-pictures').getPublicUrl(profilePicturePath).data.publicUrl
-                : profilePictureUrl;
-            setProfilePictureUrl(profilePicUrl);
+            setProfilePictureUrl(profilePictureUrl ? `https://fazytsvctdzbhvsavvwj.supabase.co/storage/v1/object/public/profile-pictures/${profilePictureUrl}` : null);
             setIsEditing(false);
         }
     };
@@ -508,4 +508,4 @@ const UserProfileForm = () => {
     );
 };
 
-export default UserProfileForm;
+export default AdminSettings;

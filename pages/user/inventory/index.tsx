@@ -1,7 +1,7 @@
 // pages/freight-inventory/page.tsx
 import React from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import UserLayout from '../components/UserLayout';
+import UserLayout from '@/pages/components/UserLayout';
 import FreightInventory from '@/components/FreightInventory';
 import { UserProvider } from '@/context/UserContext';
 

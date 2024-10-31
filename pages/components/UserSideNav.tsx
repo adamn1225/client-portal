@@ -39,33 +39,33 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
 
     return (
         <>
-        <div>
-            <div className="md:hidden">
-                <button
+            <div>
+                <div className="md:hidden">
+                    <button
                         className="fixed z-50 top-1 left-0 p-2 drop-shadow-lg rounded-full"
-                    onClick={toggleSidebar}
-                >
+                        onClick={toggleSidebar}
+                    >
                         {isSidebarOpen ? <PanelRightClose size={24} className='text-white z-50 drop-shadow-lg' /> : <PanelLeftOpen size={28} className='z-50 text-gray-900 dark:text-slate-100 drop-shadow-lg ' />}
-                </button>
-            </div>
+                    </button>
+                </div>
                 <nav className={`side-navbar  z-50  flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0 z-50' : '-translate-x-full'} transition-transform duration-300 h-screen  ease-in-out z-50 ${className}`}>
                     <h1 className='text-xl mt-4 md:mt-0 mb-4 self-center'>NTS Client Portal</h1>
                     <div className="w-full flex flex-col items-center gap-1 justify-center mb-6 border-b border-stone-100/40 pb-4">
-                            <h3>Welcome {userProfile?.first_name || 'User'}</h3>
-                   </div>
+                        <h3>Welcome {userProfile?.first_name || 'User'}</h3>
+                    </div>
                     <ul className='flex gap-3 flex-col flex-grow space-y-1 overflow-y-auto'>
-                        <li className={`w-full text-base flex justify-center mt-0 ${router.pathname == "/inventory" ? "active" : ""}`}>
-                            <Link href="/inventory" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/inventory" ? "active" : ""}`}>
+                        <li className={`w-full text-base flex justify-center mt-0 ${router.pathname == "/user/inventory" ? "active" : ""}`}>
+                            <Link href="/user/inventory" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/user/inventory" ? "active" : ""}`}>
                                 <span className='flex items-center flex-nowrap justify-normal gap-2'><ListCollapse /> <span className='text-sm'>Inventory </span></span>
                             </Link>
                         </li>
-                        <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/freight-rfq" ? "active" : ""}`}>
-                            <Link href="/freight-rfq" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/freight-rfq" ? "active" : ""}`}>
+                        <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/user/freight-rfq" ? "active" : ""}`}>
+                            <Link href="/user/freight-rfq" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/user/freight-rfq" ? "active" : ""}`}>
                                 <span className='flex items-center flex-nowrap justify-normal gap-2'><Workflow /> <span className='text-sm'>Logistics RFQ </span></span>
                             </Link>
                         </li>
-                        <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/user-documents" ? "active" : ""}`}>
-                            <Link href="/user-documents" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/user-documents" ? "active" : ""}`}>
+                        <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/user/user-documents" ? "active" : ""}`}>
+                            <Link href="/user/user-documents" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/user/user-documents" ? "active" : ""}`}>
                                 <span className='flex items-center flex-nowrap justify-normal gap-2'><Folders /> <span className='text-sm'>Documents </span></span>
                             </Link>
                         </li>
@@ -77,25 +77,25 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                         </li>
 
                         <li className="w-full flex text-base justify-normal m-0">
-                            <Link href="/freight-transport" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
+                            <Link href="/" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
                                 <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer /> <span className='text-sm'>Projects <br />(coming soon)</span></span>
                             </Link>
                         </li>
 
                         <li className="w-full flex text-base justify-normal m-0">
-                            <Link href="/freight-transport" className="side-nav-btn  text-stone-100 text-nowrap font-bold py-1 w-full">
+                            <Link href="/" className="side-nav-btn  text-stone-100 text-nowrap font-bold py-1 w-full">
                                 <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Handshake /> <span className='text-sm'>Vendors <br />(coming soon)</span></span>
                             </Link>
                         </li>
                     </ul>
                     <ul className='flex flex-col gap-4 justify-end items-center'>
-                        <li className={`w-full text-nowrap flex justify-normal m-0 ${router.pathname == "/settings" ? "active" : ""}`}>
-                            <Link href="/settings" className={`logout dark:bg-gray-300 dark:text-gray-700 flex items-center justify-center gap-2 font-bold py-1 w-full ${router.pathname == "/settings" ? "active" : ""}`}>
+                        <li className={`w-full text-nowrap flex justify-normal m-0 ${router.pathname == "/user/settings" ? "active" : ""}`}>
+                            <Link href="/user/settings" className={`logout dark:bg-gray-300 dark:text-gray-700 flex items-center justify-center gap-2 font-bold py-1 w-full ${router.pathname == "/user/settings" ? "active" : ""}`}>
                                 <Settings />   Settings
                             </Link>
                         </li>
                         <li className="w-full flex items-centerjustify-center m-0">
-                            
+
                             <button className="logout dark:bg-gray-300 dark:text-gray-700 font-bold py-1 w-full" onClick={handleLogout}>
                                 Logout
                             </button>
