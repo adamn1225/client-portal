@@ -12,11 +12,3 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
-
-supabase.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-        console.log('User signed in or token refreshed:', session);
-    } else if (event === 'SIGNED_OUT') {
-        console.log('User signed out');
-    }
-});

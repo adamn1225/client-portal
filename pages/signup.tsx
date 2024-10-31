@@ -1,4 +1,3 @@
-// signup.tsx
 import { useState } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Layout from './components/Layout';
@@ -94,6 +93,7 @@ export default function SignUpPage() {
                     company_name: companyName,
                     company_size: companySize,
                     company_id: companyId,
+                    role: 'user', // Provide a default role
                 });
 
             if (profileError) {
