@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/initSupabase'; // Adjust the import path as needed
-import { Database } from '@/lib/schema'; // Adjust the import path as needed
+import { Database } from '@/lib/database.types';// Adjust the import path as needed
 import QuoteList from '../quotetabs/QuoteList';
 import OrderList from '../quotetabs/OrderList';
 import HistoryList from '../quotetabs/HistoryList';
@@ -150,7 +150,7 @@ const AdminQuoteRequests = () => {
     const uniqueUsers = quotes.reduce((acc: { user_id: string; first_name: string | null; last_name: string | null; email: string | null }[], quote) => {
         if (!acc.some(user => user.user_id === quote.user_id)) {
             acc.push({
-                user_id: quote.user_id,
+                user_id: quote.user_id || '',
                 first_name: quote.first_name,
                 last_name: quote.last_name,
                 email: quote.email,

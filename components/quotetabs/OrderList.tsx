@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Session } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
-import { supabase } from '@/lib/initSupabase'; 
+import { Database } from '@/lib/database.types';
+import { supabase } from '@/lib/initSupabase';
 import Modal from '@/components/Modal';
 
 interface OrderListProps {
@@ -60,7 +60,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
             setErrorText(error.message);
         } else {
             console.log('Fetched Orders:', data);
-            setOrders(data);
+            setOrders(orders);
         }
     }, [session, isAdmin]);
 
