@@ -148,7 +148,7 @@ export default function SignUpPage() {
                         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                         {success ? (
                             <div className="text-green-500 text-center mb-4 border border-slate-900 p-4 rounded">
-                                Your sign up was successful! Please check your email to confirm your account. Make sure to check your spam or junk folder if you don't see it within two minutes!
+                                Your sign up was successful! Please check your email to confirm your account. Make sure to check your spam or junk folder if you don&apos;t see it within two minutes!
                             </div>
                         ) : (
                             <form className="mt-4" onSubmit={handleSignUp}>

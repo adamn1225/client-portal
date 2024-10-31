@@ -40,3 +40,7 @@ next-env.d.ts
 .netlify
 
 schema.sql
+
+# next.js
+/.next
+/out

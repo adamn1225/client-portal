@@ -29,25 +29,39 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
         let query = supabase
             .from('orders')
             .select(`
-                *,
-                shippingquotes:shippingquotes (
-                    id,
-                    origin_city,
-                    origin_state,
-                    origin_zip,
-                    destination_city,
-                    destination_state,
-                    destination_zip,
-                    year_amount,
-                    make,
-                    model,
-                    due_date,
-                    first_name,
-                    last_name,
-                    email,
-                    price
-                )
-            `)
+            *,
+            shippingquotes:shippingquotes (
+                id,
+                origin_city,
+                origin_state,
+                origin_zip,
+                destination_city,
+                destination_state,
+                destination_zip,
+                year_amount,
+                make,
+                model,
+                due_date,
+                first_name,
+                last_name,
+                email,
+                price,
+                is_archived,
+                height,
+                width,
+                length,
+                weight,
+                price,
+                commodity,
+                pallet_count,
+                is_completed,
+                quote_id,
+                user_id,
+                destination_street,
+                origin_street,
+                inserted_at,
+            )
+        `)
             .neq('status', 'delivered'); // Exclude delivered orders
 
         if (!isAdmin && session?.user?.id) {
@@ -62,7 +76,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
             console.log('Fetched Orders:', data);
             setOrders(orders);
         }
-    }, [session, isAdmin]);
+    }, [session, isAdmin, orders]);
 
     useEffect(() => {
         fetchOrders();

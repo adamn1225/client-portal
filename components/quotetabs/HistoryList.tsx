@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/database.types';
-import { supabase } from '@/lib/initSupabase';// Adjust the import path as needed
+import { supabase } from '@/lib/initSupabase'; // Adjust the import path as needed
 
 interface HistoryListProps {
     session: Session | null;
@@ -66,9 +66,9 @@ const HistoryList: React.FC<HistoryListProps> = ({ session }) => {
             setErrorText(error.message);
         } else {
             console.log('Fetched Delivered Orders:', data);
-            setOrders(orders);
+            setOrders((prevOrders) => data); // Use functional update
         }
-    }, [session]);
+    }, [session]); // No need to include 'orders' in the dependency array
 
     useEffect(() => {
         fetchDeliveredOrders();
@@ -97,8 +97,8 @@ const HistoryList: React.FC<HistoryListProps> = ({ session }) => {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
                                     <div className="flex flex-col justify-start">
-                                    <span><strong>Origin:</strong> {order.shippingquotes?.origin_city ?? 'N/A'}, {order.shippingquotes?.origin_state ?? 'N/A'} {order.shippingquotes?.origin_zip ?? 'N/A'}</span>
-                                    <span><strong>Destination:</strong> {order.shippingquotes?.destination_city ?? 'N/A'}, {order.shippingquotes?.destination_state ?? 'N/A'} {order.shippingquotes?.destination_zip ?? 'N/A'}</span>
+                                        <span><strong>Origin:</strong> {order.shippingquotes?.origin_city ?? 'N/A'}, {order.shippingquotes?.origin_state ?? 'N/A'} {order.shippingquotes?.origin_zip ?? 'N/A'}</span>
+                                        <span><strong>Destination:</strong> {order.shippingquotes?.destination_city ?? 'N/A'}, {order.shippingquotes?.destination_state ?? 'N/A'} {order.shippingquotes?.destination_zip ?? 'N/A'}</span>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
