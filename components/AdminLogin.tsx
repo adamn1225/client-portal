@@ -1,6 +1,6 @@
 // components/AdminLogin.tsx
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/initSupabase'; // Adjust the path as needed
+import { supabase } from '../lib/initSupabase';
 import AdminDashboard from './admin/AdminAnalytics'; // Ensure you have this component
 
 const AdminLogin = () => {

@@ -442,7 +442,30 @@ export interface Database {
           created_at?: string;
         };
       };
-    };
+      usage_stats: {
+        row: {
+          id: number;
+          user_id: string;
+          login_count: number;
+          active_time: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          user_id: string;
+          login_count: number;
+          active_time: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: number;
+          user_id?: string;
+          login_count?: number;
+          active_time?: number;
+          created_at?: string;
+        };
+      };
+    }
     Views: {
       [_ in never]: never;
     };

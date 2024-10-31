@@ -13,17 +13,17 @@ export type Database = {
         Row: {
           id: string
           name: string
-          size: string | null
+          size: string
         }
         Insert: {
           id?: string
           name: string
-          size?: string | null
+          size: string
         }
         Update: {
           id?: string
           name?: string
-          size?: string | null
+          size?: string
         }
         Relationships: []
       }
@@ -58,15 +58,7 @@ export type Database = {
           title?: string
           user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "documents_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       freight: {
         Row: {
@@ -80,7 +72,7 @@ export type Database = {
           height_unit: string | null
           id: number
           in_progress: boolean | null
-          inserted_at: string
+          inserted_at: string | null
           inventory_number: string | null
           is_complete: boolean | null
           length: string | null
@@ -92,7 +84,7 @@ export type Database = {
           reminder_time: string | null
           serial_number: string | null
           status: string | null
-          user_id: string
+          user_id: string | null
           weight: string | null
           weight_unit: string | null
           width: string | null
@@ -111,7 +103,7 @@ export type Database = {
           height_unit?: string | null
           id?: number
           in_progress?: boolean | null
-          inserted_at?: string
+          inserted_at?: string | null
           inventory_number?: string | null
           is_complete?: boolean | null
           length?: string | null
@@ -123,7 +115,7 @@ export type Database = {
           reminder_time?: string | null
           serial_number?: string | null
           status?: string | null
-          user_id: string
+          user_id?: string | null
           weight?: string | null
           weight_unit?: string | null
           width?: string | null
@@ -142,7 +134,7 @@ export type Database = {
           height_unit?: string | null
           id?: number
           in_progress?: boolean | null
-          inserted_at?: string
+          inserted_at?: string | null
           inventory_number?: string | null
           is_complete?: boolean | null
           length?: string | null
@@ -154,13 +146,61 @@ export type Database = {
           reminder_time?: string | null
           serial_number?: string | null
           status?: string | null
-          user_id?: string
+          user_id?: string | null
           weight?: string | null
           weight_unit?: string | null
           width?: string | null
           width_unit?: string | null
           year?: string | null
           year_amount?: string | null
+        }
+        Relationships: []
+      }
+      invitation_codes: {
+        Row: {
+          code: string
+          id: number
+          is_used: boolean | null
+        }
+        Insert: {
+          code: string
+          id?: number
+          is_used?: boolean | null
+        }
+        Update: {
+          code?: string
+          id?: number
+          is_used?: boolean | null
+        }
+        Relationships: []
+      }
+      invitations: {
+        Row: {
+          company_id: string | null
+          created_at: string | null
+          email: string
+          id: number
+          invited_by: string | null
+          is_used: boolean | null
+          token: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string | null
+          email: string
+          id?: number
+          invited_by?: string | null
+          is_used?: boolean | null
+          token: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string | null
+          email?: string
+          id?: number
+          invited_by?: string | null
+          is_used?: boolean | null
+          token?: string
         }
         Relationships: []
       }
@@ -228,22 +268,7 @@ export type Database = {
           year?: string | null
           year_amount?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "maintenance_freight_id_fkey"
-            columns: ["freight_id"]
-            isOneToOne: false
-            referencedRelation: "freight"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "maintenance_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       notifications: {
         Row: {
@@ -267,15 +292,7 @@ export type Database = {
           message?: string
           user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "notifications_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       orders: {
         Row: {
@@ -322,17 +339,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "orders_quote_id_fkey"
+            foreignKeyName: "fk_orders_shippingquotes"
             columns: ["quote_id"]
             isOneToOne: false
             referencedRelation: "shippingquotes"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "orders_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -351,7 +361,7 @@ export type Database = {
           last_name: string | null
           phone_number: string | null
           profile_picture: string | null
-          role: string | null
+          role: string
         }
         Insert: {
           address?: string | null
@@ -361,12 +371,12 @@ export type Database = {
           email: string
           email_notifications?: boolean | null
           first_name?: string | null
-          id?: string
+          id: string
           inserted_at?: string | null
           last_name?: string | null
           phone_number?: string | null
           profile_picture?: string | null
-          role?: string | null
+          role: string
         }
         Update: {
           address?: string | null
@@ -381,21 +391,12 @@ export type Database = {
           last_name?: string | null
           phone_number?: string | null
           profile_picture?: string | null
-          role?: string | null
+          role?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_company_id_fkey"
-            columns: ["company_id"]
-            isOneToOne: false
-            referencedRelation: "companies"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       shippingquotes: {
         Row: {
-          archive: boolean | null
           commodity: string | null
           destination_city: string | null
           destination_state: string | null
@@ -406,7 +407,7 @@ export type Database = {
           first_name: string | null
           height: string | null
           id: number
-          inserted_at: string
+          inserted_at: string | null
           is_archived: boolean | null
           is_complete: boolean | null
           last_name: string | null
@@ -420,13 +421,12 @@ export type Database = {
           pallet_count: string | null
           price: number | null
           quote_id: string | null
-          user_id: string
+          user_id: string | null
           weight: string | null
           width: string | null
           year_amount: string | null
         }
         Insert: {
-          archive?: boolean | null
           commodity?: string | null
           destination_city?: string | null
           destination_state?: string | null
@@ -437,7 +437,7 @@ export type Database = {
           first_name?: string | null
           height?: string | null
           id?: number
-          inserted_at?: string
+          inserted_at?: string | null
           is_archived?: boolean | null
           is_complete?: boolean | null
           last_name?: string | null
@@ -451,13 +451,12 @@ export type Database = {
           pallet_count?: string | null
           price?: number | null
           quote_id?: string | null
-          user_id: string
+          user_id?: string | null
           weight?: string | null
           width?: string | null
           year_amount?: string | null
         }
         Update: {
-          archive?: boolean | null
           commodity?: string | null
           destination_city?: string | null
           destination_state?: string | null
@@ -468,7 +467,7 @@ export type Database = {
           first_name?: string | null
           height?: string | null
           id?: number
-          inserted_at?: string
+          inserted_at?: string | null
           is_archived?: boolean | null
           is_complete?: boolean | null
           last_name?: string | null
@@ -482,65 +481,10 @@ export type Database = {
           pallet_count?: string | null
           price?: number | null
           quote_id?: string | null
-          user_id?: string
+          user_id?: string | null
           weight?: string | null
           width?: string | null
           year_amount?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_quote_id"
-            columns: ["quote_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_user"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_user_id"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      todos: {
-        Row: {
-          due_date: string | null
-          id: number
-          in_progress: boolean | null
-          inserted_at: string | null
-          is_complete: boolean | null
-          reminder_time: string | null
-          task: string | null
-          user_id: string | null
-        }
-        Insert: {
-          due_date?: string | null
-          id?: number
-          in_progress?: boolean | null
-          inserted_at?: string | null
-          is_complete?: boolean | null
-          reminder_time?: string | null
-          task?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          due_date?: string | null
-          id?: number
-          in_progress?: boolean | null
-          inserted_at?: string | null
-          is_complete?: boolean | null
-          reminder_time?: string | null
-          task?: string | null
-          user_id?: string | null
         }
         Relationships: []
       }
@@ -553,10 +497,10 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
-          active_time?: number
+          active_time: number
           created_at?: string | null
           id?: number
-          login_count?: number
+          login_count: number
           user_id?: string | null
         }
         Update: {
@@ -566,15 +510,7 @@ export type Database = {
           login_count?: number
           user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "usage_stats_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
@@ -596,95 +532,95 @@ type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
-    | { schema: keyof Database },
+  | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+  | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-        Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+  ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+    Database[PublicTableNameOrOptions["schema"]]["Views"])
+  : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+    Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
-    ? R
-    : never
+  ? R
+  : never
   : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-        PublicSchema["Views"])
-    ? (PublicSchema["Tables"] &
-        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-        Row: infer R
-      }
-      ? R
-      : never
-    : never
+    PublicSchema["Views"])
+  ? (PublicSchema["Tables"] &
+    PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R
+    }
+  ? R
+  : never
+  : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
-    | { schema: keyof Database },
+  | keyof PublicSchema["Tables"]
+  | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+  ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+  : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
-    }
-    ? I
-    : never
+    Insert: infer I
+  }
+  ? I
+  : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Insert: infer I
-      }
-      ? I
-      : never
-    : never
+  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+    Insert: infer I
+  }
+  ? I
+  : never
+  : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
-    | { schema: keyof Database },
+  | keyof PublicSchema["Tables"]
+  | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+  ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+  : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
-    }
-    ? U
-    : never
+    Update: infer U
+  }
+  ? U
+  : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
-    : never
+  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+    Update: infer U
+  }
+  ? U
+  : never
+  : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof PublicSchema["Enums"]
-    | { schema: keyof Database },
+  | keyof PublicSchema["Enums"]
+  | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+  ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+  : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
-    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-    : never
+  ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+  : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
-    | { schema: keyof Database },
+  | keyof PublicSchema["CompositeTypes"]
+  | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+  ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+  : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
   ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+  ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  : never

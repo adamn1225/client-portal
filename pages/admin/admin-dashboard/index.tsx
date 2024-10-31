@@ -3,7 +3,7 @@ import React from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import AdminAnalytics from '@/components/admin/AdminAnalytics';
-import AdminLayout from '../components/admin/AdminLayout'; // Ensure consistent casing
+import AdminLayout from '../../components/admin-portal/AdminLayout'; // Ensure consistent casing
 
 
 const AdminDashboard = () => {

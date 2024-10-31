@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSession } from '@supabase/auth-helpers-react';
-import UserLayout from '../components/UserLayout';
+import UserLayout from '@/pages/components/UserLayout';
 import { UserProvider } from '@/context/UserContext';
-import UserProfileForm from '@/components/UserProfileForm';
+import Documents from '@/components/Documents';
 
-const UserProfilePage: React.FC = () => {
+const UserDocuments: React.FC = () => {
     const session = useSession();
 
     if (!session) {
@@ -14,10 +14,10 @@ const UserProfilePage: React.FC = () => {
     return (
         <UserProvider>
             <UserLayout>
-                <UserProfileForm />
+                <Documents session={session} />
             </UserLayout>
         </UserProvider>
     );
 };
 
-export default UserProfilePage;
+export default UserDocuments;

@@ -1,14 +1,30 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/database.types';
-import { supabase } from '@/lib/initSupabase'; // Adjust the import path as needed
+import { supabase } from '@/lib/initSupabase';// Adjust the import path as needed
 
 interface HistoryListProps {
     session: Session | null;
 }
 
 type Order = Database['public']['Tables']['orders']['Row'] & {
-    shippingquotes: Database['public']['Tables']['shippingquotes']['Row'];
+    shippingquotes: {
+        id: number;
+        origin_city: string | null;
+        origin_state: string | null;
+        origin_zip: string | null;
+        destination_city: string | null;
+        destination_state: string | null;
+        destination_zip: string | null;
+        year_amount: string | null;
+        make: string | null;
+        model: string | null;
+        due_date: string | null;
+        first_name: string | null;
+        last_name: string | null;
+        email: string | null;
+        price: number | null;
+    } | null;
 };
 
 const HistoryList: React.FC<HistoryListProps> = ({ session }) => {
@@ -81,21 +97,21 @@ const HistoryList: React.FC<HistoryListProps> = ({ session }) => {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
                                     <div className="flex flex-col justify-start">
-                                    <span><strong>Origin:</strong> {order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</span>
-                                    <span><strong>Destination:</strong> {order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</span>
+                                    <span><strong>Origin:</strong> {order.shippingquotes?.origin_city ?? 'N/A'}, {order.shippingquotes?.origin_state ?? 'N/A'} {order.shippingquotes?.origin_zip ?? 'N/A'}</span>
+                                    <span><strong>Destination:</strong> {order.shippingquotes?.destination_city ?? 'N/A'}, {order.shippingquotes?.destination_state ?? 'N/A'} {order.shippingquotes?.destination_zip ?? 'N/A'}</span>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
-                                    {order.shippingquotes.year_amount} {order.shippingquotes.make} {order.shippingquotes.model}
+                                    {order.shippingquotes?.year_amount ?? 'N/A'} {order.shippingquotes?.make ?? 'N/A'} {order.shippingquotes?.model ?? 'N/A'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
-                                    {order.shippingquotes.due_date || 'No due date'}
+                                    {order.shippingquotes?.due_date ?? 'No due date'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
-                                    {order.shippingquotes.first_name} {order.shippingquotes.last_name} {order.shippingquotes.email}
+                                    {order.shippingquotes?.first_name ?? 'N/A'} {order.shippingquotes?.last_name ?? 'N/A'} {order.shippingquotes?.email ?? 'N/A'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
-                                    {order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'Not priced yet'}
+                                    {order.shippingquotes?.price ? `$${order.shippingquotes.price}` : 'Not priced yet'}
                                 </td>
                             </tr>
                         ))}
@@ -112,27 +128,29 @@ const HistoryList: React.FC<HistoryListProps> = ({ session }) => {
                         <div className='border-b border-slate-600 mb-4'></div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
                             <div className="text-sm font-extrabold text-gray-500">Origin</div>
-                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</div>
+                            <div className="text-sm font-medium text-gray-900">
+                                {order.shippingquotes ? `${order.shippingquotes.origin_city}, ${order.shippingquotes.origin_state} ${order.shippingquotes.origin_zip}` : 'No origin data'}
+                            </div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
                             <div className="text-sm font-extrabold text-gray-500">Destination</div>
-                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</div>
+                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes?.destination_city}, {order.shippingquotes?.destination_state} {order.shippingquotes?.destination_zip}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
                             <div className="text-sm font-extrabold text-gray-500">Freight</div>
-                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes.year_amount} {order.shippingquotes.make} {order.shippingquotes.model}</div>
+                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes?.year_amount} {order.shippingquotes?.make} {order.shippingquotes?.model}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
                             <div className="text-sm font-extrabold text-gray-500">Shipping Date</div>
-                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes.due_date || 'No due date'}</div>
+                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes?.due_date || 'No due date'}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
                             <div className="text-sm font-extrabold text-gray-500">Contact</div>
-                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes.first_name} {order.shippingquotes.last_name} {order.shippingquotes.email}</div>
+                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes?.first_name} {order.shippingquotes?.last_name} {order.shippingquotes?.email}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
                             <div className="text-sm font-extrabold text-gray-500">Price</div>
-                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'Not priced yet'}</div>
+                            <div className="text-sm font-medium text-gray-900">{order.shippingquotes?.price ? `$${order.shippingquotes.price}` : 'Not priced yet'}</div>
                         </div>
                     </div>
                 ))}

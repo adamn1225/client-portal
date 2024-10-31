@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Session } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';// Adjust the import path as needed
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import OrderFormModal from './OrderFormModal';
 
@@ -81,7 +81,7 @@ const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, archiveQuote, tr
             const { data: userSettings, error: settingsError } = await supabase
                 .from('profiles')
                 .select('email, email_notifications')
-                .eq('id', quote.user_id)
+                .eq('id', quote.user_id as string)
                 .single();
 
             if (settingsError) {

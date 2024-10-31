@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 
 interface UserProfile {
     id: string;
@@ -17,6 +17,8 @@ interface UserProfile {
 interface UserContextType {
     userProfile: UserProfile | null;
     setUserProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>;
+    loading: boolean;
+    error: string | null;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -25,10 +27,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const session = useSession();
     const supabase = useSupabaseClient<Database>();
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
-            if (!session) return;
+            if (!session) {
+                setLoading(false);
+                return;
+            }
 
             const { data, error } = await supabase
                 .from('profiles')
@@ -38,19 +45,24 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
             if (error) {
                 console.error('Error fetching user profile:', error.message);
+                setError('Error fetching user profile');
             } else {
                 console.log('Fetched user profile:', data);
                 setUserProfile(data);
             }
+
+            setLoading(false);
         };
 
         if (session) {
             fetchUserProfile();
+        } else {
+            setLoading(false);
         }
     }, [session, supabase]);
 
     return (
-        <UserContext.Provider value={{ userProfile, setUserProfile }}>
+        <UserContext.Provider value={{ userProfile, setUserProfile, loading, error }}>
             {children}
         </UserContext.Provider>
     );
