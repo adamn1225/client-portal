@@ -1,12 +1,3 @@
 [build]
   command = "npm run build"
   publish = ".next"
-
-[dev]
-  framework = "next"
-  command = "npm run dev"
-  targetPort = 3000
-  port = 8888
-
-[functions]
-  directory = "netlify/functions"
