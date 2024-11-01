@@ -1,7 +1,7 @@
 // components/TopNavbar.tsx
 import react, { useState, useEffect } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import FeedBack from '@/components/FeedBack';
+import DarkModeToggle from '@/components/DarkModeToggle';
 import Link from 'next/link';
 import { Move3d, Moon, Sun } from 'lucide-react';
 
@@ -10,39 +10,19 @@ interface TopNavbarProps {
 }
 
 const TopNavbar: React.FC<TopNavbarProps> = ({ className }) => {
-    const [darkMode, setDarkMode] = useState(false);
-
-    useEffect(() => {
-        const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-        setDarkMode(savedDarkMode);
-        if (savedDarkMode) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }, []);
-
-    const toggleDarkMode = () => {
-        setDarkMode(!darkMode);
-        if (!darkMode) {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('darkMode', 'true');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('darkMode', 'false');
-        }
-    };
 
     return (
         <header className="bg-slate-200 dark:bg-gray-900 text-white p-4">
-            <div className="container mx-auto flex justify-between items-center">
-                <h1 className="text-3xl  text-slate-900 font-bold flex gap-2 items-center dark:text-slate-100"><Move3d /> SSTA Inc</h1>
-                <nav className="flex justify-end items-end m-0">
+            <div className="container w-full mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+                <span className="text-3xl  text-slate-900 font-bold flex w-full md:justify-start justify-between gap-6 items-center dark:text-slate-100">
+                    <h1 className='flex gap-2 items-center'><Move3d /> SSTA Inc</h1>
+                <DarkModeToggle className='md:hidden' />
+                </span>
+                    
+                <nav className="w-full flex justify-center md:justify-end items-center m-0">
                 
-                    <button onClick={toggleDarkMode} className="p-2 rounded-full mr-2">
-                        {darkMode ? <Sun className="text-yellow-500" /> : <Moon className="dark:text-slate-100 text-gray-900" />}
-                    </button>
-                    <Link href="/login" className="ml-4 dark-light-btn">Sign In</Link>
+                    <DarkModeToggle className="hidden md:flex" />
+                    <Link href="/login" className="md:ml-4 dark-light-btn">Sign In</Link>
                     <Link href="/user/signup" className="ml-4 dark-light-btn">Sign Up</Link>
                 </nav>
             </div>

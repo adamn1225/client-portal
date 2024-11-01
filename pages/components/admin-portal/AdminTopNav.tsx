@@ -5,6 +5,7 @@ import Image from 'next/image';
 import NotificationBell from '@/components/NotificationBell';
 import { Moon, Sun } from 'lucide-react';
 import FeedBack from '@/components/FeedBack';
+import DarkModeToggle from '@/components/DarkModeToggle';
 
 interface UserTopNavProps {
     session: any;
@@ -67,9 +68,7 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
                 </li>
 
                 <li className="flex flex-col justify-end items-end m-0">
-                    <button onClick={toggleDarkMode} className="p-2 rounded-full">
-                        {darkMode ? <Sun className="text-yellow-500" /> : <Moon className="text-gray-800" />}
-                    </button>
+                    <DarkModeToggle />
                 </li>
                 <li className="flex flex-col justify-end items-end m-0">
                     <FeedBack />

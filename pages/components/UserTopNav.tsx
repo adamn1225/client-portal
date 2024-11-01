@@ -5,6 +5,7 @@ import Image from 'next/image';
 import NotificationBell from '@/components/NotificationBell';
 import { Moon, Sun } from 'lucide-react';
 import FeedBack from '@/components/FeedBack';
+import DarkModeToggle from '@/components/DarkModeToggle';
 
 interface UserTopNavProps {
     session: any;
@@ -60,21 +61,20 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
     };
 
     return (
-        <nav className={`w-full bg-slate-100 dark:bg-gray-700 flex justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
-            <ul className='flex gap-2 md:gap-4 items-end z-50 justify-end mr-4'>
-                <li className="m-0 flex flex-col justify-end items-end">
+        <nav className={`w-full bg-slate-100 dark:bg-gray-700 flex flex-col md:flex-row gap-1 justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
+            
+            <ul className='flex gap-2 md:gap-4 items-center z-50 justify-end mr-4'>
+                <li>
                     <NotificationBell session={session} />
                 </li>
 
-                <li className="flex flex-col justify-end items-end m-0">
-                    <button onClick={toggleDarkMode} className="p-2 rounded-full">
-                        {darkMode ? <Sun className="text-yellow-500" /> : <Moon className="text-gray-800" />}
-                    </button>
+                <li>
+                    <DarkModeToggle />
                 </li>
-                <li className="flex flex-col justify-end items-end m-0">
+                <li className='hidden md:block'>
                     <FeedBack />
                 </li>
-                <li className="flex flex-col justify-end items-end m-0">
+                <li>
                     <Image
                         src={profilePictureUrl}
                         alt='profile-img'
@@ -83,6 +83,7 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
                         height={40} />
                 </li>
             </ul>
+            <FeedBack />
         </nav>
     );
 };

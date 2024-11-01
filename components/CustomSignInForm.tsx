@@ -47,7 +47,7 @@ const CustomSignInForm = () => {
                     required
                 />
             </div>
-            <button type="submit" className="dark-light-btn flex jusitfy-center w-full">
+            <button type="submit" className="light-dark-btn flex jusitfy-center w-full">
                 <span className='text-center w-full'>Sign In</span>
             </button>
         </form>
