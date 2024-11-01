@@ -1,9 +1,11 @@
 import Head from 'next/head';
+import type { NextPage } from 'next';
 import Link from 'next/link';
-
+import { Trusted } from '@/components/Trusted';
 import TopNavbar from './components/TopNavbar';
+import Hero from './components/Hero';
 
-const HomePage = () => {
+const HomePage: NextPage = () => {
   return (
     <>
       <Head>
@@ -12,8 +14,10 @@ const HomePage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="min-h-screen flex flex-col">
-        <TopNavbar />
+      <div className="min-h-screen w-screen flex flex-col">
+      <TopNavbar />
+        
+      
         {/* <header className="bg-gray-900 text-white p-4">
           <div className="container mx-auto flex justify-between items-center">
             <h1 className="text-3xl font-bold flex gap-2 items-center"><Move3d /> SSTA Inc</h1>
@@ -23,12 +27,11 @@ const HomePage = () => {
             </nav>
           </div>
         </header> */}
-        <main className="flex-grow container mx-auto p-4 flex flex-col justify-center items-center text-center">
-          <h2 className="text-4xl font-bold mb-4">Welcome to SSTA Inc</h2>
-          <p className="text-xl mb-8">Your trusted partner in Inventory Management, Procurement, and Logistics.</p>
-          <div>
-            <Link href="/user/signup" className="ml-4 dark-light-btn">Get Started</Link>
-          </div>
+        <main className="flex-grow container mt-12 mx-auto p-4 flex flex-col justify-start items-center text-center">
+    
+          <h1 className="text-3xl font-bold mb-4">All In One Construction, Procurement, &amp; Logistics Management System</h1>
+          <Hero />
+
         </main>
         <footer className="bg-gray-900 text-white p-4">
           <div className="container mx-auto text-center">
