@@ -117,10 +117,10 @@ export default function HomePage() {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div className="w-full h-full bg-200">
-          <div className="sm::grid-rows-2 min-w-full min-h-screen grid md:grid-cols-2 ">
+        <div className="w-full h-screen bg-200">
+          <div className="min-w-full min-h-screen grid grid-cols-1 md:grid-cols-2 ">
 
-            <div className="h-1/3 w-full md:h-full col-span-1 bg-gray-900">
+            <div className="hidden md:block h-full w-full md:h-full col-span-1 bg-gray-900">
                  <div className='absolute top-5 left-5'>
                 <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> SSTA Inc</h1>
                 </div>

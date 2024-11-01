@@ -2474,6 +2474,10 @@ input:disabled+.slider:before {
   .sm\:w-full {
     width: 100%;
   }
+
+  .sm\:grid-rows-2 {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 768px) {
