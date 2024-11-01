@@ -29,7 +29,10 @@ const HomePage: NextPage = () => {
         </header> */}
         <main className="flex-grow container mt-12 mx-auto p-4 flex flex-col justify-start items-center text-center">
     
-          <h1 className="text-3xl font-bold mb-4">All In One Construction, Procurement, &amp; Logistics Management System</h1>
+          <h1 className="text-lg md:text-3xl font-bold mb-4">
+            All In One
+            <span className="block md:inline"> Construction, Procurement, &amp; Logistics Management System</span>
+          </h1>
           <Hero />
 
         </main>

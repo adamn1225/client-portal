@@ -8,9 +8,9 @@ import Link from 'next/link';
 const Hero = () => {
     return (
         <>
-            <div className="flex items-start mt-12 justify-center gap-3 px-6 w-full sm:flex-row">
-                <div className="flex flex-col items-start gap-5 pt-13 max-w-full">
-                    <div className="max-w-full">
+            <div className="flex flex-col w-full items-center mt-2  justify-center md:gap-3 md:flex-col md:items-start  md:mt-12">
+                <div className="flex flex-col md:flex-row items-center md:items-start md:gap-5 pt-13">
+                    <div className="w-full flex flex-col justify-center items-center">
                         <h1 className="inline text-lg">Your trusted partner in </h1>
                         <h1 className="inline text-lg text-slate-900 font-semibold">Inventory Management, </h1>
                         <h1 className="inline text-lg text-slate-900 font-semibold">Procurement, </h1>
@@ -22,7 +22,7 @@ const Hero = () => {
                     </p>
 
                     <h2 className='text-slate-900 font-medium text-lg'>Subscribe to stay up to date on added features!</h2>
-                        <div className="flex gap-1 w-1/2">
+                        <div className="flex flex-col w-full gap-1 md:w-1/2">
                         <Input placeholder="Enter your email address" />
                         <Button className='dark-light-btn'> Subscribe</Button>
                     
