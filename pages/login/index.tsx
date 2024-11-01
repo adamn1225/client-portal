@@ -125,7 +125,7 @@ export default function DashboardPage() {
                                 <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> SSTA Inc</h1>
                             </div>
                             <div className='hidden h-5/6 w-full md:flex items-end justify-center'>
-                                <h1 className='text-stone-100 font-medium text-xl italic'>Inventory Management. Procurement. Logistics.</h1>
+                                <h1 className='text-stone-100 font-medium text-xl italic'>Your trusted partner in Inventory Management, Procurement, and Logistics.</h1>
                             </div>
                         </div>
 
@@ -148,7 +148,7 @@ export default function DashboardPage() {
                                 <div className="mt-4 text-center">
                                     <p>Don&apos;t have an account?</p>
                                     <Link href="/signup" legacyBehavior>
-                                        <a className="text-blue-500">Sign Up</a>
+                                        <a className="text-gray-900 font-semibold hover:underline">Sign Up</a>
                                     </Link>
                                 </div>
                                 <div className='md:hidden h-5/6 w-full flex items-end justify-center'>

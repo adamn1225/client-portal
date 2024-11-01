@@ -42,8 +42,8 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ className }) => {
                     <button onClick={toggleDarkMode} className="p-2 rounded-full mr-2">
                         {darkMode ? <Sun className="text-yellow-500" /> : <Moon className="dark:text-slate-100 text-gray-900" />}
                     </button>
-                    <Link href="/login" className="ml-4 px-4 py-2 border border-gray-900 bg-gray-900 text-gray-100 font-medium hover:bg-gray-900 hover:border hover:border-amber-300 hover:text-amber-300">Sign In</Link>
-                    <Link href="/user/signup" className="ml-4 px-4 py-2 border border-gray-900 bg-gray-900 text-gray-100 font-medium hover:bg-gray-900 hover:border hover:border-amber-300 hover:text-amber-300">Sign Up</Link>
+                    <Link href="/login" className="ml-4 dark-light-btn">Sign In</Link>
+                    <Link href="/user/signup" className="ml-4 dark-light-btn">Sign Up</Link>
                 </nav>
             </div>
         </header>

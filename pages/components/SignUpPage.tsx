@@ -133,13 +133,13 @@ export default function SignUpPage() {
                         </div>
                     </div>
 
-                    <div className="sm:row-span-1 md:col-span-1 w-full h-full flex flex-col justify-center items-center">
+                    <div className="sm:row-span-1 md:col-span-1 w-full h-full flex flex-col justify-center items-center bg-slate-100">
                         <div className='hidden md:block md:absolute top-5 right-5'>
-                            <Link href="/" legacyBehavior>
-                                <a className="bg-gray-900 text-stone-100 px-4 py-2 rounded-md shadow-sm font-medium text-xl">Login</a>
+                            <Link href="/login" legacyBehavior>
+                                <a className="dark-light-btn">Login</a>
                             </Link>
                         </div>
-                <div className=" w-full text-gray-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
+                        <div className=" w-full text-gray-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
                     <h2 className="mt-12 md:mt-0 text-2xl font-bold text-center">SSTA Inc</h2>
                     <div className="xs:w-2/5 md:w-full h-full sm:h-auto p-5 bg-white shadow flex flex-col text-base">
                         <span className="font-sans text-4xl text-center pb-2 mb-1 border-b mx-4 align-center">
@@ -227,15 +227,17 @@ export default function SignUpPage() {
                                     className="w-full p-2 mt-2 border rounded"
                                     disabled={loading}
                                 />
-                                <label htmlFor="inviteOthers" className="mt-4">Invite Others</label>
-                                <input
-                                    type="checkbox"
-                                    id="inviteOthers"
-                                    checked={inviteOthers}
-                                    onChange={(e) => setInviteOthers(e.target.checked)}
-                                    className="mt-2"
-                                    disabled={loading}
-                                />
+                                <div className='flex gap-1 items-center my-2'>
+                                    <label htmlFor="inviteOthers" className="mt-1">Invite Others</label>
+                                    <input
+                                        type="checkbox"
+                                        id="inviteOthers"
+                                        checked={inviteOthers}
+                                        onChange={(e) => setInviteOthers(e.target.checked)}
+                                        className="mt-2"
+                                        disabled={loading}
+                                    />
+                                </div>
                                 {inviteOthers && (
                                     <div className="mt-4">
                                         <label htmlFor="inviteEmails">Invite Emails (comma separated)</label>
@@ -250,7 +252,7 @@ export default function SignUpPage() {
                                 )}
                                 <button
                                     type="submit"
-                                    className="w-full p-2 mt-4 bg-blue-800 text-white rounded"
+                                    className="w-full dark-light-btn"
                                     disabled={loading}
                                 >
                                     {loading ? 'Signing Up...' : 'Sign Up'}
@@ -258,8 +260,8 @@ export default function SignUpPage() {
 
                         <div className='flex flex-col justify-evenly max-h-max items-center w-full my-4'>
                             <div className='border-t border-gray-900/40 pt-1 mb-2 w-full text-center'><h3>Already have an account?</h3></div>
-                            <Link href="/" legacyBehavior>
-                                <button className="bg-gray-900 w-full text-center text-stone-100 px-4 py-2">Login</button>
+                            <Link href="/login" legacyBehavior>
+                                <a className="text-center text-lg font-semibold text-gray-700 hover:underline underline-offset-2 px-4 py-2 hover:text-slate-900/70">Login</a>
                             </Link>
                         </div>
                             </form>

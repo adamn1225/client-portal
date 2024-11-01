@@ -27,8 +27,7 @@ const HomePage = () => {
           <h2 className="text-4xl font-bold mb-4">Welcome to SSTA Inc</h2>
           <p className="text-xl mb-8">Your trusted partner in Inventory Management, Procurement, and Logistics.</p>
           <div>
-            <Link href="/about" className="ml-4 px-4 py-2 border border-gray-900 bg-gray-900 text-gray-100 font-medium hover:bg-gray-900 hover:border hover:border-amber-300 hover:text-amber-300">Learn More</Link>
-            <Link href="/contact" className="ml-4 px-4 py-2 border border-gray-900 bg-gray-900 text-gray-100 font-medium hover:bg-gray-900 hover:border hover:border-amber-300 hover:text-amber-300">Contact Us</Link>
+            <Link href="/user/signup" className="ml-4 dark-light-btn">Get Started</Link>
           </div>
         </main>
         <footer className="bg-gray-900 text-white p-4">
