@@ -129,7 +129,7 @@ export default function SignUpPage() {
                             <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> SSTA Inc</h1>
                         </div>
                         <div className='hidden h-full pb-12 w-full md:flex items-end justify-center'>
-                            <h1 className='text-stone-100 font-medium text-xl italic'>Inventory Management. Procurement. Logistics.</h1>
+                            <h1 className='text-stone-100 font-medium text-xl italic'>Your trusted partner in Inventory Management, Procurement, and Logistics.</h1>
                         </div>
                     </div>
 
