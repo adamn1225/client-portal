@@ -70,9 +70,9 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                             </Link>
                         </li>
 
-                        <li className="w-full flex justify-normal m-0">
-                            <Link href="/freight-rfq" className="side-nav-btn  text-stone-100  font-semibold py-1 w-full">
-                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Signature size={'20px'}/> <span className='text-xs md:text-sm'>Procurement <br />(coming soon)</span></span>
+                        <li className={`w-full flex justify-normal m-0 ${router.pathname == "/user/procurement" ? "active" : ""}`}>
+                            <Link href="/user/procurement" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/procurement" ? "active" : ""}`}>
+                            <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Signature size={'20px'}/> <span className='text-xs md:text-sm'>Procurement <br />(Under Construction)</span></span>
                             </Link>
                         </li>
 
