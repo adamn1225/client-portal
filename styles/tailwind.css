@@ -314,7 +314,7 @@ input:disabled+.slider:before {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-spacing-0;
   }
 
   body {
