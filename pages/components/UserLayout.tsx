@@ -35,12 +35,12 @@ const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
 
     return (
         <div className="md:layout">
-            <div className='z-50'><UserSideNav isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} /></div>
-            <div className="fixed top-0 left-0 z-30 w-full">
+            <div className='z-40'><UserSideNav isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} /></div>
+
+            <main className="main-content ml-0 xl:ml-52 z-0 md:p-4 mt-28 md:mt-24 relative">
+            <div className="w-full fixed top-0 left-0">
                 <UserTopNav session={undefined} />
             </div>
-            <main className="main-content ml-0 lg:ml-52 z-0 md:p-4 mt-32 md:mt-24 relative">
-
                 {children}
             </main>
         </div>

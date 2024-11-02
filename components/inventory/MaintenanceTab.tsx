@@ -69,37 +69,37 @@ const MaintenanceTab = ({ freightList, maintenanceList, editFreight, handleDelet
                 <table className="min-w-full divide-y parent-container divide-gray-200 dark:divide-stone-100/50">
                     <thead className="bg-gray-50 dark:bg-gray-800 dark:text-white">
                         <tr className='border-b border-slate-900/20 dark:border-slate-100/20'>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-tight border-r border-slate-900/20  dark:border-slate-100/20 ">Maintenance Item</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-tight border-r border-slate-900/20  dark:border-slate-100/20 ">Parts Needed?</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-tight border-r border-slate-900/20  dark:border-slate-100/20 ">Maintenance Notes</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-tight border-r border-slate-900/20  dark:border-slate-100/20 ">Serial Number</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-tight border-r border-slate-900/20  dark:border-slate-100/20 ">Inventory Number</th>                            
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-tight border-r border-slate-900/20  dark:border-slate-100/20 ">Assigned To</th>
+                            <th className="dark:border-gray-900 px-6 py-1 text-left text-nowrap text-xs font-normal dark:text-normal dark:font-medium uppercase tracking-wider border-r border-slate-900/20  dark:border-slate-100/20 ">Maintenance Item</th>
+                            <th className="dark:border-gray-900 px-6 py-1 text-left text-nowrap text-xs font-normal dark:text-normal dark:font-medium uppercase tracking-wider border-r border-slate-900/20  dark:border-slate-100/20 ">Parts Needed?</th>
+                            <th className="dark:border-gray-900 px-6 py-1 text-left text-nowrap text-xs font-normal dark:text-normal dark:font-medium uppercase tracking-wider border-r border-slate-900/20  dark:border-slate-100/20">Maintenance Notes</th>
+                            <th className="dark:border-gray-900 px-6 py-1 text-left text-nowrap text-xs font-normal dark:text-normal dark:font-medium uppercase tracking-wider border-r border-slate-900/20  dark:border-slate-100/20">Serial Number</th>
+                            <th className="dark:border-gray-900 px-6 py-1 text-left text-nowrap text-xs font-normal dark:text-normal dark:font-medium uppercase tracking-wider border-r border-slate-900/20  dark:border-slate-100/20">Inventory Number</th>                            
+                            <th className="dark:border-gray-900 px-6 py-1 text-left text-nowrap text-xs font-normal dark:text-normal dark:font-medium uppercase tracking-wider border-r border-slate-900/20  dark:border-slate-100/20">Assigned To</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500  dark:text-white uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-white dark:bg-gray-800 dark:text-white">
                         {maintenanceList.map((freight) => (
                             <tr key={freight.id}>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
+                                <td className="px-6 py-1 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
                                     {freight.commodity || `${freight.year_amount} ${freight.make} ${freight.model}`}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
+                                <td className="px-6 py-1 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
                                     {freight.part}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
+                                <td className="px-6 py-1 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
                                     {freight.notes}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
+                                <td className="px-6 py-1 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
                                     {freight.serial_number}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
+                                <td className="px-6 py-1 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
                                     {freight.inventory_number}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
+                                <td className="px-6 py-1 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
                                     {freight.maintenance_crew}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap flex justify-between">
+                                <td className="px-6 py-1 whitespace-nowrap flex justify-between">
                                     <button onClick={() => openEditModal(freight)} className="text-blue-500 dark:text-blue-400 mr-4">
                                         Edit
                                     </button>

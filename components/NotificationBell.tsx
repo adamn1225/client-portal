@@ -115,16 +115,16 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ session }) => {
                 {hasNotifications && <div className="absolute top-16 right-0 h-2 w-2 bg-red-500 rounded-full"></div>}
             </button>
             {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-full sm:w-96 max-h-96 bg-white border border-gray-300 overflow-y-scroll rounded shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-{1200px} max-w-max max-h-max h-screen bg-white dark:bg-gray-900 border border-gray-300 overflow-y-scroll rounded shadow-lg z-50">
                     <div className="p-2">
                         {notifications.length > 0 ? (
                             notifications.map((notification) => (
                                 <div
                                     key={notification.id}
-                                    className={`p-2 border-b border-gray-200 ${notification.is_read ? 'bg-white' : 'bg-gray-300'}`}
+                                    className={`p-2 border-b z-50 border-gray-200 ${notification.is_read ? 'bg-white dark:bg-gray-600' : 'bg-gray-300 dark:bg-gray-900'}`}
                                 >
                                     <div className="flex justify-between items-center">
-                                        <span>{notification.message}</span>
+                                        <span className="dark:text-stone-100">{notification.message}</span>
                                         {!notification.is_read && (
                                             <button
                                                 onClick={() => markAsRead(notification.id)}
@@ -137,7 +137,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ session }) => {
                                 </div>
                             ))
                         ) : (
-                            <div className="p-2 text-gray-500">No new notifications</div>
+                            <div className="p-2 text-nowrap">No new notifications</div>
                         )}
                     </div>
                 </div>

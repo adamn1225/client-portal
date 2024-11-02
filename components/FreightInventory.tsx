@@ -336,10 +336,10 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         }
 
     return (
-        <div className="w-full grid grid-rows md:gap-6 md:mt-12">
+        <div className="w-full grid grid-rows md:gap-6 md:mt-6">
             <div className="w-full">
                 <div className='flex flex-col justify-center items-center'>
-                    <h1 className="xs:text-md mb-6 text-xl md:text-2xl font-semibold text-center">Your Inventory/Equipment</h1>
+                    <h1 className="xs:text-md mb-2 text-xl md:text-2xl font-semibold text-center">Your Inventory/Equipment</h1>
                     
                 </div>
                 <TransferToMaintenanceModal
@@ -563,17 +563,17 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
             </div>
 
             <div className='flex flex-col gap-2 justify-center items-center w-full'>
-                <div className='flex flex-col-reverse gap-2 justify-center items-center w-full'>
-                    <button className="btn-slate shadow-m max-h-max bg-white dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-amber-400 dark:hover:text-gray-800" onClick={() => setIsModalOpen(true)}>
-                        Add Inventory Item
-                    </button>
-                    <div className="mt-4 ">
+                <div className='flex md:flex-row flex-col-reverse gap-2 justify-between items-center w-full'>
+                    <div className="mt-4 md:m-0">
+                        <button className="light-dark-btn dark-light-btn" onClick={() => setIsModalOpen(true)}>
+                            Add Inventory Item
+                        </button>
+                    </div>
+                    <div className="mt-4 md:m-0">
                         <label className="custom-file-upload">
-                            <div className='flex-grow-1 flex flex-nowrap flex-col justify-center items-center gap-1'>
-                                <h2 className='text-nowrap font-normal'>Import your entire Inventory</h2>
                                 <input className='hidden' type="file" accept=".csv" onChange={handleFileUpload} />
-                                <span className="upload-button cursor-pointer self-center w-3/4 text-center dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-amber-400 dark:hover:text-gray-800">Upload CSV</span>
-                            </div>
+                                <span className="upload-button">Upload CSV</span>
+                        
                         </label>
                     </div>
                     {errorText && <div className="text-red-500">{errorText}</div>}

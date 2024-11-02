@@ -67,7 +67,7 @@ const FeedBack = () => {
             <PopoverContent className="w-80">
                 <form onSubmit={handleSubmit} className="grid gap-4">
                     <div className="space-y-2">
-                        <h4 className="font-medium leading-none">Feedback</h4>
+                        <h4 className="light-dark-btn leading-none">Feedback</h4>
                         <p className="text-sm text-muted-foreground">
                             Your feedback is important to us to ensure we provide the best experience possible. <br />
                             Type your message and upload a screenshot (optional).

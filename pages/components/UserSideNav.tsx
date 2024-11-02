@@ -54,49 +54,49 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                         <h3>Welcome {userProfile?.first_name || 'User'}</h3>
                     </div>
                     <ul className='flex gap-3 flex-col flex-grow space-y-1 overflow-y-auto'>
-                        <li className={`w-full text-base flex justify-center mt-0 ${router.pathname == "/user/inventory" ? "active" : ""}`}>
-                            <Link href="/user/inventory" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/user/inventory" ? "active" : ""}`}>
-                                <span className='flex items-center flex-nowrap justify-normal gap-2'><ListCollapse /> <span className='text-sm'>Inventory </span></span>
+                        <li className={`w-full flex justify-center mt-0 ${router.pathname == "/user/inventory" ? "active" : ""}`}>
+                            <Link href="/user/inventory" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/inventory" ? "active" : ""}`}>
+                                <span className='flex items-center flex-nowrap justify-normal gap-2 text-xs'><ListCollapse size={'20px'}/> <span className='text-xs md:text-sm'>Inventory </span></span>
                             </Link>
                         </li>
-                        <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/user/freight-rfq" ? "active" : ""}`}>
-                            <Link href="/user/freight-rfq" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/user/freight-rfq" ? "active" : ""}`}>
-                                <span className='flex items-center flex-nowrap justify-normal gap-2'><Workflow /> <span className='text-sm'>Logistics RFQ </span></span>
+                        <li className={`w-full flex justify-normal m-0 ${router.pathname == "/user/freight-rfq" ? "active" : ""}`}>
+                            <Link href="/user/freight-rfq" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/freight-rfq" ? "active" : ""}`}>
+                                <span className='flex items-center flex-nowrap justify-normal gap-2'><Workflow size={'20px'}/> <span className='text-xs md:text-sm'>Logistics RFQ </span></span>
                             </Link>
                         </li>
-                        <li className={`w-full text-base flex justify-normal m-0 ${router.pathname == "/user/user-documents" ? "active" : ""}`}>
-                            <Link href="/user/user-documents" className={`side-nav-btn text-stone-100 font-bold py-1 w-full ${router.pathname == "/user/user-documents" ? "active" : ""}`}>
-                                <span className='flex items-center flex-nowrap justify-normal gap-2'><Folders /> <span className='text-sm'>Documents </span></span>
-                            </Link>
-                        </li>
-
-                        <li className="w-full flex text-base justify-normal m-0">
-                            <Link href="/freight-rfq" className="side-nav-btn  text-stone-100  font-bold py-1 w-full">
-                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Signature /> <span className='text-sm'>Procurement <br />(coming soon)</span></span>
+                        <li className={`w-full flex justify-normal m-0 ${router.pathname == "/user/user-documents" ? "active" : ""}`}>
+                            <Link href="/user/user-documents" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/user-documents" ? "active" : ""}`}>
+                                <span className='flex items-center flex-nowrap justify-normal gap-2'><Folders size={'20px'}/> <span className='text-xs md:text-sm'>Documents </span></span>
                             </Link>
                         </li>
 
-                        <li className="w-full flex text-base justify-normal m-0">
-                            <Link href="/" className="side-nav-btn text-stone-100 text-nowrap font-bold py-1 w-full">
-                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer /> <span className='text-sm'>Projects <br />(coming soon)</span></span>
+                        <li className="w-full flex justify-normal m-0">
+                            <Link href="/freight-rfq" className="side-nav-btn  text-stone-100  font-semibold py-1 w-full">
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Signature size={'20px'}/> <span className='text-xs md:text-sm'>Procurement <br />(coming soon)</span></span>
                             </Link>
                         </li>
 
-                        <li className="w-full flex text-base justify-normal m-0">
-                            <Link href="/" className="side-nav-btn  text-stone-100 text-nowrap font-bold py-1 w-full">
-                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Handshake /> <span className='text-sm'>Vendors <br />(coming soon)</span></span>
+                        <li className="w-full flex justify-normal m-0">
+                            <Link href="/" className="side-nav-btn text-stone-100 text-nowrap font-semibold py-1 w-full">
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer size={'20px'}/> <span className='text-xs md:text-sm'>Projects <br />(coming soon)</span></span>
+                            </Link>
+                        </li>
+
+                        <li className="w-full flex justify-normal m-0">
+                            <Link href="/" className="side-nav-btn  text-stone-100 text-nowrap font-semibold py-1 w-full">
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Handshake size={'20px'}/> <span className='text-xs md:text-sm'>Vendors <br />(coming soon)</span></span>
                             </Link>
                         </li>
                     </ul>
                     <ul className='flex flex-col gap-4 justify-end items-center'>
                         <li className={`w-full text-nowrap flex justify-normal m-0 ${router.pathname == "/user/settings" ? "active" : ""}`}>
-                            <Link href="/user/settings" className={`logout dark:bg-gray-300 dark:text-gray-700 flex items-center justify-center gap-2 font-bold py-1 w-full ${router.pathname == "/user/settings" ? "active" : ""}`}>
+                            <Link href="/user/settings" className={`logout mt-4 md:mt-0 dark:bg-gray-300 dark:text-gray-700 flex items-center justify-center gap-2 font-semibold py-1 w-full ${router.pathname == "/user/settings" ? "active" : ""}`}>
                                 <Settings />   Settings
                             </Link>
                         </li>
                         <li className="w-full flex items-centerjustify-center m-0">
 
-                            <button className="logout dark:bg-gray-300 dark:text-gray-700 font-bold py-1 w-full" onClick={handleLogout}>
+                            <button className="logout dark:bg-gray-300 dark:text-gray-700 font-semibold py-1 w-full" onClick={handleLogout}>
                                 Logout
                             </button>
                         </li>

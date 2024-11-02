@@ -35,6 +35,10 @@
   @apply px-4 py-2 border shadow-md bg-gray-900 text-gray-100 font-medium hover:border-amber-100 hover:bg-gray-900 hover:border hover:text-amber-300 dark:border-gray-900 dark:bg-gray-900 dark:text-stone-100 dark:hover:bg-gray-900 dark:hover:text-amber-300 dark:hover:border-amber-300;
 }
 
+.upload-button {
+  @apply  px-5 py-2.5 border shadow-md bg-gray-900 text-gray-100 font-medium hover:border-amber-100 hover:bg-gray-900 hover:border hover:text-amber-300 dark:border-gray-900 dark:bg-gray-900 dark:text-stone-100 dark:hover:bg-gray-900 dark:hover:text-amber-300 dark:hover:border-amber-300       ;
+}
+
 html,
 body,
 #__next {
@@ -51,8 +55,8 @@ body,
 
 .side-navbar {
   @apply bg-gray-900;
-  width: 13em !important;
-  min-width: 13em !important;
+  width: 12em !important;
+  min-width: 12em !important;
   height: screen;
   color: white;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -63,7 +67,7 @@ body,
 }
 
 .sidenav-text {
-  font-size: .75em;
+  font-size: .50em;
   text-wrap: nowrap;
   width: 100%;
 }
@@ -88,7 +92,7 @@ body,
 }
 
 .logout {
-  @apply bg-stone-200 text-slate-800 font-bold py-2 px-4 rounded text-center;
+  @apply bg-stone-200 text-slate-800 font-bold md:py-2 px-4 rounded text-center;
 }
 
 .logout:hover {
@@ -223,36 +227,11 @@ input:disabled+.slider:before {
 }
 
 .custom-file-upload {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
   cursor: pointer;
 }
 
 .custom-file-upload input[type="file"] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-  padding: 0;
-  font-size: 100px;
   cursor: pointer;
-  opacity: 0;
-  filter: alpha(opacity=0);
-}
-
-.upload-button {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #2d3748;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.upload-button:hover {
-  background-color: #4a5568;
 }
 
 @layer base {
