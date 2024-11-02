@@ -12,31 +12,31 @@ const Hero = () => {
                 <div className="flex flex-col items-center md:items-start md:gap-5 pt-13">
                     <div className="w-full flex md:flex-row flex-col justify-center items-center">
                         <h1 className="inline text-lg">Your trusted partner in </h1>
-                        <h1 className="inline text-lg text-slate-900 font-semibold">Inventory Management, </h1>
-                        <h1 className="inline text-lg text-slate-900 font-semibold">Procurement, </h1>
+                        <h1 className="inline text-lg font-semibold">Inventory Management, </h1>
+                        <h1 className="inline text-lg  font-semibold">Procurement, </h1>
                         <h1 className="inline text-lg">and</h1>
-                        <h1 className="inline text-lg text-slate-900 font-semibold">  Logistics.</h1>
+                        <h1 className="inline text-lg  font-semibold">  Logistics.</h1>
                     </div>
-                    <p className="text-slate-900 max-w-400px text-lg">
+                    <p className="max-w-400px text-lg">
                         The easiest way to build React Landing page in seconds. Save time and focus on your project.
                     </p>
                     <div className="md:hidden w-full">
                     <img src="mock.png" className=" object-contain" alt="Mockup" />
                    </div>
-                    <h2 className='text-slate-900 font-medium text-lg'>Subscribe to stay up to date on added features!</h2>
+                    <h2 className='font-medium text-lg'>Subscribe to stay up to date on added features!</h2>
                         <div className="flex flex-col w-full gap-1 md:w-1/2">
                         <Input placeholder="Enter your email address" />
                         <Button className='dark-light-btn'> Subscribe</Button>
                     
                     </div>
                     <div className="flex flex-col flex-wrap gap-8 py-7 sm:py-4">
-                        <div className="flex items-center text-gray-600">
+                        <div className="flex items-center">
                             <CheckIcon /> Members who joined during Beta will have a lifetime discount.
                         </div>
-                        <div className="flex items-center text-gray-600">
+                        <div className="flex items-center">
                             <CheckIcon /> Direct Support - We would really, really appreciate your feedback.
                         </div>
-                        <div className="flex items-center text-gray-600">
+                        <div className="flex items-center">
                             <CheckIcon /> Completely free during Beta.
                         </div>
                     </div>

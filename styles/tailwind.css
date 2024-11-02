@@ -312,6 +312,10 @@ input:disabled+.slider:before {
   }
 }
 
+p h1 h2 h3 h4 h5 h6 li span div{
+  @apply font-sans dark:text-stone-100 !important;
+}
+
 @layer base {
   * {
     @apply border-spacing-0;

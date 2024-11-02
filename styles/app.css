@@ -2391,6 +2391,15 @@ input:disabled+.slider:before {
   background-color: #4a5568;
 }
 
+p h1 h2 h3 h4 h5 h6 li span div {
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+}
+
+p h1 h2 h3 h4 h5 h6 li span div:is(.dark *) {
+  --tw-text-opacity: 1 !important;
+  color: rgb(245 245 244 / var(--tw-text-opacity)) !important;
+}
+
 .file\:border-0::file-selector-button {
   border-width: 0px;
 }
