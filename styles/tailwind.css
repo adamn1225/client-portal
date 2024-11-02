@@ -28,11 +28,15 @@
 }
 
 .dark-light-btn {
-  @apply m-0 px-4 py-2 border shadow-md bg-gray-900 text-gray-100 font-medium hover:border-amber-100 hover:bg-gray-900 hover:border hover:text-amber-300 dark:border-gray-900 dark:bg-amber-400 dark:text-gray-900 dark:hover:bg-gray-900 dark:hover:text-amber-300 dark:hover:border-amber-300;
+  @apply m-0 px-4 py-2 border shadow-md 
+  bg-gray-900 text-gray-100 font-medium hover:border-amber-100 hover:bg-gray-900 hover:border hover:text-amber-300 
+  dark:border-gray-900 dark:bg-amber-400 dark:text-gray-900 dark:hover:bg-gray-900 dark:hover:text-amber-300 dark:hover:border-amber-300;
 }
 
 .light-dark-btn {
-  @apply m-0 px-4 py-2 border shadow-md bg-gray-900 text-gray-100 font-medium hover:border-amber-100 hover:bg-gray-900 hover:border hover:text-amber-300 dark:border-gray-900 dark:bg-gray-900 dark:text-stone-100 dark:hover:bg-gray-900 dark:hover:text-amber-300 dark:hover:border-amber-300;
+  @apply m-0 px-4 py-2 border shadow-md bg-gray-900 text-gray-100 font-medium hover:border-amber-100 hover:bg-gray-900 
+  hover:border hover:text-amber-300 dark:border-gray-900 
+  dark:bg-gray-900 dark:text-stone-100 dark:hover:bg-gray-900 dark:hover:text-amber-300 dark:hover:border-amber-300;
 }
 
 .upload-button {
