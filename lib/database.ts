@@ -175,7 +175,7 @@ export async function fetchCompanyByName(companyName: string): Promise<Company |
     return data;
 }
 
-export async function addCompany(companies: Database['public']['Tables']['companies']['Insert']): Promise<Database['public']['Tables']['companies']['Row'] | null > {
+export async function addCompany(companies: Database['public']['Tables']['companies']['Insert']): Promise<Database['public']['Tables']['companies']['Row'] | null> {
     try {
         const { data, error } = await supabase
             .from('companies')

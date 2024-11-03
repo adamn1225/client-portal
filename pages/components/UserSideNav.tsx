@@ -5,7 +5,7 @@ import { Database } from '@/lib/schema';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer, Handshake } from 'lucide-react';
+import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer, Handshake, Users } from 'lucide-react';
 
 interface UserSideNavProps {
     isSidebarOpen: boolean;
@@ -49,7 +49,7 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                     </button>
                 </div>
                 <nav className={`side-navbar  z-50  flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0 z-50' : '-translate-x-full'} transition-transform duration-300 h-screen  ease-in-out z-50 ${className}`}>
-                    <h1 className='text-xl mt-4 md:mt-0 mb-4 self-center'>NTS Client Portal</h1>
+                    <h1 className='text-xl mt-4 md:mt-0 mb-4 self-center dark:text-amber-400 font-semibold underline underline-offset-2 tracking-wider'>SSTA INC</h1>
                     <div className="w-full flex flex-col items-center gap-1 justify-center mb-6 border-b border-stone-100/40 pb-4">
                         <h3>Welcome {userProfile?.first_name || 'User'}</h3>
                     </div>
@@ -72,19 +72,19 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
 
                         <li className={`w-full flex justify-normal m-0 ${router.pathname == "/user/procurement" ? "active" : ""}`}>
                             <Link href="/user/procurement" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/procurement" ? "active" : ""}`}>
-                            <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Signature size={'20px'}/> <span className='text-xs md:text-sm'>Procurement <br />(Under Construction)</span></span>
+                            <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Signature size={'20px'}/> <span className='text-xs md:text-sm'>Procurement </span></span>
                             </Link>
                         </li>
 
                         <li className="w-full flex justify-normal m-0">
                             <Link href="/" className="side-nav-btn text-stone-100 text-nowrap font-semibold py-1 w-full">
-                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer size={'20px'}/> <span className='text-xs md:text-sm'>Projects <br />(coming soon)</span></span>
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer size={'20px'}/> <span className='text-xs md:text-sm'>Projects </span></span>
                             </Link>
                         </li>
 
                         <li className="w-full flex justify-normal m-0">
                             <Link href="/" className="side-nav-btn  text-stone-100 text-nowrap font-semibold py-1 w-full">
-                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Handshake size={'20px'}/> <span className='text-xs md:text-sm'>Vendors <br />(coming soon)</span></span>
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Users size={'20px'}/> <span className='text-xs md:text-sm'>Members</span></span>
                             </Link>
                         </li>
                     </ul>

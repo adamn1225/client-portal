@@ -1,0 +1,10 @@
+.App {
+  color: white;
+  text-align: center;
+}
+
+.container {
+  width: 25rem;
+  height: 25rem;
+  background-color: whitesmoke;
+}
