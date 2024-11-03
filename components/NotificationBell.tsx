@@ -43,7 +43,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ session }) => {
                 if (notifications.some(notification => !notification.is_read)) {
                     setHasNotifications(true);
                 }
-                setNotifications(notifications);
+                setNotifications(notifications.filter(notification => notification.user_id !== null && notification.is_read !== null && notification.created_at !== null) as Notification[]);
             } catch (error) {
                 console.error('Error fetching notifications:', error);
                 setErrorText('Error fetching notifications');
