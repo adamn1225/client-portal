@@ -1,26 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Switch } from "@/components/ui/switch";
 import { Sun, Moon } from 'lucide-react';
+import { useDarkMode } from '@/context/DarkModeContext';
 
 interface DarkModeToggleProps {
     className?: string;
 }
 
 const DarkModeToggle: React.FC<DarkModeToggleProps> = ({ className }) => {
-    const [darkMode, setDarkMode] = useState<boolean>(false);
-
-    useEffect(() => {
-        const isDarkMode = localStorage.getItem('darkMode') === 'true';
-        setDarkMode(isDarkMode);
-        document.documentElement.classList.toggle('dark', isDarkMode);
-    }, []);
-
-    const toggleDarkMode = () => {
-        const newDarkMode = !darkMode;
-        setDarkMode(newDarkMode);
-        localStorage.setItem('darkMode', newDarkMode.toString());
-        document.documentElement.classList.toggle('dark', newDarkMode);
-    };
+    const { darkMode, toggleDarkMode } = useDarkMode();
 
     return (
         <div className={`flex items-center ${className}`}>

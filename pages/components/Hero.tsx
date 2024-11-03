@@ -4,8 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import CheckIcon from './icons/CheckIcon';
 import Link from 'next/link';
+import { useDarkMode } from '@/context/DarkModeContext';
 
 const Hero = () => {
+    const { darkMode } = useDarkMode();
+
     return (
         <>
             <div className="flex md:flex-row flex-col w-full items-center mt-2  justify-center md:gap-3 md:items-start  md:mt-12">
@@ -21,13 +24,12 @@ const Hero = () => {
                         The easiest way to build React Landing page in seconds. Save time and focus on your project.
                     </p>
                     <div className="md:hidden w-full">
-                    <img src="mock.png" className=" object-contain" alt="Mockup" />
-                   </div>
+                        <img src={darkMode ? "dark-app-display.png" : "light-app-display.png"} className="object-contain" alt="Mockup" />
+                    </div>
                     <h2 className='font-medium text-lg'>Subscribe to stay up to date on added features!</h2>
-                        <div className="flex flex-col w-full gap-1 md:w-1/2">
+                    <div className="flex flex-col w-full gap-1 md:w-1/2">
                         <Input placeholder="Enter your email address" />
                         <Button className='dark-light-btn'> Subscribe</Button>
-                    
                     </div>
                     <div className="flex flex-col flex-wrap gap-8 py-7 sm:py-4">
                         <div className="flex items-center">
@@ -42,10 +44,9 @@ const Hero = () => {
                     </div>
                 </div>
                 <div className="hidden md:block w-1/3">
-                    <img src="mock.png" className=" object-contain" alt="Mockup" />
+                    <img src={darkMode ? "dark-app-display.png" : "light-app-display.png"} className="object-contain" alt="Mockup" />
                 </div>
             </div>
-            
         </>
     );
 };
