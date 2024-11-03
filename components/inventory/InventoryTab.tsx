@@ -236,6 +236,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                     onSubmit={handleTransferSubmit}
                     freight={selectedFreight}
                     maintenanceList={maintenanceList}
+                    freightList={freightList} // Add this prop
                 />
             )}
         </div>
