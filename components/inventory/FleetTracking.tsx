@@ -1,6 +1,6 @@
  {/* Maps displaying live location of fleet */}
 import React, {useState, useEffect} from 'react'
-import { useSupabase } from 'use-supabase'
+import { createClient } from '@supabase/supabase-js'
 
 const FleetTracking = () => {
   return (

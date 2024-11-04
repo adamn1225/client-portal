@@ -3,6 +3,7 @@ import React from 'react';
 import { useSession } from '@supabase/auth-helpers-react';
 import dynamic from 'next/dynamic';
 import { UserProvider } from '@/context/UserContext';
+import ChromeQuoteRequest from '@/components/ChromeQuoteRequest';
 
 const UserLayout = dynamic(() => import('@/pages/components/UserLayout'));
 const QuoteRequest = dynamic(() => import('@/components/QuoteRequest'));
@@ -18,6 +19,7 @@ const FreightTransportPage: React.FC = () => {
         <UserProvider>
             <UserLayout>
                 <QuoteRequest session={session} />
+                <ChromeQuoteRequest session={session} />
             </UserLayout>
         </UserProvider>
     );
