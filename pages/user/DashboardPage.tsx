@@ -58,9 +58,6 @@ export default function DashboardPage() {
     const session = useSession();
     const supabase = useSupabaseClient();
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-    const [resendLoading, setResendLoading] = useState(false);
-    const [resendSuccess, setResendSuccess] = useState(false);
-    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         console.log('Session:', session);
@@ -109,32 +106,6 @@ export default function DashboardPage() {
             createUserProfile();
         }
     }, [session, supabase]);
-
-    const handleResendConfirmation = async () => {
-        setResendLoading(true);
-        setResendSuccess(false);
-        setError(null);
-
-        if (session?.user?.email) {
-            const { error } = await supabase.auth.resend({
-                type: 'signup',
-                email: session.user.email,
-                options: {
-                    emailRedirectTo: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/user/profile-setup`
-                }
-            });
-
-            if (error) {
-                setError(error.message);
-            } else {
-                setResendSuccess(true);
-            }
-        } else {
-            setError('No email found for the current session.');
-        }
-
-        setResendLoading(false);
-    };
 
     if (!session) {
         return (
@@ -210,15 +181,6 @@ export default function DashboardPage() {
                                 </span>
                                 <div className="mt-4 text-center">
                                     <p>Please verify your email address to access the application.</p>
-                                    <button
-                                        onClick={handleResendConfirmation}
-                                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-                                        disabled={resendLoading}
-                                    >
-                                        {resendLoading ? 'Resending...' : 'Resend Confirmation Email'}
-                                    </button>
-                                    {resendSuccess && <div className="text-green-500 mt-2">Confirmation email resent successfully!</div>}
-                                    {error && <div className="text-red-500 mt-2">{error}</div>}
                                 </div>
                             </div>
                         </div>
