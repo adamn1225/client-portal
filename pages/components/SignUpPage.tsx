@@ -125,6 +125,7 @@ export default function SignUpPage() {
                                             required
                                             className="w-full p-2 mt-2 border rounded"
                                             disabled={loading}
+                                            autoComplete="email"
                                         />
                                         <label htmlFor="password" className="mt-4">Password</label>
                                         <input
@@ -135,6 +136,7 @@ export default function SignUpPage() {
                                             required
                                             className="w-full p-2 mt-2 border rounded"
                                             disabled={loading}
+                                            autoComplete="new-password"
                                         />
                                         <label htmlFor="confirmPassword" className="mt-4">Confirm Password</label>
                                         <input
@@ -145,6 +147,7 @@ export default function SignUpPage() {
                                             required
                                             className="w-full p-2 mt-2 border rounded"
                                             disabled={loading}
+                                            autoComplete="new-password"
                                         />
                                         <button
                                             type="submit"

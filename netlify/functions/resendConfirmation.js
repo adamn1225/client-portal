@@ -31,7 +31,7 @@ exports.handler = async (event) => {
     }
 
     try {
-        const { error } = await axios.post(`${SUPABASE_URL}/auth/v1/resend`, {
+        const response = await axios.post(`${SUPABASE_URL}/auth/v1/resend`, {
             type: 'signup',
             email,
             options: {
@@ -45,8 +45,8 @@ exports.handler = async (event) => {
             },
         });
 
-        if (error) {
-            throw error;
+        if (response.data.error) {
+            throw new Error(response.data.error.message);
         }
 
         return {
