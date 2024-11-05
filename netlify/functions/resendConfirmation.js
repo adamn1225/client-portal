@@ -6,19 +6,19 @@ const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const ADMIN_API_KEY = process.env.ADMIN_API_KEY;
 
 exports.handler = async (event) => {
-    if (event.httpMethod !== 'DELETE') {
+    if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
             body: JSON.stringify({ error: 'Method Not Allowed' }),
         };
     }
 
-    const { userId } = JSON.parse(event.body);
+    const { email } = JSON.parse(event.body);
 
-    if (!userId) {
+    if (!email) {
         return {
             statusCode: 400,
-            body: JSON.stringify({ error: 'User ID is required' }),
+            body: JSON.stringify({ error: 'Email is required' }),
         };
     }
 
@@ -31,26 +31,19 @@ exports.handler = async (event) => {
     }
 
     try {
-        // Delete the user from the auth.users table
-        await axios.delete(`${SUPABASE_URL}/auth/v1/admin/users/${userId}`, {
+        const { error } = await axios.post(`${SUPABASE_URL}/auth/v1/resend`, {
+            type: 'signup',
+            email,
+            options: {
+                emailRedirectTo: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/user/profile-setup`
+            }
+        }, {
             headers: {
                 apikey: SERVICE_ROLE_KEY,
                 Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
+                'Content-Type': 'application/json',
             },
         });
-
-        // Delete related records from the profiles table
-        const { data, error } = await axios.post(
-            `${SUPABASE_URL}/rest/v1/rpc/delete_user_profiles`,
-            { user_id: userId },
-            {
-                headers: {
-                    apikey: SERVICE_ROLE_KEY,
-                    Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
 
         if (error) {
             throw error;
@@ -58,12 +51,12 @@ exports.handler = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: 'User and related records deleted successfully', data }),
+            body: JSON.stringify({ message: 'Confirmation email resent successfully' }),
         };
     } catch (error) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: 'Failed to delete user', details: error.response ? error.response.data : error.message }),
+            body: JSON.stringify({ error: 'Failed to resend confirmation email', details: error.response ? error.response.data : error.message }),
         };
     }
 };
