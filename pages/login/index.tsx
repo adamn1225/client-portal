@@ -131,7 +131,7 @@ export default function DashboardPage() {
 
                         <div className='sm:row-span-1 md:col-span-1 w-full h-full flex flex-col justify-center items-center '>
                             <div className='absolute top-5 right-5'>
-                                <Link href="/user/signup" legacyBehavior>
+                                <Link href="/signup" legacyBehavior>
                                     <a className="light-dark-btn">Sign Up</a>
                                 </Link>
                             </div>
