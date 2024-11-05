@@ -6,46 +6,40 @@ import Head from 'next/head';
 export default function ConfirmSignup() {
     const router = useRouter();
     const supabase = useSupabaseClient();
-    const [confirmationUrl, setConfirmationUrl] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        const { confirmation_url } = router.query;
-        if (confirmation_url) {
-            setConfirmationUrl(decodeURIComponent(confirmation_url as string));
-        }
-    }, [router.query]);
+        const confirmSignup = async () => {
+            const { token, type, redirect_to } = router.query;
 
-    const handleConfirm = async () => {
-        if (!confirmationUrl) {
-            setError('Invalid confirmation URL');
-            return;
-        }
-
-        setLoading(true);
-        setError(null);
-
-        try {
-            const response = await fetch(confirmationUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                mode: 'cors',
-            });
-            if (response.ok) {
-                setSuccess(true);
-            } else {
-                setError('Failed to confirm signup');
+            if (!token || type !== 'signup') {
+                setError('Invalid confirmation URL');
+                return;
             }
-        } catch (err) {
-            setError('Failed to confirm signup');
-        } finally {
+
+            setLoading(true);
+            setError(null);
+
+            const { error } = await supabase.auth.verifyOtp({
+                token: token as string,
+                type: 'signup',
+                email: router.query.email as string,
+            });
+
+            if (error) {
+                setError(error.message);
+            } else {
+                setSuccess(true);
+                router.push(redirect_to as string || '/user/profile-setup');
+            }
+
             setLoading(false);
-        }
-    };
+        };
+
+        confirmSignup();
+    }, [router.query, supabase, router]);
 
     return (
         <>
@@ -56,10 +50,10 @@ export default function ConfirmSignup() {
                 <h2 className="text-2xl font-bold">Confirm Signup</h2>
                 {error && <div className="text-red-500">{error}</div>}
                 {success ? (
-                    <div className="text-green-500">Signup confirmed successfully!</div>
+                    <div className="text-green-500">Signup confirmed successfully! Redirecting...</div>
                 ) : (
                     <button
-                        onClick={handleConfirm}
+                        onClick={() => { }}
                         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
                         disabled={loading}
                     >
