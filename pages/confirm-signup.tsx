@@ -14,7 +14,7 @@ export default function ConfirmSignup() {
     useEffect(() => {
         const { confirmation_url } = router.query;
         if (confirmation_url) {
-            setConfirmationUrl(confirmation_url as string);
+            setConfirmationUrl(decodeURIComponent(confirmation_url as string));
         }
     }, [router.query]);
 
@@ -28,7 +28,13 @@ export default function ConfirmSignup() {
         setError(null);
 
         try {
-            const response = await fetch(confirmationUrl);
+            const response = await fetch(confirmationUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors',
+            });
             if (response.ok) {
                 setSuccess(true);
             } else {
