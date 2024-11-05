@@ -28,7 +28,7 @@ export default function SignUpPage() {
             email,
             password,
             options: {
-                emailRedirectTo: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/profile-setup`
+                emailRedirectTo: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/user/profile-setup`
             }
         });
 
