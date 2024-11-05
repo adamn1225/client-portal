@@ -2,17 +2,16 @@ import { useState } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { Move3d } from 'lucide-react';
 
 export default function SignUpPage() {
     const supabase = useSupabaseClient();
-    const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -39,8 +38,7 @@ export default function SignUpPage() {
         const user = data.user;
 
         if (user) {
-            // Redirect to the next step
-            router.push(`/complete-profile?email=${encodeURIComponent(email)}`);
+            setSuccess(true);
         }
 
         setLoading(false);
@@ -77,45 +75,51 @@ export default function SignUpPage() {
                                     Sign Up
                                 </span>
                                 {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-                                <form className="mt-4" onSubmit={handleSignUp}>
-                                    <label htmlFor="email" className="mt-4">Email</label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                        className="w-full p-2 mt-2 border rounded"
-                                        disabled={loading}
-                                    />
-                                    <label htmlFor="password" className="mt-4">Password</label>
-                                    <input
-                                        type="password"
-                                        id="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                        className="w-full p-2 mt-2 border rounded"
-                                        disabled={loading}
-                                    />
-                                    <label htmlFor="confirmPassword" className="mt-4">Confirm Password</label>
-                                    <input
-                                        type="password"
-                                        id="confirmPassword"
-                                        value={confirmPassword}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
-                                        required
-                                        className="w-full p-2 mt-2 border rounded"
-                                        disabled={loading}
-                                    />
-                                    <button
-                                        type="submit"
-                                        className="w-full light-dark-btn"
-                                        disabled={loading}
-                                    >
-                                        {loading ? 'Signing Up...' : 'Sign Up'}
-                                    </button>
-                                </form>
+                                {success ? (
+                                    <div className="text-green-500 text-center mb-4 border border-slate-900 p-4 rounded">
+                                        Your sign up was successful! Please check your email to confirm your account. Make sure to check your spam or junk folder if you don&apos;t see it within a few minutes!
+                                    </div>
+                                ) : (
+                                    <form className="mt-4" onSubmit={handleSignUp}>
+                                        <label htmlFor="email" className="mt-4">Email</label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                            className="w-full p-2 mt-2 border rounded"
+                                            disabled={loading}
+                                        />
+                                        <label htmlFor="password" className="mt-4">Password</label>
+                                        <input
+                                            type="password"
+                                            id="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                            className="w-full p-2 mt-2 border rounded"
+                                            disabled={loading}
+                                        />
+                                        <label htmlFor="confirmPassword" className="mt-4">Confirm Password</label>
+                                        <input
+                                            type="password"
+                                            id="confirmPassword"
+                                            value={confirmPassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                            required
+                                            className="w-full p-2 mt-2 border rounded"
+                                            disabled={loading}
+                                        />
+                                        <button
+                                            type="submit"
+                                            className="w-full light-dark-btn"
+                                            disabled={loading}
+                                        >
+                                            {loading ? 'Signing Up...' : 'Sign Up'}
+                                        </button>
+                                    </form>
+                                )}
                                 <div className='flex flex-col justify-evenly max-h-max items-center w-full my-4'>
                                     <div className='border-t border-gray-900/40 pt-1 mb-2 w-full text-center'><h3>Already have an account?</h3></div>
                                     <Link href="/login" legacyBehavior>
