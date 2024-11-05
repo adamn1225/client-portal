@@ -1,19 +1,15 @@
 import { useState } from 'react';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Move3d } from 'lucide-react';
 
 export default function SignUpPage() {
-    const supabase = useSupabaseClient();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
-    const [resendLoading, setResendLoading] = useState(false);
-    const [resendSuccess, setResendSuccess] = useState(false);
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,49 +22,27 @@ export default function SignUpPage() {
             return;
         }
 
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                emailRedirectTo: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/user/profile-setup`
+        try {
+            const response = await fetch('/.netlify/functions/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to sign up');
             }
-        });
 
-        if (error) {
-            setError(error.message);
-            setLoading(false);
-            return;
-        }
-
-        const user = data.user;
-
-        if (user) {
             setSuccess(true);
-        }
-
-        setLoading(false);
-    };
-
-    const handleResendConfirmation = async () => {
-        setResendLoading(true);
-        setResendSuccess(false);
-        setError(null);
-
-        const { error } = await supabase.auth.resend({
-            type: 'signup',
-            email,
-            options: {
-                emailRedirectTo: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/user/profile-setup`
-            }
-        });
-
-        if (error) {
+        } catch (error) {
             setError(error.message);
-        } else {
-            setResendSuccess(true);
+        } finally {
+            setLoading(false);
         }
-
-        setResendLoading(false);
     };
 
     return (
@@ -105,14 +79,6 @@ export default function SignUpPage() {
                                 {success ? (
                                     <div className="text-green-500 text-center mb-4 border border-slate-900 p-4 rounded">
                                         Your sign up was successful! Please check your email to confirm your account. Make sure to check your spam or junk folder if you don&apos;t see it within a few minutes!
-                                        <button
-                                            onClick={handleResendConfirmation}
-                                            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-                                            disabled={resendLoading}
-                                        >
-                                            {resendLoading ? 'Resending...' : 'Resend Confirmation Email'}
-                                        </button>
-                                        {resendSuccess && <div className="text-green-500 mt-2">Confirmation email resent successfully!</div>}
                                     </div>
                                 ) : (
                                     <form className="mt-4" onSubmit={handleSignUp}>

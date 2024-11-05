@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Move3d } from 'lucide-react';
 
 const ProfileSetup = () => {
-    const supabase = useSupabaseClient();
     const router = useRouter();
     const { email } = router.query;
     const [firstName, setFirstName] = useState('');
@@ -28,82 +26,27 @@ const ProfileSetup = () => {
         setLoading(true);
         setError(null);
 
-        const { data, error: userError } = await supabase.auth.signInWithPassword({
-            email: email as string,
-            password: 'your-temporary-password', // Use a temporary password or handle this securely
-        });
+        try {
+            const response = await fetch('/.netlify/functions/profileSetup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, firstName, lastName, companyName, companySize }),
+            });
 
-        if (userError) {
-            setError(userError.message);
-            setLoading(false);
-            return;
-        }
+            const result = await response.json();
 
-        const user = data.user;
-        const session = data.session;
-
-        if (user && session) {
-            // Check if the company already exists
-            const { data: existingCompany, error: companyError } = await supabase
-                .from('companies')
-                .select('id')
-                .eq('name', companyName)
-                .single();
-
-            let companyId: string;
-
-            if (companyError && companyError.code !== 'PGRST116') { // PGRST116 is the code for no rows returned
-                setError(companyError.message);
-                setLoading(false);
-                return;
-            }
-
-            if (existingCompany) {
-                companyId = existingCompany.id;
-            } else {
-                // Create a new company record
-                const { data: newCompany, error: newCompanyError } = await supabase
-                    .from('companies')
-                    .insert({
-                        name: companyName,
-                        size: companySize,
-                    })
-                    .select()
-                    .single();
-
-                if (newCompanyError) {
-                    setError(newCompanyError.message);
-                    setLoading(false);
-                    return;
-                }
-
-                companyId = newCompany.id;
-            }
-
-            // Store additional user information in the profiles table
-            const { error: profileError } = await supabase
-                .from('profiles')
-                .insert({
-                    id: user.id,
-                    email: session.user.email,
-                    first_name: firstName,
-                    last_name: lastName,
-                    company_name: companyName,
-                    company_size: companySize,
-                    company_id: companyId,
-                    role: 'user', // Provide a default role
-                });
-
-            if (profileError) {
-                setError(profileError.message);
-                setLoading(false);
-                return;
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to complete profile setup');
             }
 
             setSuccess(true);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
         }
-
-        setLoading(false);
     };
 
     return (
