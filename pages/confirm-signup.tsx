@@ -12,9 +12,9 @@ export default function ConfirmSignup() {
 
     useEffect(() => {
         const confirmSignup = async () => {
-            const { token, type, redirect_to } = router.query;
+            const { token, type, redirect_to, email } = router.query;
 
-            if (!token || type !== 'signup') {
+            if (!token || type !== 'signup' || !email) {
                 setError('Invalid confirmation URL');
                 return;
             }
@@ -25,7 +25,7 @@ export default function ConfirmSignup() {
             const { error } = await supabase.auth.verifyOtp({
                 token: token as string,
                 type: 'signup',
-                email: router.query.email as string,
+                email: email as string,
             });
 
             if (error) {
@@ -52,13 +52,9 @@ export default function ConfirmSignup() {
                 {success ? (
                     <div className="text-green-500">Signup confirmed successfully! Redirecting...</div>
                 ) : (
-                    <button
-                        onClick={() => { }}
-                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-                        disabled={loading}
-                    >
-                        {loading ? 'Confirming...' : 'Confirm Signup'}
-                    </button>
+                    <div className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+                        {loading ? 'Confirming...' : 'Please wait...'}
+                    </div>
                 )}
             </div>
         </>
