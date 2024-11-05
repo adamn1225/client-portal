@@ -12,6 +12,8 @@ export default function SignUpPage() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [resendLoading, setResendLoading] = useState(false);
+    const [resendSuccess, setResendSuccess] = useState(false);
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -45,6 +47,28 @@ export default function SignUpPage() {
         }
 
         setLoading(false);
+    };
+
+    const handleResendConfirmation = async () => {
+        setResendLoading(true);
+        setResendSuccess(false);
+        setError(null);
+
+        const { error } = await supabase.auth.resend({
+            type: 'signup',
+            email,
+            options: {
+                emailRedirectTo: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/user/profile-setup`
+            }
+        });
+
+        if (error) {
+            setError(error.message);
+        } else {
+            setResendSuccess(true);
+        }
+
+        setResendLoading(false);
     };
 
     return (
@@ -81,6 +105,14 @@ export default function SignUpPage() {
                                 {success ? (
                                     <div className="text-green-500 text-center mb-4 border border-slate-900 p-4 rounded">
                                         Your sign up was successful! Please check your email to confirm your account. Make sure to check your spam or junk folder if you don&apos;t see it within a few minutes!
+                                        <button
+                                            onClick={handleResendConfirmation}
+                                            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+                                            disabled={resendLoading}
+                                        >
+                                            {resendLoading ? 'Resending...' : 'Resend Confirmation Email'}
+                                        </button>
+                                        {resendSuccess && <div className="text-green-500 mt-2">Confirmation email resent successfully!</div>}
                                     </div>
                                 ) : (
                                     <form className="mt-4" onSubmit={handleSignUp}>
