@@ -19,7 +19,7 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ className }) => {
                 <nav className="w-full flex justify-center md:justify-end items-center m-0">
                     <DarkModeToggle className="hidden md:flex" />
                     <Link href="/login" className="md:ml-4 dark-light-btn">Sign In</Link>
-                    <Link href="/user/signup" className="ml-4 dark-light-btn">Sign Up</Link>
+                    <Link href="/signup" className="ml-4 dark-light-btn">Sign Up</Link>
                 </nav>
             </div>
         </header>
