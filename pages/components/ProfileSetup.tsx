@@ -5,7 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { Move3d } from 'lucide-react';
 
-export default function ProfileSetup() {
+const ProfileSetup = () => {
     const supabase = useSupabaseClient();
     const router = useRouter();
     const { email } = router.query;
@@ -50,7 +50,7 @@ export default function ProfileSetup() {
                 .eq('name', companyName)
                 .single();
 
-            let companyId;
+            let companyId: string;
 
             if (companyError && companyError.code !== 'PGRST116') { // PGRST116 is the code for no rows returned
                 setError(companyError.message);
@@ -205,3 +205,5 @@ export default function ProfileSetup() {
         </>
     );
 }
+
+export default ProfileSetup;
