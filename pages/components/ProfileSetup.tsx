@@ -19,7 +19,7 @@ export default function ProfileSetup() {
 
     useEffect(() => {
         if (!email) {
-            router.push('/signup');
+            router.push('/user/signup');
         }
     }, [email, router]);
 
