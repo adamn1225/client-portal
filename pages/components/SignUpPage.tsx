@@ -24,6 +24,25 @@ export default function SignUpPage() {
             return;
         }
 
+        // Check if the user already exists
+        const { data: existingUser, error: existingUserError } = await supabase
+            .from('auth.users')
+            .select('id')
+            .eq('email', email)
+            .single();
+
+        if (existingUserError && existingUserError.code !== 'PGRST116') { // PGRST116 is the code for no rows returned
+            setError(existingUserError.message);
+            setLoading(false);
+            return;
+        }
+
+        if (existingUser) {
+            setError('User with this email already exists. Please log in or use a different email.');
+            setLoading(false);
+            return;
+        }
+
         const { data, error } = await supabase.auth.signUp({
             email,
             password,

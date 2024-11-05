@@ -29,15 +29,34 @@ app.delete('/admin/delete-user', authenticateAdmin, async (req, res) => {
     }
 
     try {
-        const response = await axios.delete(`${SUPABASE_URL}/auth/v1/admin/users/${userId}`, {
+        // Delete the user from the auth.users table
+        await axios.delete(`${SUPABASE_URL}/auth/v1/admin/users/${userId}`, {
             headers: {
                 apikey: SERVICE_ROLE_KEY,
                 Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
             },
         });
-        res.status(200).json({ message: 'User deleted successfully', data: response.data });
+
+        // Delete related records from the profiles table
+        const { data, error } = await axios.post(
+            `${SUPABASE_URL}/rest/v1/rpc/delete_user_profiles`,
+            { user_id: userId },
+            {
+                headers: {
+                    apikey: SERVICE_ROLE_KEY,
+                    Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        if (error) {
+            throw error;
+        }
+
+        res.status(200).json({ message: 'User and related records deleted successfully', data });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to delete user', details: error.response.data });
+        res.status(500).json({ error: 'Failed to delete user', details: error.response ? error.response.data : error.message });
     }
 });
 
