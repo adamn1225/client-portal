@@ -1414,6 +1414,10 @@ body {
   border-color: rgb(15 23 42 / 0.2);
 }
 
+.border-slate-900\/30 {
+  border-color: rgb(15 23 42 / 0.3);
+}
+
 .border-stone-100\/40 {
   border-color: rgb(245 245 244 / 0.4);
 }
@@ -1424,14 +1428,6 @@ body {
 
 .border-transparent {
   border-color: transparent;
-}
-
-.border-slate-900\/30 {
-  border-color: rgb(15 23 42 / 0.3);
-}
-
-.border-t-slate-900\/30 {
-  border-top-color: rgb(15 23 42 / 0.3);
 }
 
 .bg-background {
@@ -1684,12 +1680,12 @@ body {
   padding-top: 0.25rem;
 }
 
-.pt-6 {
-  padding-top: 1.5rem;
-}
-
 .pt-12 {
   padding-top: 3rem;
+}
+
+.pt-6 {
+  padding-top: 1.5rem;
 }
 
 .text-left {

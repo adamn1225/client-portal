@@ -62,7 +62,7 @@ const FeedBack = () => {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button variant="outline">Feedback</Button>
+                <Button className='light-dark-btn'>Feedback</Button>
             </PopoverTrigger>
             <PopoverContent className="w-80">
                 <form onSubmit={handleSubmit} className="grid gap-4">
