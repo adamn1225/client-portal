@@ -874,6 +874,10 @@ body {
   margin-top: 1.25rem;
 }
 
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
 .block {
   display: block;
 }
@@ -1422,6 +1426,14 @@ body {
   border-color: transparent;
 }
 
+.border-slate-900\/30 {
+  border-color: rgb(15 23 42 / 0.3);
+}
+
+.border-t-slate-900\/30 {
+  border-top-color: rgb(15 23 42 / 0.3);
+}
+
 .bg-background {
   background-color: hsl(var(--background));
 }
@@ -1674,6 +1686,10 @@ body {
 
 .pt-6 {
   padding-top: 1.5rem;
+}
+
+.pt-12 {
+  padding-top: 3rem;
 }
 
 .text-left {

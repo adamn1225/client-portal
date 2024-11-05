@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 import { Users, FolderHeart, Trash2, Folder, Menu } from 'lucide-react';
 
 interface DocumentsProps {
@@ -10,18 +10,6 @@ interface DocumentsProps {
 const Documents: React.FC<DocumentsProps> = ({ session }) => {
     const supabase = useSupabaseClient<Database>();
     const [documents, setDocuments] = useState<Database['public']['Tables']['documents']['Row'][]>([]);
-    const [sharedDocuments, setSharedDocuments] = useState([
-        { id: 1, title: 'Shared Document 1', description: 'Description for shared document 1' },
-        { id: 2, title: 'Shared Document 2', description: 'Description for shared document 2' },
-    ]);
-    const [favoriteDocuments, setFavoriteDocuments] = useState([
-        { id: 1, title: 'Favorite Document 1', description: 'Description for favorite document 1' },
-        { id: 2, title: 'Favorite Document 2', description: 'Description for favorite document 2' },
-    ]);
-    const [trashDocuments, setTrashDocuments] = useState([
-        { id: 1, title: 'Trash Document 1', description: 'Description for trash document 1' },
-        { id: 2, title: 'Trash Document 2', description: 'Description for trash document 2' },
-    ]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [file, setFile] = useState<File | null>(null);
@@ -71,7 +59,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
             return;
         }
 
-        const fileUrl = data?.path;
+        const filePath = data?.path;
 
         const { error: insertError } = await supabase
             .from('documents')
@@ -81,7 +69,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                 description,
                 file_name: file.name,
                 file_type: file.type,
-                file_url: fileUrl,
+                file_url: filePath,
             });
 
         if (insertError) {
@@ -94,13 +82,34 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
         }
     };
 
-    const renderDocuments = (docs: { id: number; title: string; description: string }[]) => (
+    const getSignedUrl = async (path: string) => {
+        const { data, error } = await supabase.storage
+            .from('documents')
+            .createSignedUrl(path, 60); // URL valid for 60 seconds
+
+        if (error) {
+            setError(error.message);
+            return '';
+        }
+
+        return data.signedUrl;
+    };
+
+    const renderDocuments = (docs: Database['public']['Tables']['documents']['Row'][]) => (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {docs.map((document) => (
                 <div key={document.id} className="p-4 bg-white shadow rounded">
                     <h3 className="text-lg font-bold">{document.title}</h3>
                     <p className="text-gray-600">{document.description}</p>
-                    <button className="btn-blue mt-2">View</button>
+                    <button
+                        className="btn-blue mt-2"
+                        onClick={async () => {
+                            const url = await getSignedUrl(document.file_url);
+                            window.open(url, '_blank');
+                        }}
+                    >
+                        View
+                    </button>
                 </div>
             ))}
         </div>
@@ -205,12 +214,6 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                     ) : (
                         renderDocuments(documents)
                     )
-                ) : activeSection === 'shared' ? (
-                    renderDocuments(sharedDocuments)
-                ) : activeSection === 'favorites' ? (
-                    renderDocuments(favoriteDocuments)
-                ) : activeSection === 'trash' ? (
-                    renderDocuments(trashDocuments)
                 ) : null}
             </div>
         </div>
