@@ -1,4 +1,3 @@
-// components/AdminSignUp.tsx
 import { useState } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Layout from '../pages/components/Layout';
@@ -101,8 +100,69 @@ export function AdminSignUp() {
     };
 
     return (
-        <></>
-    )
+        <Layout>
+            <Head>
+                <title>Admin Sign Up</title>
+            </Head>
+            <div className="w-full h-full flex flex-col justify-center items-center">
+                <h2 className="text-2xl font-bold mb-4">Admin Sign Up</h2>
+                {error && <div className="text-red-500 mb-4">{error}</div>}
+                {success ? (
+                    <div className="text-green-500 mb-4">Sign up successful! You can now log in.</div>
+                ) : (
+                    <form className="w-full max-w-md" onSubmit={handleSignUp}>
+                        <label htmlFor="email" className="block mb-2">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            className="w-full p-2 mb-4 border rounded"
+                            disabled={loading}
+                        />
+                        <label htmlFor="password" className="block mb-2">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            className="w-full p-2 mb-4 border rounded"
+                            disabled={loading}
+                        />
+                        <label htmlFor="confirmPassword" className="block mb-2">Confirm Password</label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                            className="w-full p-2 mb-4 border rounded"
+                            disabled={loading}
+                        />
+                        <label htmlFor="invitationCode" className="block mb-2">Invitation Code</label>
+                        <input
+                            type="text"
+                            id="invitationCode"
+                            value={invitationCode}
+                            onChange={(e) => setInvitationCode(e.target.value)}
+                            required
+                            className="w-full p-2 mb-4 border rounded"
+                            disabled={loading}
+                        />
+                        <button
+                            type="submit"
+                            className="w-full p-2 bg-blue-500 text-white rounded"
+                            disabled={loading}
+                        >
+                            {loading ? 'Signing Up...' : 'Sign Up'}
+                        </button>
+                    </form>
+                )}
+            </div>
+        </Layout>
+    );
 }
 
-export default AdminSignUp
+export default AdminSignUp;

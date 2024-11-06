@@ -3,7 +3,8 @@ import React from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/schema';
 import AdminSignUp from '@/components/AdminSignUp';
-const AdminDashboard = () => {
+
+const InviteSignUp = () => {
   const session = useSession();
   const supabase = useSupabaseClient<Database>();
 
@@ -17,4 +18,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default InviteSignUp;

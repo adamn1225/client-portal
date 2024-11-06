@@ -1,21 +1,11 @@
-// admin-dash/index.tsx
-import React from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
-import AdminLogin from '@/components/AdminSignUp';
+import AdminLogin from '@/components/AdminLogin';
 
-const AdminDashboard = () => {
+const AdminSignIn = () => {
   const session = useSession();
-  const supabase = useSupabaseClient<Database>();
+  const supabase = useSupabaseClient();
 
-  // Add your admin dashboard functionalities here
-
-  return (
-    <div>
-      <h1>Admin Dashboard</h1>
-      <AdminLogin />
-    </div>
-  );
+  return <AdminLogin />;
 };
 
-export default AdminDashboard;
+export default AdminSignIn;

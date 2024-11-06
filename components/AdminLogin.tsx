@@ -1,49 +1,38 @@
-// components/AdminLogin.tsx
 import { useEffect, useState } from 'react';
-import { supabase } from '../lib/initSupabase';
-import AdminDashboard from './admin/AdminAnalytics'; // Ensure you have this component
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/router';
+import AdminDashboard from '@/pages/admin/admin-dashboard'; // Ensure the correct path
 
 const AdminLogin = () => {
+  const session = useSession();
+  const supabase = useSupabaseClient();
+  const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAdminRole = async () => {
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
-      if (userError) {
-        console.error('Error fetching user:', userError.message);
-        setLoading(false);
-        return;
-      }
-
-      if (user) {
-        console.log('User ID:', user.id); // Debugging
+      if (session?.user?.id) {
         const { data, error } = await supabase
           .from('profiles')
           .select('role')
-          .eq('id', user.id)
-          .single<{ role: string }>(); // Explicitly define the type here
+          .eq('id', session.user.id)
+          .single();
 
         if (error) {
           console.error('Error fetching user role:', error.message);
         } else if (data) {
-          console.log('User Role:', data.role); // Debugging
           if (data.role === 'admin') {
             setIsAdmin(true);
+            router.push('/admin/admin-dashboard'); // Redirect to admin dashboard
           }
-        } else {
-          console.error('No user role found for user ID:', user.id);
         }
       }
       setLoading(false);
     };
 
     checkAdminRole();
-  }, []);
-
-  useEffect(() => {
-    console.log('isAdmin:', isAdmin); // Debugging
-  }, [isAdmin]);
+  }, [session, supabase, router]);
 
   if (loading) {
     return <p>Loading...</p>;
@@ -53,7 +42,7 @@ const AdminLogin = () => {
     return <p>You do not have access to this page.</p>;
   }
 
-  return <AdminDashboard />;
+  return null; // Since we are redirecting, we don't need to render anything here
 };
 
 export default AdminLogin;

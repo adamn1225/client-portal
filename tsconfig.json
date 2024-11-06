@@ -50,7 +50,7 @@
     "lib/migrateUsers.ts",
     "lib/types.ts",
     "lib/utils.ts"
-  ],
+, "lib/updateUserRole.mjs", "scripts/updateRoleScript.mjs"  ],
   "exclude": [
     "node_modules"
   ]
