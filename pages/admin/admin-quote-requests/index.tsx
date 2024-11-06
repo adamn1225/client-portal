@@ -1,4 +1,4 @@
-import AdminLayout from '../../components/admin-portal/AdminLayout'; // Ensure consistent casing
+import AdminLayout from '../../components/admin-portal/AdminLayout'; 
 import AdminQuoteRequests from '@/components/admin/AdminQuoteRequests';
 
 const AdminQuoteRequestsPage = () => {
