@@ -1,4 +1,3 @@
-// components/Login.tsx
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -6,10 +5,8 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import { useRouter } from 'next/router';
 import UserLayout from './UserLayout';
-import UserProfileForm from '@/components/UserProfileForm';
 import { UserProvider } from '@/context/UserContext';
 import FreightInventory from '@/components/FreightInventory';
-
 
 const Login: React.FC = () => {
     const session = useSession();
@@ -19,11 +16,6 @@ const Login: React.FC = () => {
     const [profileComplete, setProfileComplete] = useState<boolean>(false);
 
     useEffect(() => {
-        const refreshSession = async () => {
-            const { data, error } = await supabase.auth.refreshSession();
-            if (error) console.log('Error refreshing session:', error.message);
-        };
-
         const checkProfile = async () => {
             if (session?.user?.id) {
                 const { data, error } = await supabase
@@ -37,13 +29,15 @@ const Login: React.FC = () => {
                     setError('Error fetching user profile');
                 } else {
                     setProfileComplete(!!data?.first_name);
+                    if (!data?.first_name) {
+                        router.push('/user/profile-setup');
+                    }
                 }
             }
         };
 
-        refreshSession();
         checkProfile();
-    }, [session, supabase]);
+    }, [session, supabase, router]);
 
     if (!session) {
         return (
@@ -63,11 +57,7 @@ const Login: React.FC = () => {
     }
 
     if (!profileComplete) {
-        return (
-            <UserProvider>
-                <UserProfileForm />
-            </UserProvider>
-        );
+        return <p>Loading...</p>;
     }
 
     return (

@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Move3d } from 'lucide-react';
 
 const ProfileSetup = () => {
     const router = useRouter();
+    const supabase = useSupabaseClient();
     const { email } = router.query;
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -27,21 +29,22 @@ const ProfileSetup = () => {
         setError(null);
 
         try {
-            const response = await fetch('/.netlify/functions/profileSetup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, firstName, lastName, companyName, companySize }),
-            });
+            const { data, error } = await supabase
+                .from('profiles')
+                .update({
+                    first_name: firstName,
+                    last_name: lastName,
+                    company_name: companyName,
+                    company_size: companySize,
+                })
+                .eq('email', email);
 
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Failed to complete profile setup');
+            if (error) {
+                throw new Error(error.message);
             }
 
             setSuccess(true);
+            router.push('/user/dashboard');
         } catch (error) {
             setError(error.message);
         } finally {
