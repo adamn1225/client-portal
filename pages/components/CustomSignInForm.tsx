@@ -15,7 +15,7 @@ const CustomSignInForm = () => {
         setLoading(true);
         setError(null);
 
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
         });
@@ -28,6 +28,8 @@ const CustomSignInForm = () => {
             }
             setLoading(false);
         } else {
+            console.log('Session:', data.session);
+            // Redirect to dashboard or another page
             setLoading(false);
         }
     };

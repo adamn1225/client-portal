@@ -1,6 +1,10 @@
-// page for UserSignUp.tsx component
 import SignUpPage from '@/pages/components/SignUpPage';
+import { UserProvider } from '@/context/UserContext';
 
 export default function UserSignUp() {
-    return <SignUpPage />;
+    return (
+        <UserProvider>
+            <SignUpPage />
+        </UserProvider>
+    );
 }

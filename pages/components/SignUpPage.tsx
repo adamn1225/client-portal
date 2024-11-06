@@ -2,8 +2,10 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Move3d } from 'lucide-react';
+import { useUser } from '@/context/UserContext';
 
 export default function SignUpPage() {
+    const { userProfile, setUserProfile } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
