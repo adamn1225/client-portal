@@ -15,15 +15,18 @@ const EquipmentDirectory: React.FC = () => {
     return (
         <UserProvider>
             <AdminLayout>
-                <div className="grid grid-rows-2 h-full justify-items-center items-start w-full pl-[53px]">
-                    <Aside />
+                
+                
 
-                    <div className='absolute top-14'>
-                        <DimensionSearch />
-                        <div className='mt-48'><CaterpillarSearch /></div>
-                    </div>
+                
+                        <span className='flex flex-col justify-around items-stretch gap-32'>
+                            <DimensionSearch />
+                            <CaterpillarSearch />
+                            
+                        </span>
+                    
 
-                </div>
+                
             </AdminLayout>
         </UserProvider>
     )

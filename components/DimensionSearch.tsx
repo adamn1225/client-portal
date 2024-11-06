@@ -100,7 +100,7 @@ const DimensionSearch: React.FC = () => {
     return (
         <div className="flex flex-col justify-center items-center">
             <h1 className="text-2xl font-bold mb-4 text-center">Equipment Dimension Search/Directory</h1>
-            <h2 className="text-lg font-bold text-center w-1/2 mb-4">More comprehensive data (wheelbase, track lengths, illustrations/images (not as soon), etc.) coming soon. As always - just as if you're looking up dimensions from another during a google search, it is always better to ask the client for dimensions/images.</h2>
+        
             <div className='flex gap-4 w-full justify-center'>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>

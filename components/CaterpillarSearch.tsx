@@ -107,9 +107,8 @@ const CaterpillarSearch: React.FC = () => {
 
     return (
         <div className="p-4 flex flex-col justify-center items-center">
-            <h1 className="text-2xl font-bold mb-1 text-center">Caterpillar Equipment Search</h1>
-            <h2 className="text-lg font-bold text-center w-1/2">Component will currently only pull full specifications for caterpillar
-                - I left this here as a visual as I work ok organize the data gathered to display properly - but the data from cat is accurate.
+            <h1 className="text-2xl font-bold mb-1 text-center">Equipment Search (V2) - Only Specifications From Caterpillar</h1>
+            <h2 className="text-lg font-bold text-center w-1/2">
             </h2>
             <div className='flex gap-4 mt-6'>
                 <DropdownMenu>
