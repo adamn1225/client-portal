@@ -44,7 +44,10 @@ exports.handler = async (event) => {
 
         const response = await axios.post(`${SUPABASE_URL}/auth/v1/signup`, {
             email,
-            password
+            password,
+            options: {
+                emailRedirectTo: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/user/profile-setup`
+            }
         }, {
             headers: {
                 apikey: SERVICE_ROLE_KEY,
