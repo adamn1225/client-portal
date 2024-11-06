@@ -5,7 +5,7 @@ import { Database } from '@/lib/schema';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer, Handshake, Users } from 'lucide-react';
+import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer, NotebookTabs, Handshake, Users } from 'lucide-react';
 
 interface UserSideNavProps {
     isSidebarOpen: boolean;
@@ -77,17 +77,18 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                             </Link>
                         </li>
 
+                        <li className={`w-full flex justify-normal m-0 ${router.pathname == "/user/equipment-directory" ? "active" : ""}`}>
+                            <Link href="/user/equipment-directory" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/equipment-directory" ? "active" : ""}`}>
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><NotebookTabs size={'20px'} /> <span className='text-xs md:text-sm'>Equipment Directory </span></span>
+                            </Link>
+                        </li>
+
                         <li className="w-full flex justify-normal m-0">
                             <Link href="/" className="side-nav-btn text-stone-100 text-nowrap font-semibold py-1 w-full">
                                 <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer size={'20px'} /> <span className='text-xs md:text-sm'>Projects </span></span>
                             </Link>
                         </li>
 
-                        <li className="w-full flex justify-normal m-0">
-                            <Link href="/" className="side-nav-btn text-stone-100 text-nowrap font-semibold py-1 w-full">
-                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Users size={'20px'} /> <span className='text-xs md:text-sm'>Members</span></span>
-                            </Link>
-                        </li>
                     </ul>
                     <ul className='flex flex-col gap-4 justify-end items-center'>
                         <li className={`w-full text-nowrap flex justify-normal m-0 ${router.pathname == "/user/settings" ? "active" : ""}`}>
