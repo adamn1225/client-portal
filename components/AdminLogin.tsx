@@ -24,7 +24,7 @@ const AdminLogin = () => {
         } else if (data) {
           if (data.role === 'admin') {
             setIsAdmin(true);
-            router.push('/admin/admin-dashboard'); // Redirect to admin dashboard
+            router.push('/admin/admin-analytics'); // Redirect to admin dashboard
           }
         }
       }

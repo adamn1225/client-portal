@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 import { Users, FolderHeart, Trash2, Folder, Menu } from 'lucide-react';
 
 interface DocumentsProps {

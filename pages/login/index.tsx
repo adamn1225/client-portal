@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
@@ -5,11 +6,9 @@ import Layout from '../components/Layout';
 import UserLayout from '../components/UserLayout';
 import AdminLayout from '../components/admin-portal/AdminLayout';
 import { UserProvider, useUser } from '@/context/UserContext';
-import { useEffect, useState } from 'react';
-import FreightInventory from '@/components/FreightInventory';
-import AdminQuoteRequests from '@/components/admin/AdminQuoteRequests';
 import CustomSignInForm from '@/components/CustomSignInForm';
 import { Move3d } from 'lucide-react';
+import HomePageContent from '../components/HomePageContent';
 
 interface UserProfile {
     id: string;
@@ -23,36 +22,6 @@ interface UserProfile {
     address?: string | null;
     phone_number?: string | null;
 }
-
-const HomePageContent = () => {
-    const { userProfile } = useUser();
-    const [profileComplete, setProfileComplete] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (userProfile) {
-            console.log('User Profile:', userProfile);
-            console.log('Is Admin:', userProfile.role === 'admin');
-            setProfileComplete(true);
-        }
-    }, [userProfile]);
-
-    return (
-        <>
-            <Head>
-                <title>NTS Client Portal</title>
-                <meta name="description" content="Welcome to SSTA Reminders & Tasks" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <div className="w-full flex justify-center items-center p-4">
-                <div className="w-full sm:w-2/3 lg:w-3/4">
-                    <FreightInventory session={useSession()} />
-                    {userProfile?.role === 'admin' && <AdminQuoteRequests />}
-                </div>
-            </div>
-        </>
-    );
-};
 
 export default function DashboardPage() {
     const session = useSession();
