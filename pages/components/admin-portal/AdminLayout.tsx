@@ -1,7 +1,6 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import AdminSideNav from './AdminSideNav'; // Adjust the import path if necessary
 import AdminTopNav from './AdminTopNav'; // Adjust the import path if necessary
-import AdminQuoteRequests from '@/components/admin/AdminQuoteRequests'; // Import AdminQuoteRequests
 
 interface AdminLayoutProps {
     children: ReactNode;
@@ -36,16 +35,15 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
 
     return (
-        <div className="relative flex h-screen overflow-hidden">
-            <AdminSideNav isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-            <div className={`flex flex-col flex-grow ${isSidebarOpen ? 'ml-64' : 'ml-0'} transition-all duration-300 ease-in-out overflow-auto`}>
-                <div className="fixed top-0 left-0 z-30 w-full">
+        <div className="md:layout">
+            <div className='z-40'><AdminSideNav isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} /></div>
+
+            <main className="main-content ml-0 xl:ml-52 z-0 md:p-4 mt-28 md:mt-24 relative">
+                <div className="w-full fixed top-0 left-0">
                     <AdminTopNav session={undefined} />
                 </div>
-                <main className="flex-grow p-4">
-                    {children}
-                </main>
-            </div>
+                {children}
+            </main>
         </div>
     );
 };

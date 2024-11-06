@@ -61,28 +61,59 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
     };
 
     return (
-        <nav className={`w-full bg-slate-100 dark:bg-gray-700 flex justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
-            <ul className='flex gap-2 md:gap-4 items-end z-50 justify-end mr-4'>
-                <li className="m-0 flex flex-col justify-end items-end">
-                    <NotificationBell session={session} />
-                </li>
+        <>
+            <nav className={`md:hidden w-full max-h-max bg-slate-100 dark:bg-gray-700 flex flex-col md:flex-row gap-1 justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
 
-                <li className="flex flex-col justify-end items-end m-0">
-                    <DarkModeToggle />
-                </li>
-                <li className="flex flex-col justify-end items-end m-0">
-                    <FeedBack />
-                </li>
-                <li className="flex flex-col justify-end items-end m-0">
-                    <Image
-                        src={profilePictureUrl}
-                        alt='profile-img'
-                        className='rounded-full shadow-md'
-                        width={40}
-                        height={40} />
-                </li>
-            </ul>
-        </nav>
+                <ul className='flex gap-2 md:gap-4 items-center z-50 justify-end mr-4'>
+                    <li>
+                        <NotificationBell session={session} />
+                    </li>
+
+                    <li>
+                        <DarkModeToggle />
+                    </li>
+                    <li className='hidden md:block'>
+                        <FeedBack />
+                    </li>
+                    <li>
+                        <Image
+                            src={profilePictureUrl}
+                            alt='profile-img'
+                            className='rounded-full shadow-md'
+                            width={40}
+                            height={40} />
+                    </li>
+                </ul>
+                <FeedBack />
+            </nav>
+
+            <nav className={`hidden w-full bg-slate-100 dark:bg-gray-700 md:flex flex-col md:flex-row gap-1 justify-between px-4 z-50 py-2 drop-shadow ${className}`}>
+
+                <ul className='w-full flex gap-2 md:gap-4 items-center z-50 justify-start pl-64'>
+                    <li>
+                        <FeedBack />
+                    </li>
+                    <li>
+                        <DarkModeToggle />
+                    </li>
+                </ul>
+                <ul className='w-full flex gap-2 md:gap-4 items-center z-50 justify-end mr-12'>
+
+
+                    <li>
+                        <NotificationBell session={session} />
+                    </li>
+                    <li>
+                        <Image
+                            src={profilePictureUrl}
+                            alt='profile-img'
+                            className='rounded-full shadow-2xl'
+                            width={60}
+                            height={60} />
+                    </li>
+                </ul>
+            </nav>
+        </>
     );
 };
 
