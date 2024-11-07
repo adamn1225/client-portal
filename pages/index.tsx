@@ -12,7 +12,7 @@ const HomePage: NextPage = () => {
         <title>Welcome to Heavy Construct</title>
         <meta name="description" content="Welcome to Heavy Construct - Your trusted partner in Inventory Management, Procurement, and Logistics." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/hc-28.png" />
       </Head>
       <div className="min-h-screen w-screen flex flex-col">
       <TopNavbar />

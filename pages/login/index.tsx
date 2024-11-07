@@ -112,7 +112,7 @@ export default function DashboardPage() {
                     <title>Heavy Construct</title>
                     <meta name="description" content="Welcome to SSTA Reminders & Tasks" />
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
-                    <link rel="icon" href="/favicon.ico" />
+                    <link rel="icon" href="/hc-28.png" />
                 </Head>
                 <div className="w-full h-screen bg-200">
                     <div className="min-w-full min-h-screen grid grid-cols-1 md:grid-cols-2 ">
@@ -168,7 +168,7 @@ export default function DashboardPage() {
                     <title>NTS Client Portal</title>
                     <meta name="description" content="Welcome to SSTA Reminders & Tasks" />
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
-                    <link rel="icon" href="/favicon.ico" />
+                    <link rel="icon" href="/hc-28.png" />
                 </Head>
                 <div className="w-full h-full bg-200">
                     <div className="min-w-full min-h-screen flex items-center justify-center">
