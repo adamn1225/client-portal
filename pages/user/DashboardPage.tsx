@@ -111,7 +111,7 @@ export default function DashboardPage() {
         return (
             <>
                 <Head>
-                    <title>SSTA Inc</title>
+                    <title>Heavy Construct</title>
                     <meta name="description" content="Welcome to SSTA Reminders & Tasks" />
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                     <link rel="icon" href="/favicon.ico" />
@@ -121,7 +121,7 @@ export default function DashboardPage() {
 
                         <div className="hidden md:block h-full w-full md:h-full col-span-1 bg-gray-900">
                             <div className='absolute top-5 left-5'>
-                                <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> SSTA Inc</h1>
+                                <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> Heavy Construct</h1>
                             </div>
                             <div className='hidden h-5/6 w-full md:flex items-end justify-center'>
                                 <h1 className='text-stone-100 font-medium text-xl italic'>Your trusted partner in Inventory Management, Procurement, and Logistics.</h1>
@@ -136,7 +136,7 @@ export default function DashboardPage() {
                             </div>
                             <div className=" w-full text-gray-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
                                 <span className="font-sans text-4xl font-medium text-center pb-2 mb-1 border-b mx-4 align-center">
-                                    SSTA Inc
+                                    Heavy Construct
                                 </span>
                                 <span className="font-sans text-2xl text-center pb-2 mb-1 border-b mx-4 align-center">
                                     Sign In

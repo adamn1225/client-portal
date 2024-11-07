@@ -50,7 +50,7 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                     </button>
                 </div>
                 <nav className={`side-navbar z-50 flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0 z-50' : '-translate-x-full'} transition-transform duration-300 h-screen ease-in-out z-50 ${className}`}>
-                    <h1 className='text-xl mt-4 md:mt-0 mb-4 self-center dark:text-amber-400 font-semibold underline underline-offset-2 tracking-wider'>SSTA INC</h1>
+                    <h1 className='text-xl mt-4 md:mt-0 mb-4 self-center dark:text-amber-400 font-semibold underline underline-offset-2 tracking-wider'>Heavy Construct</h1>
                     <div className="w-full flex flex-col items-center gap-1 justify-center mb-6 border-b border-stone-100/40 pb-4">
                         <h3>Welcome {userProfile?.first_name || 'User'}</h3>
                     </div>

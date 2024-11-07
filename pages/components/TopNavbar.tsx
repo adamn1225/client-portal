@@ -13,7 +13,7 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ className }) => {
         <header className="bg-slate-200 dark:bg-gray-900 text-white p-4">
             <div className="container w-full mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                 <span className="text-3xl  text-slate-900 font-bold flex w-full md:justify-start justify-between gap-6 items-center dark:text-slate-100">
-                    <h1 className='flex gap-2 items-center'><Move3d /> SSTA Inc</h1>
+                    <h1 className='flex gap-2 items-center'><Move3d /> Heavy Construct</h1>
                     <DarkModeToggle className='md:hidden' />
                 </span>
                 <nav className="w-full flex justify-center md:justify-end items-center m-0">

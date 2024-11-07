@@ -56,7 +56,7 @@ export default function SignUpPage() {
 
                     <div className="hidden md:grid h-1/3 w-full md:h-full col-span-1 bg-gray-900">
                         <div className='absolute top-5 left-5'>
-                            <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> SSTA Inc</h1>
+                            <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> Heavy Construct</h1>
                         </div>
                         <div className='hidden h-full pb-12 w-full md:flex items-end justify-center'>
                             <h1 className='text-stone-100 font-medium text-xl italic'>Your trusted partner in Inventory Management, Procurement, and Logistics.</h1>
@@ -70,7 +70,7 @@ export default function SignUpPage() {
                             </Link>
                         </div>
                         <div className=" w-full text-gray-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
-                            <h2 className="mt-12 md:mt-0 text-2xl font-bold text-center">SSTA Inc</h2>
+                            <h2 className="mt-12 md:mt-0 text-2xl font-bold text-center">Heavy Construct</h2>
                             <div className="xs:w-2/5 md:w-full h-full sm:h-auto p-5 bg-white shadow flex flex-col text-base">
                                 <span className="font-sans text-4xl text-center pb-2 mb-1 border-b mx-4 align-center">
                                     Sign Up
