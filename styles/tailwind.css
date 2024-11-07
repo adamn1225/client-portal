@@ -43,6 +43,10 @@
   @apply  px-5 py-2.5 border shadow-md bg-gray-900 text-gray-100 font-medium hover:border-amber-100 hover:bg-gray-900 hover:border hover:text-amber-300 dark:border-gray-900 dark:bg-gray-900 dark:text-stone-100 dark:hover:bg-gray-900 dark:hover:text-amber-300 dark:hover:border-amber-300       ;
 }
 
+.contact-btn {
+  @apply px-4 py-2 font-semibold rounded-xl w-full max-w-max text-nowrap bg-slate-50 text-slate-950 border-2 border-slate-950/50 hover:border-2 hover:border-amber-100 hover:bg-gray-900 hover:text-amber-300 dark:border-gray-900 dark:bg-amber-400 dark:text-gray-900 dark:hover:bg-gray-900 dark:hover:text-amber-300 dark:hover:border-2 dark:hover:border-amber-300
+}
+
 html,
 body,
 #__next {

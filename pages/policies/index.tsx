@@ -1,8 +1,8 @@
 import React from 'react';
-
+import Layout from '../components/Layout';
 const Privacy = () => {
     return (
-        <div>
+        <Layout>
             <div className="question">
                 <a href="http://www.heavyconstruct.com/contact" target="_blank" rel="noopener noreferrer" className="link">
                     http://www.heavyconstruct.com/contact
@@ -44,7 +44,12 @@ const Privacy = () => {
                     <a href="mailto:noah@ntslogistics.com">noah@ntslogistics.com</a>. We will inform you in writing of any action taken or not taken in response to the appeal, including a written explanation of the
                 </span>
             </div>
-        </div>
+            <footer className="bg-gray-900 text-white p-4">
+                <div className="container mx-auto text-center">
+                    <p>&copy; {new Date().getFullYear()} SSTA LLC. All rights reserved.</p>
+                </div>
+            </footer>
+        </Layout>
     );
 };
 

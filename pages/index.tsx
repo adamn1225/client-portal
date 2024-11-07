@@ -38,7 +38,7 @@ const HomePage: NextPage = () => {
         </main>
         <footer className="bg-gray-900 text-white p-4">
           <div className="container mx-auto text-center">
-            <p>&copy; {new Date().getFullYear()} Heavy Construct. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} SSTA LLC. All rights reserved.</p>
           </div>
         </footer>
       </div>
