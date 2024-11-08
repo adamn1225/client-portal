@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/database.types';
-import { Users, FolderHeart, Trash2, Folder, Menu } from 'lucide-react';
+import { FolderHeart, Folder, Menu, Star, Trash2 } from 'lucide-react';
+import { updateFavoriteStatus } from '@/lib/database';
 
 interface DocumentsProps {
     session: Session | null;
@@ -10,6 +11,7 @@ interface DocumentsProps {
 const Documents: React.FC<DocumentsProps> = ({ session }) => {
     const supabase = useSupabaseClient<Database>();
     const [documents, setDocuments] = useState<Database['public']['Tables']['documents']['Row'][]>([]);
+    const [importantDocuments, setImportantDocuments] = useState<Database['public']['Tables']['documents']['Row'][]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [file, setFile] = useState<File | null>(null);
@@ -17,6 +19,8 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
     const [description, setDescription] = useState('');
     const [activeSection, setActiveSection] = useState('all'); // State to control active section
     const [sidebarOpen, setSidebarOpen] = useState(false); // State to control sidebar visibility
+    const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+    const [documentToDelete, setDocumentToDelete] = useState<number | null>(null); // State to store the document to be deleted
 
     const fetchDocuments = useCallback(async () => {
         if (!session) return;
@@ -31,6 +35,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
             setError(error.message);
         } else {
             setDocuments(data);
+            setImportantDocuments(data.filter(doc => doc.is_favorite));
         }
         setLoading(false);
     }, [session, supabase]);
@@ -59,7 +64,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
             return;
         }
 
-        const filePath = data?.path;
+        const fileUrl = data?.path;
 
         const { error: insertError } = await supabase
             .from('documents')
@@ -69,7 +74,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                 description,
                 file_name: file.name,
                 file_type: file.type,
-                file_url: filePath,
+                file_url: fileUrl,
             });
 
         if (insertError) {
@@ -82,34 +87,62 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
         }
     };
 
-    const getSignedUrl = async (path: string) => {
-        const { data, error } = await supabase.storage
+    const handleFavoriteToggle = async (documentId: number, isFavorite: boolean) => {
+        const { data, error } = await updateFavoriteStatus(documentId, isFavorite);
+        if (error) {
+            setError(error.message);
+        } else {
+            fetchDocuments();
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!documentToDelete) return;
+
+        const { error } = await supabase
             .from('documents')
-            .createSignedUrl(path, 60); // URL valid for 60 seconds
+            .delete()
+            .eq('id', documentToDelete);
 
         if (error) {
             setError(error.message);
-            return '';
+        } else {
+            fetchDocuments();
+            setIsModalOpen(false);
+            setDocumentToDelete(null);
         }
+    };
 
-        return data.signedUrl;
+    const openDeleteModal = (documentId: number) => {
+        setDocumentToDelete(documentId);
+        setIsModalOpen(true);
     };
 
     const renderDocuments = (docs: Database['public']['Tables']['documents']['Row'][]) => (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {docs.map((document) => (
-                <div key={document.id} className="p-4 bg-white shadow rounded">
-                    <h3 className="text-lg font-bold">{document.title}</h3>
-                    <p className="text-gray-600">{document.description}</p>
-                    <button
-                        className="btn-blue mt-2"
-                        onClick={async () => {
-                            const url = await getSignedUrl(document.file_url);
-                            window.open(url, '_blank');
-                        }}
-                    >
-                        View
-                    </button>
+                <div key={document.id} className="p-4 bg-white shadow rounded flex flex-col justify-between">
+                    <div>
+                        <h3 className="text-lg font-bold">{document.title}</h3>
+                        <p className="text-gray-600">{document.description}</p>
+                    </div>
+                    <span className='flex justify-between items-end mt-auto'>
+                        <span className='flex gap-2 items-center'>
+                            <button className="btn-blue mt-2">View</button>
+                            <button
+                                className="btn-blue mt-2 ml-2"
+                                onClick={() => handleFavoriteToggle(document.id, !document.is_favorite)}
+                            >
+                                <Star className={`h-5 w-5 ${document.is_favorite ? 'text-yellow-500 fill-current' : 'text-gray-500'}`} />
+                            </button>
+                        </span>
+                        <button
+                            className="bg-red-500 text-white mt-2 ml-2 px-4 py-2 rounded"
+                            onClick={() => openDeleteModal(document.id)}
+                        >
+                            Delete
+                        </button>
+                    </span>
                 </div>
             ))}
         </div>
@@ -131,30 +164,12 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                         </button>
                     </li>
                     <li className='flex gap-1 items-center'>
-                        <Users />
-                        <button
-                            className={`w-full text-left p-2 ${activeSection === 'shared' ? 'bg-gray-100 dark:text-slate-800' : ''}`}
-                            onClick={() => setActiveSection('shared')}
-                        >
-                            Shared with Me
-                        </button>
-                    </li>
-                    <li className='flex gap-1 items-center'>
                         <FolderHeart />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'favorites' ? 'bg-gray-100 dark:text-slate-800' : ''}`}
-                            onClick={() => setActiveSection('favorites')}
+                            className={`w-full text-left p-2 ${activeSection === 'important' ? 'bg-gray-100 dark:text-slate-800' : ''}`}
+                            onClick={() => setActiveSection('important')}
                         >
-                            Favorites
-                        </button>
-                    </li>
-                    <li className='flex gap-1 items-center'>
-                        <Trash2 />
-                        <button
-                            className={`w-full text-left p-2 ${activeSection === 'trash' ? 'bg-gray-100 dark:text-slate-800' : ''}`}
-                            onClick={() => setActiveSection('trash')}
-                        >
-                            Trash
+                            Important
                         </button>
                     </li>
                 </ul>
@@ -166,9 +181,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-2xl font-bold">
                         {activeSection === 'all' && 'All Documents'}
-                        {activeSection === 'shared' && 'Shared with Me'}
-                        {activeSection === 'favorites' && 'Favorites'}
-                        {activeSection === 'trash' && 'Trash'}
+                        {activeSection === 'important' && 'Important'}
                     </h1>
                     <button className="btn-blue" onClick={handleUpload}>Upload Document</button>
                     <button className="md:hidden btn-blue" onClick={() => setSidebarOpen(!sidebarOpen)}>
@@ -214,8 +227,39 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                     ) : (
                         renderDocuments(documents)
                     )
+                ) : activeSection === 'important' ? (
+                    importantDocuments.length === 0 ? (
+                        <p>No important documents found.</p>
+                    ) : (
+                        renderDocuments(importantDocuments)
+                    )
                 ) : null}
             </div>
+
+            {/* Delete Confirmation Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="fixed inset-0 bg-black opacity-50"></div>
+                    <div className="bg-white rounded-lg shadow-lg p-6 z-50">
+                        <h2 className="text-xl font-bold mb-4">Delete Document</h2>
+                        <p className="mb-4">Are you sure you want to delete this document?</p>
+                        <div className="flex justify-end">
+                            <button
+                                className="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2"
+                                onClick={() => setIsModalOpen(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="bg-red-500 text-white px-4 py-2 rounded"
+                                onClick={handleDelete}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

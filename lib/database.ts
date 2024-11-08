@@ -194,3 +194,20 @@ export async function addCompany(companies: Database['public']['Tables']['compan
         throw error;
     }
 }
+
+export async function addSubscriber(email: string): Promise<{ data: any; error: any }> {
+    const { data, error } = await supabase
+        .from('mail_subscribers')
+        .insert([{ email }]);
+
+    return { data, error };
+}
+
+export async function updateFavoriteStatus(documentId: number, isFavorite: boolean): Promise<{ data: any; error: any }> {
+    const { data, error } = await supabase
+        .from('documents')
+        .update({ is_favorite: isFavorite })
+        .eq('id', documentId);
+
+    return { data, error };
+}

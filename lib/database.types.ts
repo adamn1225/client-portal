@@ -92,6 +92,7 @@ export type Database = {
           file_type: string
           file_url: string
           id: number
+          is_favorite: boolean | null
           title: string
           user_id: string | null
         }
@@ -102,6 +103,7 @@ export type Database = {
           file_type: string
           file_url: string
           id?: number
+          is_favorite?: boolean | null
           title: string
           user_id?: string | null
         }
@@ -112,6 +114,7 @@ export type Database = {
           file_type?: string
           file_url?: string
           id?: number
+          is_favorite?: boolean | null
           title?: string
           user_id?: string | null
         }
@@ -255,6 +258,18 @@ export type Database = {
           invited_by?: string | null
           is_used?: boolean | null
           token?: string
+        }
+        Relationships: []
+      }
+      mail_subscribers: {
+        Row: {
+          email: string | null
+        }
+        Insert: {
+          email?: string | null
+        }
+        Update: {
+          email?: string | null
         }
         Relationships: []
       }
@@ -680,4 +695,11 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
+export type Freight = Database['public']['Tables']['freight']['Row'];
+export type Company = Database['public']['Tables']['companies']['Row'];
 export type MaintenanceItem = Database['public']['Tables']['maintenance']['Row'];
+export type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
+export type Order = Database['public']['Tables']['orders']['Row'];
+export type Profile = Database['public']['Tables']['profiles']['Row'];
+export type Notification = Database['public']['Tables']['notifications']['Row'];
+export type Document = Database['public']['Tables']['documents']['Row'];

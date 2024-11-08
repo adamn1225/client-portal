@@ -627,7 +627,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                         handleDeleteClick={(id) => handleDeleteClick(id, 'freight')}
                         handleTransferToMaintenance={handleTransferToMaintenance}
                         maintenanceList={maintenanceList}
-                        handleAddFreight={handleAddFreight}
+                        handleAddFreight={addFreightItem}
                     />
                 )}
                 {activeTab === 'maintenance' && (
