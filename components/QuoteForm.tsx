@@ -36,7 +36,7 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
         setSelectedFreight(freightId);
         const selected = freightList.find(freight => freight.id === parseInt(freightId));
         if (selected) {
-            setYearAmount(selected.year_amount || '');
+            setYearAmount(selected.year || '');
             setMake(selected.make || '');
             setModel(selected.model || '');
             setPalletCount(selected.pallet_count || '');
@@ -100,7 +100,7 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ freightList, addQuote, errorText,
                             <option value="">Select...</option>
                             {freightList.map((freight) => (
                                 <option key={freight.id} value={freight.id.toString()}>
-                                    {freight.freight_type === 'ltl_ftl' ? freight.commodity : `${freight.make} ${freight.model} (${freight.year_amount})`}
+                                    {freight.freight_type === 'ltl_ftl' ? freight.commodity : `${freight.make} ${freight.model} (${freight.year})`}
                                 </option>
                             ))}
                         </select>

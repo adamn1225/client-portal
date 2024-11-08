@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 import QuoteForm from './QuoteForm';
 import QuoteList from './quotetabs/QuoteList';
 import HistoryList from './quotetabs/HistoryList';
