@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import Papa from 'papaparse';
-import { Database, MaintenanceItem } from '@lib/schema';
+import { Database, MaintenanceItem } from '@lib/database.types';
 import InventoryTab from '@/components/inventory/InventoryTab';
 import MaintenanceTab from '@/components/inventory/MaintenanceTab';
 import TransferToMaintenanceModal from '@/components/TransferToMaintenanceModal';
@@ -18,7 +18,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
     const [freightList, setFreightList] = useState<Freight[]>([]);
     const [selectedFreight, setSelectedFreight] = useState<Freight | null>(null);
     const [isTransferModalOpen, setIsTransferModalOpen] = useState<boolean>(false);
-    const [selectedOption, setSelectedOption] = useState<string>('');
+    const [selectedOption, setSelectedOption] = useState<string>('equipment'); // Default to "equipment"
     const [yearAmount, setYearAmount] = useState<string>('');
     const [make, setMake] = useState<string>('');
     const [model, setModel] = useState<string>('');
@@ -39,6 +39,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [activeTab, setActiveTab] = useState('inventory');
     const [maintenanceList, setMaintenanceList] = useState<MaintenanceItem[]>([]);
+    const [error, setError] = useState<string | null>(null);
 
     const user = session?.user;
 
@@ -56,7 +57,6 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
             setFreightList(data);
         }
     }, [user, supabase]);
-
     const fetchMaintenance = useCallback(async () => {
         if (!user) return;
 
@@ -79,19 +79,28 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         }
     }, [user, fetchFreight, fetchMaintenance]);
 
+    useEffect(() => {
+        if (user) {
+            fetchFreight();
+            fetchMaintenance();
+        }
+    }, [user, fetchFreight, fetchMaintenance]);
+
     const checkDuplicateInventoryNumber = async (inventoryNumber: string) => {
         const { data, error } = await supabase
             .from('freight')
-            .select('id')
+            .select('inventory_number')
             .eq('inventory_number', inventoryNumber);
 
         if (error) {
-            console.error('Error checking duplicate inventory number:', error.message);
+            console.error('Error checking duplicate inventory number:', error);
             return false;
         }
 
         return data.length > 0;
     };
+
+
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -99,14 +108,27 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
             Papa.parse(file, {
                 header: true,
                 complete: async (results) => {
+                    console.log('Parsed results:', results); // Add logging to debug
                     const data = results.data as Database['public']['Tables']['freight']['Insert'][];
                     for (const item of data) {
                         if (item.inventory_number && await checkDuplicateInventoryNumber(item.inventory_number)) {
                             window.alert(`Duplicate inventory number found: ${item.inventory_number}. Please use unique inventory numbers.`);
                             continue;
                         }
+
+                        // Set default values for units if not provided
+                        item.length_unit = item.length_unit || 'ft';
+                        item.width_unit = item.width_unit || 'ft';
+                        item.height_unit = item.height_unit || 'ft';
+                        item.weight_unit = item.weight_unit || 'lbs';
+                        item.freight_type = item.freight_type || 'equipment'; // Default to "equipment"
+                        item.user_id = user?.id || ''; // Add user_id from session
+
                         try {
-                            await addFreightItem(item);
+                            const newFreight = await addFreightItem(item);
+                            if (newFreight) {
+                                setFreightList((prevList) => [...prevList, newFreight]);
+                            }
                         } catch (error) {
                             console.error('Error adding freight item:', error);
                         }
@@ -131,7 +153,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
 
         const freightData = {
             user_id: user.id,
-            year_amount: yearAmount,
+            year: yearAmount,
             make: make,
             model: model,
             pallet_count: palletCount,
@@ -203,7 +225,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
 
     const editFreight = (freight: Freight) => {
         setEditingFreight(freight);
-        setYearAmount(freight.year_amount || '');
+        setYearAmount(freight.year || '');
         setMake(freight.make || '');
         setModel(freight.model || '');
         setPalletCount(freight.pallet_count || '');
@@ -239,7 +261,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
         setWeightUnit('lbs'); // Reset to default unit
         setSerialNumber('');
         setInventoryNumber('');
-        setSelectedOption('');
+        setSelectedOption('equipment'); // Reset to default option
         setErrorText('');
     };
 
@@ -257,6 +279,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
             setHeightUnit('ft');
         }
     };
+
 
     const handleTransferToMaintenance = async (freight: Database['public']['Tables']['freight']['Row']) => {
         if (!user) return;
@@ -297,7 +320,6 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                 make: selectedFreight.make,
                 model: selectedFreight.model,
                 year: selectedFreight.year,
-                year_amount: selectedFreight.year_amount, // Ensure year_amount is included
                 pallets: selectedFreight.pallet_count,
                 serial_number: selectedFreight.serial_number,
                 dimensions: selectedFreight.dimensions,

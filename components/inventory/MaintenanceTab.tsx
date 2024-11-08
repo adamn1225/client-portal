@@ -45,7 +45,7 @@ const MaintenanceTab = ({ freightList, maintenanceList, editFreight, handleDelet
     const openEditModal = (maintenanceItem: MaintenanceItem) => {
         const freight = freightList.find(f => f.id === maintenanceItem.freight_id);
         setSelectedMaintenanceItem(maintenanceItem);
-        setYearAmount(freight?.year_amount || '');
+        setYearAmount(freight?.year || '');
         setMake(freight?.make || '');
         setModel(freight?.model || '');
         setPalletCount(freight?.pallet_count || '');
@@ -82,7 +82,7 @@ const MaintenanceTab = ({ freightList, maintenanceList, editFreight, handleDelet
                         {maintenanceList.map((freight) => (
                             <tr key={freight.id}>
                                 <td className="px-6 py-1 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
-                                    {freight.commodity || `${freight.year_amount} ${freight.make} ${freight.model}`}
+                                    {freight.commodity || `${freight.year} ${freight.make} ${freight.model}`}
                                 </td>
                                 <td className="px-6 py-1 whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20  dark:text-white">
                                     {freight.part}
@@ -121,7 +121,7 @@ const MaintenanceTab = ({ freightList, maintenanceList, editFreight, handleDelet
                         </div>
                         <div>
                             <div className="text-sm font-extrabold text-gray-500  dark:text-white">Commodity</div>
-                            <div className="text-sm font-medium text-gray-900">{freight.commodity || `${freight.year_amount} ${freight.make} ${freight.model}`}</div>
+                            <div className="text-sm font-medium text-gray-900">{freight.commodity || `${freight.year} ${freight.make} ${freight.model}`}</div>
                         </div>
                         <div>
                             <div className="text-sm font-extrabold text-gray-500  dark:text-white ">Dimensions</div>

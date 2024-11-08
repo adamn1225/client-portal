@@ -32,7 +32,6 @@ export type Quote = {
     destination_zip: string | null;
     user_id: string;
     due_date: string | null;
-    year_amount: string | null;
     make: string | null;
     model: string | null;
     pallet_count: string | null;
@@ -50,7 +49,6 @@ export type Quote = {
 };
 
 export type MaintenanceItem = {
-    year_amount: string | null;
     id: number;
     user_id: string;
     freight_id: number;

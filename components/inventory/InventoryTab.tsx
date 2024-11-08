@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Database } from '@/lib/schema';
 import TransferToMaintenanceModal from '../TransferToMaintenanceModal';
 import { addMaintenanceItem, fetchFreightData, addFreightItem } from '@/lib/database';
-import { MaintenanceItem } from '@/lib/schema'; // Import the MaintenanceItem type
+import { MaintenanceItem } from '@/lib/database.types'; // Import the MaintenanceItem type
 
 interface InventoryTabProps {
     freightList: Database['public']['Tables']['freight']['Row'][];
@@ -50,8 +50,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
             dimensions: freightData.dimensions,
             commodity: freightData.commodity,
             inventory_number: freightData.inventory_number,
-            year: null,
-            year_amount: freightData.year_amount,
+            year: freightData.year,
         };
 
         try {
@@ -112,7 +111,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                         {freightList.map((freight) => (
                             <tr key={freight.id}>
                                 <td className=" px-6 py-1 text-xs whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20   dark:text-white">
-                                    {freight.freight_type === 'ltl_ftl' ? freight.commodity : `${freight.year_amount} ${freight.make} ${freight.model}`}
+                                    {freight.freight_type === 'ltl_ftl' ? freight.commodity : `${freight.year} ${freight.make} ${freight.model}`}
                                 </td>
                                 <td className=" px-6 py-1 text-xs whitespace-nowrap border-r border-slate-900/20  dark:border-slate-100/20   dark:text-white">
                                     {freight.length} {freight.length_unit}, {freight.width} {freight.width_unit}, {freight.height} {freight.height_unit}, {freight.weight} {freight.weight_unit}
@@ -177,7 +176,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                         <div className='border-b border-slate-600 mb-4'></div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
                             <div className="text-sm font-extrabold text-gray-500 dark:text-white">Inventory Item</div>
-                            <div className="text-sm font-normal text-nowrap dark:text-gray-900">{freight.freight_type === 'ltl_ftl' ? freight.commodity : `${freight.year_amount} ${freight.make} ${freight.model}`}</div>
+                            <div className="text-sm font-normal text-nowrap dark:text-gray-900">{freight.freight_type === 'ltl_ftl' ? freight.commodity : `${freight.year} ${freight.make} ${freight.model}`}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
                             <div className="text-sm font-extrabold text-gray-500 dark:text-white">Dimensions</div>

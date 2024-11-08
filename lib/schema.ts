@@ -20,7 +20,6 @@ export interface Database {
           due_date: string | null;
           in_progress: boolean | null;
           reminder_time: string | null;
-          year_amount: string | null;
           pallet_count: string | null;
           commodity: string | null;
           length: string | null;
@@ -51,7 +50,6 @@ export interface Database {
           due_date?: string | null;
           in_progress?: boolean | null;
           reminder_time?: string | null;
-          year_amount?: string | null;
           pallet_count?: string | null;
           commodity?: string | null;
           length?: string | null;
@@ -82,7 +80,6 @@ export interface Database {
           due_date?: string | null;
           in_progress?: boolean | null;
           reminder_time?: string | null;
-          year_amount?: string | null;
           pallet_count?: string | null;
           commodity?: string | null;
           length?: string | null;
@@ -115,7 +112,6 @@ export interface Database {
           user_id: string;
           quote_id: string | null;
           due_date: string | null;
-          year_amount: string | null;
           make: string | null;
           model: string | null;
           pallet_count: string | null;
@@ -145,7 +141,6 @@ export interface Database {
           user_id: string;
           quote_id?: string | null;
           due_date?: string | null;
-          year_amount?: string | null;
           make?: string | null;
           model?: string | null;
           pallet_count?: string | null;
@@ -175,7 +170,6 @@ export interface Database {
           user_id?: string;
           quote_id?: string | null;
           due_date?: string | null;
-          year_amount?: string | null;
           make?: string | null;
           model?: string | null;
           pallet_count?: string | null;
@@ -203,7 +197,6 @@ export interface Database {
           make: string | null;
           model: string | null;
           year: string | null;
-          year_amount: string | null;
           pallets: string | null;
           serial_number: string | null;
           dimensions: string | null;
@@ -224,7 +217,6 @@ export interface Database {
           make?: string | null;
           model?: string | null;
           year?: string | null;
-          year_amount?: string | null;
           pallets?: string | null;
           serial_number?: string | null;
           dimensions?: string | null;
@@ -245,7 +237,6 @@ export interface Database {
           make?: string | null;
           model?: string | null;
           year?: string | null;
-          year_amount?: string | null;
           pallets?: string | null;
           serial_number?: string | null;
           dimensions?: string | null;
