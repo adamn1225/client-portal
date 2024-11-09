@@ -1967,10 +1967,6 @@ body {
   font-style: italic;
 }
 
-.leading-10 {
-  line-height: 2.5rem;
-}
-
 .leading-none {
   line-height: 1;
 }
@@ -3236,6 +3232,10 @@ p h1 h2 h3 h4 h5 h6 li span div:is(.dark *) {
     grid-row: span 1 / span 1;
   }
 
+  .sm\:flex {
+    display: flex;
+  }
+
   .sm\:h-auto {
     height: auto;
   }
@@ -3256,9 +3256,18 @@ p h1 h2 h3 h4 h5 h6 li span div:is(.dark *) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
+  .sm\:flex-col {
+    flex-direction: column;
+  }
+
   .sm\:py-4 {
     padding-top: 1rem;
     padding-bottom: 1rem;
+  }
+
+  .sm\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 
   .sm\:text-sm {
@@ -3357,6 +3366,10 @@ p h1 h2 h3 h4 h5 h6 li span div:is(.dark *) {
     flex-direction: column;
   }
 
+  .md\:flex-wrap {
+    flex-wrap: wrap;
+  }
+
   .md\:items-start {
     align-items: flex-start;
   }
@@ -3389,12 +3402,21 @@ p h1 h2 h3 h4 h5 h6 li span div:is(.dark *) {
     gap: 1.5rem;
   }
 
+  .md\:gap-8 {
+    gap: 2rem;
+  }
+
   .md\:p-4 {
     padding: 1rem;
   }
 
   .md\:p-8 {
     padding: 2rem;
+  }
+
+  .md\:py-7 {
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
   }
 
   .md\:text-2xl {
@@ -3415,6 +3437,10 @@ p h1 h2 h3 h4 h5 h6 li span div:is(.dark *) {
   .md\:text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
+  }
+
+  .md\:leading-10 {
+    line-height: 2.5rem;
   }
 }
 

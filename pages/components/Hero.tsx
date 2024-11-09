@@ -54,17 +54,17 @@ const Hero = () => {
                         <Button className='dark-light-btn' onClick={handleSubscribe}> Subscribe</Button>
                         {message && <p className="mt-2 text-green-600">{message}</p>}
                     </div>
-                    <div className="flex flex-col flex-wrap gap-8 py-7 sm:py-4">
-                        <div className="flex items-center">
-                            <CheckIcon /> Members who joined during Beta will have a lifetime discount.
-                        </div>
-                        <div className="flex items-center">
-                            <CheckIcon /> Direct Support - We would really, really appreciate your feedback.
-                        </div>
-                        <div className="flex items-center">
-                            <CheckIcon /> Completely free during Beta.
-                        </div>
-                    </div>
+                    <div className="flex flex-col sm:py-4 md:flex-wrap md:gap-8 md:py-7">
+  <div className="flex md:items-center">
+    <CheckIcon /> Members who joined during Beta will have a lifetime discount.
+  </div>
+  <div className="flex md:items-center">
+    <CheckIcon /> Direct Support (We would really, really appreciate your feedback.)
+  </div>
+  <div className="flex md:items-center">
+    <CheckIcon /> Completely free during Beta.
+  </div>
+</div>
                 </div>
                 <div className="hidden md:block w-1/3">
                     <img src={darkMode ? "dark-app-display.png" : "light-app-display.png"} className="object-contain" alt="Mockup" />
