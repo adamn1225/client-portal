@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/lib/database.types';
+import { Database } from '@/lib/schema';
 import dotenv from 'dotenv';
-import { MaintenanceItem, Company } from '@lib/schema';
+import { MaintenanceItem, Company, Vendor } from '@/lib/schema';
 
 dotenv.config();
 
@@ -211,3 +211,26 @@ export async function updateFavoriteStatus(documentId: number, isFavorite: boole
 
     return { data, error };
 }
+
+export async function fetchVendorsData() {
+    const { data, error } = await supabase.from<Vendor>('vendors').select('*');
+    return { data, error };
+  }
+  
+  export async function addVendor(vendor: Omit<Vendor, 'id'>) {
+    const { data, error } = await supabase
+      .from('vendors')
+      .insert([vendor])
+      .select();
+  
+    return { data, error };
+  }
+  
+  export async function addPurchaseOrder(purchaseOrder: Omit<PurchaseOrder, 'id'>) {
+    const { data, error } = await supabase
+      .from('purchase_order')
+      .insert([purchaseOrder])
+      .select();
+  
+    return { data, error };
+  }

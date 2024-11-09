@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 export type Json =
   | string
   | number
@@ -461,6 +462,41 @@ export type Database = {
         }
         Relationships: []
       }
+      purchase_order: {
+        Row: {
+          createddate: string | null
+          expecteddate: string | null
+          ponumber: string | null
+          status: boolean | null
+          vendorname: string | null
+          vendornumber: string | null
+        }
+        Insert: {
+          createddate?: string | null
+          expecteddate?: string | null
+          ponumber?: string | null
+          status?: boolean | null
+          vendorname?: string | null
+          vendornumber?: string | null
+        }
+        Update: {
+          createddate?: string | null
+          expecteddate?: string | null
+          ponumber?: string | null
+          status?: boolean | null
+          vendorname?: string | null
+          vendornumber?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_purchase_order_vendors"
+            columns: ["vendornumber"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["vendornumber"]
+          },
+        ]
+      }
       shippingquotes: {
         Row: {
           commodity: string | null
@@ -575,6 +611,36 @@ export type Database = {
           id?: number
           login_count?: number
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      vendors: {
+        Row: {
+          businesscity: string | null
+          businessstate: string | null
+          businessstreet: string | null
+          email: string | null
+          phone: string | null
+          vendorname: string | null
+          vendornumber: string
+        }
+        Insert: {
+          businesscity?: string | null
+          businessstate?: string | null
+          businessstreet?: string | null
+          email?: string | null
+          phone?: string | null
+          vendorname?: string | null
+          vendornumber: string
+        }
+        Update: {
+          businesscity?: string | null
+          businessstate?: string | null
+          businessstreet?: string | null
+          email?: string | null
+          phone?: string | null
+          vendorname?: string | null
+          vendornumber?: string
         }
         Relationships: []
       }
@@ -695,11 +761,14 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
-export type Freight = Database['public']['Tables']['freight']['Row'];
-export type Company = Database['public']['Tables']['companies']['Row'];
-export type MaintenanceItem = Database['public']['Tables']['maintenance']['Row'];
-export type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
-export type Order = Database['public']['Tables']['orders']['Row'];
-export type Profile = Database['public']['Tables']['profiles']['Row'];
-export type Notification = Database['public']['Tables']['notifications']['Row'];
-export type Document = Database['public']['Tables']['documents']['Row'];
+
+    export type Freight = Database['public']['Tables']['freight']['Row'];
+    export type Company = Database['public']['Tables']['companies']['Row'];
+    export type MaintenanceItem = Database['public']['Tables']['maintenance']['Row'];
+    export type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
+    export type Order = Database['public']['Tables']['orders']['Row'];
+    export type Profile = Database['public']['Tables']['profiles']['Row'];
+    export type Notification = Database['public']['Tables']['notifications']['Row'];
+    export type Document = Database['public']['Tables']['documents']['Row'];
+    export type Vendor = Database['public']['Tables']['vendors']['Row'];
+    export type PurchaseOrder = Database['public']['Tables']['purchase_order']['Row'];

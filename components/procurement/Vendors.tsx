@@ -1,54 +1,123 @@
 import React, { useState } from 'react';
-import Modal from '@/components/Modal';
-import VendorForm from '@/components/procurement/VendorForm';
+import { addVendor } from '@/lib/database';
+import { Vendor } from '@/lib/schema';
 
-const Vendors = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const VendorForm = () => {
+  const [vendorNumber, setVendorNumber] = useState('');
+  const [vendorName, setVendorName] = useState('');
+  const [businessStreet, setBusinessStreet] = useState('');
+  const [businessCity, setBusinessCity] = useState('');
+  const [businessState, setBusinessState] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
 
-  const vendors = [
-    // Example data
-    { vendorNumber: 'V001', vendorName: 'Vendor A', businessStreet: '123 Main St', businessCity: 'New Hyde Park', businessState: 'NY', contact: { email: 'vendorA@example.com', phone: '123-456-7890' } },
-    { vendorNumber: 'V002', vendorName: 'Vendor B', businessStreet: '456 Elm St', businessCity: 'Toms River', businessState: 'NJ', contact: { email: 'vendorB@example.com', phone: '987-654-3210' } },
-  ];
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const vendor: Omit<Vendor, 'id'> = {
+      vendorNumber,
+      vendorName,
+      businessStreet,
+      businessCity,
+      businessState,
+      email,
+      phone
+    };
+
+    const { data, error } = await addVendor(vendor);
+
+    if (error) {
+      console.error('Error inserting vendor:', error);
+    } else {
+      console.log('Vendor inserted:', data);
+    }
+  };
 
   return (
-    <div className="w-full">
-      <div className="flex justify-end mb-4">
-        <button onClick={() => setIsModalOpen(true)} className="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          Add Vendor
-        </button>
-      </div>
-      <table className="w-full">
-        <thead className="w-full">
-          <tr className="space-x-12 bg-gray-900 text-stone-100 text-xs">
-            <th className="px-10 border border-stone-200/50 tracking-wider">Vendor Number</th>
-            <th className="px-10 border border-stone-200/50 tracking-wider">Vendor Name</th>
-            <th className="px-10 border border-stone-200/50 tracking-wider">Business Address</th>
-            <th className="px-10 border border-stone-200/50 tracking-wider">Contact</th>
-          </tr>
-        </thead>
-        <tbody className="w-full">
-          {vendors.map((vendor, index) => (
-            <tr className="space-x-12 border border-gray-900/50 text-sm font-medium" key={index}>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{vendor.vendorNumber}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{vendor.vendorName}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">
-                <div>{vendor.businessStreet}</div>
-                <div>{vendor.businessCity}, {vendor.businessState}</div>
-              </td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">
-                <div><span className="font-medium">Email: </span>{vendor.contact.email}</div>
-                <div><span className="font-medium">Main Phone: </span>{vendor.contact.phone}</div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <VendorForm />
-      </Modal>
-    </div>
+    <>
+      <h2 className="text-xl underline text-start mb-6">Add Vendor</h2>
+      <form className="space-y-4" onSubmit={handleSubmit}>
+        {/* Form fields */}
+        <div className="flex gap-4 justify-around w-full">
+          <div className="w-full">
+            <label className="block text-sm font-medium">Vendor Number</label>
+            <input
+              type="text"
+              value={vendorNumber}
+              onChange={(e) => setVendorNumber(e.target.value)}
+              placeholder="Vendor Number"
+              className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            />
+          </div>
+          <div className="w-full">
+            <label className="block text-sm font-medium">Vendor Name</label>
+            <input
+              type="text"
+              value={vendorName}
+              onChange={(e) => setVendorName(e.target.value)}
+              placeholder="Vendor Name"
+              className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            />
+          </div>
+        </div>
+        {/* Other form fields */}
+        <div className="flex flex-col items-start w-full">
+          <label className="block text-start text-sm font-medium w-4/5">Business Street</label>
+          <input
+            type="text"
+            value={businessStreet}
+            onChange={(e) => setBusinessStreet(e.target.value)}
+            placeholder="123 Lexington St"
+            className="mt-1 pl-2 block w-4/5 border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+          />
+        </div>
+        <div className="flex gap-4 justify-around w-full">
+          <div className="w-full">
+            <label className="block text-sm font-medium">Business City</label>
+            <input
+              type="text"
+              value={businessCity}
+              onChange={(e) => setBusinessCity(e.target.value)}
+              placeholder="City"
+              className="mt-1 pl-2 block w-full border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            />
+          </div>
+          <div className="w-full">
+            <label className="block text-sm font-medium">Business State</label>
+            <input
+              type="text"
+              value={businessState}
+              onChange={(e) => setBusinessState(e.target.value)}
+              placeholder="State"
+              className="mt-1 pl-2 block w-full border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            />
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="mt-1 pl-2 block w-full border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Phone</label>
+          <input
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="mt-1 pl-2 block w-full border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+          />
+        </div>
+        <div className="flex justify-end">
+          <button type="submit" className="px-4 py-2 shadow-md text-stone-100 font-medium bg-gray-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-gray-900">
+            Submit
+          </button>
+        </div>
+      </form>
+    </>
   );
 };
 
-export default Vendors;
+export default VendorForm;
