@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 import Modal from './Modal';
+import { type } from './../lib/types';
 
 interface QuoteFormProps {
     freightList: Database['public']['Tables']['freight']['Row'][];

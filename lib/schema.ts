@@ -18,5 +18,4 @@ export type Notification = Database['public']['Tables']['notifications']['Row'];
 export type Document = Database['public']['Tables']['documents']['Row'];
 export type Vendor = Database['public']['Tables']['vendors']['Row'];
 export type PurchaseOrder = Database['public']['Tables']['purchase_order']['Row'];
-
 // Add any other types or interfaces you need here

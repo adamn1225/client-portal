@@ -2,8 +2,8 @@
     "github-actions.use-enterprise": true,
     "github-actions.workflows.pinned.refresh.enabled": true,
     "workbench.editor.wrapTabs": true,
-    "typescript.enablePromptUseWorkspaceTsdk": true,
-    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.multiCursorModifier": "ctrlCmd",
     "tailwindcss-intellisense.trace.server": "verbose",
     "tailwindCSS.emmetCompletions": true,
+    "editor.links": true
 }

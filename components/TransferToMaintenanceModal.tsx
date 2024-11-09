@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 
 interface TransferToMaintenanceModalProps {
     freightList: Database['public']['Tables']['freight']['Row'][];
