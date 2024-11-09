@@ -83,9 +83,9 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                             </Link>
                         </li>
 
-                        <li className="w-full flex justify-normal m-0">
-                            <Link href="/" className="side-nav-btn text-stone-100 text-nowrap font-semibold py-1 w-full">
-                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer size={'20px'} /> <span className='text-xs md:text-sm'>Projects </span></span>
+                        <li className={`w-full flex justify-normal m-0 ${router.pathname == "/user/project-writer" ? "active" : ""}`}>
+                            <Link href="/user/project-writer" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/project-writer" ? "active" : ""}`}>
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer size={'20px'} /> <span className='text-xs md:text-sm'>Project Writer </span></span>
                             </Link>
                         </li>
 

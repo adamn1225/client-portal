@@ -5,7 +5,7 @@ import { Database } from '@/lib/schema';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, ChartArea, Handshake, NotebookTabs } from 'lucide-react';
+import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, ChartArea, Handshake, NotebookTabs, Hammer } from 'lucide-react';
 
 interface AdminSideNavProps {
     isSidebarOpen: boolean;
@@ -78,6 +78,12 @@ const AdminSideNav: React.FC<AdminSideNavProps> = ({ isSidebarOpen, toggleSideba
                         <li className={`w-full flex justify-normal m-0 ${router.pathname == "/admin/procurement" ? "active" : ""}`}>
                             <Link href="/admin/procurement" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/admin/procurement" ? "active" : ""}`}>
                                 <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Signature size={'20px'} /> <span className='text-xs md:text-sm'>Procurements</span></span>
+                            </Link>
+                        </li>
+                        
+                        <li className={`w-full flex justify-normal m-0 ${router.pathname == "/admin/project-writer" ? "active" : ""}`}>
+                            <Link href="/admin/project-writer" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/admin/project-writer" ? "active" : ""}`}>
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer size={'20px'} /> <span className='text-xs md:text-sm'>Project Writer </span></span>
                             </Link>
                         </li>
                         <li className={`w-full flex justify-normal m-0 ${router.pathname == "/admin/equipment-directory" ? "active" : ""}`}>
