@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Bell } from 'lucide-react';
 import { supabase } from '@/lib/initSupabase';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 import { Session } from '@supabase/auth-helpers-react';
 
 type Notification = Database['public']['Tables']['notifications']['Row'];
