@@ -1,7 +1,6 @@
 // admin-dash/index.tsx
 import React from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/database.types';
 import AdminSignUp from '@/components/AdminSignUp';
 import Procurement from '@/components/procurement/Procurement';
 import AdminLayout from '../../components/admin-portal/AdminLayout'; 

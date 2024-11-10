@@ -215,22 +215,22 @@ export async function updateFavoriteStatus(documentId: number, isFavorite: boole
 export async function fetchVendorsData() {
     const { data, error } = await supabase.from<Vendor>('vendors').select('*');
     return { data, error };
-  }
-  
-  export async function addVendor(vendor: Omit<Vendor, 'id'>) {
+}
+
+export async function addVendor(vendor: Omit<Vendor, 'id'>) {
     const { data, error } = await supabase
       .from('vendors')
       .insert([vendor])
       .select();
   
     return { data, error };
-  }
-  
-  export async function addPurchaseOrder(purchaseOrder: Omit<PurchaseOrder, 'id'>) {
+}
+
+export async function addPurchaseOrder(purchaseOrder: Omit<PurchaseOrder, 'id'>) {
     const { data, error } = await supabase
       .from('purchase_order')
       .insert([purchaseOrder])
       .select();
   
     return { data, error };
-  }
+}
