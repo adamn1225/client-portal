@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from '@/components/Modal';
 import VendorForm from '@/components/procurement/VendorForm';
 import { fetchVendorsData, addPurchaseOrder } from '@/lib/database';
-import { Vendor, PurchaseOrder } from '@/lib/database.types';
+import { Vendor, PurchaseOrder } from '@/lib/schema';
 
 const PurchaseOrderForm = () => {
   const [poNumber, setPoNumber] = useState('');
@@ -19,7 +19,7 @@ const PurchaseOrderForm = () => {
       if (error) {
         console.error('Error fetching vendors:', error);
       } else {
-        setVendors(data);
+        setVendors(data as Vendor[]);
       }
     };
 
@@ -31,7 +31,7 @@ const PurchaseOrderForm = () => {
     if (error) {
       console.error('Error fetching vendors:', error);
     } else {
-      setVendors(data);
+      setVendors(data as Vendor[]);
     }
     setIsVendorModalOpen(false);
   };
