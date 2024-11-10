@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify';
 export type Json =
   | string
   | number
@@ -762,13 +761,13 @@ export type CompositeTypes<
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
-    export type Freight = Database['public']['Tables']['freight']['Row'];
-    export type Company = Database['public']['Tables']['companies']['Row'];
-    export type MaintenanceItem = Database['public']['Tables']['maintenance']['Row'];
-    export type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
-    export type Order = Database['public']['Tables']['orders']['Row'];
-    export type Profile = Database['public']['Tables']['profiles']['Row'];
-    export type Notification = Database['public']['Tables']['notifications']['Row'];
-    export type Document = Database['public']['Tables']['documents']['Row'];
-    export type Vendor = Database['public']['Tables']['vendors']['Row'];
-    export type PurchaseOrder = Database['public']['Tables']['purchase_order']['Row'];
+export type Freight = Database['public']['Tables']['freight']['Row'];
+export type Company = Database['public']['Tables']['companies']['Row'];
+export type MaintenanceItem = Database['public']['Tables']['maintenance']['Row'];
+export type ShippingQuote = Database['public']['Tables']['shippingquotes']['Row'];
+export type Order = Database['public']['Tables']['orders']['Row'];
+export type Profile = Database['public']['Tables']['profiles']['Row'];
+export type Notification = Database['public']['Tables']['notifications']['Row'];
+export type Document = Database['public']['Tables']['documents']['Row'];
+export type Vendor = Database['public']['Tables']['vendors']['Row'];
+export type PurchaseOrder = Database['public']['Tables']['purchase_order']['Row'];
