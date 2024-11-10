@@ -36,15 +36,24 @@ const PurchaseOrderForm = () => {
     setIsVendorModalOpen(false);
   };
 
-  const handleSubmit = async (e) => {
+  interface PurchaseOrderFormProps {
+    ponumber: string;
+    status: boolean;
+    createddate: string;
+    expecteddate: string;
+    vendornumber: string;
+    vendorname: string;
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const purchaseOrder: Omit<PurchaseOrder, 'id'> = {
-      poNumber,
+      ponumber: poNumber,
       status,
-      createdDate,
-      expectedDate,
-      vendorNumber,
-      vendorName: vendors.find(v => v.vendornumber === vendorNumber)?.vendorname || ''
+      createddate: createdDate,
+      expecteddate: expectedDate,
+      vendornumber: vendorNumber,
+      vendorname: vendors.find(v => v.vendornumber === vendorNumber)?.vendorname || ''
     };
 
     const { data, error } = await addPurchaseOrder(purchaseOrder);
