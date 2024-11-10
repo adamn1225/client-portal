@@ -1,5 +1,5 @@
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 import Image from 'next/image';
 import { UserRoundPen, BellRing, Building2, Shield, Menu, Sun, Moon } from 'lucide-react';
 import React, { useState, useEffect } from 'react';

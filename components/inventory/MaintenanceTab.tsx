@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MaintenanceItem } from '@/lib/types';
 import { fetchMaintenanceItems } from '@/lib/database';
 import EditMaintenanceModal from './EditMaintenanceModal';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 
 interface MaintenanceTabProps {
     freightList: Database['public']['Tables']['freight']['Row'][];

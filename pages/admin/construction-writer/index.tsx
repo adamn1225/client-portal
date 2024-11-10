@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 import AdminSignUp from '@/components/AdminSignUp';
 import dynamic from 'next/dynamic';
 import AdminLayout from '../../components/admin-portal/AdminLayout'; 

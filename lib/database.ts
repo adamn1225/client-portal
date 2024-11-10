@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 import dotenv from 'dotenv';
-import { MaintenanceItem, Company, Vendor } from '@/lib/schema';
+import { MaintenanceItem, Company, Vendor } from '@/lib/database.types';
 
 dotenv.config();
 

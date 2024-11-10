@@ -46,6 +46,7 @@
     "**/*.tsx",
     "lib/schema.ts",
     "lib/database.ts",
+    "lib/database.types.ts"
     "lib/initSupabase.ts",
     "lib/migrateUsers.ts",
     "lib/types.ts",

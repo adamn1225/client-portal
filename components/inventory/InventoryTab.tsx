@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Database } from '@/lib/schema';
+import { Database } from '@/lib/database.types';
 import TransferToMaintenanceModal from '../TransferToMaintenanceModal';
 import { addMaintenanceItem, fetchFreightData, addFreightItem } from '@/lib/database';
 import { MaintenanceItem } from '@/lib/database.types'; // Import the MaintenanceItem type
