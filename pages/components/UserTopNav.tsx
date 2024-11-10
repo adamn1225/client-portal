@@ -63,7 +63,7 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
 
     return (
        <>
-            <nav className={`md:hidden w-full max-h-max bg-slate-100 dark:bg-gray-700 flex flex-col md:flex-row gap-1 justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
+            <nav className={`md:hidden w-full max-h-max bg-slate-50 z-50 dark:bg-gray-900 flex flex-col md:flex-row gap-1 justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
                 
                 <ul className='flex gap-2 md:gap-4 items-center z-50 justify-end mr-4'>
                     <li>
