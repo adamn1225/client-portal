@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from '@/components/Modal';
 import PurchaseOrderForm from '@/components/procurement/PurchaseOrderForm';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
-import { PurchaseOrder } from '@/lib/database.types';
+import { PurchaseOrder, Database } from '@/lib/database.types';
 
 const PurchaseOrders = () => {
   const supabase = useSupabaseClient<Database>();
@@ -11,7 +11,7 @@ const PurchaseOrders = () => {
 
   useEffect(() => {
     const fetchPurchaseOrders = async () => {
-      const { data, error } = await supabase.from<PurchaseOrder>('purchase_order').select('*');
+      const { data, error } = await supabase.from('purchase_order').select('*');
       if (error) {
         console.error('Error fetching purchase orders:', error);
       } else {
@@ -41,14 +41,14 @@ const PurchaseOrders = () => {
           </tr>
         </thead>
         <tbody className="w-full">
-          {purchaseOrders.map((order, index) => (
+          {purchaseOrders.map((data, index) => (
             <tr className="space-x-12 border border-gray-900/50 text-sm font-medium" key={index}>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{order.poNumber}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{order.status ? 'Completed' : 'Pending'}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{order.createdDate}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{order.expectedDate}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{order.vendorNumber}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{order.vendorName}</td>
+              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.ponumber}</td>
+              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.status ? 'Completed' : 'Pending'}</td>
+              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.createddate}</td>
+              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.expecteddate}</td>
+              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.vendornumber}</td>
+              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.vendorname}</td>
             </tr>
           ))}
         </tbody>
