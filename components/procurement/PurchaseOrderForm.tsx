@@ -19,7 +19,7 @@ const PurchaseOrderForm = () => {
       if (error) {
         console.error('Error fetching vendors:', error);
       } else {
-        setVendors(data as Vendor[]);
+        setVendors(data);
       }
     };
 
@@ -31,7 +31,7 @@ const PurchaseOrderForm = () => {
     if (error) {
       console.error('Error fetching vendors:', error);
     } else {
-      setVendors(data as Vendor[]);
+      setVendors(data);
     }
     setIsVendorModalOpen(false);
   };
