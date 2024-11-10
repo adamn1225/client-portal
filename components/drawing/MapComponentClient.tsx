@@ -6,6 +6,7 @@ import 'leaflet-draw';
 import html2canvas from 'html2canvas';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import 'leaflet-geosearch/dist/geosearch.css';
+import 'leaflet.gridlayer.googlemutant';
 
 const MapComponentClient = () => {
   const mapRef = useRef<L.Map | null>(null);
@@ -18,12 +19,10 @@ const MapComponentClient = () => {
       const map = L.map('map').setView([51.505, -0.09], 13);
       mapRef.current = map;
 
-      // Add a tile layer with Mapbox satellite tiles
-      L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`, {
-        attribution: '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> contributors',
-        tileSize: 512,
-        zoomOffset: -1,
-        maxZoom: 40 // Set the maximum zoom level
+      // Add a tile layer with Google Maps tiles
+      L.gridLayer.googleMutant({
+        type: 'satellite', // Can be 'roadmap', 'satellite', 'terrain', or 'hybrid'
+        maxZoom: 20
       }).addTo(map);
 
       // Initialize the FeatureGroup to store editable layers
@@ -46,7 +45,7 @@ const MapComponentClient = () => {
 
       // Initialize the geosearch control
       const provider = new OpenStreetMapProvider();
-      const searchControl = new GeoSearchControl({
+      const searchControl = GeoSearchControl({
         provider: provider,
         style: 'bar',
         autoComplete: true,
