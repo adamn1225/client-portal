@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from '@/components/Modal';
 import VendorForm from '@/components/procurement/VendorForm';
 import { fetchVendorsData, addPurchaseOrder } from '@/lib/database';
-import { Vendor, PurchaseOrder } from '@/lib/schema';
+import { Vendor, PurchaseOrder } from '@/lib/database.types';
 
 const PurchaseOrderForm = () => {
   const [poNumber, setPoNumber] = useState('');
@@ -19,7 +19,7 @@ const PurchaseOrderForm = () => {
       if (error) {
         console.error('Error fetching vendors:', error);
       } else {
-        setVendors(data);
+        setVendors(data as Vendor[]);
       }
     };
 
@@ -31,7 +31,7 @@ const PurchaseOrderForm = () => {
     if (error) {
       console.error('Error fetching vendors:', error);
     } else {
-      setVendors(data);
+      setVendors(data as Vendor[]);
     }
     setIsVendorModalOpen(false);
   };
@@ -44,7 +44,7 @@ const PurchaseOrderForm = () => {
       createdDate,
       expectedDate,
       vendorNumber,
-      vendorName: vendors.find(v => v.vendorNumber === vendorNumber)?.vendorName || ''
+      vendorName: vendors.find(v => v.vendornumber === vendorNumber)?.vendorname || ''
     };
 
     const { data, error } = await addPurchaseOrder(purchaseOrder);
@@ -111,8 +111,8 @@ const PurchaseOrderForm = () => {
             >
               <option value="">Select Vendor</option>
               {vendors.map((vendor) => (
-                <option key={vendor.vendorNumber} value={vendor.vendorNumber}>
-                  {vendor.vendorName}
+                <option key={vendor.vendornumber} value={vendor.vendornumber}>
+                  {vendor.vendorname}
                 </option>
               ))}
             </select>
