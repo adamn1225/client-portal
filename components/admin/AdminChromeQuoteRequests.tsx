@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/initSupabase';
 import { Database } from '@/lib/database.types';
 
-type ChromeQuote = Database['public']['Tables']['chrome_quotes']['Row'];
+type ChromeQuotes = Database['public']['Tables']['chrome_quotes']['Row'];
 
 const AdminChromeQuoteRequests = () => {
-    const [quotes, setQuotes] = useState<ChromeQuote[]>([]);
+    const [quotes, setQuotes] = useState<ChromeQuotes[]>([]);
     const [errorText, setErrorText] = useState<string>('');
     const [quoteValue, setQuoteValue] = useState<string>('');
 

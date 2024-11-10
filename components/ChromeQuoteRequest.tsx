@@ -6,11 +6,11 @@ interface ChromeQuoteRequestProps {
     session: Session | null;
 }
 
-type ChromeQuote = Database['public']['Tables']['chrome_quotes']['Row'];
+type ChromeQuotes = Database['public']['Tables']['chrome_quotes']['Row'];
 
 const ChromeQuoteRequest = ({ session }: ChromeQuoteRequestProps) => {
     const supabase = useSupabaseClient<Database>();
-    const [quotes, setQuotes] = useState<ChromeQuote[]>([]);
+    const [quotes, setQuotes] = useState<ChromeQuotes[]>([]);
     const [errorText, setErrorText] = useState<string>('');
 
     const fetchQuotes = useCallback(async () => {
