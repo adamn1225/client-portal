@@ -12,7 +12,7 @@ const MapComponentClient = () => {
   const mapRef = useRef<L.Map | null>(null);
   const [activeLayer, setActiveLayer] = useState<'osm' | 'satellite'>('satellite');
   const [tilesLoaded, setTilesLoaded] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState('Loading map tiles...');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Check if the code is running in the browser
@@ -52,14 +52,26 @@ const MapComponentClient = () => {
       });
 
       // Listen for tile load events to ensure all tiles are loaded
-      map.on('tileload', () => {
-        setTilesLoaded(true);
-        setLoadingMessage('');
+      let tilesToLoad = 0;
+      map.on('tileloadstart', () => {
+        tilesToLoad++;
+        setTilesLoaded(false);
+        setLoading(true);
+        console.log('Tile load started. Tiles to load:', tilesToLoad);
       });
 
-      map.on('tileloadstart', () => {
-        setTilesLoaded(false);
-        setLoadingMessage('Loading map tiles...');
+      map.on('tileload', () => {
+        tilesToLoad--;
+        console.log('Tile loaded. Tiles to load:', tilesToLoad);
+        if (tilesToLoad === 0) {
+          setTilesLoaded(true);
+          setLoading(false);
+          console.log('All tiles loaded.');
+        }
+      });
+
+      map.on('tileerror', (error: any) => {
+        console.error('Tile load error:', error);
       });
 
       // Initialize the FeatureGroup to store editable layers
@@ -101,11 +113,17 @@ const MapComponentClient = () => {
     if (mapRef.current && tilesLoaded) {
       const mapContainer = document.getElementById('map');
       if (mapContainer) {
-        const canvas = await html2canvas(mapContainer);
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = 'map-drawing.png';
-        link.click();
+        // Wait for a short delay to ensure the map is fully rendered
+        setTimeout(async () => {
+          const canvas = await html2canvas(mapContainer, {
+            useCORS: true, // Enable cross-origin resource sharing
+            allowTaint: false, // Allow tainted canvas
+          });
+          const link = document.createElement('a');
+          link.href = canvas.toDataURL('image/png');
+          link.download = 'map-drawing.png';
+          link.click();
+        }, 500); // Adjust the delay as needed
       }
     } else {
       alert('Please wait for the map tiles to load completely before downloading.');
@@ -115,9 +133,9 @@ const MapComponentClient = () => {
   return (
     <>
       <div id="map" style={{ height: '500px', width: '100%' }}></div>
-      {loadingMessage && <p>{loadingMessage}</p>}
+      {loading && <p>Loading map tiles...</p>}
       <span className=' mt-2'>
-        <button onClick={handleDownload} className="light-dark-btn">
+        <button onClick={handleDownload} className="light-dark-btn" disabled={loading}>
           Download Drawing
         </button>
       </span>
