@@ -771,4 +771,4 @@ export type Notification = Database['public']['Tables']['notifications']['Row'];
 export type Document = Database['public']['Tables']['documents']['Row'];
 export type Vendor = Database['public']['Tables']['vendors']['Row'];
 export type PurchaseOrder = Database['public']['Tables']['purchase_order']['Row'];
-export type ChromeQuotes = Database['public']['Tables']['chrome_quotes']['Row']
+export type ChromeQuotes = Database['public']['Tables']['chrome_quotes']['Row'];
