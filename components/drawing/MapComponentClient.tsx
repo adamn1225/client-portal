@@ -5,11 +5,14 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import html2canvas from 'html2canvas';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import 'leaflet-geosearch/dist/geosearch.css';
-import 'leaflet.gridlayer.googlemutant';
+
+declare let L: any;
 
 const MapComponentClient = () => {
-  const mapRef = useRef<any>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const mapRef = useRef<L.Map | null>(null);
+  const [activeLayer, setActiveLayer] = useState<'osm' | 'satellite'>('satellite');
+  const [tilesLoaded, setTilesLoaded] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('Loading map tiles...');
 
   useEffect(() => {
     // Check if the code is running in the browser
@@ -18,17 +21,46 @@ const MapComponentClient = () => {
       const L = require('leaflet');
       require('leaflet-draw');
       require('leaflet-geosearch');
-      require('leaflet.gridlayer.googlemutant');
 
       // Initialize the map
       const map = L.map('map').setView([51.505, -0.09], 13);
       mapRef.current = map;
 
-      // Add a tile layer with Google Maps tiles
-      L.gridLayer.googleMutant({
-        type: 'satellite', // Can be 'roadmap', 'satellite', 'terrain', or 'hybrid'
-        maxZoom: 20
-      }).addTo(map);
+      // Add a tile layer with OpenStreetMap tiles
+      const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+      });
+
+      // Add a tile layer with Mapbox satellite tiles
+      const satelliteLayer = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_API_KEY}`, {
+        maxZoom: 19,
+        tileSize: 512,
+        zoomOffset: -1,
+      }).addTo(map); // Add satelliteLayer to the map by default
+
+      // Add layer control to switch between layers
+      const baseLayers = {
+        'OpenStreetMap': osmLayer,
+        'Satellite': satelliteLayer,
+      };
+
+      const layerControl = L.control.layers(baseLayers).addTo(map);
+
+      // Update active layer state when layer is changed
+      map.on('baselayerchange', (e: any) => {
+        setActiveLayer(e.name === 'Satellite' ? 'satellite' : 'osm');
+      });
+
+      // Listen for tile load events to ensure all tiles are loaded
+      map.on('tileload', () => {
+        setTilesLoaded(true);
+        setLoadingMessage('');
+      });
+
+      map.on('tileloadstart', () => {
+        setTilesLoaded(false);
+        setLoadingMessage('Loading map tiles...');
+      });
 
       // Initialize the FeatureGroup to store editable layers
       const drawnItems = new L.FeatureGroup();
@@ -37,13 +69,13 @@ const MapComponentClient = () => {
       // Initialize the draw control and pass it the FeatureGroup of editable layers
       const drawControl = new L.Control.Draw({
         edit: {
-          featureGroup: drawnItems
-        }
+          featureGroup: drawnItems,
+        },
       });
       map.addControl(drawControl);
 
       // Handle the creation of new shapes
-      map.on(L.Draw.Event.CREATED, (event) => {
+      map.on(L.Draw.Event.CREATED, (event: { layer: any }) => {
         const layer = event.layer;
         drawnItems.addLayer(layer);
       });
@@ -59,14 +91,14 @@ const MapComponentClient = () => {
         retainZoomLevel: false,
         animateZoom: true,
         keepResult: true,
-        searchLabel: 'Enter address'
+        searchLabel: 'Enter address',
       });
       map.addControl(searchControl);
     }
   }, []);
 
   const handleDownload = async () => {
-    if (mapRef.current) {
+    if (mapRef.current && tilesLoaded) {
       const mapContainer = document.getElementById('map');
       if (mapContainer) {
         const canvas = await html2canvas(mapContainer);
@@ -75,15 +107,20 @@ const MapComponentClient = () => {
         link.download = 'map-drawing.png';
         link.click();
       }
+    } else {
+      alert('Please wait for the map tiles to load completely before downloading.');
     }
   };
 
   return (
     <>
       <div id="map" style={{ height: '500px', width: '100%' }}></div>
-      <button onClick={handleDownload} className="light-dark-btn">
-        Download Drawing
-      </button>
+      {loadingMessage && <p>{loadingMessage}</p>}
+      <span className=' mt-2'>
+        <button onClick={handleDownload} className="light-dark-btn">
+          Download Drawing
+        </button>
+      </span>
     </>
   );
 };
