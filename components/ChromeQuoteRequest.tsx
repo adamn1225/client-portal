@@ -38,8 +38,8 @@ const ChromeQuoteRequest = ({ session }: ChromeQuoteRequestProps) => {
         <div className="w-full h-full overflow-auto mt-6 pt-12 border-t border-slate-900/30">
             <div className="w-full">
                 <div className='flex flex-col justify-center items-center gap-2'>
-                    <h1 className="mb-2 text-2xl text-center text-wrap ">Online Shopping Shipping Quotes</h1>
-                    <h3 className='text-center'>Here are your submitted shipping quotes.</h3>
+                    <h1 className="mb-2 text-2xl text-center text-wrap font-md">HC Browsing Shipping Quotes</h1>
+                    <h3 className='text-center'>Here are your submitted shipping quotes from HC Browsing quote extension.</h3>
                 </div>
             </div>
             <div className="hidden 2xl:block overflow-x-auto">

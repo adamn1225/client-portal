@@ -5,7 +5,7 @@ import { Database } from '@/lib/database.types';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer, NotebookTabs, Handshake, Users } from 'lucide-react';
+import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer, NotebookTabs, Handshake, Users, Move3d } from 'lucide-react';
 
 interface UserSideNavProps {
     isSidebarOpen: boolean;
@@ -49,12 +49,12 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                         {isSidebarOpen ? <PanelRightClose size={24} className='text-white z-50 drop-shadow-lg' /> : <PanelLeftOpen size={28} className='z-50 text-gray-900 dark:text-slate-100 drop-shadow-lg ' />}
                     </button>
                 </div>
-                <nav className={`side-navbar z-50 flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0 z-50' : '-translate-x-full'} transition-transform duration-300 h-screen ease-in-out z-50 ${className}`}>
-                    <h1 className='text-xl mt-4 md:mt-0 mb-4 self-center dark:text-amber-400 font-semibold underline underline-offset-2 tracking-wider'>Heavy Construct</h1>
+                <nav className={`side-navbar pr-2 z-50 flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0 z-50' : '-translate-x-full'} transition-transform duration-300 h-screen ease-in-out z-50 ${className}`}>
+                    <span className='flex mb-3 items-center justify-center font-bold  flex-nowrap'><Move3d className='size-6 text-red-700' /> <h1 className='text-lg md:mt-0  self-center font-extrabold underline underline-offset-2 tracking-wider'>Heavy Construct</h1></span>
                     <div className="w-full flex flex-col items-center gap-1 justify-center mb-6 border-b border-stone-100/40 pb-4">
                         <h3>Welcome {userProfile?.first_name || 'User'}</h3>
                     </div>
-                    <ul className='flex gap-3 flex-col flex-grow space-y-1 overflow-y-auto'>
+                    <ul className='flex gap-3 flex-col flex-grow space-y-2 overflow-y-auto'>
                         <li className={`w-full flex justify-center mt-0 ${router.pathname == "/user/inventory" ? "active" : ""}`}>
                             <Link href="/user/inventory" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/inventory" ? "active" : ""}`}>
                                 <span className='flex items-center flex-nowrap justify-normal gap-2 text-xs'><ListCollapse size={'20px'} /> <span className='text-xs md:text-sm'>Inventory Management</span></span>

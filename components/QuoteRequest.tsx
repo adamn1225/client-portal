@@ -184,7 +184,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                 <div className='flex flex-col justify-center items-center gap-2'>
                     <h1 className="mb-12 text-2xl text-center text-wrap ">Request a Shipping Quote</h1>
                     <h3 className='text-center'>Provide details about your freight and request a quote.</h3>
-                    <button onClick={() => setIsModalOpen(true)} className="btn-slate dark:bg-gray-900 dark:hover:bg-amber-400 dark:hover:text-gray-800">
+                    <button onClick={() => setIsModalOpen(true)} className="body-btn">
                         Request a Shipping Estimate
                     </button>
                 </div>
@@ -199,7 +199,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
             </div>
             <div className="flex justify-center items-center border-b border-gray-300">
                 <button
-                    className={`px-4 py-2 ${activeTab === 'requests' ? 'border-b-2 border-blue-500' : ''}`}
+                    className={`px-4 py-2 ${activeTab === 'requests' ? 'border-b-2 border-blue-600' : ''}`}
                     onClick={() => setActiveTab('requests')}
                 >
                     Shipping Requests

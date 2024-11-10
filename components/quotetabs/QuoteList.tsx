@@ -160,14 +160,14 @@ const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, archiveQuote, tr
                                     {quote.price ? (
                                         <button
                                             onClick={() => handleCreateOrderClick(quote.id)}
-                                            className="ml-2 px-4 py-2 font-semibold bg-slate-800 text-white rounded"
+                                            className="body-btn"
                                         >
                                             Create Order
                                         </button>
                                     ) : (
                                         <button
                                             onClick={() => alert('10-4, Working in now.')}
-                                            className="ml-2 px-4 py-2 font-semibold bg-slate-800 text-amber-300 rounded"
+                                            className="ml-2 px-4 py-2 font-semibold bg-gray-900 text-red-600 rounded"
                                         >
                                             Press if Urgent
                                         </button>

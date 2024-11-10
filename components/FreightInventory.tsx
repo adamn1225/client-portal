@@ -587,14 +587,14 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
             <div className='flex flex-col gap-2 justify-center items-center w-full'>
                 <div className='flex md:flex-row flex-col-reverse gap-2 justify-between items-center w-full'>
                     <div className="mt-4 md:m-0">
-                        <button className="light-dark-btn dark-light-btn" onClick={() => setIsModalOpen(true)}>
+                        <button className="body-btn" onClick={() => setIsModalOpen(true)}>
                             Add Inventory Item
                         </button>
                     </div>
                     <div className="mt-4 md:m-0">
                         <label className="custom-file-upload">
                                 <input className='hidden' type="file" accept=".csv" onChange={handleFileUpload} />
-                                <span className="upload-button">Upload CSV</span>
+                            <span className="body-btn">Upload CSV</span>
                         
                         </label>
                     </div>
@@ -604,13 +604,13 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
 
             <div className="flex justify-center w-full border-b border-gray-300">
                 <button
-                    className={`px-4 py-2 ${activeTab === 'inventory' ? 'border-b-2 border-amber-300' : ''}`}
+                    className={`px-4 py-2 ${activeTab === 'inventory' ? 'border-b-2 border-red-300' : ''}`}
                     onClick={() => setActiveTab('inventory')}
                 >
                     Inventory
                 </button>
                 <button
-                    className={`px-4 py-2 ${activeTab === 'maintenance' ? 'border-b-2 border-amber-500' : ''}`}
+                    className={`px-4 py-2 ${activeTab === 'maintenance' ? 'border-b-2 border-red-500' : ''}`}
                     onClick={() => setActiveTab('maintenance')}
                 >
                     Maintenance

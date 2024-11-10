@@ -126,18 +126,18 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                                     <div className="relative">
                                         <button
                                             onClick={() => setOpenDropdownId(openDropdownId === freight.id ? null : freight.id)}
-                                            className="text-blue-500 dark:text-blue-200"
+                                            className="text-blue-500 font-bold dark:text-blue-200"
                                         >
                                             Actions
                                         </button>
                                         {openDropdownId === freight.id && (
-                                            <div className="absolute z-0 right-0 text-xs mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+                                            <div className="absolute z-30 top-2 right-0 text-xs mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
                                                 <button
                                                     onClick={() => {
                                                         editFreight(freight);
                                                         setOpenDropdownId(null);
                                                     }}
-                                                    className="block w-full text-left px-4 py-2 text-sm text-blue-500 hover:bg-gray-100"
+                                                    className="block w-full text-left px-4 py-2 font-bold text-sm text-blue-500 hover:bg-gray-100"
                                                 >
                                                     Edit
                                                 </button>
@@ -146,7 +146,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                                                         handleDeleteClick(freight.id);
                                                         setOpenDropdownId(null);
                                                     }}
-                                                    className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
+                                                    className="block w-full text-left px-4 py-2 text-sm font-bold text-red-500 hover:bg-gray-100"
                                                 >
                                                     Delete
                                                 </button>
@@ -155,7 +155,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                                     </div>
                                     <button
                                         onClick={() => openTransferModal(freight)}
-                                        className={`${isInMaintenance(freight) ? 'text-red-400 cursor-not-allowed shadow-sm bg-slate-800 font-normal text-nowrap py-2 px-4 rounded text-center' : 'text-amber-300 bg-slate-800 shadow-sm font-normal text-nowrap py-2 px-4 rounded text-center'}`}
+                                        className={`${isInMaintenance(freight) ? 'text-red-800 cursor-not-allowed shadow-sm bg-slate-800 font-normal text-nowrap py-2 px-4 rounded text-center' : 'text-stone-50 bg-gray-800 shadow-sm font-semibold text-nowrap py-2 px-4 rounded text-center'}`}
                                         disabled={isInMaintenance(freight)}
                                     >
                                         {isInMaintenance(freight) ? 'In Maintenance' : 'Add to Maintenance'}

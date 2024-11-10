@@ -111,7 +111,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ session }) => {
     return (
         <div className="relative mt-2 z-50 h-full" ref={dropdownRef}>
             <button onClick={toggleDropdown}>
-                <Bell className="h-6 w-6 dark:text-amber-400" />
+                <Bell className="h-8 w-8 text-gray-900 dark:text-stone-50" />
                 {hasNotifications && <div className="absolute top-16 right-0 h-2 w-2 bg-red-500 rounded-full"></div>}
             </button>
             {dropdownOpen && (

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import { Button } from '@/components/ui/button';
 
 interface ContactUsForm {
     name: string;

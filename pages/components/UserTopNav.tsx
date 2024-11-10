@@ -88,15 +88,13 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
                 <FeedBack />
             </nav>
          
-            <nav className={`hidden w-full bg-slate-100 dark:bg-gray-700 md:flex flex-col md:flex-row gap-1 justify-between px-4 z-50 py-2 drop-shadow ${className}`}>
+            <nav className={`hidden w-full bg-stone-50 dark:bg-gray-900 md:flex flex-col md:flex-row gap-1 justify-between px-4 z-50 py-2 drop-shadow ${className}`}>
                 
                     <ul className='w-full flex gap-2 md:gap-4 items-center z-50 justify-start pl-64'>
                         <li>
                             <FeedBack />
                         </li>
-                        <li>
-                        <Link href="/contact" className="ml-12 m-0 contact-btn">Contact Us</Link>
-                        </li>
+
                         <li>
                             <DarkModeToggle />
                         </li>

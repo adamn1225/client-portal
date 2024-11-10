@@ -137,7 +137,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                             </button>
                         </span>
                         <button
-                            className="bg-red-500 text-white mt-2 ml-2 px-4 py-2 rounded"
+                            className="bg-red-600 text-white mt-2 ml-2 px-4 py-2 rounded"
                             onClick={() => openDeleteModal(document.id)}
                         >
                             Delete
@@ -220,7 +220,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                 {loading ? (
                     <p>Loading...</p>
                 ) : error ? (
-                    <p className="text-red-500">{error}</p>
+                        <p className="text-red-600">{error}</p>
                 ) : activeSection === 'all' ? (
                     documents.length === 0 ? (
                         <p>No documents found.</p>
@@ -251,7 +251,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                                 Cancel
                             </button>
                             <button
-                                className="bg-red-500 text-white px-4 py-2 rounded"
+                                className="bg-red-600 text-white px-4 py-2 rounded"
                                 onClick={handleDelete}
                             >
                                 Delete
