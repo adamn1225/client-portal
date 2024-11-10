@@ -15,7 +15,7 @@ const PurchaseOrders = () => {
       if (error) {
         console.error('Error fetching purchase orders:', error);
       } else {
-        setPurchaseOrders(data as Any);
+        setPurchaseOrders(data);
       }
     };
 
