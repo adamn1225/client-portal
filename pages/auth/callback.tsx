@@ -1,26 +1,29 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { GetServerSideProps } from 'next';
+import { supabase } from '@/lib/initSupabase'; 
 
 const AuthCallback = () => {
-    const router = useRouter();
-    const supabase = useSupabaseClient();
-
-    useEffect(() => {
-        const handleAuthCallback = async () => {
-            const { data, error } = await supabase.auth.getSession();
-
-            if (error) {
-                console.error('Error handling auth callback:', error);
-            } else {
-                router.push('/');
-            }
-        };
-
-        handleAuthCallback();
-    }, [router, supabase]);
-
     return <div>Loading...</div>;
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { data, error } = await supabase.auth.getSession();
+
+    if (error) {
+        console.error('Error handling auth callback:', error);
+        return {
+            redirect: {
+                destination: '/error',
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        redirect: {
+            destination: '/', 
+            permanent: false,
+        },
+    };
 };
 
 export default AuthCallback;

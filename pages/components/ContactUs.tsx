@@ -1,10 +1,9 @@
-// contact us form
+// pages/components/ContactUs.tsx
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
-import Modal from 'react-modal';
 
 interface ContactUsForm {
     name: string;

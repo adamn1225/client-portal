@@ -11,14 +11,24 @@ const VendorForm = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
-  const handleSubmit = async (e) => {
+  interface VendorFormProps {
+    vendornumber: string;
+    vendorname: string;
+    businessstreet: string;
+    businesscity: string;
+    businessstate: string;
+    email: string;
+    phone: string;
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const vendor: Omit<Vendor, 'id'> = {
-      vendorNumber,
-      vendorName,
-      businessStreet,
-      businessCity,
-      businessState,
+      vendornumber: vendorNumber,
+      vendorname: vendorName,
+      businessstreet: businessStreet,
+      businesscity: businessCity,
+      businessstate: businessState,
       email,
       phone
     };

@@ -1,16 +1,16 @@
 // admin-dash/index.tsx
 import React from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import AdminSignUp from '@/components/AdminSignUp';
 import Procurement from '@/components/procurement/Procurement';
 import AdminLayout from '../../components/admin-portal/AdminLayout'; 
 import { UserProvider } from '@/context/UserContext';
 
 const AdminProcurement = () => {
     const session = useSession();
-    const supabase = useSupabaseClient<Database>();
 
-    // Add your admin dashboard functionalities here
+    if (!session) {
+        return <p>Loading...</p>; // or redirect to login page
+    }
 
     return (
        <UserProvider>

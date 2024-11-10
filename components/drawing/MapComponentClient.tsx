@@ -1,20 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
-import L from 'leaflet';
+import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
-import 'leaflet-draw';
 import html2canvas from 'html2canvas';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import 'leaflet-geosearch/dist/geosearch.css';
 import 'leaflet.gridlayer.googlemutant';
 
 const MapComponentClient = () => {
-  const mapRef = useRef<L.Map | null>(null);
+  const mapRef = useRef<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     // Check if the code is running in the browser
     if (typeof window !== 'undefined' && mapRef.current === null) {
+      // Import leaflet dynamically
+      const L = require('leaflet');
+      require('leaflet-draw');
+      require('leaflet-geosearch');
+      require('leaflet.gridlayer.googlemutant');
+
       // Initialize the map
       const map = L.map('map').setView([51.505, -0.09], 13);
       mapRef.current = map;
@@ -83,4 +88,4 @@ const MapComponentClient = () => {
   );
 };
 
-export default MapComponentClient;
+export default dynamic(() => Promise.resolve(MapComponentClient), { ssr: false });
