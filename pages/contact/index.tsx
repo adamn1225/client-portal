@@ -3,6 +3,7 @@ import ContactUs from "@pages/components/ContactUs";
 import Layout from "@pages/components/Layout";
 import TopNavbar from "../components/TopNavbar";
 import Head from "next/head";
+import Link from "next/link";
 
 const ContactPage = () => {
     return (
@@ -19,7 +20,8 @@ const ContactPage = () => {
             <main>
                 <ContactUs />
             </main>
-                <footer className="bg-gray-900 text-white p-4">
+                <footer className="bg-gray-900 text-white p-4 flex flex-col justify-center text-center gap-3 ">
+                    <Link href="/policies" className="dark-light-btn max-w-max self-center">Policies</Link>
                     <div className="container mx-auto text-center">
                         <p>&copy; {new Date().getFullYear()} SSTA LLC. All rights reserved.</p>
                     </div>

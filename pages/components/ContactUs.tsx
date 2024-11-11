@@ -65,8 +65,8 @@ const ContactUs = () => {
                 </form>
             </div>
             <div className='flex flex-col'>
-                <h2><strong>Email:</strong> info@heavyconstruct.com</h2>
-                <h2><strong>Phone:</strong> 1-(800)-858-2344</h2>
+                <h2><strong>Email:</strong> noah@ntslogistics.com</h2>
+                <h2><strong>Phone:</strong> 1-(954)-826-4318</h2>
             </div>
         </div>
     );

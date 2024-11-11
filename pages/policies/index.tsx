@@ -1,8 +1,9 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import TopNavbar from '../components/TopNavbar';
 const Privacy = () => {
     return (
-        <Layout>
+        <>
+            <TopNavbar />
             <div className="question">
                 <a href="http://www.heavyconstruct.com/contact" target="_blank" rel="noopener noreferrer" className="link">
                     http://www.heavyconstruct.com/contact
@@ -49,7 +50,7 @@ const Privacy = () => {
                     <p>&copy; {new Date().getFullYear()} SSTA LLC. All rights reserved.</p>
                 </div>
             </footer>
-        </Layout>
+        </>
     );
 };
 
