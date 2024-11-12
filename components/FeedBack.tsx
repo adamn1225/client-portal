@@ -62,12 +62,12 @@ const FeedBack = () => {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button className='dark-light-btn py-0 font-bold'>Feedback</Button>
+                <Button className='dark-btn hover:bg-amber-300 dark:hover:bg-amber-300 py-0 font-bold'>Feedback</Button>
             </PopoverTrigger>
             <PopoverContent className="w-80">
                 <form onSubmit={handleSubmit} className="grid gap-4">
                     <div className="space-y-2">
-                        <h4 className="light-dark-btn leading-none text-center">Feedback</h4>
+                        <h4 className="font-semibold leading-none text-center">Feedback</h4>
                         <p className="text-sm text-muted-foreground">
                             Your feedback is important to us to ensure we provide the best experience possible. <br />
                             Type your message and upload a screenshot (optional).

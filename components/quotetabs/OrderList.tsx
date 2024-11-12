@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Session } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/database.types';
+import { ShippingQuote } from '@/lib/schema';
 import { supabase } from '@/lib/initSupabase';
 import Modal from '@/components/Modal';
 
@@ -12,8 +12,15 @@ interface OrderListProps {
     isAdmin: boolean; // Add this prop
 }
 
-type Order = Database['public']['Tables']['orders']['Row'] & {
-    shippingquotes: Database['public']['Tables']['shippingquotes']['Row'];
+
+
+type Order = {
+    id: number;
+    status: string;
+    user_id: string;
+    origin_street: string;
+    destination_street: string;
+    shippingquotes: ShippingQuote;
 };
 
 const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuote, markAsComplete, isAdmin }) => {
@@ -30,37 +37,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
             .from('orders')
             .select(`
             *,
-            shippingquotes:shippingquotes (
-                id,
-                origin_city,
-                origin_state,
-                origin_zip,
-                destination_city,
-                destination_state,
-                destination_zip,
-                year_amount,
-                make,
-                model,
-                due_date,
-                first_name,
-                last_name,
-                email,
-                price,
-                is_archived,
-                height,
-                width,
-                length,
-                weight,
-                price,
-                commodity,
-                pallet_count,
-                is_completed,
-                quote_id,
-                user_id,
-                destination_street,
-                origin_street,
-                inserted_at,
-            )
+            shippingquotes (*)
         `)
             .neq('status', 'delivered'); // Exclude delivered orders
 
@@ -74,9 +51,9 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
             setErrorText(error.message);
         } else {
             console.log('Fetched Orders:', data);
-            setOrders(orders);
+            setOrders(data); // Ensure the data is cast to the correct type
         }
-    }, [session, isAdmin, orders]);
+    }, [session, isAdmin]);
 
     useEffect(() => {
         fetchOrders();
@@ -192,6 +169,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
             console.error('Error sending email:', error);
         }
     };
+
     return (
         <div className="w-full bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded-md border border-slate-400 max-h-max flex-grow">
             {!!errorText && <div className="text-red-500">{errorText}</div>}

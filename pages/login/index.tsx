@@ -205,7 +205,13 @@ export default function DashboardPage() {
                 </AdminLayout>
             ) : (
                 <UserLayout>
-                    <HomePageContent />
+                        <div className='md:layout w-full'>
+                            <main className="w-full">
+                                <div className="w-full fixed top-0 left-0 md:left-9 mt-24">
+                                    <HomePageContent />
+                                </div>
+                                </main>
+                        </div>
                 </UserLayout>
             )}
         </UserProvider>
