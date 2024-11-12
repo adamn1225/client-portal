@@ -135,7 +135,7 @@ const MapComponentClient = () => {
       <div id="map" style={{ height: '500px', width: '100%' }}></div>
       {loading && <p>Loading map tiles...</p>}
       <span className=' mt-2'>
-        <button onClick={handleDownload} className="light-dark-btn" disabled={loading}>
+        <button onClick={handleDownload} className="body-btn-btn" disabled={loading}>
           Download Drawing
         </button>
       </span>

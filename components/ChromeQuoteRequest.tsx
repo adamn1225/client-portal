@@ -6,7 +6,9 @@ interface ChromeQuoteRequestProps {
     session: Session | null;
 }
 
-type ChromeQuotes = Database['public']['Tables']['chrome_quotes']['Row'];
+type ChromeQuotes = Database['public']['Tables']['chrome_quotes']['Row'] & {
+    user_id: string; // Add this line
+};
 
 const ChromeQuoteRequest = ({ session }: ChromeQuoteRequestProps) => {
     const supabase = useSupabaseClient<Database>();
@@ -19,7 +21,7 @@ const ChromeQuoteRequest = ({ session }: ChromeQuoteRequestProps) => {
         const { data, error } = await supabase
             .from('chrome_quotes')
             .select('*')
-            .eq('email', session.user.email);
+            .eq('user_id', session.user.id); // Filter by user_id
 
         if (error) {
             setErrorText(error.message);

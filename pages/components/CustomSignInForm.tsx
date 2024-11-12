@@ -83,7 +83,7 @@ const CustomSignInForm = () => {
                 />
                 <button
                     type="submit"
-                    className="w-full light-dark-btn"
+                    className="w-full body-btn-btn"
                     disabled={loading}
                 >
                     {loading ? 'Signing In...' : 'Sign In'}

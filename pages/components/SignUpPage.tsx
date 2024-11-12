@@ -66,7 +66,7 @@ export default function SignUpPage() {
                     <div className="sm:row-span-1 md:col-span-1 w-full h-full flex flex-col justify-center items-center bg-slate-100">
                         <div className='hidden md:block md:absolute top-5 right-5'>
                             <Link href="/login" legacyBehavior>
-                                <a className="light-dark-btn">Login</a>
+                                <a className="body-btn-btn">Login</a>
                             </Link>
                         </div>
                         <div className=" w-full text-gray-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
@@ -117,7 +117,7 @@ export default function SignUpPage() {
                                         />
                                         <button
                                             type="submit"
-                                            className="w-full light-dark-btn"
+                                            className="w-full body-btn"
                                             disabled={loading}
                                         >
                                             {loading ? 'Signing Up...' : 'Sign Up'}

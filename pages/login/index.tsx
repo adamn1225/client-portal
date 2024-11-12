@@ -141,7 +141,7 @@ export default function DashboardPage() {
                         <div className='sm:row-span-1 md:col-span-1 w-full h-full flex flex-col justify-center items-center '>
                             <div className='absolute top-5 right-5'>
                                 <Link href="/signup" legacyBehavior>
-                                    <a className="light-dark-btn">Sign Up</a>
+                                    <a className="body-btn-btn">Sign Up</a>
                                 </Link>
                             </div>
                             <div className=" w-full text-gray-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">

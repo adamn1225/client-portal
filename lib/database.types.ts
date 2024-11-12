@@ -27,6 +27,7 @@ export type Database = {
           weight: string | null
           width: string | null
           year: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string | null
@@ -45,6 +46,7 @@ export type Database = {
           weight?: string | null
           width?: string | null
           year?: string | null
+          user_id?: string
         }
         Update: {
           created_at?: string | null
@@ -63,6 +65,7 @@ export type Database = {
           weight?: string | null
           width?: string | null
           year?: string | null
+          user_id?: string
         }
         Relationships: []
       }
