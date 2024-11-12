@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { useSession } from '@supabase/auth-helpers-react';
 import PurchaseOrderForm from './PurchaseOrderForm';
 import { fetchPurchaseOrders, updatePurchaseOrderStatus, addPurchaseOrder } from '@/lib/database';
 import { PurchaseOrder } from '@/lib/schema';
 import jsPDF from 'jspdf';
 
 const PurchaseOrders = () => {
+  const session = useSession();
   const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<PurchaseOrder | null>(null);
 
   useEffect(() => {
     const getPurchaseOrders = async () => {
-      const { data, error } = await fetchPurchaseOrders();
-      if (error) {
-        console.error('Error fetching purchase orders:', error);
-      } else {
-        setPurchaseOrders(data);
+      if (session?.user?.id) {
+        const { data, error } = await fetchPurchaseOrders(session.user.id);
+        if (error) {
+          console.error('Error fetching purchase orders:', error);
+        } else {
+          setPurchaseOrders(data);
+        }
       }
     };
 
     getPurchaseOrders();
-  }, []);
+  }, [session]);
 
   const handleStatusChange = async (id: number, newStatus: string) => {
     const { error } = await updatePurchaseOrderStatus(id, newStatus);
@@ -129,7 +133,7 @@ const PurchaseOrders = () => {
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="fixed inset-0 bg-black opacity-50"></div>
           <div className="bg-white rounded-lg p-6 z-10">
-            <PurchaseOrderForm onSubmit={handleAddOrder} />
+            <PurchaseOrderForm onSubmit={handleAddOrder} userId={session?.user?.id || ''} />
             <button onClick={() => setIsModalOpen(false)} className="mt-4 px-4 py-2 bg-gray-500 text-white rounded">Close</button>
           </div>
         </div>

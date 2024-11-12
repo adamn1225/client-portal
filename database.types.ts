@@ -469,6 +469,7 @@ export type Database = {
           order_description: string | null
           ponumber: string | null
           status: string | null
+          user_id: string | null
           vendorname: string | null
           vendornumber: string | null
         }
@@ -479,6 +480,7 @@ export type Database = {
           order_description?: string | null
           ponumber?: string | null
           status?: string | null
+          user_id?: string | null
           vendorname?: string | null
           vendornumber?: string | null
         }
@@ -489,6 +491,7 @@ export type Database = {
           order_description?: string | null
           ponumber?: string | null
           status?: string | null
+          user_id?: string | null
           vendorname?: string | null
           vendornumber?: string | null
         }
@@ -499,6 +502,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "vendors"
             referencedColumns: ["vendornumber"]
+          },
+          {
+            foreignKeyName: "purchase_order_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }

@@ -243,10 +243,11 @@ export async function addPurchaseOrder(purchaseOrder: Omit<PurchaseOrder, 'id'>)
     return { data, error };
 }
 
-export async function fetchPurchaseOrders() {
+export async function fetchPurchaseOrders(userId: string) {
     const { data, error } = await supabase
         .from('purchase_order')
-        .select('id, ponumber, status, createddate, expecteddate, vendornumber, vendorname, order_description'); // Add order_description
+        .select('id, ponumber, status, createddate, expecteddate, vendornumber, vendorname, order_description, user_id')
+        .eq('user_id', userId); // Filter by user_id
 
     if (error) {
         console.error('Error fetching purchase orders:', error);
