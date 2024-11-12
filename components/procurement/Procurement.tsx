@@ -27,7 +27,7 @@ const Procurement = () => {
   };
 
   return (
-    <div className="flex flex-col items-start justify-center gap-12 w-full h-full">
+    <div className="flex flex-col items-start justify-center w-full h-full">
       <div className="tabs flex space-x-4 border-b-2 border-gray-300">
         {['Purchase Orders', 'Vendors', 'Invoices', 'Requirements', 'Statistics'].map(tab => (
           <button

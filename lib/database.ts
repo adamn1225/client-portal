@@ -213,7 +213,15 @@ export async function updateFavoriteStatus(documentId: number, isFavorite: boole
 }
 
 export async function fetchVendorsData() {
-    const { data, error } = await supabase.from('vendors').select('*');
+    const { data, error } = await supabase
+        .from('vendors')
+        .select('id, vendornumber, vendorname, businessstreet, businesscity, businessstate, email, phone');
+
+    if (error) {
+        console.error('Error fetching vendors:', error);
+        return { data: [], error };
+    }
+
     return { data, error };
 }
 
@@ -232,5 +240,27 @@ export async function addPurchaseOrder(purchaseOrder: Omit<PurchaseOrder, 'id'>)
       .insert([purchaseOrder])
       .select();
   
+    return { data, error };
+}
+
+export async function fetchPurchaseOrders() {
+    const { data, error } = await supabase
+        .from('purchase_order')
+        .select('id, ponumber, status, createddate, expecteddate, vendornumber, vendorname, order_description'); // Add order_description
+
+    if (error) {
+        console.error('Error fetching purchase orders:', error);
+        return { data: [], error };
+    }
+
+    return { data, error };
+}
+
+export async function updatePurchaseOrderStatus(id: number, status: string) {
+    const { data, error } = await supabase
+        .from('purchase_order')
+        .update({ status })
+        .eq('id', id);
+
     return { data, error };
 }

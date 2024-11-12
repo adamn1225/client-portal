@@ -4,13 +4,19 @@ import VendorForm from '@/components/procurement/VendorForm';
 import { fetchVendorsData, addPurchaseOrder } from '@/lib/database';
 import { Vendor, PurchaseOrder } from '@/lib/schema';
 
-const PurchaseOrderForm = () => {
+interface PurchaseOrderFormProps {
+
+  onSubmit: (order: PurchaseOrder) => void;
+
+}
+
+const PurchaseOrderForm: React.FC<PurchaseOrderFormProps> = ({ onSubmit }) => {
   const [poNumber, setPoNumber] = useState('');
-  const [status, setStatus] = useState(false);
   const [createdDate, setCreatedDate] = useState('');
   const [expectedDate, setExpectedDate] = useState('');
   const [vendorNumber, setVendorNumber] = useState('');
   const [vendors, setVendors] = useState<Vendor[]>([]);
+  const [orderDescription, setOrderDescription] = useState('');
   const [isVendorModalOpen, setIsVendorModalOpen] = useState(false);
 
   useEffect(() => {
@@ -32,27 +38,29 @@ const PurchaseOrderForm = () => {
       console.error('Error fetching vendors:', error);
     } else {
       setVendors(data);
-    } 
+    }
     setIsVendorModalOpen(false);
   };
 
   interface PurchaseOrderFormProps {
     ponumber: string;
-    status: boolean;
+    status: string; // Change to string
     createddate: string;
     expecteddate: string;
     vendornumber: string;
     vendorname: string;
+    order_description: string;
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const purchaseOrder: Omit<PurchaseOrder, 'id'> = {
       ponumber: poNumber,
-      status,
+      status: 'pending', // Set status to pending by default
       createddate: createdDate,
       expecteddate: expectedDate,
       vendornumber: vendorNumber,
+      order_description: orderDescription,
       vendorname: vendors.find(v => v.vendornumber === vendorNumber)?.vendorname || ''
     };
 
@@ -62,6 +70,12 @@ const PurchaseOrderForm = () => {
       console.error('Error inserting purchase order:', error);
     } else {
       console.log('Purchase order inserted:', data);
+      // Clear form fields
+      setPoNumber('');
+      setCreatedDate('');
+      setExpectedDate('');
+      setVendorNumber('');
+      setOrderDescription('');
     }
   };
 
@@ -78,27 +92,25 @@ const PurchaseOrderForm = () => {
               value={poNumber}
               onChange={(e) => setPoNumber(e.target.value)}
               placeholder="PO Number"
-              className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
-            />
-          </div>
-          <div className="w-full">
-            <label className="block text-sm font-medium">Status</label>
-            <input
-              type="checkbox"
-              checked={status}
-              onChange={(e) => setStatus(e.target.checked)}
-              className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+              className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
             />
           </div>
         </div>
-        {/* Other form fields */}
+        <div>
+          <label className="block text-sm font-medium">Order Description</label>
+          <textarea
+            value={orderDescription}
+            onChange={(e) => setOrderDescription(e.target.value)}
+            placeholder="Order Description"
+            className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm" />
+        </div>
         <div className="flex flex-col items-start w-full">
           <label className="block text-start text-sm font-medium w-4/5">Created Date</label>
           <input
             type="date"
             value={createdDate}
             onChange={(e) => setCreatedDate(e.target.value)}
-            className="mt-1 pl-2 block w-4/5 border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            className="mt-1 pl-2 block w-4/5 border border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
           />
         </div>
         <div className="flex flex-col items-start w-full">
@@ -107,12 +119,12 @@ const PurchaseOrderForm = () => {
             type="date"
             value={expectedDate}
             onChange={(e) => setExpectedDate(e.target.value)}
-            className="mt-1 pl-2 block w-4/5 border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            className="mt-1 pl-2 block w-4/5 border border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
           />
         </div>
         <div className="flex flex-col items-start w-full">
           <label className="block text-start text-sm font-medium w-4/5">Vendor</label>
-          <div className="flex items-center w-4/5">
+          <div className="flex items-center gap-2 w-4/5">
             <select
               value={vendorNumber}
               onChange={(e) => setVendorNumber(e.target.value)}
@@ -128,7 +140,7 @@ const PurchaseOrderForm = () => {
             <button
               type="button"
               onClick={() => setIsVendorModalOpen(true)}
-              className="light-dark-btn w-full max-w-max"
+              className="body-btn w-full max-w-max"
             >
               Add Vendor
             </button>

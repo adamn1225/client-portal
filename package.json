@@ -51,6 +51,7 @@
     "fuse.js": "^7.0.0",
     "html-react-parser": "^5.1.18",
     "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
     "leaflet-geosearch": "^4.0.0",
