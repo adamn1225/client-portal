@@ -148,7 +148,7 @@ export default function DashboardPage() {
                                 <span className="font-sans text-4xl font-medium text-center pb-2 mb-1 border-b mx-4 align-center">
                                     Heavy Construct
                                 </span>
-                                <span className="font-sans text-2xl text-center pb-2 mb-1 border-b mx-4 align-center">
+                                <span className=" font-sans text-2xl text-center pb-2 mb-1 border-b mx-4 align-center">
                                     Sign In
                                 </span>
                                 <div className="mt-4">
