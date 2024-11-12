@@ -97,12 +97,12 @@ body,
 }
 
 .side-nav-btn:hover {
-  @apply text-red-500 bg-gray-700;
+  @apply text-amber-400 bg-gray-700;
 }
 
 .side-nav-btn.active {
-  border-bottom: 2px solid #ef4444;
-  color: #ef4444;
+  border-bottom: 2px solid #fbbf24;
+  color: #fbbf24;
   width: 100%;
 }
 

@@ -2719,12 +2719,12 @@ body,
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity));
+  color: rgb(251 191 36 / var(--tw-text-opacity));
 }
 
 .side-nav-btn.active {
-  border-bottom: 2px solid #ef4444;
-  color: #ef4444;
+  border-bottom: 2px solid #fbbf24;
+  color: #fbbf24;
   width: 100%;
 }
 
