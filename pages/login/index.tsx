@@ -105,6 +105,18 @@ export default function DashboardPage() {
         setResendLoading(false);
     };
 
+    const handleForgotPassword = async (email: string) => {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/reset-password`,
+        });
+
+        if (error) {
+            setError(error.message);
+        } else {
+            setResendSuccess(true);
+        }
+    };
+
     if (!session) {
         return (
             <>
@@ -146,6 +158,12 @@ export default function DashboardPage() {
                                     <p>Don&apos;t have an account?</p>
                                     <Link href="/signup" legacyBehavior>
                                         <a className="text-gray-900 font-semibold hover:underline">Sign Up</a>
+                                    </Link>
+                                </div>
+                                <div className="mt-4 text-center">
+                                    <p>Forgot your password?</p>
+                                    <Link href="/forgot-password" legacyBehavior>
+                                        <a className="text-gray-900 font-semibold hover:underline">Reset Password</a>
                                     </Link>
                                 </div>
                                 <div className='md:hidden h-5/6 w-full flex items-end justify-center'>
@@ -205,13 +223,13 @@ export default function DashboardPage() {
                 </AdminLayout>
             ) : (
                 <UserLayout>
-                        <div className='md:layout w-full'>
-                            <main className="w-full">
-                                <div className="w-full fixed top-0 left-0 md:left-9 mt-24">
-                                    <HomePageContent />
-                                </div>
-                                </main>
-                        </div>
+                    <div className='md:layout w-full'>
+                        <main className="w-full">
+                            <div className="w-full fixed top-0 left-0 md:left-9 mt-24">
+                                <HomePageContent />
+                            </div>
+                        </main>
+                    </div>
                 </UserLayout>
             )}
         </UserProvider>
