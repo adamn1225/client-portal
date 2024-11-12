@@ -28,20 +28,19 @@ const HomePage: NextPage = () => {
             </nav>
           </div>
         </header> */}
-        <section className="mt-8 flex flex-col justify-start items-center text-center">
+        <main className="flex-grow container mt-12 mx-auto p-4 flex flex-col justify-start items-center text-center">
     
           <h1 className="text-lg md:text-3xl font-bold mb-4">
             All In One
             <span className="block md:inline"> Construction, Procurement, &amp; Logistics Management System</span>
           </h1>
           <Hero />
-          <div className="mt-4 bg-cover bg-center h-full w-full py-20">
+          <div className="mb-6 bg-cover bg-center h-full w-full py-20">
             <ChromeExtAd />
           </div>
-         
-      </section>
 
-        <footer className="bg-gray-900 absolute bottom-0 w-full text-white p-4 flex flex-col justify-center text-center gap-3 ">
+        </main>
+        <footer className="bg-gray-900 text-white p-4 flex flex-col justify-center text-center gap-3 ">
           <div className="container mx-auto text-center">
             <Link href="/policies" className="underline font-semibold max-w-max self-center">Policies</Link>
             <p className='mt-5'>&copy; {new Date().getFullYear()} SSTA LLC. All rights reserved.</p>

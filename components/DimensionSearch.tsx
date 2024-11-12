@@ -100,11 +100,11 @@ const DimensionSearch: React.FC = () => {
     return (
         <div className="flex flex-col justify-center items-center">
             <h1 className="text-2xl font-bold mb-4 text-center">Equipment Dimension Search/Directory</h1>
-        
-            <div className='flex gap-4 w-full justify-center'>
+            <h2 className="text-lg font-bold text-center w-1/2 mb-4"></h2>
+            <div className=' mx-2 flex gap-4 md:w-full justify-center'>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <div className="relative mb-4 w-1/4">
+                        <div className="relative mb-4 md:w-1/4">
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-950" />
                             <Input
                                 type="text"
@@ -130,8 +130,7 @@ const DimensionSearch: React.FC = () => {
                         ))}
                     </DropdownMenuContent>
                 </DropdownMenu>
-                <div className='w-1/4'>
-
+                <div>
                     <Input
                         type="text"
                         value={query}
@@ -139,7 +138,6 @@ const DimensionSearch: React.FC = () => {
                         placeholder="Search dimensions..."
                         className="mb-4"
                     />
-
                 </div>
             </div>
             <div className="flex gap-4 mb-4 justify-center">
