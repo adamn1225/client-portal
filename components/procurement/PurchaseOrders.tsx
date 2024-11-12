@@ -25,7 +25,7 @@ const PurchaseOrders = () => {
   return (
     <div className="w-full">
       <div className="flex justify-end mb-4">
-        <button onClick={() => setIsModalOpen(true)} className="light-dark-btn">
+        <button onClick={() => setIsModalOpen(true)} className="body-btn">
           Add Purchase Order
         </button>
       </div>
