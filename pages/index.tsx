@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Trusted } from '@/components/Trusted';
 import TopNavbar from './components/TopNavbar';
 import Hero from './components/Hero';
+import ChromeExtAd from './components/ChromeExtAd';
 
 const HomePage: NextPage = () => {
   return (
@@ -27,19 +28,23 @@ const HomePage: NextPage = () => {
             </nav>
           </div>
         </header> */}
-        <main className="flex-grow container mt-12 mx-auto p-4 flex flex-col justify-start items-center text-center">
+        <section className="mt-8 flex flex-col justify-start items-center text-center">
     
           <h1 className="text-lg md:text-3xl font-bold mb-4">
             All In One
             <span className="block md:inline"> Construction, Procurement, &amp; Logistics Management System</span>
           </h1>
           <Hero />
+          <div className="mt-4 bg-cover bg-center h-full w-full py-20">
+            <ChromeExtAd />
+          </div>
+         
+      </section>
 
-        </main>
-        <footer className="bg-gray-900 text-white p-4 flex flex-col justify-center text-center gap-3 ">
+        <footer className="bg-gray-900 absolute bottom-0 w-full text-white p-4 flex flex-col justify-center text-center gap-3 ">
           <div className="container mx-auto text-center">
-            <Link href="/policies" className="dark-light-btn max-w-max self-center">Policies</Link>
-            <p>&copy; {new Date().getFullYear()} SSTA LLC. All rights reserved.</p>
+            <Link href="/policies" className="underline font-semibold max-w-max self-center">Policies</Link>
+            <p className='mt-5'>&copy; {new Date().getFullYear()} SSTA LLC. All rights reserved.</p>
           </div>
         </footer>
       </div>

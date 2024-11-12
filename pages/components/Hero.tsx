@@ -51,7 +51,7 @@ const Hero = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                        <Button className='dark-light-btn' onClick={handleSubscribe}> Subscribe</Button>
+                        <button className='dark-light-btn' onClick={handleSubscribe}> Subscribe</button>
                         {message && <p className="mt-2 text-green-600">{message}</p>}
                     </div>
                     <div className="flex flex-col sm:py-4 md:flex-wrap md:gap-8 md:py-7">
