@@ -5,6 +5,7 @@ import { Trusted } from '@/components/Trusted';
 import TopNavbar from './components/TopNavbar';
 import Hero from './components/Hero';
 import ChromeExtAd from './components/ChromeExtAd';
+import Feature from "@/components/features";
 
 const HomePage: NextPage = () => {
   return (
@@ -15,31 +16,21 @@ const HomePage: NextPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/hc-28.png" />
       </Head>
-      <div className="min-h-screen w-screen flex flex-col">
+      <div className="w-screen min-h-screen flex flex-col">
       <TopNavbar />
         
-      
-        {/* <header className="bg-gray-900 text-white p-4">
-          <div className="container mx-auto flex justify-between items-center">
-            <h1 className="text-3xl font-bold flex gap-2 items-center"><Move3d /> Heavy Construct</h1>
-            <nav>
-              <Link href="/login" className="px-4 py-2 rounded-md bg-yellow-500 text-gray-900 font-medium">Sign In</Link>
-              <Link href="/user/signup" className="ml-4 px-4 py-2 rounded-md bg-yellow-500 text-gray-900 font-medium">Sign Up</Link>
-            </nav>
-          </div>
-        </header> */}
-        <main className="flex-grow container mt-12 mx-auto p-4 flex flex-col justify-start items-center text-center">
+        <section>
     
-          <h1 className="text-lg md:text-3xl font-bold mb-4">
-            All In One
-            <span className="block md:inline"> Construction, Procurement, &amp; Logistics Management System</span>
-          </h1>
-          <Hero />
-          <div className="mb-6 bg-cover bg-center h-full w-full py-20">
-            <ChromeExtAd />
+          <div className=' mt-4 md:mt-12 flex flex-col justify-start items-center text-center"'>
+            <h1 className="text-lg md:text-3xl font-bold mb-4">
+              All In One
+              <span className="block md:inline"> Construction, Procurement, &amp; Logistics Management System</span>
+            </h1>
           </div>
-
-        </main>
+          <Hero />
+          <ChromeExtAd />
+          <Feature />
+        </section>
         <footer className="bg-gray-900 text-white p-4 flex flex-col justify-center text-center gap-3 ">
           <div className="container mx-auto text-center">
             <Link href="/policies" className="underline font-semibold max-w-max self-center">Policies</Link>

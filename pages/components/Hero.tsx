@@ -38,7 +38,7 @@ const Hero = () => {
                         <h1 className="inline text-lg">and</h1>
                         <h1 className="inline text-lg font-semibold"> Logistics.</h1>
                     </div>
-                    <p className="max-w-400px text-lg">
+                    <p className="max-w-400px text-lg mb-5">
                         The easiest way to build React Landing page in seconds. Save time and focus on your project.
                     </p>
                     <div className="md:hidden w-full">
