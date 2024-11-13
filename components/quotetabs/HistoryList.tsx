@@ -31,30 +31,30 @@ const HistoryList: React.FC<HistoryListProps> = ({ session }) => {
     const [orders, setOrders] = useState<Order[]>([]);
     const [errorText, setErrorText] = useState<string>('');
 
-    const fetchDeliveredOrders = useCallback(async () => {
+    const fetchCompletedOrders = useCallback(async () => {
         const query = supabase
             .from('orders')
             .select(`
-                *,
-                shippingquotes:shippingquotes (
-                    id,
-                    origin_city,
-                    origin_state,
-                    origin_zip,
-                    destination_city,
-                    destination_state,
-                    destination_zip,
-                    year_amount,
-                    make,
-                    model,
-                    due_date,
-                    first_name,
-                    last_name,
-                    email,
-                    price
-                )
-            `)
-            .eq('status', 'delivered');
+        *,
+        shippingquotes:shippingquotes (
+          id,
+          origin_city,
+          origin_state,
+          origin_zip,
+          destination_city,
+          destination_state,
+          destination_zip,
+          year_amount,
+          make,
+          model,
+          due_date,
+          first_name,
+          last_name,
+          email,
+          price
+        )
+      `)
+            .eq('status', 'completed'); // Ensure fetching orders with status 'completed'
 
         if (session?.user?.id) {
             query.eq('user_id', session.user.id);
@@ -65,14 +65,14 @@ const HistoryList: React.FC<HistoryListProps> = ({ session }) => {
         if (error) {
             setErrorText(error.message);
         } else {
-            console.log('Fetched Delivered Orders:', data);
-            setOrders((prevOrders) => data); // Use functional update
+            console.log('Fetched Completed Orders:', data);
+            setOrders(data);
         }
-    }, [session]); // No need to include 'orders' in the dependency array
+    }, [session]);
 
     useEffect(() => {
-        fetchDeliveredOrders();
-    }, [session, fetchDeliveredOrders]);
+        fetchCompletedOrders();
+    }, [session, fetchCompletedOrders]);
 
     return (
         <div className="w-full bg-white shadow rounded-md border border-slate-400 max-h-max flex-grow">

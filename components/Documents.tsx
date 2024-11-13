@@ -118,6 +118,25 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
         setIsModalOpen(true);
     };
 
+    const handleDownload = async (fileUrl: string, fileName: string) => {
+        const { data, error } = await supabase.storage
+            .from('documents')
+            .download(fileUrl);
+
+        if (error) {
+            setError(error.message);
+            return;
+        }
+
+        const url = window.URL.createObjectURL(data);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+
     const renderDocuments = (docs: Database['public']['Tables']['documents']['Row'][]) => (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {docs.map((document) => (
@@ -128,7 +147,12 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                     </div>
                     <span className='flex justify-between items-end mt-auto'>
                         <span className='flex gap-2 items-center'>
-                            <button className="btn-blue mt-2">View</button>
+                            <button
+                                className="btn-blue mt-2"
+                                onClick={() => handleDownload(document.file_url, document.file_name)}
+                            >
+                                View
+                            </button>
                             <button
                                 className="btn-blue mt-2 ml-2"
                                 onClick={() => handleFavoriteToggle(document.id, !document.is_favorite)}
@@ -220,7 +244,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                 {loading ? (
                     <p>Loading...</p>
                 ) : error ? (
-                        <p className="text-red-600">{error}</p>
+                    <p className="text-red-600">{error}</p>
                 ) : activeSection === 'all' ? (
                     documents.length === 0 ? (
                         <p>No documents found.</p>

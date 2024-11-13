@@ -89,40 +89,65 @@ export type Database = {
       }
       documents: {
         Row: {
-          created_at: string | null
-          description: string | null
-          file_name: string
-          file_type: string
-          file_url: string
-          id: number
-          is_favorite: boolean | null
-          title: string
-          user_id: string | null
-        }
+          created_at: string | null;
+          description: string | null;
+          file_name: string;
+          file_type: string;
+          file_url: string;
+          id: number;
+          is_favorite: boolean | null;
+          title: string;
+          user_id: string | null;
+          order_id: number | null;
+          shippingquote_id: number | null;
+        };
         Insert: {
-          created_at?: string | null
-          description?: string | null
-          file_name: string
-          file_type: string
-          file_url: string
-          id?: number
-          is_favorite?: boolean | null
-          title: string
-          user_id?: string | null
-        }
+          created_at?: string | null;
+          description?: string | null;
+          file_name: string;
+          file_type: string;
+          file_url: string;
+          id?: number;
+          is_favorite?: boolean | null;
+          title: string;
+          user_id?: string | null;
+          order_id?: number | null;
+          shippingquote_id?: number | null;
+        };
         Update: {
-          created_at?: string | null
-          description?: string | null
-          file_name?: string
-          file_type?: string
-          file_url?: string
-          id?: number
-          is_favorite?: boolean | null
-          title?: string
-          user_id?: string | null
-        }
-        Relationships: []
-      }
+          created_at?: string | null;
+          description?: string | null;
+          file_name?: string;
+          file_type?: string;
+          file_url?: string;
+          id?: number;
+          is_favorite?: boolean | null;
+          title?: string;
+          user_id?: string | null;
+          order_id?: number | null;
+          shippingquote_id?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "documents_user_id_fkey";
+            columns: ["user_id"];
+            referencedRelation: "auth.users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "documents_order_id_fkey";
+            columns: ["order_id"];
+            referencedRelation: "orders";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "documents_shippingquote_id_fkey";
+            columns: ["shippingquote_id"];
+            referencedRelation: "shippingquotes";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       freight: {
         Row: {
           commodity: string | null

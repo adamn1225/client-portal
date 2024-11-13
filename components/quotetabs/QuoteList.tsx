@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Session } from '@supabase/auth-helpers-react';
-import { Database } from '@/lib/database.types';// Adjust the import path as needed
+import { Database } from '@/lib/database.types';
+import { ShippingQuote } from '@/lib/schema';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import OrderFormModal from './OrderFormModal';
 
@@ -14,10 +15,11 @@ interface QuoteListProps {
     isAdmin: boolean; // Add this prop
 }
 
-const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, archiveQuote, transferToOrderList, handleSelectQuote, isAdmin }) => {
+const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, fetchQuotes, archiveQuote, transferToOrderList, handleSelectQuote, isAdmin }) => {
     const supabase = useSupabaseClient<Database>();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedQuoteId, setSelectedQuoteId] = useState<number | null>(null);
+    const [quote, setQuote] = useState<ShippingQuote[]>([]);
 
     const handleCreateOrderClick = (quoteId: number) => {
         setSelectedQuoteId(quoteId);
@@ -45,6 +47,8 @@ const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, archiveQuote, tr
             } else {
                 // Transfer data to OrderList.tsx
                 transferToOrderList(selectedQuoteId, data);
+                // Remove the quote from the state
+                setQuote(quotes.filter(quote => quote.id !== selectedQuoteId));
             }
         }
         setIsModalOpen(false);

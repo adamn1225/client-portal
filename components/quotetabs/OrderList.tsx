@@ -3,6 +3,7 @@ import { Session } from '@supabase/auth-helpers-react';
 import { ShippingQuote } from '@/lib/schema';
 import { supabase } from '@/lib/initSupabase';
 import Modal from '@/components/Modal';
+import jsPDF from 'jspdf';
 
 interface OrderListProps {
     session: Session | null;
@@ -11,8 +12,6 @@ interface OrderListProps {
     markAsComplete: (orderId: number) => Promise<void>;
     isAdmin: boolean; // Add this prop
 }
-
-
 
 type Order = {
     id: number;
@@ -59,49 +58,70 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
         fetchOrders();
     }, [session, fetchOrders]);
 
-    const confirmCancelOrder = async () => {
-        if (selectedOrderId === null) return;
+    const generatePDF = (order: Order) => {
+        const doc = new jsPDF();
+        doc.text(`Order Receipt`, 10, 10);
+        doc.text(`Order ID: ${order.id}`, 10, 20);
+        doc.text(`Origin: ${order.origin_street}, ${order.shippingquotes.origin_city}, ${order.shippingquotes.origin_state} ${order.shippingquotes.origin_zip}`, 10, 30);
+        doc.text(`Destination: ${order.destination_street}, ${order.shippingquotes.destination_city}, ${order.shippingquotes.destination_state} ${order.shippingquotes.destination_zip}`, 10, 40);
+        doc.text(`Freight: ${order.shippingquotes.year_amount} ${order.shippingquotes.make} ${order.shippingquotes.model}`, 10, 50);
+        doc.text(`Shipping Date: ${order.shippingquotes.due_date || 'No due date'}`, 10, 60);
+        doc.text(`Price: ${order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'Not priced yet'}`, 10, 70);
+        return doc;
+    };
 
-        try {
-            const { error } = await supabase
-                .from('orders')
-                .update({ status: 'cancelled', cancellation_reason: cancellationReason })
-                .eq('id', selectedOrderId);
+    const uploadPDFToSupabase = async (pdf: jsPDF, order: Order) => {
+        const pdfBlob = pdf.output('blob');
+        const fileName = `receipts/${order.id}.pdf`;
+        const { data, error } = await supabase.storage
+            .from('documents')
+            .upload(fileName, pdfBlob);
 
-            if (error) {
-                console.error('Error cancelling order:', error.message);
-                setErrorText('Error cancelling order');
-            } else {
-                setOrders(orders.filter(order => order.id !== selectedOrderId));
-                setIsModalOpen(false);
-                setSelectedOrderId(null);
-                setCancellationReason('');
+        if (error) {
+            throw new Error(error.message);
+        }
 
-                // Send email notification
-                await sendEmailNotification(
-                    'noah@ntslogistics.com', // Replace with your email
-                    'Order Cancelled',
-                    `Order ID: ${selectedOrderId} has been cancelled.\nReason: ${cancellationReason}`
-                );
-            }
-        } catch (error) {
-            console.error('Error cancelling order:', error);
-            setErrorText('Error cancelling order. Please check your internet connection and try again.');
+        return data.path;
+    };
+
+    const insertDocumentRecord = async (filePath: string, order: Order) => {
+        const { error } = await supabase
+            .from('documents')
+            .insert({
+                user_id: order.user_id,
+                title: `Receipt for Order ${order.id}`,
+                description: `Receipt for Order ${order.id}`,
+                file_name: `${order.id}.pdf`,
+                file_type: 'application/pdf',
+                file_url: filePath,
+            });
+
+        if (error) {
+            throw new Error(error.message);
         }
     };
 
     const handleMarkAsComplete = async (orderId: number) => {
         try {
+            const order = orders.find(order => order.id === orderId);
+            if (!order) {
+                throw new Error('Order not found');
+            }
+
+            const pdf = generatePDF(order);
+            const filePath = await uploadPDFToSupabase(pdf, order);
+            await insertDocumentRecord(filePath, order);
+
             const { error } = await supabase
                 .from('orders')
-                .update({ status: 'delivered' })
+                .update({ status: 'completed' }) // Ensure status is updated to 'completed'
                 .eq('id', orderId);
 
             if (error) {
                 console.error('Error marking order as complete:', error.message);
                 setErrorText('Error marking order as complete');
             } else {
-                setOrders(orders.filter(order => order.id !== orderId));
+                setOrders(orders.filter(order => order.id !== orderId)); // Remove the completed order from the state
                 fetchOrders(); // Fetch orders after marking as complete
             }
         } catch (error) {
@@ -167,6 +187,37 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
             }
         } catch (error) {
             console.error('Error sending email:', error);
+        }
+    };
+
+    const confirmCancelOrder = async () => {
+        if (selectedOrderId === null) return;
+
+        try {
+            const { error } = await supabase
+                .from('orders')
+                .update({ status: 'cancelled', cancellation_reason: cancellationReason })
+                .eq('id', selectedOrderId);
+
+            if (error) {
+                console.error('Error cancelling order:', error.message);
+                setErrorText('Error cancelling order');
+            } else {
+                setOrders(orders.filter(order => order.id !== selectedOrderId));
+                setIsModalOpen(false);
+                setSelectedOrderId(null);
+                setCancellationReason('');
+
+                // Send email notification
+                await sendEmailNotification(
+                    'noah@ntslogistics.com', // Replace with your email
+                    'Order Cancelled',
+                    `Order ID: ${selectedOrderId} has been cancelled.\nReason: ${cancellationReason}`
+                );
+            }
+        } catch (error) {
+            console.error('Error cancelling order:', error);
+            setErrorText('Error cancelling order. Please check your internet connection and try again.');
         }
     };
 
@@ -331,84 +382,6 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                                 id="destination_street"
                                 name="destination_street"
                                 value={editData.destination_street || ''}
-                                onChange={handleEditChange}
-                                className="mt-1 p-2 border border-gray-300 rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="origin_city" className="block text-sm font-medium text-gray-700">
-                                Origin City
-                            </label>
-                            <input
-                                type="text"
-                                id="origin_city"
-                                name="origin_city"
-                                value={editData.shippingquotes?.origin_city || ''}
-                                onChange={handleEditChange}
-                                className="mt-1 p-2 border border-gray-300 rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="destination_city" className="block text-sm font-medium text-gray-700">
-                                Destination City
-                            </label>
-                            <input
-                                type="text"
-                                id="destination_city"
-                                name="destination_city"
-                                value={editData.shippingquotes?.destination_city || ''}
-                                onChange={handleEditChange}
-                                className="mt-1 p-2 border border-gray-300 rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="origin_state" className="block text-sm font-medium text-gray-700">
-                                Origin State
-                            </label>
-                            <input
-                                type="text"
-                                id="origin_state"
-                                name="origin_state"
-                                value={editData.shippingquotes?.origin_state || ''}
-                                onChange={handleEditChange}
-                                className="mt-1 p-2 border border-gray-300 rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="destination_state" className="block text-sm font-medium text-gray-700">
-                                Destination State
-                            </label>
-                            <input
-                                type="text"
-                                id="destination_state"
-                                name="destination_state"
-                                value={editData.shippingquotes?.destination_state || ''}
-                                onChange={handleEditChange}
-                                className="mt-1 p-2 border border-gray-300 rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="origin_zip" className="block text-sm font-medium text-gray-700">
-                                Origin Zip
-                            </label>
-                            <input
-                                type="text"
-                                id="origin_zip"
-                                name="origin_zip"
-                                value={editData.shippingquotes?.origin_zip || ''}
-                                onChange={handleEditChange}
-                                className="mt-1 p-2 border border-gray-300 rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="destination_zip" className="block text-sm font-medium text-gray-700">
-                                Destination Zip
-                            </label>
-                            <input
-                                type="text"
-                                id="destination_zip"
-                                name="destination_zip"
-                                value={editData.shippingquotes?.destination_zip || ''}
                                 onChange={handleEditChange}
                                 className="mt-1 p-2 border border-gray-300 rounded w-full"
                             />
