@@ -380,7 +380,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                 <div className='flex flex-col gap-4 w-full dark:text-zinc-100'>
                                     <label className='text-zinc-900 font-medium dark:text-zinc-100'>Inventory Type
                                         <select
-                                            className="rounded w-full p-2 border border-zinc-900"
+                                            className="rounded w-full p-2 border text-zinc-900 border-zinc-900"
                                             value={selectedOption}
                                             onChange={handleOptionChange}
                                         >
@@ -392,10 +392,11 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
 
                                     {selectedOption === 'equipment' && (
                                         <div className='md:flex gap-2 w-full'>
-                                            <label className='dark:text-zinc-dark:text-zinc-100 font-medium'>Year/Amount
+                                            <label className='dark:text-zinc-dark:text-zinc-100 font-medium'>Year
                                                 <input
                                                     className="rounded w-full p-2 border border-zinc-900"
                                                     type="text"
+                                                    placeholder='Year'
                                                     value={yearAmount}
                                                     onChange={(e) => {
                                                         setErrorText('');
@@ -407,6 +408,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                 <input
                                                     className="rounded w-full p-2 border border-zinc-900"
                                                     type="text"
+                                                    placeholder='Make'
                                                     value={make}
                                                     onChange={(e) => {
                                                         setErrorText('');
@@ -418,6 +420,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                 <input
                                                     className="rounded w-full p-2 border border-zinc-900"
                                                     type="text"
+                                                    placeholder='Model'
                                                     value={model}
                                                     onChange={(e) => {
                                                         setErrorText('');
@@ -434,6 +437,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                 <input
                                                     className="rounded w-full p-2 border border-zinc-900"
                                                     type="text"
+                                                    placeholder='Pallet/Crate Count'
                                                     value={palletCount}
                                                     onChange={(e) => {
                                                         setErrorText('');
@@ -458,7 +462,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                     <div className='md:flex gap-2'>
                                         <label className='dark:text-zinc-100 font-medium'>Length
                                             <input
-                                                className="rounded w-full p-2 border border-zinc-900"
+                                                className="rounded w-full px-2 py-1 border border-zinc-900"
                                                 type="text"
                                                 value={length}
                                                 onChange={(e) => {
@@ -468,7 +472,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                             />
                                             {selectedOption !== 'ltl_ftl' && (
                                                 <select
-                                                    className="rounded w-full p-2 border border-zinc-900"
+                                                    className="rounded text-zinc-900 w-full px-2 py-1  border border-zinc-900"
                                                     value={lengthUnit}
                                                     onChange={(e) => setLengthUnit(e.target.value)}
                                                 >
@@ -479,7 +483,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                         </label>
                                         <label className='dark:text-zinc-100 font-medium'>Width
                                             <input
-                                                className="rounded w-full p-2 border border-zinc-900"
+                                                className="rounded text-zinc-900 w-full px-2 py-1  border border-zinc-900"
                                                 type="text"
                                                 value={width}
                                                 onChange={(e) => {
@@ -489,7 +493,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                             />
                                             {selectedOption !== 'ltl_ftl' && (
                                                 <select
-                                                    className="rounded w-full p-2 border border-zinc-900"
+                                                    className="rounded text-zinc-900 w-full px-2 py-1  border border-zinc-900"
                                                     value={widthUnit}
                                                     onChange={(e) => setWidthUnit(e.target.value)}
                                                 >
@@ -500,7 +504,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                         </label>
                                         <label className='dark:text-zinc-100 font-medium'>Height
                                             <input
-                                                className="rounded w-full p-2 border border-zinc-900"
+                                                className="rounded text-zinc-900 w-full px-2 py-1  border border-zinc-900"
                                                 type="text"
                                                 value={height}
                                                 onChange={(e) => {
@@ -510,7 +514,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                             />
                                             {selectedOption !== 'ltl_ftl' && (
                                                 <select
-                                                    className="rounded w-full p-2 border border-zinc-900"
+                                                    className="rounded text-zinc-900 w-full px-2 py-1  border border-zinc-900"
                                                     value={heightUnit}
                                                     onChange={(e) => setHeightUnit(e.target.value)}
                                                 >
@@ -521,7 +525,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                         </label>
                                         <label className='dark:text-zinc-100 font-medium'>Weight
                                             <input
-                                                className="rounded w-full p-2 border border-zinc-900"
+                                                className="rounded w-full px-2 py-1  border text-zinc-900 border-zinc-900"
                                                 type="text"
                                                 value={weight}
                                                 onChange={(e) => {
@@ -530,7 +534,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                 }}
                                             />
                                             <select
-                                                className="rounded w-full p-2 border border-zinc-900"
+                                                className="rounded w-full px-2 py-1  text-zinc-900 border border-zinc-900"
                                                 value={weightUnit}
                                                 onChange={(e) => setWeightUnit(e.target.value)}
                                             >
@@ -539,10 +543,10 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                             </select>
                                         </label>
                                     </div>
-                                    <div className='flex gap-2'>
-                                        <label className='dark:text-zinc-100 font-medium'>Serial Number
+                                    <div className='flex gap-2 justify-center mb-2 w-full'>
+                                        <label className='dark:text-zinc-100 w-full font-medium'>Serial Number
                                             <input
-                                                className="rounded w-full p-2 border border-zinc-900"
+                                                className="rounded text-zinc-900 w-full p-2 border border-zinc-900"
                                                 type="text"
                                                 value={serialNumber}
                                                 onChange={(e) => {
@@ -551,7 +555,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                                 }}
                                             />
                                         </label>
-                                        <label className='dark:text-zinc-100 font-medium'>Inventory Number
+                                        <label className='dark:text-zinc-100 w-full font-medium'>Inventory Number
                                             <input
                                                 className="rounded w-full p-2 border border-zinc-900"
                                                 type="text"
@@ -564,7 +568,7 @@ const FreightInventory = ({ session }: FreightInventoryProps) => {
                                         </label>
                                     </div>
                                 </div>
-                                <button className="btn-slate dark:text-zinc-100 dark:bg-zinc-900 dark:hover:bg-amber-400 dark:hover:text-zinc-800 mt-4 shadow-xl" type="submit">
+                                <button className="body-btn" type="submit">
                                     {editingFreight ? 'Update Inventory' : 'Add Inventory'}
                                 </button>
                                 {editingFreight && (

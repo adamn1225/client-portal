@@ -127,34 +127,34 @@ const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, fetchQuotes, arc
             <div className="hidden 2xl:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-zinc-200 dark:bg-zinc-800 dark:text-white">
                     <thead className="bg-zinc-50 dark:bg-zinc-800 dark:text-white">
-                        <tr className='border-b border-zinc-900/20'>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">ID</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Origin/Destination</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Freight</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Shipping Date</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Price</th>
+                        <tr className='border-b border-zinc-100'>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-300">ID</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-300">Origin/Destination</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-300">Freight</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-300">Shipping Date</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-300">Price</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-zinc-200">
+                    <tbody className="bg-white dark:bg-zinc-800/90 divide-y divide-zinc-300">
                         {quotes.map((quote) => (
                             <tr key={quote.id}>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-300">
                                     {quote.id}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-300">
                                     <div className="flex flex-col justify-start">
                                         <span><strong>Origin:</strong> {quote.origin_city}, {quote.origin_state} {quote.origin_zip}</span>
                                         <span><strong>Destination:</strong> {quote.destination_city}, {quote.destination_state} {quote.destination_zip}</span>
                                     </div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-300">
                                     {quote.year_amount} {quote.make} {quote.model}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-300">
                                     {quote.due_date || 'No due date'}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-300">
                                     {quote.price ? `$${quote.price}` : 'Not priced yet'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap flex justify-between">

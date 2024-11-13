@@ -227,22 +227,22 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
             <div className="hidden 2xl:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-zinc-200 dark:text-zinc-900">
                     <thead className="bg-zinc-50 sticky top-0 z-10 dark:bg-zinc-800 dark:text-zinc-100">
-                        <tr className='border-b border-zinc-900/20'>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">ID</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Origin</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Freight</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Shipping Date</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Price</th>
+                        <tr className='border-b border-zinc-900/20 dark:border-zinc-100'>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20 dark:border-zinc-100">ID</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20 dark:border-zinc-100">Origin</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20 dark:border-zinc-100">Freight</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20 dark:border-zinc-100">Shipping Date</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20 dark:border-zinc-100">Price</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-zinc-200 dark:bg-zinc-800 dark:text-zinc-100">
                         {orders.map((order) => (
                             <tr key={order.id}>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20 dark:border-zinc-100">
                                     {order.id}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20 dark:border-zinc-100">
                                     <div className="flex flex-col justify-start">
                                         <span><strong>Origin Address:</strong>  {order.origin_street} </span>
                                         <span><strong>Origin City/State/Zip:</strong> {order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</span>
@@ -250,13 +250,13 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                                         <span><strong>Destination City/State/Zip:</strong> {order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</span>
                                     </div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20 dark:border-zinc-100 ">
                                     {order.shippingquotes.year_amount} {order.shippingquotes.make} {order.shippingquotes.model}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20 dark:border-zinc-100 ">
                                     {order.shippingquotes.due_date || 'No due date'}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20 dark:border-zinc-100 ">
                                     {order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'coming soon'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap flex justify-evenly">
