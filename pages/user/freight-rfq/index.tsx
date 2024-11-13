@@ -19,7 +19,7 @@ const FreightTransportPage: React.FC = () => {
         <UserProvider>
             <UserLayout>
                 <QuoteRequest session={session} />
-                <ChromeQuoteRequest session={session} />
+                <ChromeQuoteRequest />
             </UserLayout>
         </UserProvider>
     );
