@@ -1,4 +1,5 @@
 import React, { ReactNode, useState, useEffect } from 'react';
+import { useSession } from '@supabase/auth-helpers-react';
 import AdminSideNav from './AdminSideNav'; // Adjust the import path if necessary
 import AdminTopNav from './AdminTopNav'; // Adjust the import path if necessary
 
@@ -7,7 +8,9 @@ interface AdminLayoutProps {
 }
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+    const session = useSession();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    
 
     useEffect(() => {
         // Check if the screen size is large enough to display the sidebar by default
@@ -40,7 +43,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
             <main className="main-content ml-0 xl:ml-52 z-0 md:p-4 mt-28 md:mt-24 relative">
                 <div className="w-full fixed top-0 left-0">
-                    <AdminTopNav session={undefined} />
+                    <AdminTopNav session={session} />
                 </div>
                 {children}
             </main>

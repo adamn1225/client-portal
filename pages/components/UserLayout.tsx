@@ -1,6 +1,7 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import UserSideNav from './UserSideNav'; 
 import UserTopNav from './UserTopNav';
+import { useSession } from '@supabase/auth-helpers-react';
 
 interface UserLayoutProps {
     children: ReactNode;
@@ -39,7 +40,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
 
             <main className="main-content ml-0 xl:ml-52 z-0 md:p-4 mt-28 md:mt-24 relative">
             <div className="w-full fixed top-0 left-0">
-                <UserTopNav session={undefined} />
+                <UserTopNav />
             </div>
                 {children}
             </main>

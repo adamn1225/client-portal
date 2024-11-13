@@ -3,12 +3,12 @@ import { supabase } from '@/lib/initSupabase';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import NotificationBell from '@/components/NotificationBell';
-import { Moon, Sun } from 'lucide-react';
+import { useSession, Session } from '@supabase/auth-helpers-react';
 import FeedBack from '@/components/FeedBack';
 import DarkModeToggle from '@/components/DarkModeToggle';
 
 interface UserTopNavProps {
-    session: any;
+    session: Session | null;
     className?: string;
 }
 
