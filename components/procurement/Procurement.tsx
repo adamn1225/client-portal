@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
+import { useSession } from '@supabase/auth-helpers-react';
 import PurchaseOrders from './PurchaseOrders';
 import Vendors from './Vendors';
 import Invoices from './Invoices';
@@ -7,20 +7,21 @@ import Requirements from './Requirements';
 import Statistics from './Statistics';
 
 const Procurement = () => {
+  const session = useSession();
   const [activeTab, setActiveTab] = useState('Purchase Orders');
 
   const renderTabContent = () => {
     switch (activeTab) {
       case 'Purchase Orders':
-        return <PurchaseOrders />;
+        return <PurchaseOrders session={session} />;
       case 'Vendors':
-        return <Vendors />;
+        return <Vendors session={session} />;
       case 'Invoices':
-        return <Invoices />;
+        return <Invoices session={session} />;
       case 'Requirements':
-        return <Requirements />;
+        return <Requirements session={session} />;
       case 'Statistics':
-        return <Statistics />;
+        return <Statistics session={session} />;
       default:
         return null;
     }
