@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
+import { useSupabaseClient, useSession } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/database.types';
-
-interface ChromeQuoteRequestProps {
-    session: Session | null;
-}
 
 type ChromeQuotes = Database['public']['Tables']['chrome_quotes']['Row'] & {
     user_id: string; // Add this line
 };
 
-const ChromeQuoteRequest = ({ session }: ChromeQuoteRequestProps) => {
+const ChromeQuoteRequest = () => {
     const supabase = useSupabaseClient<Database>();
+    const session = useSession();
     const [quotes, setQuotes] = useState<ChromeQuotes[]>([]);
     const [errorText, setErrorText] = useState<string>('');
 
     const fetchQuotes = useCallback(async () => {
-        if (!session?.user?.id) return;
+        if (!session?.user?.id) {
+            setErrorText('No session or user ID found');
+            return;
+        }
 
         const { data, error } = await supabase
             .from('chrome_quotes')

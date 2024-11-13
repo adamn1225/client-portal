@@ -8,7 +8,7 @@ import { DarkModeProvider } from '@/context/DarkModeContext'; // Adjust the impo
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <SessionContextProvider supabaseClient={supabase}>
+    <SessionContextProvider supabaseClient={supabase} initialSession={pageProps.initialSession}>
       <UserProvider>
         <DarkModeProvider>
           <Component {...pageProps} />
