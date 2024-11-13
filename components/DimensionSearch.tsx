@@ -105,7 +105,7 @@ const DimensionSearch: React.FC = () => {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <div className="relative mb-4 md:w-1/4">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-950" />
+                            <Search className="absolute left-3 top-1/2 transform -tranzinc-y-1/2 text-stone-950" />
                             <Input
                                 type="text"
                                 value={inputValue}
@@ -146,19 +146,19 @@ const DimensionSearch: React.FC = () => {
             </div>
             <ul className="flex flex-col justify-center items-center gap-4 w-full">
                 {results.map((result, index) => (
-                    <div key={index} className='flex flex-col gap-4 w-2/3 justify-evenly items-center bg-stone-50 border border-gray-800 p-4 h-auto'>
+                    <div key={index} className='flex flex-col gap-4 w-2/3 justify-evenly items-center bg-stone-50 border border-zinc-800 p-4 h-auto'>
                         <div className='grid grid-cols-1 justify-items-start'>
-                            <li className="font-bold cursor-pointer  border-b border-gray-500" onClick={() => toggleExpand(index)}>
+                            <li className="font-bold cursor-pointer  border-b border-zinc-500" onClick={() => toggleExpand(index)}>
                                 {result["Manufacturer/Model"]}
                             </li>
                         </div>
                         {expandedIndex === index && (
                             <div className="flex flex-col gap-1 ">
-                                <li className="font-bold border-b border-gray-400">Weight: {result.Weight}</li>
+                                <li className="font-bold border-b border-zinc-400">Weight: {result.Weight}</li>
                                 <ul>
-                                    <li className='border-b border-gray-400'>Length: {result.dimensions.Length}</li>
-                                    <li className='border-b border-gray-400'>Width: {Array.isArray(result.dimensions.Width) ? result.dimensions.Width.join(', ') : result.dimensions.Width}</li>
-                                    <li className='border-b border-gray-400'>Height: {result.dimensions.Height}</li>
+                                    <li className='border-b border-zinc-400'>Length: {result.dimensions.Length}</li>
+                                    <li className='border-b border-zinc-400'>Width: {Array.isArray(result.dimensions.Width) ? result.dimensions.Width.join(', ') : result.dimensions.Width}</li>
+                                    <li className='border-b border-zinc-400'>Height: {result.dimensions.Height}</li>
                                 </ul>
                             </div>
                         )}

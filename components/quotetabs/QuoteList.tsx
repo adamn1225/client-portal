@@ -118,43 +118,43 @@ const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, fetchQuotes, arc
     };
 
     return (
-        <div className="w-full bg-white dark:bg-gray-800 dark:text-white shadow rounded-md border border-slate-400 max-h-max flex-grow">
+        <div className="w-full bg-white dark:bg-zinc-800 dark:text-white shadow rounded-md border border-zinc-400 max-h-max flex-grow">
             <OrderFormModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onSubmit={handleModalSubmit}
             />
             <div className="hidden 2xl:block overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 dark:bg-gray-800 dark:text-white">
-                    <thead className="bg-gray-50 dark:bg-gray-800 dark:text-white">
-                        <tr className='border-b border-slate-900/20'>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">ID</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Origin/Destination</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Freight</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Shipping Date</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Price</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider">Actions</th>
+                <table className="min-w-full divide-y divide-zinc-200 dark:bg-zinc-800 dark:text-white">
+                    <thead className="bg-zinc-50 dark:bg-zinc-800 dark:text-white">
+                        <tr className='border-b border-zinc-900/20'>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">ID</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Origin/Destination</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Freight</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Shipping Date</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Price</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white divide-y divide-zinc-200">
                         {quotes.map((quote) => (
                             <tr key={quote.id}>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
                                     {quote.id}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
                                     <div className="flex flex-col justify-start">
                                         <span><strong>Origin:</strong> {quote.origin_city}, {quote.origin_state} {quote.origin_zip}</span>
                                         <span><strong>Destination:</strong> {quote.destination_city}, {quote.destination_state} {quote.destination_zip}</span>
                                     </div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
                                     {quote.year_amount} {quote.make} {quote.model}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
                                     {quote.due_date || 'No due date'}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
                                     {quote.price ? `$${quote.price}` : 'Not priced yet'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap flex justify-between">
@@ -171,7 +171,7 @@ const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, fetchQuotes, arc
                                     ) : (
                                         <button
                                             onClick={() => alert('10-4, Working in now.')}
-                                            className="ml-2 px-4 py-2 font-semibold bg-gray-900 text-red-600 rounded"
+                                            className="ml-2 px-4 py-2 font-semibold bg-zinc-900 text-red-600 rounded"
                                         >
                                             Press if Urgent
                                         </button>
@@ -189,31 +189,31 @@ const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, fetchQuotes, arc
             </div>
             <div className="block 2xl:hidden">
                 {quotes.map((quote) => (
-                    <div key={quote.id} className="bg-white dark:bg-gray-800 dark:text-white shadow rounded-md mb-4 p-4 border border-slate-400">
+                    <div key={quote.id} className="bg-white dark:bg-zinc-800 dark:text-white shadow rounded-md mb-4 p-4 border border-zinc-400">
                         <div className="flex justify-between items-center mb-2">
-                            <div className="text-sm font-extrabold text-gray-500 dark:text-white">ID</div>
-                            <div className="text-sm font-medium text-gray-900">{quote.id}</div>
+                            <div className="text-sm font-extrabold text-zinc-500 dark:text-white">ID</div>
+                            <div className="text-sm font-medium text-zinc-900">{quote.id}</div>
                         </div>
-                        <div className='border-b border-slate-600 mb-4'></div>
+                        <div className='border-b border-zinc-600 mb-4'></div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500 dark:text-white">Origin</div>
-                            <div className="text-sm font-medium text-gray-900">{quote.origin_city}, {quote.origin_state} {quote.origin_zip}</div>
-                        </div>
-                        <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500 dark:text-white">Destination</div>
-                            <div className="text-sm font-medium text-gray-900">{quote.destination_city}, {quote.destination_state} {quote.destination_zip}</div>
+                            <div className="text-sm font-extrabold text-zinc-500 dark:text-white">Origin</div>
+                            <div className="text-sm font-medium text-zinc-900">{quote.origin_city}, {quote.origin_state} {quote.origin_zip}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500 dark:text-white">Freight</div>
-                            <div className="text-sm font-medium text-gray-900">{quote.year_amount} {quote.make} {quote.model}</div>
+                            <div className="text-sm font-extrabold text-zinc-500 dark:text-white">Destination</div>
+                            <div className="text-sm font-medium text-zinc-900">{quote.destination_city}, {quote.destination_state} {quote.destination_zip}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500 dark:text-white">Shipping Date</div>
-                            <div className="text-sm font-medium text-gray-900">{quote.due_date || 'No due date'}</div>
+                            <div className="text-sm font-extrabold text-zinc-500 dark:text-white">Freight</div>
+                            <div className="text-sm font-medium text-zinc-900">{quote.year_amount} {quote.make} {quote.model}</div>
                         </div>
                         <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                            <div className="text-sm font-extrabold text-gray-500 dark:text-white">Price</div>
-                            <div className="text-sm font-medium text-gray-900">{quote.price ? `$${quote.price}` : 'Not priced yet'}</div>
+                            <div className="text-sm font-extrabold text-zinc-500 dark:text-white">Shipping Date</div>
+                            <div className="text-sm font-medium text-zinc-900">{quote.due_date || 'No due date'}</div>
+                        </div>
+                        <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
+                            <div className="text-sm font-extrabold text-zinc-500 dark:text-white">Price</div>
+                            <div className="text-sm font-medium text-zinc-900">{quote.price ? `$${quote.price}` : 'Not priced yet'}</div>
                         </div>
                         <div className="flex justify-between items-center">
                             <button onClick={() => archiveQuote(quote.id)} className="text-red-500 ml-2">

@@ -109,21 +109,21 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ session }) => {
     };
 
     return (
-        <div className="relative mt-2 z-50 h-full" ref={dropdownRef}>
+        <span className="relative mt-2 z-50 w-full h-full" ref={dropdownRef}>
             <button onClick={toggleDropdown}>
-                <Bell className="h-8 w-8 text-gray-900 dark:text-stone-50" />
-                {hasNotifications && <div className="absolute top-16 right-0 h-2 w-2 bg-red-500 rounded-full"></div>}
+                <Bell className="h-8 w-8 text-zinc-50 dark:text-stone-50" />
+                {hasNotifications && <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 dark:bg-red-500 rounded-full"></span>}
             </button>
             {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-{1200px} max-w-max max-h-max h-screen bg-white dark:bg-gray-900 border border-gray-300 overflow-y-scroll rounded shadow-lg z-50">
-                    <div className="p-2">
+                <div className="absolute w-[200px] md:w-[400px] top-0 right-50 md:right-0 mt-2 max-h-max h-screen bg-white dark:bg-zinc-900 border border-zinc-300 overflow-y-scroll rounded shadow-lg z-50">
+                    <div className="p-2 w-full ">
                         {notifications.length > 0 ? (
                             notifications.map((notification) => (
                                 <div
                                     key={notification.id}
-                                    className={`p-2 border-b z-50 border-gray-200 ${notification.is_read ? 'bg-white dark:bg-gray-600' : 'bg-gray-300 dark:bg-gray-900'}`}
+                                    className={`p-2 border-b z-50 border-zinc-200 ${notification.is_read ? 'bg-white dark:bg-zinc-600' : 'bg-zinc-300 dark:bg-zinc-900'}`}
                                 >
-                                    <div className="flex justify-between items-center">
+                                    <div className="flex justify-between items-center w-full">
                                         <span className="dark:text-stone-100">{notification.message}</span>
                                         {!notification.is_read && (
                                             <button
@@ -143,7 +143,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ session }) => {
                 </div>
             )}
             {errorText && <div className="text-red-500">{errorText}</div>}
-        </div>
+        </span>
     );
 };
 

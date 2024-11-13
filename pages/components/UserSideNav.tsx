@@ -46,14 +46,14 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                         className="fixed z-50 top-1 left-0 p-2 drop-shadow-lg rounded-full"
                         onClick={toggleSidebar}
                     >
-                        {isSidebarOpen ? <PanelRightClose size={24} className='text-white z-50 drop-shadow-lg' /> : <PanelLeftOpen size={28} className='z-50 text-gray-900 dark:text-slate-100 drop-shadow-lg ' />}
+                        {isSidebarOpen ? <PanelRightClose size={24} className='text-white z-50 drop-shadow-lg' /> : <PanelLeftOpen size={28} className='z-50 text-zinc-100 dark:text-zinc-100 drop-shadow-lg ' />}
                     </button>
                 </div>
-                <nav className={`side-navbar pr-2 z-50 flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0 z-50' : '-translate-x-full'} transition-transform duration-300 h-screen ease-in-out z-50 ${className}`}>
-                    <span className='flex mb-3 items-center justify-center font-bold  flex-nowrap'><Move3d className='size-6 text-red-700' /> <h1 className='text-lg md:mt-0  self-center font-extrabold underline underline-offset-2 tracking-wider'>Heavy Construct</h1></span>
-                    <div className="w-full flex flex-col items-center gap-1 justify-center mb-6 border-b border-stone-100/40 pb-4">
+                <nav className={`side-navbar pr-0.5 md:pr-1 z-50 flex flex-col h-screen py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0 z-50' : '-translate-x-full'} transition-transform duration-300 h-screen ease-in-out z-50 ${className}`}>
+                    <span className='flex mt-5 md:mt-0 mb-3 items-center justify-center font-bold  flex-nowrap'><Move3d className='size-6 text-red-700' /> <h1 className='text-lg md:mt-0  self-center font-extrabold underline underline-offset-2 tracking-wider'>Heavy Construct</h1></span>
+                    <span className="w-full flex flex-col items-center gap-1 justify-center mb-6 border-b border-stone-100/40 pb-4">
                         <h3>Welcome {userProfile?.first_name || 'User'}</h3>
-                    </div>
+                    </span>
                     <ul className='flex gap-3 flex-col flex-grow space-y-2 overflow-y-auto'>
                         <li className={`w-full flex justify-center mt-0 ${router.pathname == "/user/inventory" ? "active" : ""}`}>
                             <Link href="/user/inventory" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/inventory" ? "active" : ""}`}>
@@ -76,12 +76,12 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                                 <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Signature size={'20px'} /> <span className='text-xs md:text-sm'>Procurement </span></span>
                             </Link>
                         </li>
-
+{/* 
                         <li className={`w-full flex justify-normal m-0 ${router.pathname == "/user/equipment-directory" ? "active" : ""}`}>
                             <Link href="/user/equipment-directory" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/equipment-directory" ? "active" : ""}`}>
                                 <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><NotebookTabs size={'20px'} /> <span className='text-xs md:text-sm'>Equipment Directory </span></span>
                             </Link>
-                        </li>
+                        </li> */}
 
                         <li className={`w-full flex justify-normal m-0 ${router.pathname == "/user/project-writer" ? "active" : ""}`}>
                             <Link href="/user/project-writer" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/project-writer" ? "active" : ""}`}>
@@ -92,12 +92,12 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                     </ul>
                     <ul className='flex flex-col gap-4 justify-end items-center'>
                         <li className={`w-full text-nowrap flex justify-normal m-0 ${router.pathname == "/user/settings" ? "active" : ""}`}>
-                            <Link href="/user/settings" className={`logout mt-4 md:mt-0 dark:bg-gray-300 dark:text-gray-700 flex items-center justify-center gap-2 font-semibold py-1 w-full ${router.pathname == "/user/settings" ? "active" : ""}`}>
+                            <Link href="/user/settings" className={`logout mt-4 md:mt-0 dark:bg-zinc-300 dark:text-zinc-700 flex items-center justify-center gap-2 font-semibold py-1 w-full ${router.pathname == "/user/settings" ? "active" : ""}`}>
                                 <Settings />   Settings
                             </Link>
                         </li>
                         <li className="w-full flex items-center justify-center m-0">
-                            <button className="logout dark:bg-gray-300 dark:text-gray-700 font-semibold py-1 w-full" onClick={handleLogout}>
+                            <button className="logout dark:bg-zinc-300 dark:text-zinc-700 font-semibold py-1 w-full" onClick={handleLogout}>
                                 Logout
                             </button>
                         </li>

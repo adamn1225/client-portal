@@ -31,7 +31,7 @@ const HomePage: NextPage = () => {
           <ChromeExtAd />
           <Feature />
         </section>
-        <footer className="bg-gray-900 text-white p-4 flex flex-col justify-center text-center gap-3 ">
+        <footer className="bg-zinc-900 text-white p-4 flex flex-col justify-center text-center gap-3 ">
           <div className="container mx-auto text-center">
             <Link href="/policies" className="underline font-semibold max-w-max self-center">Policies</Link>
             <p className='mt-5'>&copy; {new Date().getFullYear()} SSTA LLC. All rights reserved.</p>

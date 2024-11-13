@@ -4,49 +4,49 @@
 
 /* Custom styles */
 .btn-black {
-  @apply border border-slate-700 bg-slate-800 text-stone-100 font-bold py-2 px-4 rounded text-center;
+  @apply border border-zinc-700 bg-zinc-800 text-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
 .btn-black-outline {
-  @apply border border-stone-700 bg-slate-800 text-stone-100 py-2 px-4 rounded font-bold text-center;
+  @apply border border-stone-700 bg-zinc-800 text-stone-100 py-2 px-4 rounded font-bold text-center;
 }
 
 .btn-darkmode {
-  @apply bg-stone-100 text-slate-800 font-bold py-2 px-4 rounded text-center;
+  @apply bg-stone-100 text-zinc-800 font-bold py-2 px-4 rounded text-center;
 }
 
-.btn-slate {
-  @apply bg-slate-800 text-stone-100 font-bold py-2 px-4 rounded text-center;
+.btn-zinc {
+  @apply bg-zinc-800 text-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
-.btn-slate:hover {
-  @apply transition duration-300 bg-slate-800 text-amber-200;
+.btn-zinc:hover {
+  @apply transition duration-300 bg-zinc-800 text-amber-200;
 }
 
-.btn-reverse-slate {
-  @apply border border-slate-700 text-slate-800 bg-stone-100 font-bold py-2 px-4 rounded text-center;
+.btn-reverse-zinc {
+  @apply border border-zinc-700 text-zinc-800 bg-stone-100 font-bold py-2 px-4 rounded text-center;
 }
 
 .dark-light-btn {
   @apply m-0 px-4 py-2 border border-amber-400 rounded-sm
-  bg-amber-400 text-gray-900 font-medium hover:border-amber-400 hover:bg-amber-300 hover:border hover:text-gray-900 
-  dark:border-gray-900 dark:bg-amber-400 dark:text-gray-900 dark:hover:bg-gray-900 dark:hover:text-gray-900 dark:hover:border-amber-400;
+  bg-amber-400 text-zinc-900 font-medium hover:border-amber-400 hover:bg-amber-400 hover:border hover:text-zinc-900 
+  dark:border-zinc-900 dark:bg-amber-400 dark:text-zinc-900 dark:hover:bg-zinc-900 dark:hover:text-zinc-900 dark:hover:border-amber-400;
 }
 
 .dark-btn {
-  @apply px-4 py-1.5 font-semibold rounded-md w-full max-w-max text-nowrap bg-amber-400 text-gray-900 border-2 border-amber-400 hover:border-2 hover:border-amber-300 hover:bg-amber-300 hover:text-gray-900 dark:border-amber-400 dark:bg-amber-400 dark:text-gray-900 dark:hover:bg-amber-400 dark:hover:text-gray-900 dark:hover:border-2 dark:hover:border-amber-400
+  @apply px-4 py-1.5 font-semibold rounded-md w-full max-w-max text-nowrap bg-amber-400 text-zinc-900 border-2 border-amber-400 hover:border-2 hover:border-amber-300 hover:bg-amber-300 hover:text-zinc-800 dark:border-amber-400 dark:bg-amber-400 dark:text-zinc-900 dark:hover:bg-amber-400 dark:hover:text-zinc-900 dark:hover:border-2 dark:hover:border-amber-400
 }
 
 .body-btn {
-  @apply m-0 px-4 py-2 border border-gray-800 rounded-sm bg-gray-800 text-stone-50 font-medium hover:border-amber-400 hover:bg-amber-300 hover:border dark:border-gray-900 dark:bg-amber-400 dark:text-gray-900 dark:hover:bg-gray-950 dark:hover:text-gray-900 dark:hover:border-amber-400;
+  @apply m-0 px-4 py-2 border border-zinc-800 rounded-sm bg-zinc-800 text-stone-50 font-medium hover:border-amber-400 hover:bg-amber-400 hover:border dark:border-zinc-900 dark:bg-amber-400 dark:text-zinc-900 dark:hover:bg-zinc-950 dark:hover:text-zinc-900 dark:hover:border-amber-400;
 }
 
 .upload-button {
-    @apply m-0 px-4 py-2 border border-amber-400 rounded-sm bg-amber-400 text-gray-100 font-medium hover:border-amber-400 hover:bg-amber-300 hover:border hover:text-gray-900 dark:border-amber-400 dark:bg-amber-400 dark:text-gray-900 dark:hover:bg-amber-300 dark:hover:text-gray-900 dark:hover:border-amber-300;
+    @apply m-0 px-4 py-2 border border-amber-400 rounded-sm bg-amber-400 text-zinc-100 font-medium hover:border-amber-400 hover:bg-amber-300 hover:border hover:text-zinc-900 dark:border-amber-400 dark:bg-amber-400 dark:text-zinc-900 dark:hover:bg-amber-300 dark:hover:text-zinc-900 dark:hover:border-amber-300;
 }
 
 .contact-btn {
-  @apply px-4 py-1.5 font-semibold rounded-md w-full max-w-max text-nowrap bg-amber-400 text-gray-900 border-2 border-amber-400 hover:border-2 hover:border-amber-300 hover:bg-amber-300 hover:text-gray-900 dark:border-amber-400 dark:bg-amber-400 dark:text-gray-900 dark:hover:bg-gray-900 dark:hover:text-gray-900 dark:hover:border-2 dark:hover:border-amber-400
+  @apply px-4 py-1.5 font-semibold rounded-md w-full max-w-max text-nowrap bg-amber-400 text-zinc-900 border-2 border-amber-400 hover:border-2 hover:border-amber-300 hover:bg-amber-300 hover:text-zinc-900 dark:border-amber-400 dark:bg-amber-400 dark:text-zinc-900 dark:hover:bg-zinc-900 dark:hover:text-zinc-900 dark:hover:border-2 dark:hover:border-amber-400
 }
 
 html,
@@ -64,7 +64,7 @@ body,
 }
 
 .side-navbar {
-  @apply bg-gray-900 flex-grow;
+  @apply bg-zinc-800 flex-grow;
   height: 100vh;
   /* Full height of the viewport */
   color: white;
@@ -97,7 +97,7 @@ body,
 }
 
 .side-nav-btn:hover {
-  @apply text-amber-400 bg-gray-700;
+  @apply text-amber-400 bg-zinc-800;
 }
 
 .side-nav-btn.active {
@@ -107,15 +107,15 @@ body,
 }
 
 .logout {
-  @apply bg-stone-200 text-slate-800 font-bold md:py-2 px-4 rounded text-center;
+  @apply bg-stone-200 text-zinc-800 font-bold md:py-2 px-4 rounded text-center;
 }
 
 .logout:hover {
-  @apply bg-stone-100 text-slate-800 underline;
+  @apply bg-stone-100 text-zinc-800 underline;
 }
 
 .main-content {
-  @apply dark:bg-gray-800;
+  @apply dark:bg-zinc-800;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -123,7 +123,7 @@ body,
 }
 
 main {
-  @apply p-0 md:p-20 dark:bg-gray-800;
+  @apply p-0 md:p-20 dark:bg-zinc-800;
   ;
   flex-grow: 1;
   overflow-y: auto;
@@ -227,7 +227,7 @@ input:checked+.slider {
 }
 
 input:checked+.slider:before {
-  transform: translateX(26px);
+  transform: tranzincX(26px);
   content: "On";
   color: white;
 }
@@ -279,13 +279,13 @@ input:disabled+.slider:before {
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222.2 84% 4.9%; /* zinc-800 */
     --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
+    --card: 222.2 84% 4.9%; /* zinc-800 */
     --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
+    --popover: 222.2 84% 4.9%; /* zinc-800 */
     --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
+    --primary: 222.2 84% 4.9%;
     --primary-foreground: 222.2 47.4% 11.2%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -306,8 +306,14 @@ input:disabled+.slider:before {
   }
 }
 
-p h1 h2 h3 h4 h5 h6 li span div{
-  @apply font-sans dark:text-stone-100 !important;
+p h1 h2 h3 h4 h5 h6 li span{
+  @apply font-sans dark:text-zinc-50 !important;
+}
+
+
+
+main {
+  @apply font-sans dark:bg-zinc-700 dark:text-zinc-50 !important;
 }
 
 @layer base {
@@ -315,7 +321,11 @@ p h1 h2 h3 h4 h5 h6 li span div{
     @apply border-spacing-0;
   }
 
+  html {
+    @apply font-sans dark:bg-zinc-700 dark:text-zinc-50;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background dark:bg-zinc-700  text-foreground;
   }
 }

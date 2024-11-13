@@ -64,22 +64,22 @@ const Vendors: React.FC<Vendors> = ({session}) => {
   return (
     <div>
       <h2 className="text-xl underline text-start mb-6">Vendors</h2>
-      <button onClick={() => setIsModalOpen(true)} className="px-4 py-2 shadow-md text-stone-100 font-medium bg-gray-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-gray-900">
+      <button onClick={() => setIsModalOpen(true)} className="px-4 py-2 shadow-md text-stone-100 font-medium bg-zinc-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-zinc-900">
         Add Vendor
       </button>
-      <table className="min-w-full divide-y divide-gray-200 mt-4">
-        <thead className="bg-gray-50">
+      <table className="min-w-full divide-y divide-zinc-200 mt-4">
+        <thead className="bg-zinc-50">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendor Number</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendor Name</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Business Street</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Business City</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Business State</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Vendor Number</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Vendor Name</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Business Street</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Business City</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Business State</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Email</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Phone</th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white divide-y divide-zinc-200">
           {vendors.map((vendor) => (
             <tr key={vendor.id}>
               <td className="px-6 py-4 whitespace-nowrap">{vendor.vendornumber}</td>
@@ -108,7 +108,7 @@ const Vendors: React.FC<Vendors> = ({session}) => {
                     value={vendorNumber}
                     onChange={(e) => setVendorNumber(e.target.value)}
                     placeholder="Vendor Number"
-                    className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-slate-500 border border-gray-400 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                    className="mt-1 pl-2 block w-full text-zinc-950 placeholder:text-zinc-500 border border-zinc-400 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
                   />
                 </div>
                 <div className="w-full">
@@ -118,7 +118,7 @@ const Vendors: React.FC<Vendors> = ({session}) => {
                     value={vendorName}
                     onChange={(e) => setVendorName(e.target.value)}
                     placeholder="Vendor Name"
-                    className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-slate-500 border border-gray-400 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                    className="mt-1 pl-2 block w-full text-zinc-950 placeholder:text-zinc-500 border border-zinc-400 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -129,7 +129,7 @@ const Vendors: React.FC<Vendors> = ({session}) => {
                   value={businessStreet}
                   onChange={(e) => setBusinessStreet(e.target.value)}
                   placeholder="123 Lexington St"
-                  className="mt-1 pl-2 block w-4/5 border border-gray-400 rounded-md shadow-sm text-gray-950 placeholder:text-slate-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                  className="mt-1 pl-2 block w-4/5 border border-zinc-400 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-500 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
                 />
               </div>
               <div className="flex gap-4 justify-around w-full">
@@ -140,7 +140,7 @@ const Vendors: React.FC<Vendors> = ({session}) => {
                     value={businessCity}
                     onChange={(e) => setBusinessCity(e.target.value)}
                     placeholder="City"
-                    className="mt-1 pl-2 block w-full border border-gray-400 rounded-md shadow-sm text-gray-950 placeholder:text-slate-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                    className="mt-1 pl-2 block w-full border border-zinc-400 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-500 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
                   />
                 </div>
                 <div className="w-full">
@@ -150,7 +150,7 @@ const Vendors: React.FC<Vendors> = ({session}) => {
                     value={businessState}
                     onChange={(e) => setBusinessState(e.target.value)}
                     placeholder="State"
-                    className="mt-1 pl-2 block w-full border border-gray-400 rounded-md shadow-sm text-gray-950 placeholder:text-slate-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                    className="mt-1 pl-2 block w-full border border-zinc-400 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-500 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -161,7 +161,7 @@ const Vendors: React.FC<Vendors> = ({session}) => {
                   value={email}
                   placeholder="you@mail.com"
                   onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 pl-2 block w-full border border-gray-400 rounded-md shadow-sm text-gray-950 placeholder:text-slate-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                  className="mt-1 pl-2 block w-full border border-zinc-400 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-500 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
                 />
               </div>
               <div>
@@ -171,16 +171,16 @@ const Vendors: React.FC<Vendors> = ({session}) => {
                   value={phone}
                   placeholder="(888) 888-8888"
                   onChange={(e) => setPhone(e.target.value)}
-                  className="mt-1 pl-2 block w-full border border-gray-400 rounded-md shadow-sm text-gray-950 placeholder:text-slate-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                  className="mt-1 pl-2 block w-full border border-zinc-400 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-500 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
                 />
               </div>
               <div className="flex justify-end">
-                <button type="submit" className="px-4 py-2 shadow-md text-stone-100 font-medium bg-gray-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-gray-900">
+                <button type="submit" className="px-4 py-2 shadow-md text-stone-100 font-medium bg-zinc-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-zinc-900">
                   Submit
                 </button>
               </div>
             </form>
-            <button onClick={() => setIsModalOpen(false)} className="mt-4 px-4 py-2 bg-gray-500 text-white rounded">Close</button>
+            <button onClick={() => setIsModalOpen(false)} className="mt-4 px-4 py-2 bg-zinc-500 text-white rounded">Close</button>
           </div>
         </div>
       )}

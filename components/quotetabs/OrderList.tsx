@@ -222,27 +222,27 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
     };
 
     return (
-        <div className="w-full bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded-md border border-slate-400 max-h-max flex-grow">
+        <div className="w-full bg-white dark:bg-zinc-800 dark:text-zinc-100 shadow rounded-md border border-zinc-400 max-h-max flex-grow">
             {!!errorText && <div className="text-red-500">{errorText}</div>}
             <div className="hidden 2xl:block overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 dark:text-gray-900">
-                    <thead className="bg-gray-50 sticky top-0 z-10 dark:bg-gray-800 dark:text-gray-100">
-                        <tr className='border-b border-slate-900/20'>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">ID</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Origin</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Freight</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Shipping Date</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider border-r border-slate-900/20">Price</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider">Actions</th>
+                <table className="min-w-full divide-y divide-zinc-200 dark:text-zinc-900">
+                    <thead className="bg-zinc-50 sticky top-0 z-10 dark:bg-zinc-800 dark:text-zinc-100">
+                        <tr className='border-b border-zinc-900/20'>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">ID</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Origin</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Freight</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Shipping Date</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider border-r border-zinc-900/20">Price</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 dark:text-white uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:text-gray-100">
+                    <tbody className="bg-white divide-y divide-zinc-200 dark:bg-zinc-800 dark:text-zinc-100">
                         {orders.map((order) => (
                             <tr key={order.id}>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
                                     {order.id}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
                                     <div className="flex flex-col justify-start">
                                         <span><strong>Origin Address:</strong>  {order.origin_street} </span>
                                         <span><strong>Origin City/State/Zip:</strong> {order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</span>
@@ -250,13 +250,13 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                                         <span><strong>Destination City/State/Zip:</strong> {order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</span>
                                     </div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
                                     {order.shippingquotes.year_amount} {order.shippingquotes.make} {order.shippingquotes.model}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
                                     {order.shippingquotes.due_date || 'No due date'}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap border-r border-slate-900/20">
+                                <td className="px-6 py-4 whitespace-nowrap border-r border-zinc-900/20">
                                     {order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'coming soon'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap flex justify-evenly">
@@ -285,31 +285,31 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
             <div className="block 2xl:hidden mt-">
                 <div className='mt-1'>
                     {orders.map((order) => (
-                        <div key={order.id} className="bg-white dark:bg-gray-800 shadow rounded-md mb-4 p-4 border border-slate-400 dark:text-white">
+                        <div key={order.id} className="bg-white dark:bg-zinc-800 shadow rounded-md mb-4 p-4 border border-zinc-400 dark:text-white">
                             <div className="flex justify-between items-center mb-2">
                                 <div className="text-sm font-extrabold dark:text-white">ID</div>
-                                <div className="text-sm font-medium text-gray-900">{order.id}</div>
+                                <div className="text-sm font-medium text-zinc-900">{order.id}</div>
                             </div>
-                            <div className='border-b border-slate-600 mb-4'></div>
+                            <div className='border-b border-zinc-600 mb-4'></div>
                             <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                                <div className="text-sm font-extrabold text-gray-500 dark:text-white">Origin</div>
-                                <div className="text-sm font-medium text-gray-900 dark:text-white">{order.origin_street} {order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</div>
-                            </div>
-                            <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                                <div className="text-sm font-extrabold text-gray-500 dark:text-white">Destination</div>
-                                <div className="text-sm font-medium text-gray-900 dark:text-white">{order.destination_street} {order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</div>
+                                <div className="text-sm font-extrabold text-zinc-500 dark:text-white">Origin</div>
+                                <div className="text-sm font-medium text-zinc-900 dark:text-white">{order.origin_street} {order.shippingquotes.origin_city}, {order.shippingquotes.origin_state} {order.shippingquotes.origin_zip}</div>
                             </div>
                             <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                                <div className="text-sm font-extrabold text-gray-500 dark:text-white">Freight</div>
-                                <div className="text-sm font-medium text-gray-900 dark:text-white">{order.shippingquotes.year_amount} {order.shippingquotes.make} {order.shippingquotes.model}</div>
+                                <div className="text-sm font-extrabold text-zinc-500 dark:text-white">Destination</div>
+                                <div className="text-sm font-medium text-zinc-900 dark:text-white">{order.destination_street} {order.shippingquotes.destination_city}, {order.shippingquotes.destination_state} {order.shippingquotes.destination_zip}</div>
                             </div>
                             <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                                <div className="text-sm font-extrabold text-gray-500 dark:text-white">Shipping Date</div>
-                                <div className="text-sm font-medium text-gray-900 dark:text-white">{order.shippingquotes.due_date || 'No due date'}</div>
+                                <div className="text-sm font-extrabold text-zinc-500 dark:text-white">Freight</div>
+                                <div className="text-sm font-medium text-zinc-900 dark:text-white">{order.shippingquotes.year_amount} {order.shippingquotes.make} {order.shippingquotes.model}</div>
                             </div>
                             <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
-                                <div className="text-sm font-extrabold text-gray-500 dark:text-white">Price</div>
-                                <div className="text-sm font-medium text-gray-900 dark:text-white">{order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'coming soon'}</div>
+                                <div className="text-sm font-extrabold text-zinc-500 dark:text-white">Shipping Date</div>
+                                <div className="text-sm font-medium text-zinc-900 dark:text-white">{order.shippingquotes.due_date || 'No due date'}</div>
+                            </div>
+                            <div className="flex flex-col md:flex-row justify-start items-stretch mb-2">
+                                <div className="text-sm font-extrabold text-zinc-500 dark:text-white">Price</div>
+                                <div className="text-sm font-medium text-zinc-900 dark:text-white">{order.shippingquotes.price ? `$${order.shippingquotes.price}` : 'coming soon'}</div>
                             </div>
                             <div className="flex justify-between items-center">
                                 <button onClick={() => handleEditOrder(order)} className="text-blue-600 dark:text-blue-400 ml-2">
@@ -338,12 +338,12 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                 <button onClick={confirmCancelOrder} className="bg-red-500 text-white px-4 py-2 rounded mr-2">
                     Yes
                 </button>
-                <button onClick={() => setIsModalOpen(false)} className="bg-gray-500 text-white px-4 py-2 rounded">
+                <button onClick={() => setIsModalOpen(false)} className="bg-zinc-500 text-white px-4 py-2 rounded">
                     No
                 </button>
                 {selectedOrderId !== null && (
                     <div className="mt-4">
-                        <label htmlFor="reason" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="reason" className="block text-sm font-medium text-zinc-700">
                             Reason for cancellation:
                         </label>
                         <input
@@ -351,7 +351,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                             id="reason"
                             value={cancellationReason}
                             onChange={(e) => setCancellationReason(e.target.value)}
-                            className="mt-1 p-2 border border-gray-300 rounded w-full"
+                            className="mt-1 p-2 border border-zinc-300 rounded w-full"
                         />
                     </div>
                 )}
@@ -361,7 +361,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                     <h2 className="text-xl mb-4">Edit Order</h2>
                     <form onSubmit={handleEditSubmit}>
                         <div className="mb-4">
-                            <label htmlFor="origin_street" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="origin_street" className="block text-sm font-medium text-zinc-700">
                                 Origin Street
                             </label>
                             <input
@@ -370,11 +370,11 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                                 name="origin_street"
                                 value={editData.origin_street || ''}
                                 onChange={handleEditChange}
-                                className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                className="mt-1 p-2 border border-zinc-300 rounded w-full"
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="destination_street" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="destination_street" className="block text-sm font-medium text-zinc-700">
                                 Destination Street
                             </label>
                             <input
@@ -383,7 +383,7 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
                                 name="destination_street"
                                 value={editData.destination_street || ''}
                                 onChange={handleEditChange}
-                                className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                className="mt-1 p-2 border border-zinc-300 rounded w-full"
                             />
                         </div>
                         <button onClick={handleEditSubmit} className="btn-slate">

@@ -20,7 +20,7 @@ const ContactPage = () => {
             <main>
                 <ContactUs />
             </main>
-                <footer className="bg-gray-900 text-white p-4 flex flex-col justify-center text-center gap-3 ">
+                <footer className="bg-zinc-900 text-white p-4 flex flex-col justify-center text-center gap-3 ">
                     <Link href="/policies" className="dark-light-btn max-w-max self-center">Policies</Link>
                     <div className="container mx-auto text-center">
                         <p>&copy; {new Date().getFullYear()} SSTA LLC. All rights reserved.</p>

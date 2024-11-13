@@ -83,34 +83,34 @@ const PurchaseOrders: React.FC<PurchaseOrdersProps> = ({ session }) => {
   return (
     <div>
       <h2 className="text-xl underline text-start mb-6">Purchase Orders</h2>
-      <button onClick={() => setIsModalOpen(true)} className="px-4 py-2 shadow-md text-stone-100 font-medium bg-gray-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-gray-900">
+      <button onClick={() => setIsModalOpen(true)} className="px-4 py-2 shadow-md text-stone-100 font-medium bg-zinc-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-zinc-900">
         Add Purchase Order
       </button>
-      <button onClick={handlePrintPDF} className="px-4 py-2 shadow-md text-stone-100 font-medium bg-gray-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-gray-900 ml-4">
+      <button onClick={handlePrintPDF} className="px-4 py-2 shadow-md text-stone-100 font-medium bg-zinc-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-zinc-900 ml-4">
         Print PDF
       </button>
-      <table id="purchase-orders-table" className="min-w-full divide-y divide-gray-200 mt-4">
-        <thead className="bg-gray-50">
+      <table id="purchase-orders-table" className="min-w-full divide-y divide-zinc-200 mt-4">
+        <thead className="bg-zinc-50">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PO Number</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created Date</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expected Date</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendor Number</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendor Name</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">PO Number</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Status</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Description</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Created Date</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Expected Date</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Vendor Number</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Vendor Name</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
         <tbody className="w-full">
           {purchaseOrders.map((data, index) => (
-            <tr className="space-x-12 border border-gray-900/50 text-sm font-medium" key={index} id={`purchase-order-row-${data.id}`}>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.ponumber}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">
+            <tr className="space-x-12 border border-zinc-900/50 text-sm font-medium" key={index} id={`purchase-order-row-${data.id}`}>
+              <td className="px-2 border border-zinc-900/40 dark:border-stone-100/50 tracking-wider">{data.ponumber}</td>
+              <td className="px-2 border border-zinc-900/40 dark:border-stone-100/50 tracking-wider">
                 <select
                   value={data.status}
                   onChange={(e) => handleStatusChange(data.id, e.target.value)}
-                  className="bg-white border border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                  className="bg-white border border-zinc-300 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
                 >
                   <option value="pending">Pending</option>
                   <option value="in progress">In Progress</option>
@@ -119,12 +119,12 @@ const PurchaseOrders: React.FC<PurchaseOrdersProps> = ({ session }) => {
                   <option value="completed">Completed</option>
                 </select>
               </td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.order_description}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.createddate}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.expecteddate}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.vendornumber}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">{data.vendorname}</td>
-              <td className="px-2 border border-gray-900/40 dark:border-stone-100/50 tracking-wider">
+              <td className="px-2 border border-zinc-900/40 dark:border-stone-100/50 tracking-wider">{data.order_description}</td>
+              <td className="px-2 border border-zinc-900/40 dark:border-stone-100/50 tracking-wider">{data.createddate}</td>
+              <td className="px-2 border border-zinc-900/40 dark:border-stone-100/50 tracking-wider">{data.expecteddate}</td>
+              <td className="px-2 border border-zinc-900/40 dark:border-stone-100/50 tracking-wider">{data.vendornumber}</td>
+              <td className="px-2 border border-zinc-900/40 dark:border-stone-100/50 tracking-wider">{data.vendorname}</td>
+              <td className="px-2 border border-zinc-900/40 dark:border-stone-100/50 tracking-wider">
                 <button onClick={() => handleEditOrder(data)} className="text-blue-600 hover:text-blue-900">Edit</button>
                 <button onClick={() => handlePrintRowPDF(data)} className="text-green-600 hover:text-green-900 ml-2">Print PDF</button>
               </td>
@@ -137,7 +137,7 @@ const PurchaseOrders: React.FC<PurchaseOrdersProps> = ({ session }) => {
           <div className="fixed inset-0 bg-black opacity-50"></div>
           <div className="bg-white rounded-lg p-6 z-10">
             <PurchaseOrderForm onSubmit={handleAddOrder} userId={session?.user?.id || ''} />
-            <button onClick={() => setIsModalOpen(false)} className="mt-4 px-4 py-2 bg-gray-500 text-white rounded">Close</button>
+            <button onClick={() => setIsModalOpen(false)} className="mt-4 px-4 py-2 bg-zinc-500 text-white rounded">Close</button>
           </div>
         </div>
       )}

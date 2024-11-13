@@ -8,7 +8,7 @@ const FleetTracking = () => {
 
       {/* Fleet Selection from freight table */}
       <div className="col-span-1">
-        <div className="w-full h-96 bg-gray-200">
+        <div className="w-full h-96 bg-zinc-200">
           <h2>Fleet Selection</h2>
           <form>
             <select name="fleet" id="fleet">
@@ -22,7 +22,7 @@ const FleetTracking = () => {
       </div>
 
       <div className="col-span-1">
-        <div className="w-full h-96 bg-gray-200">
+        <div className="w-full h-96 bg-zinc-200">
           <h2>Map</h2>
         </div>
       </div>

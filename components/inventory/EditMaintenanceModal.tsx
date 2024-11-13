@@ -33,29 +33,29 @@ const EditMaintenanceModal: React.FC<EditMaintenanceModalProps> = ({ isOpen, onC
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-zinc-600 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-8 rounded shadow-md w-1/2">
                 <h2 className="text-xl mb-4">Edit Maintenance</h2>
                 <form className="flex flex-col w-full gap-2 my-2">
-                    <label className='text-slate-900 font-medium'>Urgency
+                    <label className='text-zinc-900 font-medium'>Urgency
                         <input
-                            className="rounded w-full p-2 border border-slate-900"
+                            className="rounded w-full p-2 border border-zinc-900"
                             type="text"
                             value={urgency}
                             onChange={(e) => setUrgency(e.target.value)}
                         />
                     </label>
-                    <label className='text-slate-900 font-medium'>Notes
+                    <label className='text-zinc-900 font-medium'>Notes
                         <textarea
-                            className="rounded w-full p-2 border border-slate-900"
+                            className="rounded w-full p-2 border border-zinc-900"
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
                         />
                     </label>
-                    <label htmlFor='needParts' className='text-slate-900 font-medium flex items-center gap-2'>
+                    <label htmlFor='needParts' className='text-zinc-900 font-medium flex items-center gap-2'>
                         Parts Needed?
                         <input
-                            className="rounded p-6 border border-slate-900"
+                            className="rounded p-6 border border-zinc-900"
                             name='needParts'
                             type="checkbox"
                             checked={needParts}
@@ -63,26 +63,26 @@ const EditMaintenanceModal: React.FC<EditMaintenanceModalProps> = ({ isOpen, onC
                         />
                     </label>
                     {needParts && (
-                        <label className='text-slate-900 font-medium'>Part
+                        <label className='text-zinc-900 font-medium'>Part
                             <input
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded w-full p-2 border border-zinc-900"
                                 type="text"
                                 value={part}
                                 onChange={(e) => setPart(e.target.value)}
                             />
                         </label>
                     )}
-                    <label className='text-slate-900 font-medium'>Maintenance Crew
+                    <label className='text-zinc-900 font-medium'>Maintenance Crew
                         <input
-                            className="rounded w-full p-2 border border-slate-900"
+                            className="rounded w-full p-2 border border-zinc-900"
                             type="text"
                             value={maintenanceCrew}
                             onChange={(e) => setMaintenanceCrew(e.target.value)}
                         />
                     </label>
-                    <label className='text-slate-900 font-medium'>Schedule Date
+                    <label className='text-zinc-900 font-medium'>Schedule Date
                         <input
-                            className="rounded w-full p-2 border border-slate-900"
+                            className="rounded w-full p-2 border border-zinc-900"
                             type="date"
                             value={scheduleDate}
                             onChange={(e) => setScheduleDate(e.target.value)}

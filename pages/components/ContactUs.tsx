@@ -44,20 +44,20 @@ const ContactUs = () => {
                         name="name"
                         placeholder="Name"
                         {...register('name', { required: 'Name is required' })}
-                        className="input border p-1 rounded-md border-gray-800"
+                        className="input border p-1 rounded-md border-zinc-800"
                     />
                     <input
                         type="email"
                         name="email"
                         placeholder="Email"
                         {...register('email', { required: 'Email is required' })}
-                        className="input border p-1 rounded-md border-gray-800"
+                        className="input border p-1 rounded-md border-zinc-800"
                     />
                     <textarea
                         name="message"
                         placeholder="Message"
                         {...register('message', { required: 'Message is required' })}
-                        className="input border p-1 rounded-md border-gray-800"
+                        className="input border p-1 rounded-md border-zinc-800"
                     />
                     <button type="submit" className="dark-light-btn">
                         Submit

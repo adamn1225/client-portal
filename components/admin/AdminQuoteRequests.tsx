@@ -170,7 +170,7 @@ const AdminQuoteRequests = () => {
                     id="user-select"
                     value={selectedUser}
                     onChange={handleUserChange}
-                    className="w-full text-gray-900 p-2 border rounded"
+                    className="w-full text-zinc-900 p-2 border rounded"
                 >
                     <option value="">All Users</option>
                     {uniqueUsers.map((user, index) => (
@@ -180,7 +180,7 @@ const AdminQuoteRequests = () => {
                     ))}
                 </select>
             </div>
-            <div className="flex justify-center items-center border-b border-gray-300">
+            <div className="flex justify-center items-center border-b border-zinc-300">
                 <button
                     className={`px-4 py-2 ${activeTab === 'requests' ? 'border-b-2 border-blue-500' : ''}`}
                     onClick={() => setActiveTab('requests')}
@@ -200,7 +200,7 @@ const AdminQuoteRequests = () => {
                     Completed Orders
                 </button>
             </div>
-            <div className="w-full bg-white shadow overflow-hidden rounded-md border border-slate-400 max-h-screen overflow-y-auto flex-grow">
+            <div className="w-full bg-white shadow overflow-hidden rounded-md border border-zinc-400 max-h-screen overflow-y-auto flex-grow">
                 {activeTab === 'requests' && (
                     <QuoteList
                         session={null}
@@ -235,7 +235,7 @@ const AdminQuoteRequests = () => {
                             type="text"
                             value={price}
                             onChange={handlePriceChange}
-                            className="ml-2 p-1 border border-gray-300 rounded"
+                            className="ml-2 p-1 border border-zinc-300 rounded"
                         />
                     </label>
                     <button type="submit" className="ml-2 p-1 bg-blue-500 text-white rounded">

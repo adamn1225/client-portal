@@ -12,7 +12,7 @@ export const Trusted = () => {
         <>
         
                 <h2 className="text-center text-3xl font-bold mb-4">Trusted by over 10000+ customers</h2>
-                <p className="text-gray-600 max-w-2xl text-center text-lg mb-8">
+                <p className="text-zinc-600 max-w-2xl text-center text-lg mb-8">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                     eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>

@@ -119,7 +119,7 @@ export default function DashboardPage() {
                 <div className="w-full h-screen bg-200">
                     <div className="min-w-full min-h-screen grid grid-cols-1 md:grid-cols-2 ">
 
-                        <div className="hidden md:block h-full w-full md:h-full col-span-1 bg-gray-900">
+                        <div className="hidden md:block h-full w-full md:h-full col-span-1 bg-zinc-900">
                             <div className='absolute top-5 left-5'>
                                 <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> Heavy Construct</h1>
                             </div>
@@ -134,7 +134,7 @@ export default function DashboardPage() {
                                     <a className="body-btn-btn">Sign Up</a>
                                 </Link>
                             </div>
-                            <div className=" w-full text-gray-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
+                            <div className=" w-full text-zinc-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
                                 <span className="font-sans text-4xl font-medium text-center pb-2 mb-1 border-b mx-4 align-center">
                                     Heavy Construct
                                 </span>
@@ -147,11 +147,11 @@ export default function DashboardPage() {
                                 <div className="mt-4 text-center">
                                     <p>Don&apos;t have an account?</p>
                                     <Link href="/signup" legacyBehavior>
-                                        <a className="text-gray-900 font-semibold hover:underline">Sign Up</a>
+                                        <a className="text-zinc-900 font-semibold hover:underline">Sign Up</a>
                                     </Link>
                                 </div>
                                 <div className='md:hidden h-5/6 w-full flex items-end justify-center'>
-                                    <h1 className='text-gray-900 font-medium w-full text-lg text-center italic'>Your trusted partner in Inventory Management, Procurement, and Logistics.</h1>
+                                    <h1 className='text-zinc-900 font-medium w-full text-lg text-center italic'>Your trusted partner in Inventory Management, Procurement, and Logistics.</h1>
                                 </div>
                             </div>
 

@@ -22,7 +22,7 @@ const CustomSignInForm = () => {
         <form onSubmit={handleSignIn}>
             {error && <div className="text-red-500 mb-4">{error}</div>}
             <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="email" className="block text-sm font-medium text-zinc-700">
                     Email
                 </label>
                 <input
@@ -30,12 +30,12 @@ const CustomSignInForm = () => {
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                    className="mt-1 p-2 border border-zinc-300 rounded w-full"
                     required
                 />
             </div>
             <div className="mb-4">
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="password" className="block text-sm font-medium text-zinc-700">
                     Password
                 </label>
                 <input
@@ -43,7 +43,7 @@ const CustomSignInForm = () => {
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                    className="mt-1 p-2 border border-zinc-300 rounded w-full"
                     required
                 />
             </div>

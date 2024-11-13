@@ -78,12 +78,12 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-zinc-600 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-8 rounded shadow-md w-1/2">
                 <h2 className="text-xl mb-4">Transfer to Maintenance</h2>
                 <form onSubmit={handleSubmit} className="flex flex-col w-full gap-2 my-2">
                     <div className="flex flex-col gap-4 w-full">
-                        <label className="text-slate-900 font-medium">Urgency
+                        <label className="text-zinc-900 font-medium">Urgency
                             <div className="flex gap-2">
                                 <label>
                                     <input
@@ -108,14 +108,14 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
 
                         {urgency === 'urgent' && (
                             <>
-                                <label className="text-slate-900 font-medium">Notes
+                                <label className="text-zinc-900 font-medium">Notes
                                     <textarea
-                                        className="rounded w-full p-2 border border-slate-900"
+                                        className="rounded w-full p-2 border border-zinc-900"
                                         value={notes}
                                         onChange={(e) => setNotes(e.target.value)}
                                     />
                                 </label>
-                                <label className="text-slate-900 font-medium">Do you need parts ordered?
+                                <label className="text-zinc-900 font-medium">Do you need parts ordered?
                                     <div className="flex gap-2">
                                         <label>
                                             <input
@@ -138,9 +138,9 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
                                     </div>
                                 </label>
                                 {needParts === 'yes' && (
-                                    <label className="text-slate-900 font-medium">What is the part?
+                                    <label className="text-zinc-900 font-medium">What is the part?
                                         <input
-                                            className="rounded w-full p-2 border border-slate-900"
+                                            className="rounded w-full p-2 border border-zinc-900"
                                             type="text"
                                             value={part}
                                             onChange={(e) => setPart(e.target.value)}
@@ -152,22 +152,22 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
 
                         {urgency === 'schedule' && (
                             <>
-                                <label className="text-slate-900 font-medium">Date to go for Maintenance
+                                <label className="text-zinc-900 font-medium">Date to go for Maintenance
                                     <input
-                                        className="rounded w-full p-2 border border-slate-900"
+                                        className="rounded w-full p-2 border border-zinc-900"
                                         type="date"
                                         value={scheduleDate}
                                         onChange={(e) => setScheduleDate(e.target.value)}
                                     />
                                 </label>
-                                <label className="text-slate-900 font-medium">Notes
+                                <label className="text-zinc-900 font-medium">Notes
                                     <textarea
-                                        className="rounded w-full p-2 border border-slate-900"
+                                        className="rounded w-full p-2 border border-zinc-900"
                                         value={notes}
                                         onChange={(e) => setNotes(e.target.value)}
                                     />
                                 </label>
-                                <label className="text-slate-900 font-medium">Do you need parts ordered?
+                                <label className="text-zinc-900 font-medium">Do you need parts ordered?
                                     <div className="flex gap-2">
                                         <label>
                                             <input
@@ -190,9 +190,9 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
                                     </div>
                                 </label>
                                 {needParts === 'yes' && (
-                                    <label className="text-slate-900 font-medium">What is the part?
+                                    <label className="text-zinc-900 font-medium">What is the part?
                                         <input
-                                            className="rounded w-full p-2 border border-slate-900"
+                                            className="rounded w-full p-2 border border-zinc-900"
                                             type="text"
                                             value={part}
                                             onChange={(e) => setPart(e.target.value)}
@@ -202,9 +202,9 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
                             </>
                         )}
 
-                        <label className="text-slate-900 font-medium">Assign Maintenance Task?
+                        <label className="text-zinc-900 font-medium">Assign Maintenance Task?
                             <select
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded w-full p-2 border border-zinc-900"
                                 value={maintenanceCrew}
                                 onChange={(e) => setMaintenanceCrew(e.target.value)}
                             >
@@ -216,7 +216,7 @@ const TransferToMaintenanceModal: React.FC<TransferToMaintenanceModalProps> = ({
                     </div>
                     {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
                     <button className="btn-slate shadow-md" type="submit">Submit</button>
-                    <button type="button" className="bg-stone-300 text-slate-800 shadow-md py-2 px-4 font-semibold mt-2 hover:bg-stone-300/50 hover:text-slate-700" onClick={onClose}>Close</button>
+                    <button type="button" className="bg-stone-300 text-zinc-800 shadow-md py-2 px-4 font-semibold mt-2 hover:bg-stone-300/50 hover:text-zinc-700" onClick={onClose}>Close</button>
                 </form>
             </div>
         </div>

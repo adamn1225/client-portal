@@ -3,7 +3,7 @@ import React from 'react';
 
 const ChromeExtAd = () => {
   return (
-    <section id="features" className="py-20 lg:py-25 my-6 xl:py-30 bg-gray-900 w-full">
+    <section id="features" className="py-20 lg:py-25 my-6 xl:py-30 bg-zinc-900 w-full">
       <div className="flex flex-col justify-center items-center h-full w-full">
         <h2 className='font-semibold text-xl text-stone-50'>Chrome Extension</h2>
         <div> <p className='text-lg text-stone-50 mb-2'>Check out our Chrome Extension that helps you get quotes the fast and easy way!</p></div>

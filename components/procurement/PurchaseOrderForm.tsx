@@ -55,7 +55,7 @@ const PurchaseOrderForm: React.FC<PurchaseOrderFormProps> = ({ onSubmit, userId 
             value={poNumber}
             onChange={(e) => setPoNumber(e.target.value)}
             placeholder="PO Number"
-            className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            className="mt-1 pl-2 block w-full text-zinc-950 placeholder:text-zinc-900 border border-zinc-300 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
           />
         </div>
       </div>
@@ -65,7 +65,7 @@ const PurchaseOrderForm: React.FC<PurchaseOrderFormProps> = ({ onSubmit, userId 
           value={orderDescription}
           onChange={(e) => setOrderDescription(e.target.value)}
           placeholder="Order Description"
-          className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm" />
+          className="mt-1 pl-2 block w-full text-zinc-950 placeholder:text-zinc-900 border border-zinc-300 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm" />
       </div>
       <div className="flex flex-col items-start w-full">
         <label className="block text-start text-sm font-medium w-4/5">Created Date</label>
@@ -73,7 +73,7 @@ const PurchaseOrderForm: React.FC<PurchaseOrderFormProps> = ({ onSubmit, userId 
           type="date"
           value={createdDate}
           onChange={(e) => setCreatedDate(e.target.value)}
-          className="mt-1 pl-2 block w-4/5 border border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+          className="mt-1 pl-2 block w-4/5 border border-zinc-300 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-900 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
         />
       </div>
       <div className="flex flex-col items-start w-full">
@@ -82,7 +82,7 @@ const PurchaseOrderForm: React.FC<PurchaseOrderFormProps> = ({ onSubmit, userId 
           type="date"
           value={expectedDate}
           onChange={(e) => setExpectedDate(e.target.value)}
-          className="mt-1 pl-2 block w-4/5 border border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+          className="mt-1 pl-2 block w-4/5 border border-zinc-300 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-900 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
         />
       </div>
       <div className="flex flex-col items-start w-full">
@@ -91,7 +91,7 @@ const PurchaseOrderForm: React.FC<PurchaseOrderFormProps> = ({ onSubmit, userId 
           <select
             value={vendorNumber}
             onChange={(e) => setVendorNumber(e.target.value)}
-            className="mt-1 pl-2 block w-full border-gray-300 rounded-md shadow-sm text-gray-950 placeholder:text-gray-900 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            className="mt-1 pl-2 block w-full border-zinc-300 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-900 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
           >
             <option value="">Select Vendor</option>
             {vendors.map((vendor) => (
@@ -103,7 +103,7 @@ const PurchaseOrderForm: React.FC<PurchaseOrderFormProps> = ({ onSubmit, userId 
         </div>
       </div>
       <div className="flex justify-end">
-        <button type="submit" className="px-4 py-2 shadow-md text-stone-100 font-medium bg-gray-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-gray-900">
+        <button type="submit" className="px-4 py-2 shadow-md text-stone-100 font-medium bg-zinc-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-zinc-900">
           Submit
         </button>
       </div>

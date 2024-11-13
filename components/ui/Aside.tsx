@@ -13,10 +13,10 @@ import { Bolt, Settings, NotebookText, Bot, FolderSearch2, Wrench, UserRound, La
 function Aside() {
     return (
         <TooltipProvider>
-            <div className="pl-[200px] bg-gray-950 z-50 overflow-hidden shadow-lg shadow-slate-500">
-                <aside className="inset-y fixed left-0 z-50 bg-gray-950 flex h-full flex-col border-r w-[260px]">
+            <div className="pl-[200px] bg-zinc-950 z-50 overflow-hidden shadow-lg shadow-zinc-500">
+                <aside className="inset-y fixed left-0 z-50 bg-zinc-950 flex h-full flex-col border-r w-[260px]">
                     <div className="border-b p-2 w-full max-w-min overflow-hidden flex justify-center items-center ">
-                        <Button className='border bg-gray-950 rounded-sm border-white p-8' aria-label="Home">
+                        <Button className='border bg-zinc-950 rounded-sm border-white p-8' aria-label="Home">
                             <Bolt className="size-8 bg-white fill-foreground" />
                             <h2 className='font-bold pl-4 md:text-lg lg:text-xl font-mono'>HEAVY TOOLS</h2>
                         </Button>

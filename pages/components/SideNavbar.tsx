@@ -35,16 +35,16 @@ const SideNavbar: React.FC<SideNavbarProps> = ({ isSidebarOpen, toggleSidebar, c
                 className="fixed left-1 top-1 z-50 p-2 rounded-full"
                 onClick={toggleSidebar}
             >
-                {isSidebarOpen ? <PanelRightClose size={24} className='text-white' /> : <PanelLeftOpen size={28} className='text-gray-900' />}
+                {isSidebarOpen ? <PanelRightClose size={24} className='text-white' /> : <PanelLeftOpen size={28} className='text-zinc-900' />}
             </button>
-            <nav className={`side-navbar bg-stone-900 flex flex-col h-screen z-20 py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform md:translate-x-0 ${className}`}>
+            <nav className={`side-navbar bg-stone-900 flex flex-col h-screen z-20 py-6 drop-shadow absolute top-0 left-0 transform ${isSidebarOpen ? 'tranzinc-x-0' : '-tranzinc-x-full'} transition-transform md:tranzinc-x-0 ${className}`}>
                 <h1 className='text-xl mb-4 mt-12 self-center'>NTS Client Portal</h1>
                 <ul className='flex gap-3 flex-col justify-start items-center flex-grow space-y-1 overflow-y-auto'>
                     <li className="w-full flex flex-col items-center gap-1 justify-center m-0">
                         <h3 className='font-medium text-lg'>Welcome!</h3>
                     </li>
                     <li className="w-full flex flex-col gap-3 items-center justify-center m-0">
-                        <button className="side-nav-btn bg-slate-100/70 text-slate-900 text-nowrap font-bold px-4 py-1 rounded-sm w-4/5">
+                        <button className="side-nav-btn bg-zinc-100/70 text-zinc-900 text-nowrap font-bold px-4 py-1 rounded-sm w-4/5">
                             Contact Support
                         </button>
                     </li>

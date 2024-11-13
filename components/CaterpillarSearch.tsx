@@ -114,7 +114,7 @@ const CaterpillarSearch: React.FC = () => {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <div className="relative mb-4 w-full">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-950" />
+                            <Search className="absolute left-3 top-1/2 transform -tranzinc-y-1/2 text-stone-950" />
                             <Input
                                 type="text"
                                 value={inputValue}
@@ -148,12 +148,12 @@ const CaterpillarSearch: React.FC = () => {
                 />
             </div>
             <div className="flex gap-4 mb-4 justify-center">
-                <Button className='dark-button hover:bg-gray-800' onClick={handleSearch}>Search</Button>
+                <Button className='dark-button hover:bg-zinc-800' onClick={handleSearch}>Search</Button>
                 <Button className='dark-button' onClick={handleClearSearch} variant="outline">Clear</Button>
             </div>
             <ul className="flex flex-col justify-center items-center gap-4 w-full">
                 {results.map((result, index) => (
-                    <div key={index} className='flex flex-col gap-4 w-2/3 justify-evenly items-center bg-stone-50 border border-gray-800 p-4 h-auto'>
+                    <div key={index} className='flex flex-col gap-4 w-2/3 justify-evenly items-center bg-stone-50 border border-zinc-800 p-4 h-auto'>
                         <div className='grid grid-cols-1 justify-items-start'>
                             <li className="font-bold cursor-pointer" onClick={() => toggleExpand(index)}>
                                 {result.model}
@@ -162,7 +162,7 @@ const CaterpillarSearch: React.FC = () => {
                         {expandedIndex === index && (
                             <div className="flex flex-col gap-1">
                                 {Object.entries(result.data).map(([key, value], idx, arr) => (
-                                    <div key={key} className={`pb-2 ${idx !== arr.length - 1 ? 'border-b border-gray-500' : ''}`}>
+                                    <div key={key} className={`pb-2 ${idx !== arr.length - 1 ? 'border-b border-zinc-500' : ''}`}>
                                         <strong>{key}:</strong> {typeof value === 'object' && value !== null ? JSON.stringify(value) : String(value)}
                                     </div>
                                 ))}

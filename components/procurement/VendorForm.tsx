@@ -60,7 +60,7 @@ const VendorForm: React.FC<VendorFormProps> = ({ onVendorAdded }) => {
               value={vendorNumber}
               onChange={(e) => setVendorNumber(e.target.value)}
               placeholder="Vendor Number"
-              className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-slate-500 border border-gray-400 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+              className="mt-1 pl-2 block w-full text-zinc-950 placeholder:text-zinc-500 border border-zinc-400 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
             />
           </div>
           <div className="w-full">
@@ -70,7 +70,7 @@ const VendorForm: React.FC<VendorFormProps> = ({ onVendorAdded }) => {
               value={vendorName}
               onChange={(e) => setVendorName(e.target.value)}
               placeholder="Vendor Name"
-              className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-slate-500 border border-gray-400 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+              className="mt-1 pl-2 block w-full text-zinc-950 placeholder:text-zinc-500 border border-zinc-400 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
             />
           </div>
         </div>
@@ -82,7 +82,7 @@ const VendorForm: React.FC<VendorFormProps> = ({ onVendorAdded }) => {
             value={businessStreet}
             onChange={(e) => setBusinessStreet(e.target.value)}
             placeholder="123 Lexington St"
-            className="mt-1 pl-2 block w-4/5 border border-gray-400 rounded-md shadow-sm text-gray-950 placeholder:text-slate-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            className="mt-1 pl-2 block w-4/5 border border-zinc-400 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-500 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
           />
         </div>
         <div className="flex gap-4 justify-around w-full">
@@ -93,7 +93,7 @@ const VendorForm: React.FC<VendorFormProps> = ({ onVendorAdded }) => {
               value={businessCity}
               onChange={(e) => setBusinessCity(e.target.value)}
               placeholder="City"
-              className="mt-1 pl-2 block w-full border border-gray-400 rounded-md shadow-sm text-gray-950 placeholder:text-slate-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+              className="mt-1 pl-2 block w-full border border-zinc-400 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-500 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
             />
           </div>
           <div className="w-full">
@@ -103,7 +103,7 @@ const VendorForm: React.FC<VendorFormProps> = ({ onVendorAdded }) => {
               value={businessState}
               onChange={(e) => setBusinessState(e.target.value)}
               placeholder="State"
-              className="mt-1 pl-2 block w-full border border-gray-400 rounded-md shadow-sm text-gray-950 placeholder:text-slate-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+              className="mt-1 pl-2 block w-full border border-zinc-400 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-500 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
             />
           </div>
         </div>
@@ -114,7 +114,7 @@ const VendorForm: React.FC<VendorFormProps> = ({ onVendorAdded }) => {
             value={email}
             placeholder='you@email.com'
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 pl-2 block w-full border border-gray-400 rounded-md shadow-sm text-gray-950 placeholder:text-slate-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            className="mt-1 pl-2 block w-full border border-zinc-400 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-500 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
           />
         </div>
         <div>
@@ -124,11 +124,11 @@ const VendorForm: React.FC<VendorFormProps> = ({ onVendorAdded }) => {
             value={phone}
             placeholder='(888) 888-8888'
             onChange={(e) => setPhone(e.target.value)}
-            className="mt-1 pl-2 block w-full border border-gray-400 rounded-md shadow-sm text-gray-950 placeholder:text-slate-500 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            className="mt-1 pl-2 block w-full border border-zinc-400 rounded-md shadow-sm text-zinc-950 placeholder:text-zinc-500 focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
           />
         </div>
         <div className="flex justify-end">
-          <button type="submit" className="px-4 py-2 shadow-md text-stone-100 font-medium bg-gray-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-gray-900">
+          <button type="submit" className="px-4 py-2 shadow-md text-stone-100 font-medium bg-zinc-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-zinc-900">
             Submit
           </button>
         </div>

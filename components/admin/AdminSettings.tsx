@@ -218,13 +218,13 @@ const AdminSettings = () => {
     return (
         <div className="flex h-screen">
             {/* Sidebar */}
-            <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out w-64 bg-gray-200 dark:bg-gray-900 dark:text-white p-4 border-r border-t border-gray-700/20 shadow-lg z-50 md:relative md:translate-x-0`}>
+            <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? 'tranzinc-x-0' : '-tranzinc-x-full'} transition-transform duration-300 ease-in-out w-64 bg-zinc-200 dark:bg-zinc-900 dark:text-white p-4 border-r border-t border-zinc-700/20 shadow-lg z-50 md:relative md:tranzinc-x-0`}>
                 <h2 className="text-xl font-bold mb-4">Settings</h2>
                 <ul className="space-y-2">
                     <li className='flex gap-1 items-center'>
                         <UserRoundPen />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'personal' ? ' bg-gray-300 dark:text-slate-800' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'personal' ? ' bg-zinc-300 dark:text-zinc-800' : ''}`}
                             onClick={() => setActiveSection('personal')}
                         >
                             Personal Details
@@ -233,7 +233,7 @@ const AdminSettings = () => {
                     <li className='flex gap-1 items-center'>
                         <Building2 />
                         <button
-                            className={`w-full text-left p-2  ${activeSection === 'company' ? ' bg-gray-300  dark:text-slate-800' : ''}`}
+                            className={`w-full text-left p-2  ${activeSection === 'company' ? ' bg-zinc-300  dark:text-zinc-800' : ''}`}
                             onClick={() => setActiveSection('company')}
                         >
                             Company Details
@@ -242,7 +242,7 @@ const AdminSettings = () => {
                     <li className='flex gap-1 items-center'>
                         <BellRing />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'notifications' ? ' bg-gray-300 dark:text-slate-800' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'notifications' ? ' bg-zinc-300 dark:text-zinc-800' : ''}`}
                             onClick={() => setActiveSection('notifications')}
                         >
                             Notification Settings
@@ -251,7 +251,7 @@ const AdminSettings = () => {
                     <li className='flex gap-1 items-center'>
                         <Shield />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'security' ? ' bg-gray-300 dark:text-slate-800' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'security' ? ' bg-zinc-300 dark:text-zinc-800' : ''}`}
                             onClick={() => setActiveSection('security')}
                         >
                             Security Settings
@@ -260,7 +260,7 @@ const AdminSettings = () => {
                 </ul>
                 <div className="mt-4">
                     <button
-                        className="flex items-center p-2 text-gray-700 hover:bg-gray-200 rounded w-full text-left bg-gray-200 dark:bg-gray-900 dark:text-white"
+                        className="flex items-center p-2 text-zinc-700 hover:bg-zinc-200 rounded w-full text-left bg-zinc-200 dark:bg-zinc-900 dark:text-white"
                         onClick={toggleDarkMode}
                     >
                         {darkMode ? <Sun className="mr-2" /> : <Moon className="mr-2" />}
@@ -291,12 +291,12 @@ const AdminSettings = () => {
                     <div className=' flex flex-col w-full lg:w-1/2 md:items-center justify-center'>
                         <button
                             onClick={() => setIsEditing(true)}
-                            className="btn-slate my-4 text-nowrap max-w-max dark:bg-slate-100 dark:text-slate-800 flex-nowrap w-full self-center cursor-pointer dark:hover:bg-amber-400 dark:hover:text-gray-800"
+                            className="btn-slate my-4 text-nowrap max-w-max dark:bg-zinc-100 dark:text-zinc-800 flex-nowrap w-full self-center cursor-pointer dark:hover:bg-amber-400 dark:hover:text-zinc-800"
                             disabled={isEditing}
                         >
                             Edit Profile Information
                         </button>
-                        <div className="flex flex-col gap-4 bg-stone-200 dark:text-slate-800 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
+                        <div className="flex flex-col gap-4 bg-stone-200 dark:text-zinc-800 px-12 pt-6 pb-12 border border-zinc-600/40 shadow-sm rounded-sm">
                             <form onSubmit={handleProfileSubmit} className="flex flex-col justify-center items-center gap-4 w-full">
                                 {profilePictureUrl && (
                                     <div className="flex flex-col items-center">
@@ -308,7 +308,7 @@ const AdminSettings = () => {
                                             className="rounded-full shadow-md self-center"
                                         />
                                         <div className='w-full flex flex-col items-center justify-center mt-3 mb-6'>
-                                            <label className='font-semibold text-slate-800 dark:text-slate-800'>Update Profile Image</label>
+                                            <label className='font-semibold text-zinc-800 dark:text-zinc-800'>Update Profile Image</label>
                                             <input
                                                 type="file"
                                                 onChange={handleFileChange}
@@ -318,7 +318,7 @@ const AdminSettings = () => {
                                             />
                                             <label
                                                 htmlFor="profile-picture-upload"
-                                                className={`btn-blue cursor-pointer px-6 py-2 dark:bg-slate-800 dark:text-slate-100 font-bold ${!isEditing ? 'opacity-50 dark:text-slate-100 dark:bg-slate-900 cursor-not-allowed' : ''}`}
+                                                className={`btn-blue cursor-pointer px-6 py-2 dark:bg-zinc-800 dark:text-zinc-100 font-bold ${!isEditing ? 'opacity-50 dark:text-zinc-100 dark:bg-zinc-900 cursor-not-allowed' : ''}`}
                                             >
                                                 Upload Image
                                             </label>
@@ -334,7 +334,7 @@ const AdminSettings = () => {
                                             value={firstName}
                                             onChange={(e) => setFirstName(e.target.value)}
                                             required
-                                            className="rounded w-full p-2 border border-slate-900"
+                                            className="rounded w-full p-2 border border-zinc-900"
                                             disabled={!isEditing}
                                         />
                                     </div>
@@ -345,7 +345,7 @@ const AdminSettings = () => {
                                             value={lastName}
                                             onChange={(e) => setLastName(e.target.value)}
                                             required
-                                            className="rounded w-full p-2 border border-slate-900"
+                                            className="rounded w-full p-2 border border-zinc-900"
                                             disabled={!isEditing}
                                         />
                                     </div>
@@ -358,7 +358,7 @@ const AdminSettings = () => {
                                             type="text"
                                             value={phoneNumber}
                                             onChange={(e) => setPhoneNumber(e.target.value)}
-                                            className="rounded w-full p-2 border border-slate-900"
+                                            className="rounded w-full p-2 border border-zinc-900"
                                             disabled={!isEditing}
                                         />
                                     </div>
@@ -369,14 +369,14 @@ const AdminSettings = () => {
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             required
-                                            className="rounded w-full p-2 border border-slate-900"
+                                            className="rounded w-full p-2 border border-zinc-900"
                                             disabled={!isEditing}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="col-span-2">
-                                    <button type="submit" className="btn-black-outline w-full mt-4 dark:hover:bg-amber-400 dark:hover:text-gray-800" disabled={!isEditing}>
+                                    <button type="submit" className="btn-black-outline w-full mt-4 dark:hover:bg-amber-400 dark:hover:text-zinc-800" disabled={!isEditing}>
                                         Update Profile
                                     </button>
                                 </div>
@@ -391,20 +391,20 @@ const AdminSettings = () => {
                     <div>
                         <button
                             onClick={() => setIsEditing(true)}
-                            className="btn-slate my-4 text-nowrap flex-nowrap cursor-pointer self-start dark:bg-slate-100 dark:text-slate-800 dark:hover:bg-amber-400 dark:hover:text-gray-800"
+                            className="btn-slate my-4 text-nowrap flex-nowrap cursor-pointer self-start dark:bg-zinc-100 dark:text-zinc-800 dark:hover:bg-amber-400 dark:hover:text-zinc-800"
                             disabled={isEditing}
                         >
                             Edit Company Information
                         </button>
-                        <div className="flex flex-col w-full lg:w-1/2 md:items-center justify-center gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
-                            <form onSubmit={handleProfileSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full dark:text-slate-800">
+                        <div className="flex flex-col w-full lg:w-1/2 md:items-center justify-center gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-zinc-600/40 shadow-sm rounded-sm">
+                            <form onSubmit={handleProfileSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full dark:text-zinc-800">
                                 <div className="flex flex-col">
                                     <label>Company Name</label>
                                     <input
                                         type="text"
                                         value={companyName}
                                         onChange={(e) => setCompanyName(e.target.value)}
-                                        className="rounded w-full p-2 border border-slate-900"
+                                        className="rounded w-full p-2 border border-zinc-900"
                                         disabled={!isEditing}
                                     />
                                 </div>
@@ -414,13 +414,13 @@ const AdminSettings = () => {
                                         type="text"
                                         value={address}
                                         onChange={(e) => setAddress(e.target.value)}
-                                        className="rounded w-full p-2 border border-slate-900"
+                                        className="rounded w-full p-2 border border-zinc-900"
                                         disabled={!isEditing}
                                     />
                                 </div>
 
                                 <div className="col-span-2">
-                                    <button type="submit" className="btn-black-outline w-full dark:hover:bg-amber-400 dark:hover:text-gray-800" disabled={!isEditing}>
+                                    <button type="submit" className="btn-black-outline w-full dark:hover:bg-amber-400 dark:hover:text-zinc-800" disabled={!isEditing}>
                                         Update Company Details
                                     </button>
                                 </div>
@@ -433,8 +433,8 @@ const AdminSettings = () => {
 
                 {activeSection === 'notifications' && (
                     <div>
-                        <div className="flex flex-col w-full lg:w-1/2 md:items-center justify-center  gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
-                            <form onSubmit={handleNotificationsSubmit} className="flex flex-col gap-4 w-full dark:text-slate-800">
+                        <div className="flex flex-col w-full lg:w-1/2 md:items-center justify-center  gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-zinc-600/40 shadow-sm rounded-sm">
+                            <form onSubmit={handleNotificationsSubmit} className="flex flex-col gap-4 w-full dark:text-zinc-800">
                                 <div className='flex items-center gap-1 flex-nowrap'>
                                     <label className='text-lg font-medium'>Email Notifications</label>
                                     <label className="switch">
@@ -448,7 +448,7 @@ const AdminSettings = () => {
                                     </label>
                                 </div>
 
-                                <button type="submit" className="btn-black-outline dark:hover:bg-amber-400 dark:hover:text-gray-800" disabled={!isEditing}>
+                                <button type="submit" className="btn-black-outline dark:hover:bg-amber-400 dark:hover:text-zinc-800" disabled={!isEditing}>
                                     Update Notification Settings
                                 </button>
                                 {notificationsError && <p className="text-red-500">{notificationsError}</p>}
@@ -460,8 +460,8 @@ const AdminSettings = () => {
 
                 {activeSection === 'security' && (
                     <div>
-                        <div className="flex flex-col w-full lg:w-1/2 md:items-center justify-center gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-slate-600/40 shadow-sm rounded-sm">
-                            <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4 w-full dark:text-slate-800">
+                        <div className="flex flex-col w-full lg:w-1/2 md:items-center justify-center gap-4 bg-stone-100 px-12 pt-6 pb-12 border border-zinc-600/40 shadow-sm rounded-sm">
+                            <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4 w-full dark:text-zinc-800">
                                 <h2 className='font-bold'>Change Password</h2>
                                 <div className="flex flex-col">
                                     <label>Current Password</label>
@@ -470,7 +470,7 @@ const AdminSettings = () => {
                                         value={currentPassword}
                                         onChange={(e) => setCurrentPassword(e.target.value)}
                                         required
-                                        className="rounded w-full p-2 border border-slate-900"
+                                        className="rounded w-full p-2 border border-zinc-900"
                                     />
                                 </div>
                                 <div className="flex flex-col">
@@ -480,7 +480,7 @@ const AdminSettings = () => {
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
                                         required
-                                        className="rounded w-full p-2 border border-slate-900"
+                                        className="rounded w-full p-2 border border-zinc-900"
                                     />
                                 </div>
                                 <div className="flex flex-col">
@@ -490,11 +490,11 @@ const AdminSettings = () => {
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                         required
-                                        className="rounded w-full p-2 border border-slate-900"
+                                        className="rounded w-full p-2 border border-zinc-900"
                                     />
                                 </div>
 
-                                <button type="submit" className="btn-black-outline dark:hover:bg-amber-400 dark:hover:text-gray-800">
+                                <button type="submit" className="btn-black-outline dark:hover:bg-amber-400 dark:hover:text-zinc-800">
                                     Update Password
                                 </button>
                                 {passwordError && <p className="text-red-500">{passwordError}</p>}

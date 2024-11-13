@@ -366,28 +366,44 @@ export type Database = {
       }
       notifications: {
         Row: {
-          created_at: string | null
-          id: number
-          is_read: boolean | null
-          message: string
-          user_id: string | null
-        }
+          created_at: string | null;
+          id: number;
+          is_read: boolean | null;
+          message: string;
+          user_id: string | null;
+          document_id: number | null;
+        };
         Insert: {
-          created_at?: string | null
-          id?: number
-          is_read?: boolean | null
-          message: string
-          user_id?: string | null
-        }
+          created_at?: string | null;
+          id?: number;
+          is_read?: boolean | null;
+          message: string;
+          user_id?: string | null;
+          document_id?: number | null;
+        };
         Update: {
-          created_at?: string | null
-          id?: number
-          is_read?: boolean | null
-          message?: string
-          user_id?: string | null
-        }
-        Relationships: []
-      }
+          created_at?: string | null;
+          id?: number;
+          is_read?: boolean | null;
+          message?: string;
+          user_id?: string | null;
+          document_id?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "notifications_user_id_fkey";
+            columns: ["user_id"];
+            referencedRelation: "auth.users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "notifications_document_id_fkey";
+            columns: ["document_id"];
+            referencedRelation: "documents";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       orders: {
         Row: {
           cancellation_reason: string | null

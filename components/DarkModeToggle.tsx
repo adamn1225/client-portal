@@ -15,11 +15,11 @@ const DarkModeToggle: React.FC<DarkModeToggleProps> = ({ className }) => {
             <Switch
                 checked={darkMode}
                 onCheckedChange={toggleDarkMode}
-                className={`mr-2 data-[state=unchecked]:bg-gray-600 data-[state=checked]:bg-stone-300`}
+                className={`mr-2 data-[state=unchecked]:bg-zinc-600 data-[state=checked]:bg-stone-300`}
             >
-                <span className={`block w-6 h-6 rounded-full ${darkMode ? 'bg-gray-900' : 'bg-gray-900'}`}></span>
+                <span className={`block w-6 h-6 rounded-full ${darkMode ? 'bg-zinc-900' : 'bg-zinc-900'}`}></span>
             </Switch>
-            {darkMode ? <Sun className="text-yellow-500" /> : <Moon className="dark:text-slate-100 text-gray-900" />}
+            {darkMode ? <Sun className="text-yellow-500" /> : <Moon className="dark:text-zinc-100 text-zinc-100" />}
         </div>
     );
 };

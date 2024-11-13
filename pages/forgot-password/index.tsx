@@ -47,12 +47,12 @@ export default function ForgotPassword() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Enter your email"
-                                className="mt-1 pl-2 block w-full text-gray-950 placeholder:text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                                className="mt-1 pl-2 block w-full text-zinc-950 placeholder:text-zinc-900 border border-zinc-300 rounded-md shadow-sm focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
                                 required
                             />
                         </div>
                         <div className="flex justify-end">
-                            <button type="submit" className="px-4 py-2 shadow-md text-stone-100 font-medium bg-gray-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-gray-900" disabled={loading}>
+                            <button type="submit" className="px-4 py-2 shadow-md text-stone-100 font-medium bg-zinc-900 hover:text-amber-300 hover:border-amber-300 dark:text-amber-300 border dark:border-amber-300 dark:hover:bg-amber-300 dark:hover:text-zinc-900" disabled={loading}>
                                 {loading ? 'Sending...' : 'Send Reset Email'}
                             </button>
                         </div>
@@ -61,7 +61,7 @@ export default function ForgotPassword() {
                     {error && <div className="text-red-500 mt-4">{error}</div>}
                     <div className="mt-4 text-center">
                         <Link href="/login" legacyBehavior>
-                            <a className="text-gray-900 font-semibold hover:underline">Back to Login</a>
+                            <a className="text-zinc-900 font-semibold hover:underline">Back to Login</a>
                         </Link>
                     </div>
                 </div>

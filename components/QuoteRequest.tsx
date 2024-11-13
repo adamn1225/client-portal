@@ -197,7 +197,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                     setErrorText={setErrorText}
                 />
             </div>
-            <div className="flex justify-center items-center border-b border-gray-300">
+            <div className="flex justify-center items-center border-b border-zinc-300">
                 <button
                     className={`px-4 py-2 ${activeTab === 'requests' ? 'border-b-2 border-blue-600' : ''}`}
                     onClick={() => setActiveTab('requests')}
@@ -217,7 +217,7 @@ const QuoteRequest = ({ session }: QuoteRequestProps) => {
                     Completed Orders
                 </button>
             </div>
-            <div className="w-full bg-white shadow overflow-hidden rounded-md border border-slate-400 flex-grow">
+            <div className="w-full bg-white shadow overflow-hidden rounded-md border border-zinc-400 flex-grow">
                 {activeTab === 'requests' && (
                     <QuoteList
                         session={session}

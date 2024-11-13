@@ -45,7 +45,7 @@ const Privacy = () => {
                     <a href="mailto:noah@ntslogistics.com">noah@ntslogistics.com</a>. We will inform you in writing of any action taken or not taken in response to the appeal, including a written explanation of the
                 </span>
             </div>
-            <footer className="bg-gray-900 text-white p-4">
+            <footer className="bg-zinc-900 text-white p-4">
                 <div className="container mx-auto text-center">
                     <p>&copy; {new Date().getFullYear()} SSTA LLC. All rights reserved.</p>
                 </div>

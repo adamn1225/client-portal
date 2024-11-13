@@ -63,29 +63,32 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ className = '' }) => {
 
     return (
         <>
-            <nav className={`md:hidden w-full max-h-max bg-slate-50 z-50 dark:bg-gray-900 flex flex-col md:flex-row gap-1 justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
-                <ul className='flex gap-2 md:gap-4 items-center z-50 justify-end mr-4'>
-                    <li>
-                        <NotificationBell session={session} />
-                    </li>
-                    <li>
-                        <DarkModeToggle />
-                    </li>
-                    <li className='hidden md:block'>
-                        <FeedBack />
-                    </li>
-                    <li>
-                        <Image
-                            src={profilePictureUrl}
-                            alt='profile-img'
-                            className='rounded-full shadow-md'
-                            width={40}
-                            height={40} />
-                    </li>
-                </ul>
-                <FeedBack />
+            <nav className={`md:hidden w-full max-h-max bg-zinc-800 dark:bg-zinc-900 flex flex-col md:flex-row gap-1 justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
+                <div className='flex gap-6 items-center z-50 justify-between mr-4'>
+                    <ul className='flex gap-2 items-center justify-end w-full'>
+                        <li>
+                            <NotificationBell session={session} />
+                        </li>
+
+                        </ul>
+                        <ul>
+                        <li>
+                            <Image
+                                src={profilePictureUrl}
+                                alt='profile-img'
+                                className='rounded-full shadow-md'
+                                width={40}
+                                height={40} />
+                        </li>
+                    </ul>
+                </div>
+                <div className='flex justify-between'>
+                    <FeedBack />
+                    <DarkModeToggle />
+                
+                </div>
             </nav>
-            <nav className={`hidden w-full bg-stone-50 dark:bg-gray-900 md:flex flex-col md:flex-row gap-1 justify-between px-4 z-50 py-2 drop-shadow ${className}`}>
+            <nav className={`hidden w-full bg-zinc-800 dark:bg-zinc-800 md:flex flex-col md:flex-row gap-1 justify-between px-4 z-50 py-2 drop-shadow ${className}`}>
                 <ul className='w-full flex gap-2 md:gap-4 items-center z-50 justify-start pl-64'>
                     <li>
                         <FeedBack />

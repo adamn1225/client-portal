@@ -66,7 +66,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
 
         const fileUrl = data?.path;
 
-        const { error: insertError } = await supabase
+        const { error: insertError, data: documentData } = await supabase
             .from('documents')
             .insert({
                 user_id: session.user.id,
@@ -75,7 +75,9 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                 file_name: file.name,
                 file_type: file.type,
                 file_url: fileUrl,
-            });
+            })
+            .select()
+            .single();
 
         if (insertError) {
             setError(insertError.message);
@@ -84,6 +86,19 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
             setDescription('');
             setFile(null);
             fetchDocuments();
+
+            // Create a notification for the user
+            const { error: notificationError } = await supabase
+                .from('notifications')
+                .insert({
+                    user_id: session.user.id,
+                    message: `A new document titled "${title}" has been uploaded.`,
+                    document_id: documentData.id,
+                });
+
+            if (notificationError) {
+                console.error('Error creating notification:', notificationError.message);
+            }
         }
     };
 
@@ -143,7 +158,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                 <div key={document.id} className="p-4 bg-white shadow rounded flex flex-col justify-between">
                     <div>
                         <h3 className="text-lg font-bold">{document.title}</h3>
-                        <p className="text-gray-600">{document.description}</p>
+                        <p className="text-zinc-600">{document.description}</p>
                     </div>
                     <span className='flex justify-between items-end mt-auto'>
                         <span className='flex gap-2 items-center'>
@@ -157,7 +172,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                                 className="btn-blue mt-2 ml-2"
                                 onClick={() => handleFavoriteToggle(document.id, !document.is_favorite)}
                             >
-                                <Star className={`h-5 w-5 ${document.is_favorite ? 'text-yellow-500 fill-current' : 'text-gray-500'}`} />
+                                <Star className={`h-5 w-5 ${document.is_favorite ? 'text-yellow-500 fill-current' : 'text-zinc-500'}`} />
                             </button>
                         </span>
                         <button
@@ -175,13 +190,13 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
     return (
         <div className="flex h-screen">
             {/* Sidebar */}
-            <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out w-64 bg-gray-200 dark:bg-gray-900 dark:text-white p-4 border-r border-t border-gray-700/20 shadow-lg z-50 md:relative md:translate-x-0`}>
+            <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? 'tranzinc-x-0' : '-tranzinc-x-full'} transition-transform duration-300 ease-in-out w-64 bg-zinc-200 dark:bg-zinc-900 dark:text-white p-4 border-r border-t border-zinc-700/20 shadow-lg z-50 md:relative md:tranzinc-x-0`}>
                 <h2 className="text-xl font-bold mb-4">Documents</h2>
                 <ul className="space-y-2">
                     <li className='flex gap-1 items-center'>
                         <Folder />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'all' ? 'bg-gray-100 dark:text-slate-800' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'all' ? 'bg-zinc-100 dark:text-zinc-800' : ''}`}
                             onClick={() => setActiveSection('all')}
                         >
                             All Documents
@@ -190,7 +205,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                     <li className='flex gap-1 items-center'>
                         <FolderHeart />
                         <button
-                            className={`w-full text-left p-2 ${activeSection === 'important' ? 'bg-gray-100 dark:text-slate-800' : ''}`}
+                            className={`w-full text-left p-2 ${activeSection === 'important' ? 'bg-zinc-100 dark:text-zinc-800' : ''}`}
                             onClick={() => setActiveSection('important')}
                         >
                             Important
@@ -223,18 +238,18 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                                 placeholder="Title"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                className="rounded w-full p-2 border border-slate-900 mb-2"
+                                className="rounded w-full p-2 border border-zinc-900 mb-2"
                             />
                             <textarea
                                 placeholder="Description"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                className="rounded w-full p-2 border border-slate-900 mb-2"
+                                className="rounded w-full p-2 border border-zinc-900 mb-2"
                             />
                             <input
                                 type="file"
                                 onChange={handleFileChange}
-                                className="rounded w-full p-2 border border-slate-900"
+                                className="rounded w-full p-2 border border-zinc-900"
                             />
                         </div>
                     </>
@@ -269,7 +284,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
                         <p className="mb-4">Are you sure you want to delete this document?</p>
                         <div className="flex justify-end">
                             <button
-                                className="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2"
+                                className="bg-zinc-300 text-zinc-700 px-4 py-2 rounded mr-2"
                                 onClick={() => setIsModalOpen(false)}
                             >
                                 Cancel
