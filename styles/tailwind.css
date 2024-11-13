@@ -38,7 +38,7 @@
 }
 
 .body-btn {
-  @apply m-0 px-4 py-2 border border-gray-800 rounded-sm bg-gray-800 text-gray-100 font-medium hover:border-amber-400 hover:bg-amber-300 hover:border hover:text-gray-900 dark:border-gray-900 dark:bg-amber-400 dark:text-gray-900 dark:hover:bg-gray-950 dark:hover:text-gray-900 dark:hover:border-amber-400;
+  @apply m-0 px-4 py-2 border border-gray-800 rounded-sm bg-gray-800 text-stone-50 font-medium hover:border-amber-400 hover:bg-amber-300 hover:border dark:border-gray-900 dark:bg-amber-400 dark:text-gray-900 dark:hover:bg-gray-950 dark:hover:text-gray-900 dark:hover:border-amber-400;
 }
 
 .upload-button {
