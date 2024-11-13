@@ -3,18 +3,18 @@ import { supabase } from '@/lib/initSupabase';
 import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import NotificationBell from '@/components/NotificationBell';
-import { Moon, Sun } from 'lucide-react';
 import FeedBack from '@/components/FeedBack';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import Link from 'next/link';
+import { useSession } from '@supabase/auth-helpers-react';
 
 interface UserTopNavProps {
-    session: any;
     className?: string;
 }
 
-const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
+const UserTopNav: React.FC<UserTopNavProps> = ({ className = '' }) => {
     const { userProfile } = useUser();
+    const session = useSession();
     const [darkMode, setDarkMode] = useState(false);
     const [profilePictureUrl, setProfilePictureUrl] = useState<string>('https://www.gravatar.com/avatar?d=mp&s=100');
 
@@ -62,14 +62,12 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
     };
 
     return (
-       <>
+        <>
             <nav className={`md:hidden w-full max-h-max bg-slate-50 z-50 dark:bg-gray-900 flex flex-col md:flex-row gap-1 justify-end px-4 z-50 py-1 drop-shadow ${className}`}>
-                
                 <ul className='flex gap-2 md:gap-4 items-center z-50 justify-end mr-4'>
                     <li>
                         <NotificationBell session={session} />
                     </li>
-    
                     <li>
                         <DarkModeToggle />
                     </li>
@@ -87,35 +85,30 @@ const UserTopNav: React.FC<UserTopNavProps> = ({ session, className = '' }) => {
                 </ul>
                 <FeedBack />
             </nav>
-         
             <nav className={`hidden w-full bg-stone-50 dark:bg-gray-900 md:flex flex-col md:flex-row gap-1 justify-between px-4 z-50 py-2 drop-shadow ${className}`}>
-                
-                    <ul className='w-full flex gap-2 md:gap-4 items-center z-50 justify-start pl-64'>
-                        <li>
-                            <FeedBack />
-                        </li>
-
-                        <li>
-                            <DarkModeToggle />
-                        </li>
-                    </ul>
-                        <ul className='w-full flex gap-2 md:gap-4 items-center z-50 justify-end mr-12'>
-                            
-        
-                        <li>
-                            <NotificationBell session={session} />
-                        </li>
-                        <li>
-                            <Image
-                                src={profilePictureUrl}
-                                alt='profile-img'
-                                className='rounded-full shadow-2xl'
-                                width={60}
-                                height={60} />
-                        </li>
-                    </ul>
-                </nav>
-       </>
+                <ul className='w-full flex gap-2 md:gap-4 items-center z-50 justify-start pl-64'>
+                    <li>
+                        <FeedBack />
+                    </li>
+                    <li>
+                        <DarkModeToggle />
+                    </li>
+                </ul>
+                <ul className='w-full flex gap-2 md:gap-4 items-center z-50 justify-end mr-12'>
+                    <li>
+                        <NotificationBell session={session} />
+                    </li>
+                    <li>
+                        <Image
+                            src={profilePictureUrl}
+                            alt='profile-img'
+                            className='rounded-full shadow-2xl'
+                            width={60}
+                            height={60} />
+                    </li>
+                </ul>
+            </nav>
+        </>
     );
 };
 

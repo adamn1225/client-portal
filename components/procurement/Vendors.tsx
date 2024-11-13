@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { addVendor, fetchVendorsData } from '@/lib/database';
 import { Vendor } from '@/lib/schema';
-import Modal from '@/components/Modal';
+import { useSession, Session } from '@supabase/auth-helpers-react';
 
-const Vendors = () => {
+interface Vendors {
+  session: Session | null;
+}
+
+const Vendors: React.FC<Vendors> = ({session}) => {
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [vendorNumber, setVendorNumber] = useState('');
@@ -24,7 +28,7 @@ const Vendors = () => {
       }
     };
     getVendors();
-  }, []);
+  }, [session]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useSession } from '@supabase/auth-helpers-react';
+import { useSession, Session } from '@supabase/auth-helpers-react';
 import PurchaseOrderForm from './PurchaseOrderForm';
 import { fetchPurchaseOrders, updatePurchaseOrderStatus, addPurchaseOrder } from '@/lib/database';
 import { PurchaseOrder } from '@/lib/schema';
 import jsPDF from 'jspdf';
 
-const PurchaseOrders = () => {
-  const session = useSession();
+interface PurchaseOrdersProps {
+  session: Session | null;
+}
+
+const PurchaseOrders: React.FC<PurchaseOrdersProps> = ({ session }) => {
   const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<PurchaseOrder | null>(null);

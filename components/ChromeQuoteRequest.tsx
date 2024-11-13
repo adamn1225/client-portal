@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSupabaseClient, useSession } from '@supabase/auth-helpers-react';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/database.types';
+import { Session } from '@supabase/auth-helpers-react';
 
 type ChromeQuotes = Database['public']['Tables']['chrome_quotes']['Row'] & {
     user_id: string; // Add this line
 };
 
-const ChromeQuoteRequest = () => {
+interface ChromeQuoteRequestProps {
+    session: Session | null;
+}
+
+const ChromeQuoteRequest: React.FC<ChromeQuoteRequestProps> = ({ session }) => {
     const supabase = useSupabaseClient<Database>();
-    const session = useSession();
     const [quotes, setQuotes] = useState<ChromeQuotes[]>([]);
     const [errorText, setErrorText] = useState<string>('');
 

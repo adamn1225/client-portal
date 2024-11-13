@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { fetchVendorsData, addPurchaseOrder } from '@/lib/database';
 import { Vendor, PurchaseOrder } from '@/lib/schema';
 
-const PurchaseOrderForm = ({ onSubmit, userId }: { onSubmit: (order: Omit<PurchaseOrder, 'id'>) => void, userId: string }) => {
+interface PurchaseOrderFormProps {
+  onSubmit: (order: Omit<PurchaseOrder, 'id'>) => void;
+  userId: string;
+}
+
+const PurchaseOrderForm: React.FC<PurchaseOrderFormProps> = ({ onSubmit, userId }) => {
   const [poNumber, setPoNumber] = useState('');
   const [createdDate, setCreatedDate] = useState('');
   const [expectedDate, setExpectedDate] = useState('');
