@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/lib/database.types';
 import { Session } from '@supabase/auth-helpers-react';
+import { sendEmail } from '@/lib/emailService'; // Import the sendEmail function
 
 type ChromeQuotes = Database['public']['Tables']['chrome_quotes']['Row'] & {
     user_id: string; // Add this line
@@ -88,8 +89,11 @@ const ChromeQuoteRequest: React.FC<ChromeQuoteRequestProps> = ({ session }) => {
 
             // Optionally, send email notifications to each admin user
             for (const admin of admins) {
-                await sendEmailNotification(admin.email, 'New Quote Request', 'A new quote request has been submitted.');
+                await sendEmail(admin.email, 'New Quote Request', 'A new quote request has been submitted.');
             }
+
+            // Send email notification to yourself
+            await sendEmail('your-email@example.com', 'New Quote Request', 'A new quote request has been submitted.');
 
             console.log('Notifications sent to all admin users.');
         } catch (error) {
