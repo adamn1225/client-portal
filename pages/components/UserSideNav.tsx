@@ -6,6 +6,7 @@ import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PanelLeftOpen, PanelRightClose, ListCollapse, Workflow, Folders, Signature, Settings, Hammer, NotebookTabs, Handshake, Users, Move3d } from 'lucide-react';
+import withProfileCheck from '@/components/hoc/withProfileCheck';
 
 interface UserSideNavProps {
     isSidebarOpen: boolean;

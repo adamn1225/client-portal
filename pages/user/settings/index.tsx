@@ -3,6 +3,7 @@ import { useSession } from '@supabase/auth-helpers-react';
 import UserLayout from '@/pages/components/UserLayout';
 import { UserProvider } from '@/context/UserContext';
 import UserProfileForm from '@/components/UserProfileForm';
+import withProfileCheck from '@/components/hoc/withProfileCheck';
 
 const UserProfilePage: React.FC = () => {
     const session = useSession();
@@ -20,4 +21,4 @@ const UserProfilePage: React.FC = () => {
     );
 };
 
-export default UserProfilePage;
+export default withProfileCheck(UserProfilePage);

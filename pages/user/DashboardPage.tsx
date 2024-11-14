@@ -10,6 +10,7 @@ import FreightInventory from '@/components/FreightInventory';
 import AdminQuoteRequests from '@/components/admin/AdminQuoteRequests';
 import CustomSignInForm from '@/components/CustomSignInForm';
 import { Move3d } from 'lucide-react';
+import ProfileSetup from '@/pages/components/ProfileSetup';
 
 interface UserProfile {
     id: string;
@@ -198,7 +199,7 @@ export default function DashboardPage() {
                 </AdminLayout>
             ) : (
                 <UserLayout>
-                    <HomePageContent />
+                        <ProfileSetup />
                 </UserLayout>
             )}
         </UserProvider>

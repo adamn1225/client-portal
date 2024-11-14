@@ -5,6 +5,7 @@ import CaterpillarSearch from '@/components/CaterpillarSearch';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import UserLayout from '@/pages/components/UserLayout';
 import { UserProvider } from '@/context/UserContext';
+import withProfileCheck from '@/components/hoc/withProfileCheck';
 
 const EquipmentDirectory: React.FC = () => {
     const session = useSession();
@@ -24,4 +25,4 @@ const EquipmentDirectory: React.FC = () => {
     )
 };
 
-export default EquipmentDirectory;
+export default withProfileCheck(EquipmentDirectory);

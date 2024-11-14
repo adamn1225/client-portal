@@ -1,27 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import Link from 'next/link';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useSupabaseClient, useSession } from '@supabase/auth-helpers-react';
 import { Move3d } from 'lucide-react';
+import { sendInvitations } from '@/lib/invitationService'; // Adjust the import path as needed
 
 const ProfileSetup = () => {
     const router = useRouter();
     const supabase = useSupabaseClient();
+    const session = useSession();
     const { email } = router.query;
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [companyName, setCompanyName] = useState('');
     const [companySize, setCompanySize] = useState('');
+    const [inviteEmails, setInviteEmails] = useState<string[]>([]);
+    const [inviteEmail, setInviteEmail] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
-
-    useEffect(() => {
-        if (!email) {
-            router.push('/user/signup');
-        }
-    }, [email, router]);
 
     const handleCompleteProfile = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -52,6 +49,20 @@ const ProfileSetup = () => {
         }
     };
 
+    const handleAddInviteEmail = () => {
+        if (inviteEmail && !inviteEmails.includes(inviteEmail)) {
+            setInviteEmails([...inviteEmails, inviteEmail]);
+            setInviteEmail('');
+        }
+    };
+
+    const handleSendInvitations = async () => {
+        if (session?.user?.id && companyName) {
+            await sendInvitations(inviteEmails, session.user.id, companyName);
+            setInviteEmails([]);
+        }
+    };
+
     return (
         <>
             <Head>
@@ -59,23 +70,8 @@ const ProfileSetup = () => {
                 <meta name="description" content="Complete your profile" />
             </Head>
             <div className="w-full h-full bg-200">
-                <div className="md:grid min-w-full min-h-screen md:grid-cols-2 ">
-
-                    <div className="hidden md:grid h-1/3 w-full md:h-full col-span-1 bg-zinc-900">
-                        <div className='absolute top-5 left-5'>
-                            <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> Heavy Construct</h1>
-                        </div>
-                        <div className='hidden h-full pb-12 w-full md:flex items-end justify-center'>
-                            <h1 className='text-stone-100 font-medium text-xl italic'>Your trusted partner in Inventory Management, Procurement, and Logistics.</h1>
-                        </div>
-                    </div>
-
+                <div className="md:grid min-w-full min-h-screen md:grid-cols-1 ">
                     <div className="sm:row-span-1 md:col-span-1 w-full h-full flex flex-col justify-center items-center bg-zinc-100">
-                        <div className='hidden md:block md:absolute top-5 right-5'>
-                            <Link href="/login" legacyBehavior>
-                                <a className="body-btn-btn">Login</a>
-                            </Link>
-                        </div>
                         <div className=" w-full text-zinc-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
                             <h2 className="mt-12 md:mt-0 text-2xl font-bold text-center">Heavy Construct</h2>
                             <div className="xs:w-2/5 md:w-full h-full sm:h-auto p-5 bg-white shadow flex flex-col text-base">
@@ -143,6 +139,39 @@ const ProfileSetup = () => {
                                         </button>
                                     </form>
                                 )}
+                                <div className="mt-8">
+                                    <h3 className="text-xl font-bold text-center">Invite Others</h3>
+                                    <div className="flex mt-4">
+                                        <input
+                                            type="email"
+                                            placeholder="Enter email"
+                                            value={inviteEmail}
+                                            onChange={(e) => setInviteEmail(e.target.value)}
+                                            className="w-full p-2 border rounded"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={handleAddInviteEmail}
+                                            className="ml-2 px-4 py-2 bg-blue-500 text-white rounded"
+                                        >
+                                            Add
+                                        </button>
+                                    </div>
+                                    <ul className="mt-4">
+                                        {inviteEmails.map((email, index) => (
+                                            <li key={index} className="flex justify-between items-center">
+                                                <span>{email}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <button
+                                        type="button"
+                                        onClick={handleSendInvitations}
+                                        className="mt-4 w-full px-4 py-2 bg-green-500 text-white rounded"
+                                    >
+                                        Send Invitations
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

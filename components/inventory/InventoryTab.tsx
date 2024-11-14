@@ -155,7 +155,7 @@ const InventoryTab = ({ freightList = [], maintenanceList, editFreight, handleDe
                                     </div>
                                     <button
                                         onClick={() => openTransferModal(freight)}
-                                        className={`${isInMaintenance(freight) ? 'text-red-800 cursor-not-allowed shadow-sm bg-zinc-800 font-normal text-nowrap py-2 px-4 rounded text-center' : 'text-stone-50 bg-zinc-800 shadow-sm font-semibold text-nowrap z-[-1] py-2 px-4 rounded text-center'}`}
+                                        className={`${isInMaintenance(freight) ? 'text-red-800 cursor-not-allowed shadow-sm bg-zinc-800 font-normal text-nowrap py-2 px-4 rounded text-center' : 'text-stone-50 bg-zinc-800 shadow-sm font-semibold text-nowrap z-[0] py-2 px-4 rounded text-center'}`}
                                         disabled={isInMaintenance(freight)}
                                     >
                                         {isInMaintenance(freight) ? 'In Maintenance' : 'Add to Maintenance'}

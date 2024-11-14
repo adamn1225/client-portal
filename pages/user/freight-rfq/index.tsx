@@ -4,6 +4,7 @@ import { useSession } from '@supabase/auth-helpers-react';
 import dynamic from 'next/dynamic';
 import { UserProvider } from '@/context/UserContext';
 import ChromeQuoteRequest from '@/components/ChromeQuoteRequest';
+import withProfileCheck from '@/components/hoc/withProfileCheck';
 
 const UserLayout = dynamic(() => import('@/pages/components/UserLayout'));
 const QuoteRequest = dynamic(() => import('@/components/QuoteRequest'));
@@ -25,4 +26,4 @@ const FreightTransportPage: React.FC = () => {
     );
 };
 
-export default FreightTransportPage;
+export default withProfileCheck(FreightTransportPage);

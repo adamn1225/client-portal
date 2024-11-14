@@ -3,6 +3,7 @@ import { useSession } from '@supabase/auth-helpers-react';
 import UserLayout from '@/pages/components/UserLayout';
 import { UserProvider } from '@/context/UserContext';
 import dynamic from 'next/dynamic';
+import withProfileCheck from '@/components/hoc/withProfileCheck';
 
 const MapComponentClient = dynamic(() => import('@/components/drawing/MapComponentClient'), { ssr: false });
 
@@ -22,4 +23,4 @@ const UserProfilePage: React.FC = () => {
     );
 };
 
-export default UserProfilePage;
+export default withProfileCheck(UserProfilePage);

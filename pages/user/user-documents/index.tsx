@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSession } from '@supabase/auth-helpers-react';
 import UserLayout from '@/pages/components/UserLayout';
-import { UserProvider } from '@/context/UserContext';
+import { UserProvider } from '@/context/UserContext'; 
 import Documents from '@/components/Documents';
+import withProfileCheck from '@/components/hoc/withProfileCheck';
 
 const UserDocuments: React.FC = () => {
     const session = useSession();
@@ -20,4 +21,4 @@ const UserDocuments: React.FC = () => {
     );
 };
 
-export default UserDocuments;
+export default withProfileCheck(UserDocuments);

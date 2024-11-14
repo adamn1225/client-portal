@@ -117,6 +117,45 @@ const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, fetchQuotes, arc
         }
     };
 
+    const notifyAdmins = async () => {
+        try {
+            // Fetch all admin users
+            const { data: admins, error: fetchError } = await supabase
+                .from('profiles')
+                .select('id, email')
+                .eq('role', 'admin');
+
+            if (fetchError) {
+                console.error('Error fetching admin users:', fetchError.message);
+                return;
+            }
+
+            // Create notifications for each admin user
+            const notifications = admins.map(admin => ({
+                user_id: admin.id,
+                message: 'Urgent action required on a quote.',
+            }));
+
+            const { error: insertError } = await supabase
+                .from('notifications')
+                .insert(notifications);
+
+            if (insertError) {
+                console.error('Error creating notifications:', insertError.message);
+                return;
+            }
+
+            // Optionally, send email notifications to each admin user
+            for (const admin of admins) {
+                await sendEmailNotification(admin.email, 'Urgent Notification', 'Urgent action required on a quote.');
+            }
+
+            console.log('Notifications sent to all admin users.');
+        } catch (error) {
+            console.error('Error notifying admin users:', error);
+        }
+    };
+
     return (
         <div className="w-full bg-white dark:bg-zinc-800 dark:text-white shadow rounded-md border border-zinc-400 max-h-max flex-grow">
             <OrderFormModal
@@ -170,7 +209,7 @@ const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, fetchQuotes, arc
                                         </button>
                                     ) : (
                                         <button
-                                            onClick={() => alert('10-4, Working in now.')}
+                                            onClick={notifyAdmins}
                                             className="ml-2 px-4 py-2 font-semibold bg-zinc-900 text-red-600 rounded"
                                         >
                                             Press if Urgent
@@ -228,7 +267,7 @@ const QuoteList: React.FC<QuoteListProps> = ({ session, quotes, fetchQuotes, arc
                                 </button>
                             ) : (
                                 <button
-                                    onClick={() => alert('Please contact us if urgent.')}
+                                    onClick={notifyAdmins}
                                     className="ml-2 p-1 bg-yellow-500 text-white rounded"
                                 >
                                     Contact if Urgent

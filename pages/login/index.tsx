@@ -9,6 +9,7 @@ import { UserProvider, useUser } from '@/context/UserContext';
 import CustomSignInForm from '@/components/CustomSignInForm';
 import { Move3d } from 'lucide-react';
 import HomePageContent from '../components/HomePageContent';
+import ProfileSetup from '@/pages/components/ProfileSetup';
 
 interface UserProfile {
     id: string;
@@ -138,14 +139,16 @@ export default function DashboardPage() {
                             </div>
                         </div>
 
-                        <div className='sm:row-span-1 md:col-span-1 w-full h-full flex flex-col justify-center items-center '>
-                            <div className='absolute top-5 right-5'>
-                                <Link href="/signup" legacyBehavior>
-                                    <a className="body-btn">Sign Up</a>
-                                </Link>
-                            </div>
-                            <div className=" w-full text-zinc-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
-                                <span className="font-sans text-4xl font-medium text-center pb-2 mb-1 border-b mx-4 align-center">
+                        <div className='absolute top-5 right-5'>
+                            <Link href="/signup" legacyBehavior>
+                                <a className="body-btn">Sign Up</a>
+                            </Link>
+                        </div>
+
+                        <div className='w-full h-auto flex flex-col justify-center items-center '>
+
+                            <div className=" w-full h-full max-h-max text-zinc-900 sm:h-full sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
+                                <span className="font-sans text-4xl font-medium text-center pb-2 mb-2 my-6 border-b mx-4 align-center">
                                     Heavy Construct
                                 </span>
                                 <span className=" font-sans text-2xl text-center pb-2 mb-1 border-b mx-4 align-center">
@@ -225,7 +228,7 @@ export default function DashboardPage() {
                 <UserLayout>
                         <div className='w-full z-[-1] '>
                             <div className="w-full fixed top-0 left-0  md:left-9 mt-24">
-                                <HomePageContent />
+                                <ProfileSetup />
                             </div>
                     </div>
                 </UserLayout>
