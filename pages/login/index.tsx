@@ -9,7 +9,6 @@ import { UserProvider, useUser } from '@/context/UserContext';
 import CustomSignInForm from '@/components/CustomSignInForm';
 import { Move3d } from 'lucide-react';
 import HomePageContent from '../components/HomePageContent';
-import ProfileSetup from '@/pages/components/ProfileSetup';
 
 interface UserProfile {
     id: string;
@@ -228,7 +227,7 @@ export default function DashboardPage() {
                 <UserLayout>
                         <div className='w-full z-[-1] '>
                             <div className="w-full fixed top-0 left-0  md:left-9 mt-24">
-                                <ProfileSetup />
+                                <HomePageContent />
                             </div>
                     </div>
                 </UserLayout>
