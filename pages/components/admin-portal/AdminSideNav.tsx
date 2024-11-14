@@ -72,7 +72,7 @@ const AdminSideNav: React.FC<AdminSideNavProps> = ({ isSidebarOpen, toggleSideba
                         </li>
                         <li className={`w-full flex justify-normal m-0 ${router.pathname == "/admin/admin-documents" ? "active" : ""}`}>
                             <Link href="/admin/admin-documents" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/admin/admin-documents" ? "active" : ""}`}>
-                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Folders size={'20px'} /> <span className='text-xs md:text-sm'>Documents</span></span>
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Folders size={'20px'} /> <span className='text-xs md:text-sm'>Documents/Photos</span></span>
                             </Link>
                         </li>
                         <li className={`w-full flex justify-normal m-0 ${router.pathname == "/admin/procurement" ? "active" : ""}`}>
@@ -81,9 +81,10 @@ const AdminSideNav: React.FC<AdminSideNavProps> = ({ isSidebarOpen, toggleSideba
                             </Link>
                         </li>
                         
-                        <li className={`w-full flex justify-normal m-0 ${router.pathname == "/admin/project-writer" ? "active" : ""}`}>
-                            <Link href="/admin/project-writer" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/admin/project-writer" ? "active" : ""}`}>
-                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer size={'20px'} /> <span className='text-xs md:text-sm'>Project Writer </span></span>
+                        <li className={`w-full flex justify-normal m-0 ${router.pathname == "/admin/field-planner" ? "active" : ""}`}>
+                            <Link href="/admin/field-planner" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/admin/field-planner" ? "active" : ""}`}>
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer size={'20px'} /> 
+                                <span className='text-xs md:text-sm'>Field Planner/Management</span></span>
                             </Link>
                         </li>
                         <li className={`w-full flex justify-normal m-0 ${router.pathname == "/admin/equipment-directory" ? "active" : ""}`}>

@@ -84,9 +84,10 @@ const UserSideNav: React.FC<UserSideNavProps> = ({ isSidebarOpen, toggleSidebar,
                             </Link>
                         </li> */}
 
-                        <li className={`w-full flex justify-normal m-0 ${router.pathname == "/user/project-writer" ? "active" : ""}`}>
-                            <Link href="/user/project-writer" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/project-writer" ? "active" : ""}`}>
-                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer size={'20px'} /> <span className='text-xs md:text-sm'>Project Writer </span></span>
+                        <li className={`w-full flex justify-normal m-0 ${router.pathname == "/user/field-planner" ? "active" : ""}`}>
+                            <Link href="/user/field-planner" className={`side-nav-btn text-stone-100 font-semibold py-1 w-full ${router.pathname == "/user/field-planner" ? "active" : ""}`}>
+                                <span className='w-full flex items-center flex-nowrap justify-normal gap-2'><Hammer size={'20px'} /> 
+                                    <span className='text-xs md:text-sm'>Field Planner/Management</span></span>
                             </Link>
                         </li>
 
