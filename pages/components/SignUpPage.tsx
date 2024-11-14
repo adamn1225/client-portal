@@ -127,7 +127,7 @@ export default function SignUpPage() {
                                 <div className='flex flex-col justify-evenly max-h-max items-center w-full my-4'>
                                     <div className='border-t border-zinc-900/40 pt-1 mb-2 w-full text-center'><h3>Already have an account?</h3></div>
                                     <Link href="/login" legacyBehavior>
-                                        <a className="text-center underline underline-offset-4 text-lg font-semibold text-zinc-700 hover:underline underline-offset-2 px-4 py-2 hover:text-zinc-900/70">Login</a>
+                                        <a className="text-center underline underline-offset-4 text-lg font-semibold text-zinc-700 hover:underline px-4 py-2 hover:text-zinc-900/70">Login</a>
                                     </Link>
                                 </div>
                             </div>
