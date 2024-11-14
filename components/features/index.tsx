@@ -15,14 +15,12 @@ const Feature = () => {
             headerInfo={{
               title: "HEAVY CONSTRUCT FEATURES",
               subtitle: "Core Features of Heavy Construct",
-              description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-            convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam
-            ante in maximus.`,
+              description: "Heavy Construct is a construction management system that helps you manage your construction projects, procurement, and logistics. Here are some of the core features of Heavy Construct.",
             }}
           />
           {/* <!-- Section Title End --> */}
 
-          <div className="mt-12.5 grid grid-cols-1 gap-7.5 gap-y-10 mx-12 place-items-center md:grid-cols-2 lg:mt-15 lg:grid-cols-3 xl:mt-20 xl:gap-12.5 xl:gap-y-16">
+          <div className="mt-12 md:mt-4 grid grid-cols-1 sm:gap-2 gap-0 gap-y-10 mx-12 place-items-start md:place-items-center md:grid-cols-2 lg:mt-15 lg:grid-cols-3 ">
 
             {/* <!-- Features item Start --> */}
 

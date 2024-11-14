@@ -22,7 +22,7 @@ const HomePage: NextPage = () => {
         <section>
     
           <div className=' mt-4 md:mt-12 flex flex-col justify-start items-center text-center"'>
-            <h1 className="text-lg md:text-3xl font-bold mb-4">
+            <h1 className="text-center md:text-start text-lg md:text-3xl font-bold mb-4">
               All In One
               <span className="block md:inline"> Construction, Procurement, &amp; Logistics Management System</span>
             </h1>
