@@ -24,10 +24,10 @@ export type Database = {
           originzip: string | null
           phone: string | null
           quote: number | null
+          user_id: string | null
           weight: string | null
           width: string | null
           year: string | null
-          user_id: string
         }
         Insert: {
           created_at?: string | null
@@ -43,10 +43,10 @@ export type Database = {
           originzip?: string | null
           phone?: string | null
           quote?: number | null
+          user_id?: string | null
           weight?: string | null
           width?: string | null
           year?: string | null
-          user_id?: string
         }
         Update: {
           created_at?: string | null
@@ -62,12 +62,20 @@ export type Database = {
           originzip?: string | null
           phone?: string | null
           quote?: number | null
+          user_id?: string | null
           weight?: string | null
           width?: string | null
           year?: string | null
-          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "chrome_quotes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       companies: {
         Row: {
@@ -89,65 +97,68 @@ export type Database = {
       }
       documents: {
         Row: {
-          created_at: string | null;
-          description: string | null;
-          file_name: string;
-          file_type: string;
-          file_url: string;
-          id: number;
-          is_favorite: boolean | null;
-          title: string;
-          user_id: string | null;
-          order_id: number | null;
-          shippingquote_id: number | null;
-        };
+          created_at: string | null
+          description: string | null
+          file_name: string
+          file_type: string
+          file_url: string
+          id: number
+          is_favorite: boolean | null
+          order_id: number | null
+          shippingquote_id: number | null
+          title: string
+          user_id: string | null
+        }
         Insert: {
-          created_at?: string | null;
-          description?: string | null;
-          file_name: string;
-          file_type: string;
-          file_url: string;
-          id?: number;
-          is_favorite?: boolean | null;
-          title: string;
-          user_id?: string | null;
-          order_id?: number | null;
-          shippingquote_id?: number | null;
-        };
+          created_at?: string | null
+          description?: string | null
+          file_name: string
+          file_type: string
+          file_url: string
+          id?: number
+          is_favorite?: boolean | null
+          order_id?: number | null
+          shippingquote_id?: number | null
+          title: string
+          user_id?: string | null
+        }
         Update: {
-          created_at?: string | null;
-          description?: string | null;
-          file_name?: string;
-          file_type?: string;
-          file_url?: string;
-          id?: number;
-          is_favorite?: boolean | null;
-          title?: string;
-          user_id?: string | null;
-          order_id?: number | null;
-          shippingquote_id?: number | null;
-        };
+          created_at?: string | null
+          description?: string | null
+          file_name?: string
+          file_type?: string
+          file_url?: string
+          id?: number
+          is_favorite?: boolean | null
+          order_id?: number | null
+          shippingquote_id?: number | null
+          title?: string
+          user_id?: string | null
+        }
         Relationships: [
           {
-            foreignKeyName: "documents_user_id_fkey";
-            columns: ["user_id"];
-            referencedRelation: "auth.users";
-            referencedColumns: ["id"];
+            foreignKeyName: "documents_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "documents_order_id_fkey";
-            columns: ["order_id"];
-            referencedRelation: "orders";
-            referencedColumns: ["id"];
+            foreignKeyName: "documents_shippingquote_id_fkey"
+            columns: ["shippingquote_id"]
+            isOneToOne: false
+            referencedRelation: "shippingquotes"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "documents_shippingquote_id_fkey";
-            columns: ["shippingquote_id"];
-            referencedRelation: "shippingquotes";
-            referencedColumns: ["id"];
-          }
-        ];
-      };
+            foreignKeyName: "documents_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       freight: {
         Row: {
           commodity: string | null
@@ -239,7 +250,15 @@ export type Database = {
           width_unit?: string | null
           year?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "freight_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       invitation_codes: {
         Row: {
@@ -362,48 +381,65 @@ export type Database = {
           user_id?: string | null
           year?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       notifications: {
         Row: {
-          created_at: string | null;
-          id: number;
-          is_read: boolean | null;
-          message: string;
-          user_id: string | null;
-          document_id: number | null;
-        };
+          created_at: string | null
+          document_id: number | null
+          id: number
+          is_read: boolean | null
+          message: string
+          user_id: string | null
+        }
         Insert: {
-          created_at?: string | null;
-          id?: number;
-          is_read?: boolean | null;
-          message: string;
-          user_id?: string | null;
-          document_id?: number | null;
-        };
+          created_at?: string | null
+          document_id?: number | null
+          id?: number
+          is_read?: boolean | null
+          message: string
+          user_id?: string | null
+        }
         Update: {
-          created_at?: string | null;
-          id?: number;
-          is_read?: boolean | null;
-          message?: string;
-          user_id?: string | null;
-          document_id?: number | null;
-        };
+          created_at?: string | null
+          document_id?: number | null
+          id?: number
+          is_read?: boolean | null
+          message?: string
+          user_id?: string | null
+        }
         Relationships: [
           {
-            foreignKeyName: "notifications_user_id_fkey";
-            columns: ["user_id"];
-            referencedRelation: "auth.users";
-            referencedColumns: ["id"];
+            foreignKeyName: "fk_document"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "notifications_document_id_fkey";
-            columns: ["document_id"];
-            referencedRelation: "documents";
-            referencedColumns: ["id"];
-          }
-        ];
-      };
+            foreignKeyName: "notifications_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           cancellation_reason: string | null
@@ -453,6 +489,13 @@ export type Database = {
             columns: ["quote_id"]
             isOneToOne: false
             referencedRelation: "shippingquotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -647,7 +690,15 @@ export type Database = {
           width?: string | null
           year_amount?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "shippingquotes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       usage_stats: {
         Row: {
@@ -671,7 +722,15 @@ export type Database = {
           login_count?: number
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "usage_stats_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       vendors: {
         Row: {
@@ -711,12 +770,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      delete_user_profiles: {
-        Args: {
-          user_id: string
-        }
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
