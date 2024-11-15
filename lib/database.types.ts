@@ -514,6 +514,7 @@ export type Database = {
           last_name: string | null
           phone_number: string | null
           profile_picture: string | null
+          profile_complete: boolean | null
           role: string
         }
         Insert: {
@@ -529,6 +530,7 @@ export type Database = {
           last_name?: string | null
           phone_number?: string | null
           profile_picture?: string | null
+          profile_complete?: boolean | null
           role: string
         }
         Update: {
@@ -544,6 +546,7 @@ export type Database = {
           last_name?: string | null
           phone_number?: string | null
           profile_picture?: string | null
+          profile_complete?: boolean | null
           role?: string
         }
         Relationships: []

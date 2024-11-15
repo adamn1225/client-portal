@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { supabase } from '@lib/database'; // Import the Supabase client
+import { supabase } from '@lib/database'; // Adjust the import path as needed
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');

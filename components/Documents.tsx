@@ -29,7 +29,7 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
         const { data, error } = await supabase
             .from('documents')
             .select('*')
-            .eq('user_id', session.user.id);
+            .eq('user_id', session.user.id); // Filtering documents by the authenticated user's ID
 
         if (error) {
             setError(error.message);
@@ -53,35 +53,9 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
     const handleUpload = async () => {
         if (!file || !session) return;
 
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${session.user.id}/${Date.now()}.${fileExt}`;
-        const { data, error } = await supabase.storage
-            .from('documents')
-            .upload(fileName, file);
-
-        if (error) {
-            setError(error.message);
-            return;
-        }
-
-        const fileUrl = data?.path;
-
-        const { error: insertError, data: documentData } = await supabase
-            .from('documents')
-            .insert({
-                user_id: session.user.id,
-                title,
-                description,
-                file_name: file.name,
-                file_type: file.type,
-                file_url: fileUrl,
-            })
-            .select()
-            .single();
-
-        if (insertError) {
-            setError(insertError.message);
-        } else {
+        try {
+            const filePath = await uploadFileToSupabase(file, session.user.id);
+            const documentData = await saveDocumentMetadata(session.user.id, file.name, filePath, title, description);
             setTitle('');
             setDescription('');
             setFile(null);
@@ -99,7 +73,44 @@ const Documents: React.FC<DocumentsProps> = ({ session }) => {
             if (notificationError) {
                 console.error('Error creating notification:', notificationError.message);
             }
+        } catch (error) {
+            setError(error.message);
         }
+    };
+
+    const uploadFileToSupabase = async (file: File, userId: string) => {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${userId}/${Date.now()}.${fileExt}`;
+        const { data, error } = await supabase.storage
+            .from('documents')
+            .upload(fileName, file);
+
+        if (error) {
+            throw new Error(error.message);
+        }
+
+        return data.path;
+    };
+
+    const saveDocumentMetadata = async (userId: string, fileName: string, filePath: string, title: string, description: string) => {
+        const { data, error } = await supabase
+            .from('documents')
+            .insert({
+                user_id: userId,
+                title,
+                description,
+                file_name: fileName,
+                file_type: file.type,
+                file_url: filePath,
+            })
+            .select()
+            .single();
+
+        if (error) {
+            throw new Error(error.message);
+        }
+
+        return data;
     };
 
     const handleFavoriteToggle = async (documentId: number, isFavorite: boolean) => {

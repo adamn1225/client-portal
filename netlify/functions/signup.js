@@ -4,6 +4,13 @@ const axios = require('axios');
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+const getRedirectUrl = () => {
+    if (process.env.NODE_ENV === 'development') {
+        return 'http://localhost:8888/user/profile-setup';
+    }
+    return `${process.env.NEXT_PUBLIC_REDIRECT_URL}/user/profile-setup`;
+};
+
 exports.handler = async (event) => {
     if (event.httpMethod === 'OPTIONS') {
         return {
@@ -46,7 +53,7 @@ exports.handler = async (event) => {
             email,
             password,
             options: {
-                emailRedirectTo: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/user/profile-setup`
+                emailRedirectTo: getRedirectUrl()
             }
         }, {
             headers: {

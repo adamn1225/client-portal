@@ -11,6 +11,13 @@ export default function SignUpPage() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
+    const validatePassword = (password: string): boolean => {
+        const hasLowercase = /[a-z]/.test(password);
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasDigit = /\d/.test(password);
+        return hasLowercase && hasUppercase && hasDigit;
+    };
+
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -18,6 +25,12 @@ export default function SignUpPage() {
 
         if (password !== confirmPassword) {
             setError('Passwords do not match');
+            setLoading(false);
+            return;
+        }
+
+        if (!validatePassword(password)) {
+            setError('Password must contain at least one lowercase letter, one uppercase letter, and one digit');
             setLoading(false);
             return;
         }
@@ -48,7 +61,7 @@ export default function SignUpPage() {
     return (
         <>
             <Head>
-                <title>SSTA - Sign Up</title>
+                <title>SHIPPER-CONNECT - Sign Up</title>
                 <meta name="description" content="Sign up for an account" />
             </Head>
             <div className="w-full h-full bg-200">
@@ -56,7 +69,7 @@ export default function SignUpPage() {
 
                     <div className="hidden md:grid h-1/3 w-full md:h-full col-span-1 bg-zinc-900">
                         <div className='absolute top-5 left-5'>
-                            <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> Heavy Construct</h1>
+                            <h1 className='text-stone-100 font-medium text-3xl flex gap-2 items-center'><Move3d /> SHIPPER CONNECT</h1>
                         </div>
                         <div className='hidden h-full pb-12 w-full md:flex items-end justify-center'>
                             <h1 className='text-stone-100 font-medium text-xl italic'>Your trusted partner in Inventory Management, Procurement, and Logistics.</h1>
@@ -70,7 +83,7 @@ export default function SignUpPage() {
                             </Link>
                         </div>
                         <div className=" w-full text-zinc-900 h-full sm:h-auto sm:w-full max-w-md p-5 bg-white shadow flex flex-col justify-center items-center text-base">
-                            <h2 className="mt-12 md:mt-0 text-2xl font-bold text-center">Heavy Construct</h2>
+                            <h2 className="mt-12 md:mt-0 text-2xl font-bold text-center">SHIPPER CONNECT</h2>
                             <div className="xs:w-2/5 md:w-full h-full sm:h-auto p-5 bg-white shadow flex flex-col text-base">
                                 <span className="font-sans text-4xl text-center pb-2 mb-1 border-b mx-4 align-center">
                                     Sign Up
@@ -126,7 +139,7 @@ export default function SignUpPage() {
                                 )}
                                 <div className='flex flex-col justify-evenly max-h-max items-center w-full my-4'>
                                     <div className='border-t border-zinc-900/40 pt-1 mb-2 w-full text-center'><h3>Already have an account?</h3></div>
-                                    <Link href="/login" legacyBehavior>
+                                    <Link href="/" legacyBehavior>
                                         <a className="text-center underline underline-offset-4 text-lg font-semibold text-zinc-700 hover:underline px-4 py-2 hover:text-zinc-900/70">Login</a>
                                     </Link>
                                 </div>

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from '@supabase/auth-helpers-react';
-import { isProfileComplete } from '@/lib/isProfileComplete'; // Adjust the import path as needed
+import { isProfileComplete } from '@/lib/isProfileComplete';
 import { NextComponentType, NextPageContext } from 'next';
 
 const withProfileCheck = (WrappedComponent: NextComponentType<NextPageContext, any, any>) => {
@@ -13,8 +13,10 @@ const withProfileCheck = (WrappedComponent: NextComponentType<NextPageContext, a
         useEffect(() => {
             const checkProfile = async () => {
                 if (session?.user?.id) {
+                    console.log('Session user ID:', session.user.id);
                     const profileComplete = await isProfileComplete(session.user.id);
                     if (!profileComplete && router.pathname !== '/profile-setup') {
+                        console.log('Profile incomplete, redirecting to profile setup');
                         router.push('/profile-setup');
                     } else {
                         setLoading(false);
@@ -32,13 +34,6 @@ const withProfileCheck = (WrappedComponent: NextComponentType<NextPageContext, a
         }
 
         return <WrappedComponent {...props} />;
-    };
-
-    ComponentWithProfileCheck.getInitialProps = async (context: NextPageContext) => {
-        if (WrappedComponent.getInitialProps) {
-            return WrappedComponent.getInitialProps(context);
-        }
-        return {};
     };
 
     return ComponentWithProfileCheck;

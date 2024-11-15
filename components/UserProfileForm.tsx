@@ -62,8 +62,6 @@ const UserProfileForm = () => {
         fetchUserProfile();
     }, [session, supabase]);
 
-
-
     useEffect(() => {
         // Load dark mode preference from local storage
         const darkModePreference = localStorage.getItem('darkMode');
@@ -157,8 +155,6 @@ const UserProfileForm = () => {
             setNotificationsSuccess('Notification settings updated successfully');
         }
     };
-
-
 
     const handlePasswordSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -291,7 +287,7 @@ const UserProfileForm = () => {
                     <div className=' flex flex-col w-full lg:w-1/2 md:items-center justify-center'>
                         <button
                             onClick={() => setIsEditing(true)}
-                            className="btn-slate my-4 text-nowrap max-w-max dark:bg-zinc-100 dark:text-zinc-800 flex-nowrap w-full self-center cursor-pointer dark:hover:bg-amber-400 dark:hover:text-zinc-800"
+                            className="body-btn"
                             disabled={isEditing}
                         >
                             Edit Profile Information
@@ -318,7 +314,7 @@ const UserProfileForm = () => {
                                             />
                                             <label
                                                 htmlFor="profile-picture-upload"
-                                                className={`btn-blue cursor-pointer px-6 py-2 dark:bg-zinc-800 dark:text-zinc-100 font-bold ${!isEditing ? 'opacity-50 dark:text-zinc-100 dark:bg-zinc-900 cursor-not-allowed' : ''}`}
+                                                className={`body-btn cursor-pointer ${!isEditing ? 'opacity-50 dark:text-zinc-100 dark:bg-zinc-900 cursor-not-allowed' : ''}`}
                                             >
                                                 Upload Image
                                             </label>
@@ -376,7 +372,7 @@ const UserProfileForm = () => {
                                 </div>
 
                                 <div className="col-span-2">
-                                    <button type="submit" className="btn-black-outline w-full mt-4 dark:hover:bg-amber-400 dark:hover:text-zinc-800" disabled={!isEditing}>
+                                    <button type="submit" className="body-btn" disabled={!isEditing}>
                                         Update Profile
                                     </button>
                                 </div>
@@ -391,7 +387,7 @@ const UserProfileForm = () => {
                     <div>
                         <button
                             onClick={() => setIsEditing(true)}
-                            className="btn-slate my-4 text-nowrap flex-nowrap cursor-pointer self-start dark:bg-zinc-100 dark:text-zinc-800 dark:hover:bg-amber-400 dark:hover:text-zinc-800"
+                            className="body-btn my-4 text-nowrap flex-nowrap cursor-pointer self-start"
                             disabled={isEditing}
                         >
                             Edit Company Information
@@ -420,7 +416,7 @@ const UserProfileForm = () => {
                                 </div>
 
                                 <div className="col-span-2">
-                                    <button type="submit" className="btn-black-outline w-full dark:hover:bg-amber-400 dark:hover:text-zinc-800" disabled={!isEditing}>
+                                    <button type="submit" className="body-btn" disabled={!isEditing}>
                                         Update Company Details
                                     </button>
                                 </div>
@@ -448,7 +444,7 @@ const UserProfileForm = () => {
                                     </label>
                                 </div>
 
-                                <button type="submit" className="btn-black-outline dark:hover:bg-amber-400 dark:hover:text-zinc-800" disabled={!isEditing}>
+                                <button type="submit" className="body-btn" disabled={!isEditing}>
                                     Update Notification Settings
                                 </button>
                                 {notificationsError && <p className="text-red-500">{notificationsError}</p>}
@@ -494,7 +490,7 @@ const UserProfileForm = () => {
                                     />
                                 </div>
 
-                                <button type="submit" className="btn-black-outline dark:hover:bg-amber-400 dark:hover:text-zinc-800">
+                                <button type="submit" className="body-btn">
                                     Update Password
                                 </button>
                                 {passwordError && <p className="text-red-500">{passwordError}</p>}

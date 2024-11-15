@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { supabase } from '@lib/database'; // Import the Supabase client
+import { supabase } from '@lib/initSupabase'; // Adjust the import path as needed
 
 export default function ResetPassword() {
     const router = useRouter();
-    const { access_token } = router.query;
+    const { access_token, refresh_token } = router.query;
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (typeof access_token === 'string') {
-            supabase.auth.setSession({ access_token, refresh_token: '' });
+        if (typeof access_token === 'string' && typeof refresh_token === 'string') {
+            supabase.auth.setSession({ access_token, refresh_token });
         }
-    }, [access_token]);
+    }, [access_token, refresh_token]);
 
     const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -22,7 +22,7 @@ export default function ResetPassword() {
         setMessage(null);
         setError(null);
 
-        if (typeof access_token !== 'string') {
+        if (typeof access_token !== 'string' || typeof refresh_token !== 'string') {
             setError('Invalid or missing token');
             setLoading(false);
             return;
