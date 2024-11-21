@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { supabase } from '@/lib/initSupabase'; 
+import { supabase } from '@/lib/initSupabase';
 
 const AuthCallback = () => {
     return <div>Loading...</div>;
@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
         redirect: {
-            destination: '/', 
+            destination: '/',
             permanent: false,
         },
     };
