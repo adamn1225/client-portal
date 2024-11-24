@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSupabaseClient, Session } from '@supabase/auth-helpers-react';
 import Papa from 'papaparse';
-import { Database, MaintenanceItem } from '@lib/database.types';
+import { MaintenanceItem } from '@lib/schema';
+import { Database } from '@lib/database.types';
 import InventoryTab from '@/components/inventory/InventoryTab';
 import MaintenanceTab from '@/components/inventory/MaintenanceTab';
 import TransferToMaintenanceModal from '@/components/TransferToMaintenanceModal';

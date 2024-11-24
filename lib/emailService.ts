@@ -5,10 +5,11 @@ import dotenv from 'dotenv';
 if (process.env.NODE_ENV !== 'production') dotenv.config();
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.sendgrid.net',
+    port: 587,
     auth: {
-        user: process.env.EMAIL_USER, // Your email address
-        pass: process.env.EMAIL_PASS, // Your app-specific password
+        user: process.env.SENDGRID_USER, // Your SendGrid username
+        pass: process.env.SENDGRID_PASS, // Your SendGrid password
     },
 });
 
@@ -26,5 +27,6 @@ export const sendEmail = async (to: string, subject: string, text: string, attac
         console.log('Email sent successfully');
     } catch (error) {
         console.error('Error sending email:', error);
+        throw error;
     }
 };

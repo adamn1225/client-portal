@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Session } from '@supabase/auth-helpers-react';
-import { ShippingQuote } from '@/lib/schema';
 import { supabase } from '@/lib/initSupabase';
 import Modal from '@/components/Modal';
 import jsPDF from 'jspdf';
@@ -12,6 +11,37 @@ interface OrderListProps {
     markAsComplete: (orderId: number) => Promise<void>;
     isAdmin: boolean; // Add this prop
 }
+
+type ShippingQuote = {
+    commodity: string;
+    destination_city: string;
+    destination_state: string;
+    destination_street: string;
+    destination_zip: string;
+    due_date: string | null;
+    email: string | null;
+    first_name: string | null;
+    height: string | null;
+    id: number;
+    inserted_at: string | null;
+    is_archived: boolean | null;
+    is_complete: boolean | null;
+    last_name: string | null;
+    length: string | null;
+    make: string | null;
+    model: string | null;
+    origin_city: string | null;
+    origin_state: string | null;
+    origin_street: string | null;
+    origin_zip: string | null;
+    pallet_count: string | null;
+    price: number | null;
+    quote_id: string | null;
+    user_id: string | null;
+    weight: string | null;
+    width: string | null;
+    year_amount: string | null;
+};
 
 type Order = {
     id: number;
@@ -50,7 +80,11 @@ const OrderList: React.FC<OrderListProps> = ({ session, fetchQuotes, archiveQuot
             setErrorText(error.message);
         } else {
             console.log('Fetched Orders:', data);
-            setOrders(data); // Ensure the data is cast to the correct type
+            const mappedOrders = data.map((order: any) => ({
+                ...order,
+                shippingquotes: order.shippingquotes[0], // Assuming you want the first shipping quote
+            }));
+            setOrders(mappedOrders); // Ensure the data is cast to the correct type
         }
     }, [session, isAdmin]);
 

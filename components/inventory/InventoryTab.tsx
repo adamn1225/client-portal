@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Database } from '@/lib/database.types';
 import TransferToMaintenanceModal from '../TransferToMaintenanceModal';
 import { addMaintenanceItem, fetchFreightData, addFreightItem } from '@/lib/database';
-import { MaintenanceItem } from '@/lib/database.types'; // Import the MaintenanceItem type
+import { MaintenanceItem } from '@/lib/schema'; // Import the MaintenanceItem type
 
 interface InventoryTabProps {
     freightList: Database['public']['Tables']['freight']['Row'][];

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MaintenanceItem } from '@/lib/database.types';
+import { MaintenanceItem } from '@/lib/schema';
 
 interface EditMaintenanceModalProps {
     isOpen: boolean;

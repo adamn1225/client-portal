@@ -62,7 +62,7 @@ const Login: React.FC = () => {
 
     return (
         <UserProvider>
-            <UserLayout>
+            <UserLayout currentView="defaultView" setCurrentView={() => { }}>
                 <FreightInventory session={session} />
             </UserLayout>
         </UserProvider>

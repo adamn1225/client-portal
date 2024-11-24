@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useSupabaseClient, useSession } from '@supabase/auth-helpers-react';
 import { sendInvitations } from '@/lib/invitationService'; // Adjust the import path as needed
+import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
 
 const ProfileSetup = () => {
     const router = useRouter();
@@ -11,34 +12,33 @@ const ProfileSetup = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [companyName, setCompanyName] = useState('');
-    const [companySize, setCompanySize] = useState('');
-    const [inviteEmails, setInviteEmails] = useState<string[]>([]);
+    const [phoneNumber, setPhoneNumber] = useState(''); // Add phone number state
+    const [inviteEmails, setInviteEmails] = useState<{ email: string, role: 'manager' | 'member' }[]>([]);
     const [inviteEmail, setInviteEmail] = useState('');
+    const [inviteRole, setInviteRole] = useState<'manager' | 'member'>('member');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [email, setEmail] = useState(''); // Add email state
 
     useEffect(() => {
-        const fetchProfile = async () => {
+        const fetchUserEmail = async () => {
             if (session?.user?.id) {
                 const { data, error } = await supabase
-                    .from('profiles')
-                    .select('*')
+                    .from('auth.users')
+                    .select('email')
                     .eq('id', session.user.id)
                     .single();
 
                 if (error) {
-                    console.error('Error fetching profile:', error.message);
-                } else if (data) {
-                    setFirstName(data.first_name || '');
-                    setLastName(data.last_name || '');
-                    setCompanyName(data.company_name || '');
-                    setCompanySize(data.company_size || '');
+                    setError(error.message);
+                } else {
+                    setEmail(data.email);
                 }
             }
         };
 
-        fetchProfile();
+        fetchUserEmail();
     }, [session, supabase]);
 
     const handleCompleteProfile = async (e: React.FormEvent) => {
@@ -47,24 +47,75 @@ const ProfileSetup = () => {
         setError(null);
 
         try {
-            const { data, error } = await supabase
+            // Ensure the company exists or create a new one
+            let companyId: string;
+            if (companyName) {
+                const { data: existingCompany, error: companyError } = await supabase
+                    .from('companies')
+                    .select('id')
+                    .eq('name', companyName)
+                    .single();
+
+                if (companyError && companyError.code !== 'PGRST116') {
+                    throw new Error(companyError.message);
+                }
+
+                if (existingCompany) {
+                    companyId = existingCompany.id;
+                } else {
+                    const { data: newCompany, error: newCompanyError } = await supabase
+                        .from('companies')
+                        .insert({
+                            name: companyName,
+                        })
+                        .select()
+                        .single();
+
+                    if (newCompanyError) {
+                        throw new Error(newCompanyError.message);
+                    }
+
+                    companyId = newCompany.id;
+                }
+            } else {
+                companyId = uuidv4();
+            }
+
+            const { error } = await supabase
                 .from('profiles')
-                .upsert({
+                .insert({
                     id: session?.user?.id,
-                    email: session?.user?.email,
+                    email: email, // Use the email fetched from auth.users
                     first_name: firstName,
                     last_name: lastName,
-                    company_name: companyName,
-                    company_size: companySize,
+                    company_name: companyName || `${firstName} ${lastName}`,
+                    phone_number: phoneNumber, // Include phone number
+                    company_id: companyId,
                     profile_complete: true, // Set profile_complete to true
+                    role: 'manager', // Set team_role to manager
                 });
 
             if (error) {
                 throw new Error(error.message);
             }
 
+            // Store invitations with roles and add invited users to the companies table
+            for (const invite of inviteEmails) {
+                const { error: inviteError } = await supabase
+                    .from('invitations')
+                    .insert({
+                        email: invite.email,
+                        team_role: invite.role,
+                        company_id: companyId,
+                    });
+
+                if (inviteError) {
+                    throw new Error(inviteError.message);
+                }
+            }
+
             setSuccess(true);
-            router.push('/user/freight-rfq');
+            router.push('/user');
         } catch (error) {
             setError(error.message);
         } finally {
@@ -73,15 +124,16 @@ const ProfileSetup = () => {
     };
 
     const handleAddInviteEmail = () => {
-        if (inviteEmail && !inviteEmails.includes(inviteEmail)) {
-            setInviteEmails([...inviteEmails, inviteEmail]);
+        if (inviteEmail && !inviteEmails.some(invite => invite.email === inviteEmail)) {
+            setInviteEmails([...inviteEmails, { email: inviteEmail, role: inviteRole }]);
             setInviteEmail('');
         }
     };
 
     const handleSendInvitations = async () => {
         if (session?.user?.id && companyName) {
-            await sendInvitations(inviteEmails, session.user.id, companyName);
+            const inviteEmailAddresses = inviteEmails.map(invite => invite.email);
+            await sendInvitations(inviteEmailAddresses, session.user.id, companyName);
             setInviteEmails([]);
         }
     };
@@ -137,24 +189,17 @@ const ProfileSetup = () => {
                                             className="w-full p-2 mt-2 border rounded"
                                             disabled={loading}
                                         />
-                                        <label htmlFor="companySize" className="mt-4">Company Size</label>
-                                        <select
-                                            id="companySize"
-                                            value={companySize}
-                                            onChange={(e) => setCompanySize(e.target.value)}
+                                        <label htmlFor="phoneNumber" className="mt-4">Phone Number</label>
+                                        <input
+                                            type="text"
+                                            id="phoneNumber"
+                                            value={phoneNumber}
+                                            onChange={(e) => setPhoneNumber(e.target.value)}
                                             className="w-full p-2 mt-2 border rounded"
                                             disabled={loading}
-                                        >
-                                            <option value="">Select Company Size</option>
-                                            <option value="1-10">1-10</option>
-                                            <option value="11-50">11-50</option>
-                                            <option value="51-200">51-200</option>
-                                            <option value="201-500">201-500</option>
-                                            <option value="501-1000">501-1000</option>
-                                            <option value="1001+">1001+</option>
-                                        </select>
+                                        />
                                         <div className="mt-8">
-                                            <h3 className="text-xl font-bold text-center">Invite Others</h3>
+                                            <h3 className="text-xl font-bold text-center">Invite Your Team!</h3>
                                             <div className="flex mt-4">
                                                 <input
                                                     type="email"
@@ -163,6 +208,14 @@ const ProfileSetup = () => {
                                                     onChange={(e) => setInviteEmail(e.target.value)}
                                                     className="w-full p-2 border rounded"
                                                 />
+                                                <select
+                                                    value={inviteRole}
+                                                    onChange={(e) => setInviteRole(e.target.value as 'manager' | 'member')}
+                                                    className="ml-2 p-2 border rounded"
+                                                >
+                                                    <option value="manager">Manager</option>
+                                                    <option value="member">Member</option>
+                                                </select>
                                                 <button
                                                     type="button"
                                                     onClick={handleAddInviteEmail}
@@ -172,9 +225,9 @@ const ProfileSetup = () => {
                                                 </button>
                                             </div>
                                             <ul className="mt-4">
-                                                {inviteEmails.map((email, index) => (
+                                                {inviteEmails.map((invite, index) => (
                                                     <li key={index} className="flex justify-between items-center">
-                                                        <span>{email}</span>
+                                                        <span>{invite.email} ({invite.role})</span>
                                                     </li>
                                                 ))}
                                             </ul>

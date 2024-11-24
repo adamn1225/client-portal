@@ -233,7 +233,7 @@ const LoginPage = () => {
                     <HomePageContent />
                 </AdminLayout>
             ) : (
-                <UserLayout>
+                <UserLayout currentView="defaultView" setCurrentView={() => { }}>
                     <HomePageContent />
                 </UserLayout>
             )}

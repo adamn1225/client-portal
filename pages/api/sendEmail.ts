@@ -1,30 +1,19 @@
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { sendEmail } from '@/lib/emailService';
 
-// Load environment variables from .env file
-if (process.env.NODE_ENV !== 'production') dotenv.config();
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    if (req.method === 'POST') {
+        const { to, subject, text, attachments } = req.body;
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER, // Your email address
-        pass: process.env.EMAIL_PASS, // Your app-specific password
-    },
-});
-
-export const sendEmail = async (to: string, subject: string, text: string, attachments: any[] = []) => {
-    const mailOptions = {
-        from: process.env.EMAIL_USER, // Your email address
-        to,
-        subject,
-        text,
-        attachments,
-    };
-
-    try {
-        await transporter.sendMail(mailOptions);
-        console.log('Email sent successfully');
-    } catch (error) {
-        console.error('Error sending email:', error);
+        try {
+            await sendEmail(to, subject, text, attachments);
+            res.status(200).json({ message: 'Email sent successfully' });
+        } catch (error) {
+            console.error('Error sending email:', error);
+            res.status(500).json({ error: 'Error sending email' });
+        }
+    } else {
+        res.setHeader('Allow', ['POST']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-};
+}
