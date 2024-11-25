@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Move3d } from 'lucide-react';
+import { supabase } from '@/lib/initSupabase';
 
 export default function SignUpPage() {
     const [email, setEmail] = useState('');
@@ -43,6 +44,21 @@ export default function SignUpPage() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleGoogleSignIn = async () => {
+        setLoading(true);
+        setError(null);
+
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+        });
+
+        if (error) {
+            setError(error.message);
+        }
+
+        setLoading(false);
     };
 
     return (
@@ -124,6 +140,15 @@ export default function SignUpPage() {
                                         </button>
                                     </form>
                                 )}
+                                <div className="flex flex-col items-center mt-4">
+                                    <button
+                                        onClick={handleGoogleSignIn}
+                                        className="w-full body-btn mt-2"
+                                        disabled={loading}
+                                    >
+                                        {loading ? 'Signing In with Google...' : 'Sign Up with Google'}
+                                    </button>
+                                </div>
                                 <div className='flex flex-col justify-evenly max-h-max items-center w-full my-4'>
                                     <div className='border-t border-zinc-900/40 pt-1 mb-2 w-full text-center'><h3>Already have an account?</h3></div>
                                     <Link href="/login" legacyBehavior>
